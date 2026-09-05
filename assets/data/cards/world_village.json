@@ -1,0 +1,263 @@
+[
+  {
+    "id": "world_village_field_after_harvest",
+    "title": "Поле после уборки",
+    "description": "Стерня до горизонта, и по ней ходят грачи. Копны стоят ровными рядами, а между ними — одна кривая, которую ставили в темноте.\n\nНа краю поля забыли грабли. Их заберут завтра.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_before_feast",
+    "title": "Деревня перед праздником",
+    "description": "Улицу метут, ворота красят, и от каждого второго двора несёт печёным. Дети носятся с поручениями и половину забывают по дороге.\n\nПеред домом старосты уже стоят четыре скамьи, и никто не садится.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_after_feast",
+    "title": "Деревня после праздника",
+    "description": "На площади ленты, обглоданные кости и перевёрнутая скамья. Один человек спит под забором в праздничной рубахе.\n\nЕдинственный, кто уже на ногах, — женщина, метущая крыльцо. Она метёт очень медленно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_ruined_mill",
+    "title": "Разрушенная мельница",
+    "description": "Крыши нет, одно крыло обломано и лежит в крапиве. Жёрнов на месте — его не унести.\n\nПлотина цела, и вода идёт через неё, как шла. Просто теперь она никуда не идёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_old_well",
+    "title": "Старый колодец",
+    "description": "Сруб просел, ворот скрипит на одну сторону. На срубе вырезано с десяток имён, самое верхнее — свежее.\n\nВода в нём хорошая. Из-за неё и не переносят.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_fresh_grave",
+    "title": "Свежая могила",
+    "description": "Земля ещё тёмная и горкой. Цветы положены не букетом, а по одному — много раз и в разное время.\n\nНа краю стоит скамейка, сколоченная только что: доски не потемнели.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_apple_orchard",
+    "title": "Яблоневый сад",
+    "description": "Деревья старые, ветки подпёрты жердями, и под каждым лежит своя падалица. Одно дерево подпёрто в четырёх местах и всё равно ломится.\n\nЗа садом ухаживают, но яблок явно больше, чем нужно кому бы то ни было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_apiary_row",
+    "title": "Ульи в ряд",
+    "description": "Двадцать колод стоят вдоль плетня, летками на восход. Гул от них ровный и такой густой, что кажется звуком самого воздуха.\n\nОдин улей стоит пустой и открытый. Его вычистили и оставили сохнуть.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_threshing_floor",
+    "title": "На току",
+    "description": "Цепы бьют вразнобой, а потом сами собой сходятся в один ритм и держат его, пока кто-нибудь не собьётся.\n\nПыль стоит золотая и не оседает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_new_roof_old_house",
+    "title": "Новая крыша на старом доме",
+    "description": "Сруб чёрный от времени, а солома наверху жёлтая и свежая, ещё не улежавшаяся.\n\nПод окном свалены старые снопы. Их сожгут, когда подсохнут.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_flooded_meadow",
+    "title": "Луг под водой",
+    "description": "Разлив ушёл не весь, и на низком лугу стоит вода по щиколотку. В ней отражается небо и торчат верхушки травы.\n\nКосить тут будут поздно. Все это уже знают и не расстраиваются.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_village_empty_at_noon",
+    "title": "Пусто в полдень",
+    "description": "Улица вымерла: все в поле. Двери не заперты, у одного крыльца стоит остывший чугунок.\n\nСобака лежит посреди дороги и не поднимает головы — знает, что до вечера тут ничего не поедет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Пройти улицу насквозь и ничего не тронуть",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заметить единственный двор, где заперто",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Понять, что в поле сейчас важнее, чем дом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Свернуть в обход по задам",
+        "actions": []
+      }
+    ]
+  }
+]

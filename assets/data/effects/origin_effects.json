@@ -1,0 +1,28 @@
+[
+  {
+    "id": "effect_at_home",
+    "name": "Как дома",
+    "description": "Что-то в этом месте до странности знакомо. Следующие 2 события — +1 к удаче.",
+    "polarity": "positive",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "stat": "luck", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_out_of_place",
+    "name": "Не в своей тарелке",
+    "description": "Здесь всё как-то не так, как должно быть. Следующие 2 события — -1 к удаче.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "stat": "luck", "amount": -1 }
+      ]
+    }
+  }
+]

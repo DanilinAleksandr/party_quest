@@ -1,0 +1,417 @@
+[
+  {
+    "id": "prologue_leaving_home",
+    "title": "Прощание с домом",
+    "description": "Вы покидаете родной дом — как знать, сколько пройдёт времени, прежде чем вы увидите его снова.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "Под дождём прощаться легче — никто не видит лиц",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "В такой туман и порога-то не разглядеть. Уходить вслепую",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "fog"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Солнце на пороге — примета хорошая, и все это знают",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "sunny"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить что-то на удачу у порога",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не оборачиваться",
+        "actions": []
+      },
+      {
+        "label": "Просто идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "prologue_company_gathers",
+    "title": "Компания в сборе",
+    "description": "Ваша компания собирается в путь — рюкзаки уложены, дорога ждёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "prologue",
+      "group"
+    ],
+    "actions": []
+  },
+  {
+    "id": "prologue_last_glance",
+    "title": "Последний взгляд",
+    "description": "Кто-то из компании оборачивается — знакомые крыши ещё видны за спиной, но уже совсем далеко.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "В тумане крыш уже не видно — и оборачиваться незачем",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "fog"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Под дождём никто не спорит: идти надо быстрее",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Тоже обернуться",
+        "actions": []
+      },
+      {
+        "label": "Поторопить остальных",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "prologue_first_steps",
+    "title": "Первые шаги",
+    "description": "Дорога стелется вперёд, ещё ровная и хорошо знакомая — самая простая часть пути только начинается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "actions": []
+  },
+  {
+    "id": "prologue_morning_departure",
+    "title": "Раннее утро",
+    "description": "Вы выходите затемно, чтобы успеть пройти как можно больше, пока не началась жара.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "Выходить затемно в такую погоду — значит идти по колено в грязи",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ночь ещё не отступила, и дорога видна плохо",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Идти бодрым шагом",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не спешить",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "prologue_depart_to_forest",
+    "title": "Граница леса",
+    "description": "Тропа приводит к границе леса — деревья смыкаются плотной стеной, и дорога назад растворяется среди стволов.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setPhase",
+        "phase": "journey"
+      },
+      {
+        "action": "setBiome",
+        "biomeId": "forest"
+      }
+    ]
+  },
+  {
+    "id": "prologue_depart_to_desert",
+    "title": "Пески на горизонте",
+    "description": "Растительность вокруг постепенно редеет, пока не остаётся ничего, кроме песка и неба до самого горизонта.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setPhase",
+        "phase": "journey"
+      },
+      {
+        "action": "setBiome",
+        "biomeId": "desert"
+      }
+    ]
+  },
+  {
+    "id": "prologue_depart_to_graveyard",
+    "title": "Ограда в тумане",
+    "description": "Дорога неожиданно упирается в старую ограду — за ней, среди тумана, виднеются ряды покосившихся надгробий.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setPhase",
+        "phase": "journey"
+      },
+      {
+        "action": "setBiome",
+        "biomeId": "graveyard"
+      }
+    ]
+  },
+  {
+    "id": "prologue_depart_to_mountains",
+    "title": "Дорога уходит вверх",
+    "description": "Тропа начинает уходить вверх, и вскоре под ногами уже не земля, а камень — впереди вздымаются суровые горы.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setPhase",
+        "phase": "journey"
+      },
+      {
+        "action": "setBiome",
+        "biomeId": "mountains"
+      }
+    ]
+  },
+  {
+    "id": "prologue_depart_to_coast",
+    "title": "Соль в воздухе",
+    "description": "Воздух постепенно наполняется солью, и за очередным поворотом дороги открывается бескрайнее побережье.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setPhase",
+        "phase": "journey"
+      },
+      {
+        "action": "setBiome",
+        "biomeId": "coast"
+      }
+    ]
+  }
+]

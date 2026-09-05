@@ -1,0 +1,281 @@
+[
+  {
+    "id": "world_tavern_fire_needs_wood",
+    "title": "Огонь оседает",
+    "description": "В очаге прогорело до углей, и в зале стало заметно тише — не от разговоров, а от треска, которого больше нет.\n\nКто-то встаёт и подкладывает два полена. Разговоры возвращаются вместе с треском.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_rain_on_shutters",
+    "title": "Дождь по ставням",
+    "description": "Снаружи хлещет, и каждый входящий приносит с собой запах мокрой шерсти. Никто не спешит уходить.\n\nМест у стены не осталось. У двери — сколько угодно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_new_barrel_rolled",
+    "title": "Катят новую бочку",
+    "description": "Её выкатывают из погреба вдвоём, по доске, и весь зал невольно провожает её взглядом.\n\nБочку ставят на попа у стойки и не вскрывают. Она будет стоять там до вечера, и все будут о ней помнить.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "drink",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_marks_on_beam",
+    "title": "Зарубки на балке",
+    "description": "Над стойкой на потолочной балке рядами вырезаны чёрточки — несколько сотен, разной глубины и разной давности.\n\nЧто они считают, не написано нигде. Спрашивать почему-то не хочется.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_empty_morning",
+    "title": "Утро в пустом зале",
+    "description": "Скамьи подняты на столы, пол мокрый, окна открыты настежь. Пахнет вчерашним и щёлоком.\n\nВ углу сидит один человек и завтракает. Он тут ночевал, и его никто не гонит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_dice_worn_smooth",
+    "title": "Стёртые кости",
+    "description": "На подоконнике лежат кости, которыми играли так долго, что углы стали круглыми, а точки почти не видны.\n\nИми продолжают играть. Спорят потом, но играют именно ими.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_snow_by_door",
+    "title": "Сугроб у двери",
+    "description": "Каждый входящий приносит на сапогах снег, и у порога набралась серая мокрая горка. Её подтирают раз в час.\n\nВ зале при этом жарко до испарины, и все сидят в рубахах.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_stranger_pays_ahead",
+    "title": "Оплачено вперёд",
+    "description": "Человек кладёт на стойку больше, чем выпил, и уходит не оглядываясь. Хозяин не окликает.\n\nОн ставит отдельную кружку в конец полки. Значит, так тут заведено, и следующий это получит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_cat_owns_the_bench",
+    "title": "Скамья занята",
+    "description": "Кошка спит ровно посередине лавки, и вокруг неё садятся по краям, поджимаясь. Никто не сгоняет.\n\nОдин попробовал. Ему объяснили.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_smell_from_kitchen",
+    "title": "Из кухни потянуло",
+    "description": "Разговоры не прекращаются, но все головы едва заметно поворачиваются в одну сторону.\n\nЧерез минуту всё возвращается на место. Ещё рано.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_tavern_wall_of_things",
+    "title": "На стене",
+    "description": "Прибиты подкова, сломанное весло, чей-то башмак и высохший рыбий хвост. Каждая вещь прибита отдельно и на разной высоте.\n\nЗа каждой стоит история, и ни одна из них не записана.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить про башмак",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Узнать весло — такие вяжут только в одной бухте",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заметить светлое пятно там, где что-то сняли",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто посмотреть",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "world_tavern_last_ones_leave",
+    "title": "Последние расходятся",
+    "description": "Остались трое, и они уже минут двадцать говорят «ну всё, пошли», не двигаясь с места.\n\nХозяин гасит вторую лампу. Они этого не замечают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  }
+]

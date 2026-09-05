@@ -1,0 +1,1033 @@
+[
+  {
+    "id": "style_word_left_in_trust",
+    "title": "Оставили на хранение",
+    "description": "Незнакомый человек ставит перед вами свёрток и уходит договариваться о лошади.\n\nОн не спросил имени и не оглянулся.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дождаться и отдать",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заглянуть внутрь и снова завязать",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Уйти со свёртком",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "style_word_called_to_judge",
+    "title": "Позвали рассудить",
+    "description": "Двое спорят о меже третий день и наконец сходятся на одном: пусть решат проезжие, которым верят обе стороны.\n\nОтказаться уже нельзя — оба ждут.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 4
+      }
+    ],
+    "choices": [
+      {
+        "label": "Судить вас учили. Спросить обоих по очереди и не перебивать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Назвать старое правило межи — его помнят даже здесь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_ancient_kings_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Позвать травницу: границу поля она знает по травам",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_herbwoman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Решить в пользу того, кто пришёл первым",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Разделить межу пополам — недовольны оба",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что чужую землю делить не вам",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "style_word_closed_door",
+    "title": "Не для вас разговор",
+    "description": "В углу трактира договариваются вполголоса. При вашем приближении разговор не обрывается — просто переходит на погоду.\n\nВас знают как людей слова. С такими о таком не говорят.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 4
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "style_broken_shady_offer",
+    "title": "Предложение в переулке",
+    "description": "Человек ждёт там, где обычно не ждут, и заговаривает первым.\n\n«Мне сказали, вы не из тех, кто задаёт лишние вопросы».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 2
+      }
+    ],
+    "choices": [
+      {
+        "label": "Взяться, не спрашивая",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_thieves_tools"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить всё-таки лишнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "style_broken_no_credit",
+    "title": "Только вперёд",
+    "description": "Хозяин выслушивает и качает головой: «На слово — нет. Ни вам, ни таким, как вы».\n\nОстальным в очереди наливают под запись.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 3
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "style_broken_scares_off",
+    "title": "Передумали",
+    "description": "Трое перегораживают дорогу, и один из них вглядывается в лица дольше остальных.\n\nПотом что-то говорит своим, и все трое отходят к обочине.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "cunning",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "style_risk_invited_deeper",
+    "title": "Зовут туда, куда не зовут других",
+    "description": "У костра говорят про место, о котором обычно молчат: провал за старой осыпью, куда спускались двое и вернулся один.\n\nГоворят это при вас нарочно.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "raided_bandit_camp"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спуститься",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_omen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Взять верёвку и спуститься по-человечески",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          }
+        ]
+      },
+      {
+        "label": "Дослушать и не пойти",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "style_risk_children_indoors",
+    "title": "Детей загоняют во двор",
+    "description": "Стоит компании выйти на улицу, как из-за заборов начинают звать детей по именам. Одного за другим.\n\nК середине улицы играть уже некому.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "stole_from_dragon"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "style_trade_news_first",
+    "title": "Новость приходит с обозом",
+    "description": "Погонщик спрыгивает у колодца и первым делом ищет глазами знакомых. Находит вас.\n\nТо, что он рассказывает, в деревне узнают только к вечеру.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      },
+      {
+        "action": "modifyGlobalModifier",
+        "key": "lean_tavern",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "style_trade_expected_to_give",
+    "title": "От вас ждут",
+    "description": "У ворот стоят двое и не просят ничего вслух. Просто стоят и смотрят, как вы подходите.\n\nПро вас говорят, что вы никому не отказываете.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_peddler"
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 2
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать флягу и идти дальше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не оборачиваясь",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "style_explore_forgotten_place",
+    "title": "Тропа, которой нет",
+    "description": "Между камней уходит вниз ступенчатый спуск — рукотворный, но заросший так, что снизу его не увидеть.\n\nВы замечаете такое уже не в первый раз.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_lair_known"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спуститься и посмотреть",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отметить место и пойти дальше",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Не сходить с тропы",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "style_explore_off_the_road",
+    "title": "Опять не туда",
+    "description": "Дорога осталась где-то справа, и уже давно. Под ногами третий час одно и то же.\n\nЗа привычку сходить с тропы всегда платят временем.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "found_pharaoh_seal"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lost_in_woods"
+      }
+    ]
+  },
+  {
+    "id": "style_knowledge_asked_to_read",
+    "title": "Просят прочесть",
+    "description": "Женщина протягивает сложенный вчетверо лист и ждёт. Сама она читать не умеет, а тому, кто умеет, здесь не доверяет.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Прочесть вслух как есть",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочесть не всё",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что не разберёте почерк",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "style_knowledge_too_much",
+    "title": "Слишком много знаете",
+    "description": "Разговор идёт легко ровно до того момента, пока вы не уточняете одну мелочь.\n\nПосле этого отвечают уже коротко.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_spellbook"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "change_honest_broke_word",
+    "title": "От вас такого не ждали",
+    "description": "Разговор смолкает не потому, что вас боятся. Потому что не могут совместить услышанное с тем, что знали раньше.\n\n«Вы? Точно вы?»",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 4
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 1
+      }
+    ],
+    "choices": [
+      {
+        "label": "Переписать историю так, что все останутся при своём",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Кузнец за вас ручался раньше — пусть скажет и теперь",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_smith"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Метка на руке отвечает за вас раньше слов",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_marked"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Не оправдываться",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Объяснить, как всё вышло",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "label": "Подтвердить худшую версию — так проще",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "change_order_to_circle",
+    "title": "Долг остался",
+    "description": "Брат ордена узнаёт вас издалека и не отворачивается. Подходит.\n\n«За вами наша услуга. Она никуда не делась — даже теперь».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "paladin_debt"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Показать оберег — пусть сам решит, к кому вы теперь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": false
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить как отвечают в круге: вопросом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": false
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Принять услугу и промолчать о том, где вы теперь",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": false
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать прямо, чьи вы теперь, и отказаться",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": false
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "change_trader_turned_raider",
+    "title": "Те же телеги",
+    "description": "Обоз идёт навстречу, и передний погонщик придерживает лошадь раньше, чем разглядит лица. Он помнит и то, как вы вели их к колодцу, и то, что было после.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "robbed_caravan"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вернуть взятое и не торговаться",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "robbed_caravan",
+            "value": false
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, глядя в сторону",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Взять и с этого обоза",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "change_once_vouched_now_condemned",
+    "title": "Те же люди",
+    "description": "На заставе вас держат дольше обычного. Старший читает бумагу, потом смотрит на вас, потом снова в бумагу.\n\nВ прошлый раз его люди за вас ручались.",
+    "type": "curse",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "declared_heretic"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "paladin_debt"
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "paladin_debt",
+        "value": false
+      },
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  }
+]

@@ -1,0 +1,133 @@
+[
+  {
+    "id": "ancient_forest_spirit",
+    "entryNodeId": "spirit_glade",
+    "nodes": [
+      {
+        "id": "spirit_glade",
+        "text": "Воздух здесь странно неподвижен. Деревья вокруг будто наблюдают, не шелохнув ни листом.",
+        "choices": [
+          {
+            "label": "Заговорить в тишину",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "spirit_appears" } }
+          },
+          {
+            "label": "Уйти, пока не поздно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "spirit_appears",
+        "text": "Тени между стволами сгущаются в очертания фигуры — не человека и не зверя. Древний Дух Леса впервые за долгие годы кому-то показался.",
+        "choices": [
+          {
+            "label": "Позволить тени духа коснуться тебя, не отступая",
+            "conditions": [
+              { "condition": "currentPlayerOriginUnknown" }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "spirit_recognizes_heir" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_lost_in_woods" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "«Ты уже нарушил баланс леса однажды...»",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "stole_magic_book" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_lost_in_woods" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Пройти испытание духа",
+            "conditions": [
+              { "condition": "worldFlagUnset", "flag": "stole_magic_book" }
+            ],
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "spirit_trial" } }
+          },
+          {
+            "label": "Поклониться и уйти с миром",
+            "onSuccess": {
+              "actions": [
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "spirit_trial",
+        "text": "«Три вопроса задаст лес. Ответь честно — или не отвечай вовсе».",
+        "choices": [
+          {
+            "label": "Пройти испытание",
+            "successChance": 0.65,
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "spirit_reward" } },
+            "onFailure": { "actions": [], "to": { "destination": "goToNode", "nodeId": "spirit_failure" } }
+          },
+          {
+            "label": "Отказаться от испытания",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "spirit_reward",
+        "text": "Лес будто выдыхает. Дух склоняет голову — испытание пройдено.",
+        "onEnterActions": [
+          { "action": "setWorldFlag", "flag": "passed_spirit_trial", "value": true },
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" },
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_lucky_echo" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "spirit_failure",
+        "text": "Ты запинаешься на последнем вопросе. Дух растворяется в тенях, а тропа перед тобой вдруг перестаёт быть знакомой.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_lost_in_woods" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "spirit_recognizes_heir",
+        "text": "Тень духа проходит сквозь тебя — и застывает.\n\nКорни под ногами вздрагивают, будто весь лес разом затаил дыхание. «Древо помнит каждого из своих отпрысков, — шелестит голос духа, — даже тех, кто сам о себе не знал».\n\nВетви над головой медленно расступаются, пропуская свет впервые за столетия в это место. «Ты — продолжение корня, что старше самого этого леса. Иди с миром — лес больше никогда не станет тебе врагом».",
+        "onEnterActions": [
+          { "action": "revealOrigin", "originId": "origin_world_tree_heir" },
+          { "action": "setWorldFlag", "flag": "spirit_recognized_heir", "value": true },
+          { "action": "addChronicleEntry", "text": "🌳 {player} — Наследник Мирового Древа." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

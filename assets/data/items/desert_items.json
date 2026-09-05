@@ -1,0 +1,11 @@
+[
+  {
+    "id": "item_pharaohs_seal",
+    "name": "Печать фараона",
+    "description": "Тяжёлая золотая печать с незнакомыми письменами. Явно стоит целое состояние.",
+    "rarity": "epic",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

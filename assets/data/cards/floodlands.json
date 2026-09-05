@@ -1,0 +1,580 @@
+[
+  {
+    "id": "flood_fences_under_water",
+    "title": "Линии на воде",
+    "description": "По ровной воде тянутся длинные полосы ряби — прямые, под углом друг к другу, до самого горизонта. Под ними плетни.\n\nПо ним видно, где были улицы.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_belfry_waist_deep",
+    "title": "Колокольня по пояс",
+    "description": "Из воды поднимается колокольня, и вода стоит ровно на середине нижнего окна. Внутри плещет.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_boat_at_window",
+    "title": "Лодка привязана к окну",
+    "description": "Верёвка идёт от носа лодки к раме второго этажа и завязана изнутри. Первого этажа нет — он под водой целиком.\n\nВ окне сушится половик.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_herd_on_the_knoll",
+    "title": "Остров из бугра",
+    "description": "Клочок земли шагов двадцать в поперечнике, и на нём девять коров, две козы и человек с зонтом.\n\nОни стоят там третий день. Всех устраивает.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_milestone_drowned",
+    "title": "Верстовой столб",
+    "description": "Столб торчит из воды на ладонь. Цифра, ради которой его ставили, где-то ниже.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_no_wheels",
+    "title": "Ни одного колеса",
+    "description": "Всё утро слышно вёсла, воду о борта, голоса через плёс, собаку с чьей-то крыши. И ни разу — телегу.\n\nЗвук, который должен быть, отсутствует, и от этого не по себе больше, чем от воды.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_alder_tops",
+    "title": "Ольха стала кустом",
+    "description": "Из воды торчат макушки — редкие пучки листвы на пустой поверхности. Похоже на кусты, только между ними десять шагов и три метра глубины.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_walkways",
+    "title": "Мостки от дома к дому",
+    "description": "Доски положены на бочки, козлы и перевёрнутые сани. Всё это качается, но держит, и по нему ходят не глядя под ноги.\n\nВ одном месте доска короче на полшага. Все через это место перепрыгивают, не сбиваясь с разговора.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+
+  {
+    "id": "flood_ferryman_price",
+    "title": "Перевозчик",
+    "description": "Плоскодонка, шест, человек в подвёрнутых до колена штанах. На тот берег — с ним или никак.\n\n«Деньги мне тут некуда девать. Придумайте что-нибудь другое».",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Отдать флягу — за перевоз тут берут именно так",
+        "conditions": [{ "condition": "currentPlayerHasItem", "itemId": "item_flask" }],
+        "actions": [
+          { "action": "takeItem", "target": "currentPlayer", "itemId": "item_flask" },
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_punt_pole" }
+        ]
+      },
+      {
+        "label": "Встать на корму вторым шестом",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_sailor" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Помочь ему до вечера с чужими перевозами",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "endurance", "amount": 1 }]
+      },
+      {
+        "label": "Спросить, где здесь брод — и получить внятный ответ",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_pathfinder" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
+      },
+      { "label": "Идти вдоль воды и искать сухое самим", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_beacon_keeper",
+    "title": "Бакенщик зажигает улицу",
+    "description": "Он идёт на лодке и вешает фонари на верхушки столбов — там, где раньше был порядок домов.\n\nК ночи над водой выстраивается кривая цепочка огней. Это по-прежнему улица.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_postman_by_boat",
+    "title": "Почта приходит вплавь",
+    "description": "Лодка подходит к окну, из неё подают связку писем прямо в руки. Расписываются на подоконнике.\n\n«Мокрое не моя вина, читайте быстрее».",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_cow_swims",
+    "title": "Корову ведут вплавь",
+    "description": "Женщина сидит в лодке и держит верёвку. Корова плывёт следом, выставив морду, и вид у неё оскорблённый.\n\nДо бугра ещё далеко.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Взять верёвку и грести вдвоём — так ровнее",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": 1 }]
+      },
+      {
+        "label": "Успокоить корову так, как успокаивают свою",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_farmer" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Подсказать заходить наискось, против сноса",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_sea_chosen" }],
+        "actions": []
+      },
+      { "label": "Посторониться и не мешать", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_raft_of_doors",
+    "title": "Плот из дверей",
+    "description": "Четыре снятые с петель двери, связанные верёвкой, и на них трое мальчишек с шестами. Плот идёт боком и очень медленно.\n\nОдна дверь всё ещё с ручкой и щеколдой.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_beekeeper_saves_hives",
+    "title": "Ульи на плаву",
+    "description": "Колоды стоят на плоту в два ряда, и гул от них идёт над водой далеко. Пасечник гребёт стоя, чтобы не качало.\n\nОдин улей он держит между колен.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Сесть на вёсла, чтобы он держал ульи обеими руками",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "endurance", "amount": 1 }]
+      },
+      {
+        "label": "Сказать пчёлам сидеть тихо — и они садятся",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_druid_descendant" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Подвязать колоды своей верёвкой",
+        "conditions": [{ "condition": "partyHasItem", "itemId": "item_rope" }],
+        "actions": [{ "action": "giveItem", "target": "currentPlayer", "itemId": "item_healing_potion" }]
+      },
+      { "label": "Проводить взглядом", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_miller_idle",
+    "title": "Мельник без работы",
+    "description": "Колесо утоплено выше оси, вода идёт поверх него и не крутит ничего. Мельник сидит на крыше своей мельницы и чинит сеть.\n\n«Воды всю жизнь просил. Ну вот».",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_old_man_stayed",
+    "title": "Он не уехал",
+    "description": "Всех вывезли неделю назад. В одном окне второго этажа горит свет, и на подоконнике стоят две кружки.\n\nК стене прислонена лестница — снаружи, для тех, кто заглянет.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_priest_rows_parish",
+    "title": "Объезд прихода",
+    "description": "Лодка идёт от окна к окну, и в каждом её ждут. Разговор через подоконник длится ровно столько, сколько нужно, и лодка идёт дальше.\n\nК полудню он объедет всех. Так уже третью неделю.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_fishing_in_the_garden",
+    "title": "Ловят в огороде",
+    "description": "Двое сидят в лодке ровно над своим огородом — вешки по углам ещё торчат — и вытаскивают карася за карасём.\n\n«Второй год ничего не всходило. А теперь вон».",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_whose_fence",
+    "title": "Чей это забор",
+    "description": "Плетень оторвало и принесло к чужому двору. Хозяин двора говорит, что теперь его. Приплывший хозяин плетня — что нет.\n\nОба стоят в лодках и держатся за один и тот же кол.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Предложить разделить: колья одному, прутья другому",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Показать на метку хозяина, выжженную на третьем коле",
+        "conditions": [{ "condition": "currentPlayerStatAtLeast", "stat": "attentiveness", "value": 2 }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
+      },
+      {
+        "label": "Сказать, что вода вернёт всё на место сама",
+        "conditions": [{ "condition": "worldFlagSet", "flag": "circle_ally" }],
+        "actions": []
+      },
+      { "label": "Отгрести подальше", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_smith_makes_oarlocks",
+    "title": "Кузнец кует уключины",
+    "description": "Горн вынесен на бугор и топится сырыми дровами, дым идёт белый. На земле лежат готовые уключины и лодочные скобы — больше ничего.\n\nПодков он не делал уже месяц.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+
+  {
+    "id": "flood_fish_in_the_cellar",
+    "title": "Рыба в подполе",
+    "description": "Через открытый лаз видно тёмную воду, а в ней ходит что-то длинное и спокойное.\n\nХозяин закрывает лаз доской и придавливает камнем. Не от страха — чтобы не ушла.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_knock_under_the_boat",
+    "title": "Стук снизу",
+    "description": "В дно лодки два раза стучит. Негромко, ровно, как костяшкой в дверь.\n\nПеревозчик даже не оборачивается: «Крыша. Тут раньше сарай стоял».",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Померить глубину шестом и убедиться самому",
+        "conditions": [{ "condition": "partyHasItem", "itemId": "item_punt_pole" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
+      },
+      {
+        "label": "Промолчать: снизу стучали и в местах похуже",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_fugitive" }],
+        "actions": []
+      },
+      { "label": "Поверить на слово", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_street_reflected",
+    "title": "Улица снизу",
+    "description": "Вода стоит без единой морщины, и в ней целиком лежит другая деревня — с трубами, наличниками и небом под ними.\n\nВ отражённом окне горит свет. В настоящем — нет.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_something_passed_below",
+    "title": "Прошло под днищем",
+    "description": "Лодку приподняло и мягко опустило. Ни всплеска, ни волны.\n\nЧерез сотню шагов — ещё раз, и в ту же сторону.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_walking_on_water",
+    "title": "По воде пешком",
+    "description": "Женщина идёт прямо по разливу — вода ей по щиколотку, вокруг на сотню шагов глубина в рост.\n\nПод ней старая гать. Знать про неё нужно с детства.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Пойти следом, шаг в шаг",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }]
+      },
+      {
+        "label": "Прочитать гать по ряби — она выдаёт себя",
+        "conditions": [{ "condition": "currentPlayerStatAtLeast", "stat": "attentiveness", "value": 2 }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "cunning", "amount": 1 }]
+      },
+      {
+        "label": "Идти в обход по глубокому",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "flood_rooster_on_the_roof",
+    "title": "Петух на коньке",
+    "description": "Он сидит на самом верху и кричит в положенное время, как будто ничего не произошло.\n\nПод ним, на два человеческих роста ниже, его двор.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_open_door_floats",
+    "title": "Дверь плывёт открытая",
+    "description": "Створка идёт по течению плашмя, и на ней сидит мокрая кошка.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_fire_on_the_water",
+    "title": "Огонь посреди воды",
+    "description": "Метрах в трёхстах над самой поверхностью горит ровное пламя. Ни лодки, ни столба под ним не видно.\n\nУтром выясняется, что там печная труба, и в ней жгли солому — чтобы отсырела кладка не совсем.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_road_seen_through",
+    "title": "Дорога видна насквозь",
+    "description": "Под лодкой на глубине в рост лежит утоптанный просёлок с колеёй. Он идёт ровно туда, куда шёл всегда.\n\nПо нему проплывает щука.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_birds_on_the_fence",
+    "title": "Птицы по колено",
+    "description": "На торчащем из воды прясле сидят рядком галки. Вода доходит им до брюха, и они не улетают.\n\nСидеть на заборе — привычка сильнее удобства.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_no_horizon",
+    "title": "Небо и вода одного цвета",
+    "description": "Серое сверху, серое снизу, и линии между ними нет. Лодка идёт как будто в пустоте.\n\nОриентируются по звуку колокола, а не по глазам.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+
+  {
+    "id": "flood_hay_on_the_roof",
+    "title": "Сено на крыше",
+    "description": "Стог сметан прямо на скате, подпёрт жердями и увязан крест-накрест. Крыша под ним просела.\n\nЭто всё, что осталось от покоса.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_stove_fed_from_boat",
+    "title": "Печь топят с лодки",
+    "description": "Полено за поленом подают в окно с воды. В доме тепло, дым идёт как положено, а войти в него нельзя — двери под водой.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_laundry_from_the_porch",
+    "title": "Стирают с крыльца",
+    "description": "Третья ступенька — как раз по глубине. Полощут прямо с неё и вешают на верёвку, натянутую от угла дома к яблоне.\n\nЯблоня стоит в воде по нижние ветки.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_firewood_counted",
+    "title": "Дрова считают иначе",
+    "description": "Не поленницами и не возами, а охапками — столько, сколько влезет в лодку за раз, не черпнув бортом.\n\nМера у каждого своя, и никто не спорит.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_wedding_on_boats",
+    "title": "Свадьба на лодках",
+    "description": "Одиннадцать лодок сцеплены бортами в круг посреди разлива. В середине двое, вокруг поют, и от пения по воде идёт рябь.\n\nПлясать негде. Все сидят и качаются в такт.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "group", "drink"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Пристать бортом и выставить бочонок в общий круг",
+        "conditions": [{ "condition": "partyHasItem", "itemId": "item_beer_keg" }],
+        "actions": [
+          { "action": "takeItem", "target": "currentPlayer", "itemId": "item_beer_keg" },
+          { "action": "modifyStat", "target": "allPlayers", "stat": "charisma", "amount": 1 }
+        ]
+      },
+      {
+        "label": "Подхватить песню вторым голосом",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_bard" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Постоять на вёслах в стороне и посмотреть",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "flood_funeral_raft",
+    "title": "Плот идёт к бугру",
+    "description": "Впереди лодка с гребцом, за ней на буксире плот, накрытый холстиной. Позади ещё три лодки, все молча.\n\nНа бугре, единственном сухом месте на версту, уже стоят с лопатами.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_garden_marked_by_stakes",
+    "title": "Огород по вешкам",
+    "description": "Из воды торчат прутья с тряпками — по углам и вдоль борозд. Разметку обновляют каждую неделю, чтобы не забыть, где что было.\n\nУ соседа вешки стоят гуще. Он не доверяет своей памяти.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_one_oven_for_all",
+    "title": "Пекут на всех в одном доме",
+    "description": "Из всех печей осталась одна выше воды, и хлеб теперь пекут в ней по очереди. У дома весь день стоят лодки.\n\nОчередь установилась сама, и никто её не записывал.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+
+  {
+    "id": "flood_map_is_useless",
+    "title": "Карта здесь не работает",
+    "description": "На листе дороги, мосты и броды. За бортом ничего из этого нет.\n\nМестный смотрит на карту вежливо и долго, потом показывает рукой совсем в другую сторону.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Свернуть карту и слушать человека",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
+      },
+      {
+        "label": "Дорисовать поверх старого то, что видно сейчас",
+        "conditions": [{ "condition": "partyHasItem", "itemId": "item_map" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "cunning", "amount": 1 }]
+      },
+      {
+        "label": "Расспросить его так, как расспрашивают лоцмана",
+        "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_sailor" }],
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      { "label": "Идти по карте и убедиться, что она врёт", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_compass_points_nowhere",
+    "title": "Стрелка держит север",
+    "description": "Стрелка честно показывает север. На севере вода, на юге вода, и на востоке тоже.\n\nЗнать, где север, здесь ровно так же полезно, как знать, который час.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_pole_measures",
+    "title": "Мера всему — шест",
+    "description": "Глубину меряют им, дно щупают им, чужое со дна достают тоже им. У каждого свой, и чужой брать не принято.\n\nВам вручают ольховый, с обточенным комлем: «Без него тут никак».",
+    "type": "item", "rarity": "common", "weight": 3, "tags": ["item"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "floodlands" },
+      { "condition": "partyMissingItem", "itemId": "item_punt_pole" }
+    ],
+    "actions": [{ "action": "giveItem", "target": "currentPlayer", "itemId": "item_punt_pole" }]
+  },
+  {
+    "id": "flood_tarred_sack",
+    "title": "Просмолённый мешок",
+    "description": "Чёрный, жёсткий, стоит колом и пахнет так, что его выносят из дома. Внутри всё остаётся сухим, даже если лодка зачерпнёт целиком.\n\n«Держите. Отдадите, когда сойдёт».",
+    "type": "item", "rarity": "common", "weight": 3, "tags": ["item"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "floodlands" },
+      { "condition": "currentPlayerMissingItem", "itemId": "item_tarred_sack" }
+    ],
+    "actions": [{ "action": "giveItem", "target": "currentPlayer", "itemId": "item_tarred_sack" }]
+  },
+  {
+    "id": "flood_rope_across_the_street",
+    "title": "Верёвка вместо перил",
+    "description": "От крыльца к крыльцу через всю бывшую улицу натянута верёвка. По ней перебираются, перехватываясь руками, и по ней же передают вёдра.\n\nОна провисает ровно посередине и там мокрая.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_marks_on_the_wall",
+    "title": "Зарубки на стене",
+    "description": "На срубе ряд горизонтальных отметок с годами. Самая высокая — далеко над головой, и год у неё старый.\n\nНынешняя вода не дошла до неё на две ладони. Это здесь обсуждают каждый день.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+
+  {
+    "id": "flood_water_dropped_a_hand",
+    "title": "Ушла на ладонь",
+    "description": "На брёвнах видна тёмная полоса, и вода стоит чуть ниже неё.\n\nЗа день об этом скажут все, кого встретишь. Каждый — как новость.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_silt_on_the_sill",
+    "title": "Ил на подоконнике",
+    "description": "Ровный серый слой в палец толщиной, и на нём отпечаталась птичья лапа.\n\nЕго не стирают. Ещё рано.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_boats_hauled_to_lofts",
+    "title": "Лодки поднимают на чердак",
+    "description": "Их втягивают через слуховое окно верёвками, по две-три на дом. Там они пролежат до следующей большой воды.\n\nКто-то уже конопатит свою заранее.",
+    "type": "event", "rarity": "common", "weight": 2, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_road_came_back",
+    "title": "Дорога вернулась",
+    "description": "Из воды показалась колея — мокрая, забитая илом, с застрявшим в ней чужим сапогом. По ней уже прошли пешком в обе стороны.\n\nПервая телега проедет через неделю. Все знают, чья.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_borrowed_boat",
+    "title": "Лодку берут без спроса",
+    "description": "Она стоит у мостков, вёсла внутри, привязана петлёй без узла. Хозяин на другом конце деревни и не беспокоится.\n\nВернут. Здесь всегда возвращают — иначе завтра не на чем будет ехать самому.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["social", "solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Взять и вернуть на то же место",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
+      },
+      {
+        "label": "Оставить в лодке флягу — так тут благодарят",
+        "conditions": [{ "condition": "currentPlayerHasItem", "itemId": "item_flask" }],
+        "actions": [
+          { "action": "takeItem", "target": "currentPlayer", "itemId": "item_flask" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ]
+      },
+      {
+        "label": "Не трогать чужое даже здесь",
+        "conditions": [{ "condition": "worldFlagSet", "flag": "paladin_ally" }],
+        "actions": []
+      },
+      { "label": "Идти пешком по мосткам", "actions": [] }
+    ]
+  },
+  {
+    "id": "flood_guest_by_default",
+    "title": "Здесь все у кого-то в гостях",
+    "description": "В доме на бугре живут четыре семьи. Спят по очереди, едят вместе, ссорятся тихо, потому что стены тонкие.\n\nХозяев не различить: за столом всем распоряжается женщина, которая приплыла третьего дня.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["group"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  },
+  {
+    "id": "flood_nobody_hurries",
+    "title": "Никто не торопится",
+    "description": "Спросить дорогу — полчаса. Перевезти через плёс — полдня. Дождаться, пока сойдёт вода, — месяц.\n\nЗдесь нет ни одного дела, которое можно сделать быстро, и все давно это приняли.",
+    "type": "event", "rarity": "common", "weight": 3, "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "floodlands" }],
+    "actions": []
+  }
+]

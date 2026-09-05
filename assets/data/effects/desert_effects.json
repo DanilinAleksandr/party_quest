@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_sand_in_eyes",
+    "name": "Песок в глазах",
+    "description": "Следующий ход держи один глаз прищуренным — песок ещё не выветрился.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

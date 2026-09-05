@@ -1,0 +1,441 @@
+[
+  {
+    "id": "great_witch",
+    "entryNodeId": "great_witch_clearing",
+    "nodes": [
+      {
+        "id": "great_witch_clearing",
+        "text": "Между деревьями открывается поляна, которой не было ни на одной карте. В центре — дом, сложенный будто из сросшихся корней.",
+        "choices": [
+          {
+            "label": "Подойти к дому",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "great_witch_encounter"
+              }
+            }
+          },
+          {
+            "label": "Обойти поляну стороной",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "great_witch_encounter",
+        "text": "Дверь дома открывается сама, и на пороге появляется женщина, чей взгляд будто видит сквозь века.",
+        "choices": [
+          {
+            "label": "«Ты вернул мою книгу?» — её голос холоднее зимнего леса",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "stole_magic_book"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "great_witch_confrontation"
+              }
+            }
+          },
+          {
+            "label": "«Редкий гость находит дорогу сюда без злого умысла»",
+            "conditions": [
+              {
+                "condition": "worldFlagUnset",
+                "flag": "stole_magic_book"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "great_witch_greeting"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "great_witch_confrontation",
+        "text": "«Ты ограбил меня в моём собственном доме — а теперь стоишь у порога величайшей из нас». Её взгляд скользит мимо тебя, ко всей компании за спиной. «Отвечать за это будете все, если не найдётся, чем меня переубедить».",
+        "choices": [
+          {
+            "label": "Вернуть книгу заклинаний",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_spellbook"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_spellbook"
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "returned_spellbook",
+                  "value": true
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Отдать ей чешую дракона взамен пропажи",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_dragon_scale"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_dragon_scale"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Притвориться, что уже выпил за свою вину",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_flask"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_flask"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Заговорить с ней спокойно и попытаться объясниться",
+            "conditions": [
+              {
+                "condition": "currentPlayerStatAtLeast",
+                "stat": "charisma",
+                "value": 2
+              }
+            ],
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "talked_down_great_witch",
+                  "value": true
+                },
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "allPlayers",
+                  "effectId": "effect_witchs_mark"
+                },
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": -1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Свалить всю вину на другого",
+            "conditions": [
+              {
+                "condition": "currentPlayerStatAtLeast",
+                "stat": "cunning",
+                "value": 2
+              }
+            ],
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "randomOtherPlayer",
+                  "effectId": "effect_witchs_mark"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_witchs_mark"
+                },
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": -1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Молча принять всё как есть — все выпивают по её слову",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "allPlayers",
+                  "effectId": "effect_witchs_mark"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Бежать со всех ног",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_witchs_mark"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "great_witch_greeting",
+        "text": "«Что привело тебя в мой лес, путник?»",
+        "choices": [
+          {
+            "label": "Попросить совета",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "great_witch_boon"
+              }
+            }
+          },
+          {
+            "label": "Просто поприветствовать и уйти",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "great_witch_boon",
+        "text": "Она долго смотрит на тебя, будто взвешивая на невидимых весах что-то важное.",
+        "choices": [
+          {
+            "label": "Просто встретить её взгляд, не отводя глаз",
+            "conditions": [
+              {
+                "condition": "currentPlayerOriginUnknown"
+              }
+            ],
+            "successChance": 0.15,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "great_witch_recognizes_forest_child"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_hedge_word"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Молча ждать её решения",
+            "successChance": 0.7,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "helped_great_witch",
+                  "value": true
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_lucky_streak"
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🧙 Великая ведьма благословила путешественников."
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_hedge_word"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Заговорить с ней на языке леса",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_forest_child"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "helped_great_witch",
+                  "value": true
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_lucky_streak"
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🧙 Великая ведьма благословила путешественников."
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "great_witch_recognizes_forest_child",
+        "text": "Ведьма долго смотрит на тебя, не произнося ни слова.\n\n«Я думала, ваш род давно исчез, — говорит она наконец, тише прежнего. — Слишком давно, чтобы кто-то из вас ещё ходил этими тропами».\n\nОна подходит ближе и на миг касается твоего плеча — так, как касаются старого знакомого, а не случайного гостя. «Теперь я понимаю, почему лес не причиняет тебе вреда. Он просто узнаёт своего».",
+        "onEnterActions": [
+          {
+            "action": "revealOrigin",
+            "originId": "origin_forest_child"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_great_witch",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_streak"
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🌲 {player} — Дитя леса."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "id": "graveyard_will_o_wisp",
+    "entryNodeId": "wisp_entrance",
+    "nodes": [
+      {
+        "id": "wisp_entrance",
+        "text": "Между надгробиями пляшет бледный огонёк, будто зовёт за собой — то приближается, то ускользает вглубь кладбища, за старые склепы.",
+        "choices": [
+          {
+            "label": "Пойти следом не таясь — при таком свете ты видишь, что это вовсе не огонь",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_moonborn" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wisp_deep_reward" }
+            }
+          },
+          {
+            "label": "Пойти следом, вглубь кладбища",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wisp_deep_reward" }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wisp_lost" }
+            }
+          },
+          {
+            "label": "Понаблюдать издалека, не приближаясь",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wisp_watch_reward" }
+            }
+          },
+          {
+            "label": "Не обращать внимания и пройти мимо",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wisp_deep_reward",
+        "text": "Огонёк приводит тебя к покосившемуся склепу и гаснет у самого порога — там, среди мха, лежит гладкий камень, будто нарочно оставленный на виду.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_odd_stone" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wisp_watch_reward",
+        "text": "Издалека танец огонька почти завораживает — а когда он наконец гаснет, ты чувствуешь, что вечер обещает быть на редкость удачным.",
+        "onEnterActions": [
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wisp_lost",
+        "text": "Огонёк заводит тебя между склепами и вдруг гаснет разом — ты стоишь один в темноте, среди чужих имён на камне, и очень остро чувствуешь, что не один.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_haunted" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

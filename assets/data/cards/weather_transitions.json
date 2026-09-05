@@ -1,0 +1,110 @@
+[
+  {
+    "id": "weather_turns_rainy",
+    "title": "Тучи затягивают небо",
+    "description": "Небо затягивают тяжёлые тучи, и вскоре на компанию обрушивается ливень.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "rain"
+      },
+      {
+        "condition": "minimumTurnsInWeather",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWeather",
+        "weather": "rain"
+      }
+    ]
+  },
+  {
+    "id": "weather_clears_up",
+    "title": "Небо расчищается",
+    "description": "Тучи расходятся, и солнце наконец пробивается сквозь ветви.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "sunny"
+      },
+      {
+        "condition": "minimumTurnsInWeather",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWeather",
+        "weather": "sunny"
+      }
+    ]
+  },
+  {
+    "id": "weather_fog_rolls_in",
+    "title": "Стелется туман",
+    "description": "Со всех сторон наползает густой туман, скрадывая очертания и звуки.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "fog"
+      },
+      {
+        "condition": "minimumTurnsInWeather",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWeather",
+        "weather": "fog"
+      }
+    ]
+  },
+  {
+    "id": "weather_nightfall",
+    "title": "Опускается ночь",
+    "description": "Солнце садится, и на путь опускается темнота.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "night"
+      },
+      {
+        "condition": "minimumTurnsInWeather",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWeather",
+        "weather": "night"
+      }
+    ]
+  }
+]

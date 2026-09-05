@@ -1,0 +1,167 @@
+[
+  {
+    "id": "ancient_tomb",
+    "entryNodeId": "tomb_entrance",
+    "nodes": [
+      {
+        "id": "tomb_entrance",
+        "text": "Среди барханов ты натыкаешься на полузасыпанный песком вход в древнюю гробницу.",
+        "choices": [
+          {
+            "label": "Спуститься внутрь",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "tomb_inside"
+              }
+            }
+          },
+          {
+            "label": "Не тревожить покой мёртвых",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "tomb_inside",
+        "text": "Ты спускаешься по каменным ступеням. Воздух здесь неподвижный и сухой, как сама пустыня.",
+        "onEnterActions": [],
+        "autoTransition": {
+          "destination": "randomNode",
+          "options": [
+            {
+              "nodeId": "tomb_treasure",
+              "weight": 25
+            },
+            {
+              "nodeId": "tomb_trap",
+              "weight": 30
+            },
+            {
+              "nodeId": "tomb_mummy",
+              "weight": 25
+            },
+            {
+              "nodeId": "tomb_empty",
+              "weight": 20
+            }
+          ]
+        }
+      },
+      {
+        "id": "tomb_treasure",
+        "text": "В глубине зала, на каменном постаменте, лежит золотая печать — нетронутая веками.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "found_pharaoh_seal",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_pharaohs_seal"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "tomb_trap",
+        "text": "Наступив на неприметную плиту, ты слышишь щелчок — сверху с шипением сыплется песок.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "tomb_mummy",
+        "text": "Что-то шевелится в открытом саркофаге в центре зала. Бинты медленно разматываются.",
+        "choices": [
+          {
+            "label": "Бежать со всех ног",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_marked"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Поклониться с уважением",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "luck",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "tomb_empty",
+        "text": "Зал пуст. То ли гробницу уже разграбили давным-давно, то ли здесь никогда ничего и не было.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

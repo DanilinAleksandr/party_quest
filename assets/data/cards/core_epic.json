@@ -1,0 +1,117 @@
+[
+  {
+    "id": "epic_witch_hut",
+    "title": "Хижина в чаще леса",
+    "description": "Компания сбивается с пути и натыкается на странную хижину. Один из вас решает подойти ближе.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 14,
+    "tags": [
+      "risk",
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "witch_hut"
+      }
+    ]
+  },
+  {
+    "id": "epic_abandoned_tavern",
+    "title": "Трактир на отшибе",
+    "description": "На обочине дороги стоит заброшенный трактир с покосившейся вывеской. Заглянуть внутрь?",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 14,
+    "tags": [
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "abandoned_tavern"
+      }
+    ]
+  },
+  {
+    "id": "epic_bandit_camp",
+    "title": "Дым за деревьями",
+    "description": "Вдалеке между стволами виден дым костра и вооружённые силуэты — чей-то лагерь.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 14,
+    "tags": [
+      "risk",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      },
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "bandit_camp"
+      }
+    ]
+  },
+  {
+    "id": "epic_ancient_tomb",
+    "title": "Вход, засыпанный песком",
+    "description": "Среди барханов виднеется полузасыпанный вход в нечто древнее и явно рукотворное.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 14,
+    "tags": [
+      "risk",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "ancient_tomb"
+      }
+    ]
+  }
+]

@@ -1,0 +1,588 @@
+[
+  {
+    "id": "paladin_outpost",
+    "entryNodeId": "outpost_gate",
+    "nodes": [
+      {
+        "id": "outpost_gate",
+        "text": "Дорогу перекрывает застава ордена: беленая стена, вымпел с солнцем, четверо в тяжёлых плащах. Командор выходит навстречу, не торопясь и не улыбаясь.\n\n«Назовитесь. И скажите, что везёте».",
+        "choices": [
+          {
+            "label": "Командор смотрит на тебя дольше, чем на остальных, и опускает глаза",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_gods_chosen"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_recognized"
+              }
+            }
+          },
+          {
+            "label": "Не поднимать головы. Орден о драконьей крови имеет своё мнение",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_dragonborn"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_search"
+              }
+            }
+          },
+          {
+            "label": "Ответить уставным приветствием — ты знаешь его наизусть",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_knight"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_recognized"
+              }
+            }
+          },
+          {
+            "label": "Назвать себя полным именем — командор знает, чьё это имя",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_ancient_kings_heir"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_recognized"
+              }
+            }
+          },
+          {
+            "label": "Стоять молча и надеяться, что списков они сегодня не читают",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_fugitive"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_the_list"
+              }
+            }
+          },
+          {
+            "label": "Стоять молча — клеймо на руке говорит за тебя быстрее",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_convict"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_the_list"
+              }
+            }
+          },
+          {
+            "label": "Показать чешую дракона — такое не подделаешь",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_dragon_scale"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_deeds"
+              }
+            }
+          },
+          {
+            "label": "Сказать, чем закончилась история с драконом",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "defeated_dragon"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_deeds"
+              }
+            }
+          },
+          {
+            "label": "Промолчать про круг — но командор уже смотрит на ваши руки",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "circle_ally"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_search"
+              }
+            }
+          },
+          {
+            "label": "Назваться честно и дать себя осмотреть",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_search"
+              }
+            }
+          },
+          {
+            "label": "Свернуть с дороги, пока не подошли ближе",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_avoided"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_search",
+        "text": "Командор кивает, и двое обходят компанию медленно, разглядывая руки, пояса и лица. Осмотр на заставе — дело обычное. Обычно он ничем не кончается.",
+        "choices": [
+          {
+            "label": "У тебя книга ведьмы. Такое они узнают с первого взгляда",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_spellbook"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_heresy"
+              }
+            }
+          },
+          {
+            "label": "Метка ведьмы на тебе — и она темнеет прямо у них на глазах",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasEffect",
+                "effectId": "effect_witchs_mark"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_heresy"
+              }
+            }
+          },
+          {
+            "label": "Оберег на шнурке — работа не храмовая, и они это видят",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_ward_amulet"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_amulet"
+              }
+            }
+          },
+          {
+            "label": "Заговорить первым — о дороге, о погоде, о чём угодно",
+            "conditions": [
+              {
+                "condition": "currentPlayerStatAtLeast",
+                "stat": "charisma",
+                "value": 2
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_talked_through"
+              }
+            }
+          },
+          {
+            "label": "Стоять смирно и ждать",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_talked_through"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_detained"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_amulet",
+        "text": "Командор поддевает шнурок двумя пальцами и рассматривает оберег на свет.\n\n«Я знаю, чьи руки это плели. Оно вас бережёт, не спорю. Только беречь оно вас будет и от нас».",
+        "choices": [
+          {
+            "label": "Отдать оберег — вещь того не стоит",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "paladin_debt",
+                  "value": true
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_debt_granted"
+              }
+            }
+          },
+          {
+            "label": "Сказать, кто и за что его дал",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "helped_great_witch"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_witch_argument"
+              }
+            }
+          },
+          {
+            "label": "Не отдавать. Это твоё",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_heresy"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_witch_argument",
+        "text": "«Ведьма из чащи», — командор произносит это без злобы, но и без тепла. «Она вас выручила, и вы её. Значит, вы честны хотя бы в долгах».\n\nОн возвращает оберег.\n\n«Носите. Но если однажды выбирать придётся между её словом и нашим — вспомните, что мы вас отпустили».",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_the_list",
+        "text": "Молчание не помогает. Один из братьев разворачивает список — длинный, с обтрёпанным краем — и ведёт пальцем сверху вниз, поглядывая то в бумагу, то на лицо.\n\nПалец останавливается.",
+        "choices": [
+          {
+            "label": "Показать печать фараона — с такой вещью в руках спорят иначе",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_pharaohs_seal"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_deeds"
+              }
+            }
+          },
+          {
+            "label": "Сослаться на милость Короля мёртвых — им придётся это обдумать",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "kings_mercy"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_talked_through"
+              }
+            }
+          },
+          {
+            "label": "Отпираться",
+            "successChance": 0.4,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_talked_through"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_detained"
+              }
+            }
+          },
+          {
+            "label": "Не отпираться. Было — значит было",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "outpost_honest_past"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_honest_past",
+        "text": "«Было», — повторяет командор и складывает список. «Я спрашивал, что вы везёте, а не кем были. Проходите».\n\nУже в спину, негромко: «И если однажды понадобится, чтобы кто-то поручился, — назовите эту заставу».",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_recognized",
+        "text": "Командор слушает до конца, потом коротко кланяется — не человеку, а тому, что за ним стоит.\n\n«Значит, ещё не всё выветрилось из этого мира. Проходите, и передайте своим: застава держит дорогу до последнего».",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_ally",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "☀️ Компания заручилась поддержкой ордена."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_deeds",
+        "text": "Командор долго молчит.\n\n«Мы держим эту дорогу шестой год и видели всякое. Такого — нет».\n\nОн отступает в сторону и делает знак открыть ворота.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_ally",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "☀️ Компания заручилась поддержкой ордена."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_heresy",
+        "text": "Командор отступает на шаг, и четверо за его спиной перестают быть просто уставшими людьми в плащах.\n\n«Вот оно что. Уходите с дороги ордена и не показывайтесь на ней впредь».\n\nВас не трогают. Но слово уже сказано, а такие слова расходятся быстрее людей.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "declared_heretic",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🔥 Орден объявил компанию еретиками."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_detained",
+        "text": "Вас разводят по сторонам и держат до вечера — без грубости, но и без объяснений. К закату отпускают, ничего не сказав.\n\nДень потерян, а ощущение осталось.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_talked_through",
+        "text": "Осмотр заканчивается ничем. Командор кивает на дорогу за заставой:\n\n«Дальше держитесь тракта. В стороне сейчас неспокойно».",
+        "onEnterActions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_debt_granted",
+        "text": "Оберег исчезает в кожаном мешочке на поясе командора.\n\n«Правильно сделали. За мной услуга — орден такое помнит».",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "outpost_avoided",
+        "text": "Вы уходите в сторону раньше, чем вас окликнут. За спиной никто не спешит — на заставе привыкли, что кто-то предпочитает обойти.\n\nКрюк выходит долгим.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

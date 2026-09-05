@@ -1,0 +1,547 @@
+[
+  {
+    "id": "tavern_wrong_table",
+    "title": "Чужое место",
+    "description": "Человек садится за стол у окна и раскладывает свои вещи. Зал притихает.\n\nЗа этим столом двадцать лет сидит один и тот же старик, и старик уже идёт от двери.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Тихо сказать новичку, куда лучше пересесть",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Освободить свой стол старику и сесть у стены",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Досмотреть до конца",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_someone_sleeps",
+    "title": "Спящий за столом",
+    "description": "Он спит лицом в скрещённых руках, и перед ним стоит полная кружка. Никто её не трогает.\n\nЗа два часа кружку обошли раз двадцать. Пена давно осела.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "drink",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_song_nobody_knows",
+    "title": "Песня, которую никто не знает",
+    "description": "Кто-то в углу затягивает мелодию, и зал подхватывает первую строчку. На второй все замолкают, потому что слов не знает никто.\n\nПоющий доводит до конца один. Ему хлопают громче, чем если бы подпевали.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_last_bowl",
+    "title": "Последняя миска",
+    "description": "Похлёбка кончилась, осталась одна порция, и к стойке подошли двое одновременно. Оба с дороги, оба голодные, оба уступают.\n\nЭто длится уже дольше, чем заняло бы съесть.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Заказать вторую порцию за свой счёт — пусть разделят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разлить пополам в две миски и уйти",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Смотреть, кто сдастся первым",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_dice_in_corner",
+    "title": "Кости в углу",
+    "description": "Играют вчетвером, и один явно проигрывает всё. Остальные трое переглядываются, и один из них начинает нарочно ошибаться в свою пользу наоборот.\n\nПроигравший не замечает. Ему дают отыграться так, чтобы он думал, что отыгрался сам.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Понять, что тут происходит, и промолчать",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подсесть пятым и подыграть им",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не лезть в чужую игру",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_boy_carries_mugs",
+    "title": "Шесть кружек в двух руках",
+    "description": "Мальчишка несёт шесть полных кружек и уже понял, что взял на одну больше, чем может. До стола четыре шага.\n\nВесь зал следит и делает вид, что не следит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Молча снять две верхние",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Перехватить ту, что уже пошла — по наклону видно какую",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подставить руки — вы носили и больше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Досмотреть",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_argument_about_road",
+    "title": "Спор о дороге",
+    "description": "Двое спорят, какой брод сейчас проходим. Один был там весной, другой — позавчера, но позавчерашний говорит тише и его перекрикивают.\n\nПолзала уже верит весеннему.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Развернуть карту и дать обоим показать",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заступиться за того, кто говорит тише",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что оба брода уже неделю как под водой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Слушать и не вмешиваться",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_man_waits_for_someone",
+    "title": "Он ждёт с полудня",
+    "description": "Человек у двери сидит перед двумя кружками. Одна его, вторая нетронутая и уже тёплая.\n\nКаждый раз, когда дверь открывается, он поднимает голову. Дверь открывалась много раз.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_cook_out_of_bread",
+    "title": "Хлеб кончился",
+    "description": "Из кухни выходят и объявляют, что хлеба нет и до утра не будет. Зал принимает это молча — все давно знают, что бывает и хуже.\n\nЧерез минуту с трёх столов передают свои остатки на четвёртый, где сидят с детьми.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_hood_in_corner",
+    "title": "Тот, кто не снимает капюшон",
+    "description": "Он сидит спиной к стене, лицом к двери, и за час не выпил и половины. Никто к нему не подходит.\n\nКогда в зал заходят новые, он смотрит на их руки, а не на лица.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сесть так же — спиной к стене, лицом к двери",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заметить, что он ждёт не человека, а знака",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не смотреть в ту сторону",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_reconciliation",
+    "title": "Мирятся",
+    "description": "Двое, которые вчера подрались, сидят рядом и говорят о лошадях. Ни один не упоминает вчерашнее.\n\nУ одного разбита бровь, у второго — костяшки. Про лошадей они говорят очень подробно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_dog_under_table",
+    "title": "Собака под столом",
+    "description": "Она лежит на ногах у хозяина и не двигается, даже когда роняют скамью. Хозяин время от времени опускает руку и трогает её за ухо, не глядя.\n\nПотом снова кладёт руку на стол и продолжает разговор.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tavern_toast_for_absent",
+    "title": "За тех, кого нет",
+    "description": "Кто-то встаёт и предлагает выпить не чокаясь. Половина зала встаёт вместе с ним, не спрашивая, за кого.\n\nВторая половина встаёт секундой позже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "drink",
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Встать вместе со всеми",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "allPlayers",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Назвать имя вслух — своё, давнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Остаться сидеть",
+        "actions": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,1075 @@
+[
+  {
+    "id": "coast_sailor_recognizes_ally",
+    "title": "Свои люди",
+    "description": "Матрос на пристани прищуривается, вглядываясь в лица компании: «Погодите... вы ведь те, о ком капитан рассказывал? Значит, вы свои».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "captain_ally"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Орден с пиратами не в ладах — при заставе он этого не повторит",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "captain_ally"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_debt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить ему на морском — он расплывается в улыбке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он замечает знак ордена и договаривает уже сквозь зубы",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что вы из круга, — на море к этому относятся серьёзно",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Показать милость капитана — тут её знают в лицо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_captains_favor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить ему бочонок за знакомство",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Подтвердить — да, союзники капитана",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Промолчать, пусть думает, что хочет",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "coast_sailor_wary_of_cheaters",
+    "title": "Косые взгляды",
+    "description": "Матрос у причала узнаёт вас и тут же отступает на шаг: «А, это те, кто обманул капитана... С такими лучше дел не иметь».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_pirate_captain"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ты моряк, и это слышно с первого слова — он хотя бы дослушает",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что за вас ручается орден, — на берегу это весит",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Круг за вас поручиться не может, зато его боятся",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить ему бочонок и не объяснять ничего",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Попытаться разубедить",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Уйти, не споря",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "forest_traveler_recalls_witch_blessing",
+    "title": "Знакомый оберег",
+    "description": "Странник на тропе замечает лёгкое свечение вокруг компании и понимающе кивает: «Благословение Великой Ведьмы. Редко кому так везёт».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_great_witch"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить, откуда он знает, как это выглядит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он видит на вас и знак ордена — и разговор обрывается",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сказать, что вас принял круг, — странник просит совета",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать оберег — плетение он узнаёт сразу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Свечение погасло: круг от вас отвернулся, и он это видит",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Кивнуть в ответ",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_patron_avoids_book_thief",
+    "title": "Пустой стул",
+    "description": "Завидев компанию, посетитель за соседним столом резко пересаживается подальше: «Слышал про книгу ведьмы. Не хочу быть рядом, когда она вспомнит».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "stole_magic_book"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Книга при вас. Положить её на стол и не сказать ни слова",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_spellbook"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что книга вернулась в круг, — сосед пересаживается обратно",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Наследнику ведьм такие разговоры не в новинку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Метку на руке он замечает раньше, чем ты открываешь рот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Спокойно объяснить, что было на самом деле",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Не обращать внимания",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_traveler_awed_by_dragonfriend",
+    "title": "Взгляд снизу вверх",
+    "description": "Горец у перевала останавливается как вкопанный: «Тот самый дракон... он правда позволил вам уйти? Значит, вы и вправду особенные».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_respects_you"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Он твой земляк — и байку придётся рассказывать честно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать чешую — после неё слова уже не нужны",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dragon_scale"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Орден таких историй не любит — вы отвечаете уклончиво",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что дракона вы всё же одолели, — горец садится на камень",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "defeated_dragon"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Рассказать так, что он запомнит на всю жизнь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Рассказать байку покрасивее",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Промолчать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_traveler_warns_of_dragon_theft",
+    "title": "Не буди спящего",
+    "description": "Попутчик на тропе заметно нервничает: «Слухи ходят, что кто-то обчистил логово дракона. Я бы на вашем месте шёл побыстрее».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "stole_from_dragon"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Соврать так, что он сам себе не поверит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он видит чешую у тебя на поясе и умолкает на полуслове",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dragon_scale"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Спрятаться от слухов у круга — там о вас не расскажут",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_forest",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Застава ордена по пути — там переждать безопаснее",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег гасит дурное предчувствие раньше, чем оно налипнет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Ускорить шаг, не искушая судьбу",
+        "actions": []
+      },
+      {
+        "label": "Отмахнуться от предупреждения",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desert_traveler_defers_to_warlord_ally",
+    "title": "Знак вождя",
+    "description": "Кочевник у колодца замечает что-то в вашей осанке и почтительно кивает: «Вы из тех, кого вождь назвал своими. Вода для вас — бесплатно».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "warlord_ally"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сказать, что вас принял круг, — кочевник мрачнеет",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вождь уважает вас отдельно от союза — это слышно по обращению",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_respect"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить как наёмник наёмнику — он понимает без слов",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пустыню ты знаешь лучше него — и это слышно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак вождя и знак ордена вместе — кочевник теряется",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать покровительство вождя — воды дадут и в дорогу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_warlords_protection"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Отдать ему верблюда — он вернёт его вождю",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_stray_camel"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_stray_camel"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Принять уважение с достоинством",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Скромно поблагодарить",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desert_traveler_warns_of_bounty",
+    "title": "Цена за голову",
+    "description": "Кочевник читает объявление на придорожном столбе и вдруг бледнеет, узнав вас: «Вот они... За вас назначена награда. Я вас не видел, ясно?»",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "warlord_enemy"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Показать покровительство вождя — объявление он снимает сам",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_warlords_protection"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Круг прячет и не таких — свернуть к лесу",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_forest",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты знаешь, как исчезают из таких объявлений",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пустыня большая. Показать ему дорогу, которой нет на столбах",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_desert",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сорвать объявление и унести с собой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "У ордена с вождём мира нет — за вас вступятся",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заплатить за молчание флягой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Поблагодарить и уйти незаметно",
+        "actions": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "road_paladin_outpost",
+    "title": "Застава ордена",
+    "description": "Дорога упирается в белёную стену с вымпелом. Объехать её не выйдет — тракт здесь один.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 10,
+    "tags": [
+      "solo",
+      "risk",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "paladin_outpost"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "paladin_outpost"
+      }
+    ]
+  }
+]

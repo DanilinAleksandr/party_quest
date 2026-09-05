@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_kicked_out",
+    "name": "Только что выгнали",
+    "description": "Следующий ход извиняйся в начале каждой фразы — тебя только что вышвырнули за дверь.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

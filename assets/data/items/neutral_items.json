@@ -1,0 +1,20 @@
+[
+  {
+    "id": "item_odd_stone",
+    "name": "Необычный камень",
+    "description": "Гладкий, будто обточенный водой — хотя воды поблизости не было. Возможно, просто красивый камень.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_wooden_figurine",
+    "name": "Деревянная фигурка",
+    "description": "Вырезана явно не наспех — кто-то вложил в неё время. Чья она — неизвестно.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

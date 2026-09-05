@@ -1,0 +1,470 @@
+[
+  {
+    "id": "mountains_rockslide",
+    "title": "Камнепад",
+    "description": "Где-то выше срывается камень, и вслед за ним с грохотом катится ещё десяток.",
+    "type": "trap",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "risk",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_narrow_ledge",
+    "title": "Узкий карниз",
+    "description": "Тропа сужается до одного карниза над обрывом. Дальше идти — или искать обход?",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "luck",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Верёвка и твёрдая рука горца — карниз проходят все",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          },
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Карниз тебя не держит — камень крошится под весом. Только в обход",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Здесь нет ни корня, ни ветки — впервые лес ничем не поможет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Шагнуть первым — здесь тебя держат не только ноги",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_spirit_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пустить верёвку по карнизу — пройдут все, а не только ловкие",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Для горца это не карниз, а тропа. Идти не оглядываясь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "В тумане карниз не виден дальше двух шагов. Ждать",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "fog"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Продрогшие руки на камне не держат. Искать обход",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пройти по карнизу",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Увидеть обход сразу — там, где остальные видят только скалу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поискать обход подольше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_cave",
+    "title": "Небольшая пещера",
+    "description": "В скале — расщелина, ведущая в маленькую пещеру. Внутри что-то поблёскивает.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "mountains_cave"
+      }
+    ]
+  },
+  {
+    "id": "mountains_eagle",
+    "title": "Орёл над перевалом",
+    "description": "Огромный орёл кружит над перевалом — старики в долинах спорят, добрый это знак или дурной.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "blessing",
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_cold_night",
+    "title": "Ледяная ночь",
+    "description": "Ночью в горах холод пробирает до костей — даже у костра.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дракон однажды узнал вашу кровь. Холод об этом тоже знает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dragon_recognized_bloodline"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Драконья кровь не мёрзнет. Сидеть у костра просто за компанию",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Холод обходит тебя стороной — и спутники это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ни одного живого корня вокруг. Здесь ты мёрзнешь сильнее прочих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег держит тепло, пока ночь не кончится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сесть спиной к костру — тебя этот холод не берёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заночевать на заставе ордена — там всегда топят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Бросить в костёр то, что дали в круге, — он будет гореть до утра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку и не геройствовать",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пустить по кругу флягу смелости",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Кутаться до самого рассвета",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      }
+    ]
+  }
+]

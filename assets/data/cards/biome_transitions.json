@@ -1,0 +1,297 @@
+[
+  {
+    "id": "transition_to_forest",
+    "title": "Смыкаются кроны деревьев",
+    "description": "Один шаг — и вокруг смыкаются кроны деревьев, дорога назад теряется среди стволов. Перед вами лес.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "forest"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_desert",
+    "title": "Растительность редеет",
+    "description": "Растительность вокруг редеет, земля становится суше — а затем перед вами открывается бескрайняя пустыня.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "desert"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_graveyard",
+    "title": "Туман становится всё гуще",
+    "description": "Туман становится всё гуще... Перед вами старое кладбище.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "graveyard"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_mountains",
+    "title": "Путь уходит вверх",
+    "description": "Путь начинает уходить вверх, под ногами всё чаще камень — впереди вздымаются суровые горы.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "mountains"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_coast",
+    "title": "Соль в воздухе",
+    "description": "Воздух вдруг наполняется солью и криком чаек — впереди открывается бескрайнее побережье.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "coast"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_forest_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "Подлесок густеет с каждым шагом. Небо закрывается кронами, и звук дороги пропадает.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_forest",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "forest"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_desert_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "Трава редеет, потом пропадает совсем. Под ногами начинает скрипеть.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_desert",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "desert"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_graveyard_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "Туман ложится в низину и не расходится. Из него проступают камни — ряд за рядом.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_graveyard",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "graveyard"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_mountains_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "Тропа встаёт на дыбы. Через сотню шагов дышать становится заметно тяжелее.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_mountains",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "mountains"
+      }
+    ]
+  },
+  {
+    "id": "transition_to_coast_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "Ветер меняет вкус на солёный. Потом становится слышно чаек.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_coast",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setBiome",
+        "biomeId": "coast"
+      }
+    ]
+  }
+]

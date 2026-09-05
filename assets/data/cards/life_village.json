@@ -1,0 +1,646 @@
+[
+  {
+    "id": "village_miller_stone_dressing",
+    "title": "Мельник насекает камень",
+    "description": "Жёрнов снят и лежит плашмя. Мельник бьёт по нему зубилом мелко и часто, и в лицо ему летит каменная пыль.\n\n«Две недели без муки. Зато потом год».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_laundress_river",
+    "title": "Прачки у мостков",
+    "description": "Их четверо, и они бьют вальками так слаженно, что получается ритм. Разговор идёт под этот ритм и обрывается ровно на вдохе.\n\nКогда мимо кто-то проходит, разговор не прекращается. Только становится тише.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_weaver_broken_thread",
+    "title": "Ткачиха и оборванная нить",
+    "description": "Станок стоит. Она сидит перед ним и водит пальцем по основе, ища, где именно оборвалось.\n\nНашла. И не спешит вставать — сначала досидит до конца песни, которую поёт соседка за стеной.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_potter_bad_batch",
+    "title": "Гончар разбивает",
+    "description": "Он вынимает горшки из печи и по одному постукивает костяшкой. Три откладывает в сторону, остальные бьёт о камень, не размахиваясь.\n\nМальчишка рядом вздрагивает каждый раз. Гончар — нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Услышать по звуку, что четвёртый тоже с трещиной",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что и битые сгодятся — на черепки под рассаду",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Не мешать человеку работать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_midwife_leaves_at_night",
+    "title": "За повитухой пришли",
+    "description": "В доме напротив зажгли свет, и почти сразу кто-то побежал через двор. Через минуту она уже идёт, на ходу завязывая платок.\n\nОна ничего не спрашивает у того, кто прибежал. Значит, уже знает чей это двор.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_two_neighbours_fence",
+    "title": "Спор о заборе",
+    "description": "Столб стоит на ладонь не там, где стоял у отцов. Оба это помнят по-разному и оба говорят «вот тут, я же показываю».\n\nЗабор при этом держат вдвоём, чтобы не упал, пока спорят.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Найти в земле старую ямку от прежнего столба",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Предложить поставить ровно посередине и выпить за это",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "modifyStat",
+            "target": "allPlayers",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Рассудить как человек, привыкший к межевым спорам",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Уйти, пока не позвали в свидетели",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_harvest_rain_coming",
+    "title": "Успеть до дождя",
+    "description": "На краю поля стоит вся деревня, включая тех, кто не работал никогда. С запада идёт стена дождя, и до неё примерно час.\n\nНикто не говорит. Все просто гребут.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Встать в цепь и работать со всеми",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что дождь пройдёт стороной — и оказаться правым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Натянуть полог над свезённым",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Постоять в стороне и посмотреть",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_boy_sent_for_salt",
+    "title": "Мальчишку послали за солью",
+    "description": "Он идёт и вслух повторяет: «Соль. Соль. И нитки». К середине улицы остаётся только «нитки».\n\nУ лавки он стоит и честно пытается вспомнить второе.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подсказать: соль",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подсказать что-нибудь другое и посмотреть, что будет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не мешать: вспомнит сам",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_roof_thatching",
+    "title": "Кроют крышу",
+    "description": "Четверо наверху, двое подают снопы снизу. Тот, кто подаёт, кричит наверх что-то смешное, и наверху смеются с задержкой в полвздоха.\n\nК вечеру будет готово. К вечеру у них всегда готово.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_well_bucket_lost",
+    "title": "Ведро упало в колодец",
+    "description": "Верёвка оборвалась, ведро на дне, и вся улица собралась смотреть, как его будут доставать.\n\nСоветов больше, чем людей.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Достать своей верёвкой с крюком",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спуститься самому — было и потемнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Добавить свой совет к остальным",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_old_woman_names",
+    "title": "Старуха у ворот",
+    "description": "Она сидит на лавке и называет по имени каждого, кто проходит. Не здоровается — просто называет.\n\nВас она разглядывает дольше остальных и в конце говорит: «Нет. Не знаю». И это звучит как приговор.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_cooper_hoops",
+    "title": "Бондарь набивает обручи",
+    "description": "Бочка стоит клёпками вверх, как раскрытый цветок. Он бьёт обруч сверху по кругу, и с каждым ударом цветок закрывается.\n\nПоследний удар — и получается бочка. До этого не получалось ничего.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_first_beer_of_batch",
+    "title": "Первая кружка из новой бочки",
+    "description": "Бочку вскрыли во дворе, и первую кружку никто не берёт — ждут хозяина. Хозяин задерживается.\n\nПена оседает. Все смотрят на пену.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "drink",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Взять первым и объявить, что за хозяина",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Определить по запаху, что бочку вскрыли рано",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ждать вместе со всеми",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_stray_calf",
+    "title": "Телёнок в чужом огороде",
+    "description": "Он стоит по колено в грядках и жуёт с абсолютно спокойным лицом. Хозяйка огорода бегает вокруг, боясь загнать его глубже.\n\nХозяин телёнка ещё не подошёл, но уже слышно, как идёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вывести его по борозде, не топча",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отойти и дать людям разобраться самим",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_hive_moved",
+    "title": "Ульи перенесли",
+    "description": "Пасека стоит на новом месте, а пчёлы всё равно летят к старому — кружат над пустой поляной и не садятся.\n\nПасечник ходит между ними и объясняет. Пчёлы не слушают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_boy_owes_apple",
+    "title": "Долг в одно яблоко",
+    "description": "Двое мальчишек стоят посреди улицы и торгуются всерьёз. Один должен другому яблоко с прошлого лета.\n\nПрошлое лето — это очень давно. Оба это понимают и оба не отступают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "village_smoke_from_wrong_chimney",
+    "title": "Дым из чужой трубы",
+    "description": "Дом стоит заколоченный третий год, а из трубы идёт дым — жидкий, будто топят щепками.\n\nСоседи ходят мимо и не смотрят в ту сторону. Значит, знают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Постучать",
+        "actions": []
+      },
+      {
+        "label": "Оставить у порога хлеб и уйти",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Понять по дыму, сколько человек внутри",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, как соседи",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "village_evening_bell",
+    "title": "Вечерний колокол",
+    "description": "Звонарь бьёт восемь раз, и на восьмом ударе улица пустеет — не резко, а как вода уходит в песок.\n\nОстаются только собаки и один человек, который явно никуда не спешит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "id": "legendary_kings_gift",
+    "title": "Дар короля вечеринки",
+    "description": "Невероятная удача! Ты получаешь корону — отныне и 2 хода к тебе обращаются только «Ваше Величество».",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 2,
+    "tags": [
+      "legendary",
+      "epic",
+      "item",
+      "blessing"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_crown"
+      },
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_party_king"
+      }
+    ]
+  },
+  {
+    "id": "legendary_dice_of_fate",
+    "title": "Кости судьбы",
+    "description": "Древние кости судьбы падают прямо тебе в руки.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 2,
+    "tags": [
+      "legendary",
+      "epic",
+      "luck",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_dice_of_fate"
+      },
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 3
+      }
+    ]
+  },
+  {
+    "id": "legendary_forest_altar",
+    "title": "Алтарь в чаще леса",
+    "description": "В самой глубине леса, там, где не должно быть троп, ты натыкаешься на нечто древнее.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 2,
+    "tags": [
+      "legendary",
+      "epic",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 5
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "forest_altar"
+      }
+    ]
+  }
+]

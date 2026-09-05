@@ -1,0 +1,838 @@
+[
+  {
+    "id": "desert_mirage",
+    "title": "Дрожь на горизонте",
+    "description": "Вдалеке дрожит мираж — не то оазис, не то морок пустыни.",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "luck",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Верблюд и знание пустыни вместе не ошибаются никогда",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_stray_camel"
+          },
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Солнце тебя не обманывает. Никогда не обманывало",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Ни травинки до горизонта. Здесь тебе нечего слушать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ]
+      },
+      {
+        "label": "Это не вода. Так марево дрожит только над камнем — там кладка",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "startAdventure",
+            "adventureId": "ancient_tomb"
+          }
+        ]
+      },
+      {
+        "label": "Отличить воду от морока по птицам, а не по глазам",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "В песчаную бурю мираж не дрожал бы. Значит, это не мираж",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Верблюд идёт к воде сам — он не ошибается",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_stray_camel"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "С песком в глазах туда лучше не идти вовсе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Вода вождя рядом — за миражом гнаться незачем",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пойти проверить",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_healing_potion"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sand_in_eyes"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Не обращать внимания",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "desert_sandstorm",
+    "title": "Песчаная буря",
+    "description": "Горизонт исчезает за стеной песка — буря обрушивается на лагерь без предупреждения.",
+    "type": "global",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "curse",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "allPlayers",
+        "effectId": "effect_sand_in_eyes"
+      }
+    ]
+  },
+  {
+    "id": "desert_oasis",
+    "title": "Настоящий оазис",
+    "description": "Среди барханов — прохладная вода и тень пальм. Ты наклоняешься напиться, не зная наверняка, свежий ли это источник.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "blessing",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desert_caravan",
+    "title": "Караван на горизонте",
+    "description": "Мимо неспешно проходит караван торговцев. Один из погонщиков окликает тебя.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Погонщики знают, чем вы кончили дело с фараоном, и уступают дорогу",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "earned_pharaoh_respect"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Печать вы вернули — и об этом здесь помнят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "returned_pharaoh_seal"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Проводить караван до колодца — одному погонщику плохо от жары",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "robbed_caravan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_caravan",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Срезать ремень с крайней телеги на ходу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_caravan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "robbed_caravan",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Погонщики кланяются раньше, чем ты успеваешь заговорить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Караван идёт под рукой вождя — назвать его имя и получить своё",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Погонщики слышали про еретиков и не подпускают вас к телегам",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Уважение вождя и печать фараона вместе открывают любой полог",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_respect"
+          },
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_pharaohs_seal"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сторговаться по-своему — ты знаешь их цены лучше них самих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ]
+      },
+      {
+        "label": "Починить им расшатавшееся колесо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Обменять сломанный компас",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Просто помахать в ответ",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "desert_camel",
+    "title": "Попутчик",
+    "description": "Одинокий верблюд, кажется, потерявший хозяина, увязывается за тобой и идёт рядом до самого вечера.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "luck",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_stray_camel"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      },
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_stray_camel"
+      }
+    ]
+  },
+  {
+    "id": "camel_owner_catches_up",
+    "title": "Всадник нагоняет",
+    "description": "Позади поднимается пыль — всадник во весь опор нагоняет компанию. «Мой верблюд! Наконец-то нашёлся!»",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_stray_camel"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Заговорить с ним о верблюде как скотник со скотником",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать верблюда хозяину",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_stray_camel"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Оставить себе и откупиться флягой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Сторговаться",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Умчаться прочь на верблюде",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_stray_camel"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sand_in_eyes"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desert_bandits",
+    "title": "Всадники из-за бархана",
+    "description": "Из-за высокого бархана появляются всадники — судя по виду, местные разбойники.",
+    "type": "duel",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "duel",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вас узнают и опускают оружие первыми",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "earned_bandit_respect"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Разбойники видят, кто перед ними, и разворачивают коней",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Назвать имя, которое произносят только у гробниц",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "earned_bandit_respect",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Покровительство вождя на тебе — они узнают его с одного взгляда",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_warlords_protection"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Назвать заставу, что стоит за перевалом, — с орденом они не ссорятся",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Помянуть круг — здесь это имя не значит ничего, и они это слышат",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Назвать себя — и услышать, сколько за тебя дадут",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_ancient_kings_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Протянуть флягу — пусть выпьют за твоё здоровье и отпустят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Договориться",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          },
+          {
+            "condition": "currentPlayerLacksOrigin",
+            "originId": "origin_ancient_kings_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сражаться",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_defeated"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

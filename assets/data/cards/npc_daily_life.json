@@ -1,0 +1,239 @@
+[
+  {
+    "id": "life_smith_teaches_apprentice",
+    "title": "Первый десяток",
+    "description": "«Не так. Кисть свободная, плечо тяжёлое». Ученик бьёт снова. «Опять не так».\n\nОни повторяют это уже десятый раз и повторят ещё сорок, и оба это знают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_herbwoman_argues_price",
+    "title": "Спор о цене",
+    "description": "«За пучок? Да ему цена — половина».\n\n«Ему цена — половина в июне. А сейчас июнь был два месяца назад».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_cardsharp_teaches_boy",
+    "title": "Простой трюк",
+    "description": "У задней двери шулер показывает мальчишке, как прятать монету между пальцев. Мальчишка роняет её в пятый раз.\n\n«Ещё. И не смотри на руку — смотри мне в лицо».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_alchemist_argues_with_notes",
+    "title": "Спор с собственными записями",
+    "description": "Алхимик читает свой же лист и качает головой. «Дурак». Переворачивает страницу. «Нет, всё-таки не дурак».\n\nОн спорит с человеком, которым был прошлой зимой, и пока проигрывает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_gravedigger_straightens_wreath",
+    "title": "Чужой венок",
+    "description": "Ветер свалил венок с дальней плиты. Могильщик поднимает его, отряхивает и ставит ровно.\n\nЗа эту плиту ему не платят уже третий год.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_caravan_dice_with_drovers",
+    "title": "Кости у вьюков",
+    "description": "Караванщик сидит в кругу погонщиков и трясёт кости в ладонях дольше, чем нужно. Кто-то смеётся раньше броска.\n\nОн проигрывает и тут же требует ещё раз.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_wanderer_gives_directions",
+    "title": "Дорога, о которой не спрашивали",
+    "description": "У колодца странник объясняет женщине с вёдрами, как быстрее выйти к переправе. Женщина живёт здесь всю жизнь.\n\nОна слушает до конца и благодарит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_musician_learns_song",
+    "title": "Чужая песня",
+    "description": "Старик поёт негромко, без голоса, обрывая на середине строки. Музыкант слушает и что-то помечает угольком на ладони.\n\n«Ещё раз, с того места, где про реку».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_smuggler_talks_to_boat",
+    "title": "Разговор с лодкой",
+    "description": "Лодка вытащена на гальку, борт вспорот. Контрабандист конопатит щель и говорит вполголоса — не себе, а ей.\n\n«Ну ещё один. Ну не подводи».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_hermit_feeds_birds",
+    "title": "Птицы отшельника",
+    "description": "Он выходит на плоский камень и высыпает крошки, не оглядываясь. Птицы садятся ещё до того, как рука разжалась.\n\nОдна садится на плечо. Он этого даже не замечает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_cartographer_argues_north",
+    "title": "Где всё-таки север",
+    "description": "Картограф кладёт лист на пень, разворачивает его так, эдак, и вслух объясняет самому себе, почему в прошлый раз был неправ.\n\nВ конце он разворачивает лист обратно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_taxman_scolds_clerk",
+    "title": "Младший писец",
+    "description": "«Здесь ты написал восемь, а здесь — три. Это один и тот же двор».\n\nПисец молчит. Сборщик стирает обе цифры и подаёт грифель обратно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "life_peddler_loses_to_child",
+    "title": "Торг за яблоко",
+    "description": "Девочка лет шести держит яблоко и требует за него ленту. Коробейник объясняет, что лента дороже. Девочка не уступает.\n\nОн отдаёт ленту и съедает яблоко тут же, с очень серьёзным лицом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

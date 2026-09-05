@@ -1,0 +1,769 @@
+[
+  {
+    "id": "climax_trial",
+    "entryNodeId": "trial_opening",
+    "nodes": [
+      {
+        "id": "trial_opening",
+        "text": "Вас останавливают посреди улицы и ведут к дому старосты. Внутри уже сидят люди: писарь с книгой, двое незнакомых и кто-то ещё в тени у окна.\n\n«Разбираем жалобы, — говорит староста. — На вас их накопилось. Кто-нибудь скажет за вас слово?»\n\nВ комнате тихо. Слово должен сказать кто-то, кто действительно вас знает.",
+        "choices": [
+          {
+            "label": "Кузнец поднимается первым: он помнит, кто держал ось",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_smith" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_defended" }
+            }
+          },
+          {
+            "label": "Травница говорит из угла, не вставая",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_herbwoman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_defended" }
+            }
+          },
+          {
+            "label": "Караванщик подтверждает, что вы довели его до колодца",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_caravan" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_defended" }
+            }
+          },
+          {
+            "label": "Показать жетон торговца — вещь говорит за вас лучше людей",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_merchant_token" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_merchant_token" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "trial_defended" }
+            }
+          },
+          {
+            "label": "За вас ручается орден — этого достаточно любому старосте",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "paladin_ally" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_acquitted" }
+            }
+          },
+          {
+            "label": "Незнакомые люди говорят, что слышали о вас доброе",
+            "conditions": [
+              { "condition": "globalModifierAtLeast", "key": "word_kept", "value": 3 }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_acquitted" }
+            }
+          },
+          {
+            "label": "Назвать своё полное имя и подождать",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_ancient_kings_heir" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_name_weighs" }
+            }
+          },
+          {
+            "label": "Говорить складно и долго, пока все не забудут, с чего начали",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_charlatan" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "modifyGlobalModifier", "key": "word_broken", "amount": 1 }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "trial_talked_out" }
+            }
+          },
+          {
+            "label": "Говорить за себя самому",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_defended" }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_convicted" }
+            }
+          },
+          {
+            "label": "Молчать и слушать, что скажут",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_accusers" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "trial_accusers",
+        "text": "Молчание не в вашу пользу. Староста разворачивает бумаги, и начинают говорить те, кто пришёл жаловаться.",
+        "choices": [
+          {
+            "label": "Писарь читает из книги: подать не уплачена",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "dodged_taxman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_convicted" }
+            }
+          },
+          {
+            "label": "Караванщик выкладывает на стол свои приметы",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "robbed_caravan" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_convicted" }
+            }
+          },
+          {
+            "label": "Незнакомый человек пересказывает чужую историю про вас",
+            "conditions": [
+              { "condition": "globalModifierAtLeast", "key": "word_broken", "value": 3 }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_convicted" }
+            }
+          },
+          {
+            "label": "Жалоб не находится. Староста пожимает плечами",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "trial_no_case" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "trial_defended",
+        "text": "Голос звучит недолго, но его слушают. Староста поворачивается к жалобщикам, и те заметно теряют уверенность.\n\n«Раз за вас говорят те, кто вас видел, — говорит он, — я поверю им, а не бумаге».",
+        "onEnterActions": [
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "⚖️ Компанию судили — и за неё вступились." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trial_acquitted",
+        "text": "Разбирательство заканчивается, толком не начавшись. Староста закрывает книгу почти виновато.\n\n«Извините за беспокойство. Такие, как вы, у нас проездом бывают редко».",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_at_home" },
+          { "action": "modifyGlobalModifier", "key": "word_kept", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "⚖️ Суд закончился до того, как начался." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trial_name_weighs",
+        "text": "Вы называете имя целиком, как называют его в родовых списках. Староста медленно садится.\n\n«Этого имени я не слышал живьём ни разу. И, честно говоря, надеялся не услышать».\n\nЖалобы откладывают. Но смотреть на вас теперь будут иначе.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_out_of_place" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trial_talked_out",
+        "text": "К концу вашей речи староста уже не помнит, в чём именно вас обвиняли, а писарь трижды перечеркнул строку.\n\nВас отпускают. Кто-то из угла провожает вас взглядом человека, который всё понял.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trial_no_case",
+        "text": "Бумаги перекладывают с места на место, но по вашему делу так ничего и не находится.\n\n«Идите, — говорит староста. — И постарайтесь, чтобы в следующий раз тоже не нашлось».",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trial_convicted",
+        "text": "Староста выслушивает до конца и кивает своим.\n\n«Из деревни выйдете сегодня же. И слух о вас пойдёт вперёд вас — уж об этом мы позаботимся».",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_marked" },
+          { "action": "modifyGlobalModifier", "key": "word_broken", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "⚖️ Компанию судили — и признали виновной." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "climax_feast",
+    "entryNodeId": "feast_table",
+    "nodes": [
+      {
+        "id": "feast_table",
+        "text": "Длинный стол вынесли прямо на улицу. За ним уже сидят — и половина лиц вам знакома.\n\nВас усаживают в середине, и сразу становится ясно: рассадка тут не случайная, а кто с кем сидит — вопрос отдельный.",
+        "choices": [
+          {
+            "label": "Сесть рядом с кузнецом — он двигает скамью первым",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_smith" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_generous_host" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "feast_good_company" }
+            }
+          },
+          {
+            "label": "Сесть к музыканту — он уже играет ваш мотив",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_musician" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 2 }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "feast_good_company" }
+            }
+          },
+          {
+            "label": "Сесть между караванщиком и контрабандистом — они не разговаривают",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_caravan" },
+              { "condition": "worldFlagSet", "flag": "helped_smuggler" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "feast_between_two" }
+            }
+          },
+          {
+            "label": "Сесть подальше от писаря с книгой",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "dodged_taxman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "feast_watched" }
+            }
+          },
+          {
+            "label": "Выставить на стол бочонок — за такое сажают в голову стола",
+            "conditions": [
+              { "condition": "partyHasItem", "itemId": "item_beer_keg" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "itemId": "item_beer_keg" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_party_king" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "feast_good_company" }
+            }
+          },
+          {
+            "label": "Сесть где посадят и посмотреть, что будет",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "feast_quiet_seat" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "feast_good_company",
+        "text": "К середине вечера половина стола знает вас по имени, а вторая половина делает вид, что знала всегда.\n\nКто-то поднимает кружку за тех, кто помнит добро. Кружки поднимаются дружно.",
+        "onEnterActions": [
+          { "action": "modifyGlobalModifier", "key": "word_kept", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "🍻 Компанию усадили в голову общего стола." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "feast_between_two",
+        "text": "Караванщик и человек с побережья весь вечер говорят исключительно через вас и ни разу — друг с другом.\n\nК ночи оба соглашаются, что вы, пожалуй, единственный тут порядочный человек. Каждый вкладывает в это своё.",
+        "onEnterActions": [
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "cunning", "amount": 1 },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "feast_watched",
+        "text": "Писарь садится напротив. Не рядом — напротив. И весь вечер не открывает книгу, но и не убирает руку с обложки.\n\nЕсть не хочется.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_out_of_place" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "feast_quiet_seat",
+        "text": "Вам достаётся край скамьи и своя миска. Вечер идёт мимо, но еда добрая, а ночь тёплая.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "climax_funeral",
+    "entryNodeId": "funeral_gathering",
+    "nodes": [
+      {
+        "id": "funeral_gathering",
+        "text": "У свежей могилы стоят человек десять. Хоронят кого-то, кого вы, кажется, не знали — но половина пришедших оборачивается на вас.\n\nЗдесь не спрашивают, зачем вы пришли. Здесь смотрят, кто с вами поздоровается.",
+        "choices": [
+          {
+            "label": "Могильщик молча подаёт вам вторую лопату",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_gravedigger" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_accepted" }
+            }
+          },
+          {
+            "label": "Травница становится рядом и не говорит ни слова",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_herbwoman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_accepted" }
+            }
+          },
+          {
+            "label": "Старик с гор кивает вам через могилу",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_hermit" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_accepted" }
+            }
+          },
+          {
+            "label": "Прочесть отходную — слова помнятся сами",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_knight" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_words" }
+            }
+          },
+          {
+            "label": "Ты слышишь, чего хотел тот, кто здесь лежит",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_soul_guide" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_words" }
+            }
+          },
+          {
+            "label": "Двое отходят в сторону, стоило вам подойти",
+            "conditions": [
+              { "condition": "globalModifierAtLeast", "key": "word_broken", "value": 2 }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_turned_away" }
+            }
+          },
+          {
+            "label": "Постоять в стороне и уйти, когда закончат",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "funeral_stranger" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "funeral_accepted",
+        "text": "Вас принимают в круг молча — так, как принимают своих. После, когда всё закончено, кто-то говорит, ни к кому не обращаясь:\n\n«Хорошо, что вы были».",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_lucky_echo" },
+          { "action": "modifyGlobalModifier", "key": "word_kept", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "🕯 Компанию приняли на чужих похоронах как своих." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "funeral_words",
+        "text": "Вы говорите короткие слова, и они оказываются правильными. Люди, которые вас не знали, потом жмут вам руку.",
+        "onEnterActions": [
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 2 },
+          { "action": "modifyGlobalModifier", "key": "word_kept", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "funeral_turned_away",
+        "text": "Никто ничего не говорит. Просто между вами и остальными всё время оказывается чуть больше места, чем нужно.\n\nВы уходите первыми.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_out_of_place" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "funeral_stranger",
+        "text": "Вы стоите поодаль до самого конца. Никто не подходит, но никто и не гонит.\n\nЧужие похороны — единственное место, где посторонним всё-таки можно.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "climax_fair",
+    "entryNodeId": "fair_rows",
+    "nodes": [
+      {
+        "id": "fair_rows",
+        "text": "Ярмарочные ряды тянутся вдоль всей улицы. Вы проходите десяток шагов — и понимаете, что вас уже узнали как минимум трижды.\n\nЦены здесь называют не по товару, а по человеку.",
+        "choices": [
+          {
+            "label": "Коробейник машет из своего ряда и называет свою цену",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_peddler" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_healing_potion" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "fair_welcome" }
+            }
+          },
+          {
+            "label": "Караванщик разгружается тут же и придерживает для вас место",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_caravan" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_merchant_token" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "fair_welcome" }
+            }
+          },
+          {
+            "label": "Кузнец продаёт с наковальни и откладывает вам одну вещь",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_smith" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "fair_welcome" }
+            }
+          },
+          {
+            "label": "Ряды закрываются один за другим по мере вашего приближения",
+            "conditions": [
+              { "condition": "globalModifierAtLeast", "key": "word_broken", "value": 3 }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "fair_closed" }
+            }
+          },
+          {
+            "label": "Показать печать — на ярмарке такие вещи меняют разговор",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_pharaohs_seal" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 2 }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "fair_welcome" }
+            }
+          },
+          {
+            "label": "Торговаться как торгуются свои",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_merchant" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "cunning", "amount": 1 }
+              ],
+              "to": { "destination": "goToNode", "nodeId": "fair_welcome" }
+            }
+          },
+          {
+            "label": "Просто пройти по рядам, ничего не покупая",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "fair_plain" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "fair_welcome",
+        "text": "К концу ряда за вами идёт небольшая свита из тех, кто хочет что-то предложить, и тех, кто просто хочет посмотреть, кому это предлагают.\n\nНа ярмарке репутация — тоже товар, и ваша сегодня в цене.",
+        "onEnterActions": [
+          { "action": "addChronicleEntry", "text": "🎪 На ярмарке компанию узнавали по имени." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "fair_closed",
+        "text": "Полог за пологом опускается перед вами. Никто не грубит — просто у всех разом заканчивается товар.\n\nК концу улицы торгуют только те, кто ещё не слышал.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_out_of_place" },
+          { "action": "addChronicleEntry", "text": "🎪 На ярмарке перед компанией закрыли ряды." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "fair_plain",
+        "text": "Вы проходите ряды насквозь. Шумно, тесно и пахнет всем сразу — но ничего вашего здесь сегодня нет.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "climax_village_council",
+    "entryNodeId": "council_argument",
+    "nodes": [
+      {
+        "id": "council_argument",
+        "text": "Посреди деревни спорят, и спорят громко. Речь, как выясняется, о вас — но не вообще, а очень предметно: кто-то называет один случай, кто-то другой.\n\nВас замечают и замолкают. Слово теперь за вами.",
+        "choices": [
+          {
+            "label": "Напомнить, чем закончилась история с книгой ведьмы",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "returned_spellbook" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_for_you" }
+            }
+          },
+          {
+            "label": "Напомнить, кого вы вытащили из-под обгоревших балок",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "helped_dragon_survivor" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_for_you" }
+            }
+          },
+          {
+            "label": "Круг прислал сюда своего человека, и он говорит первым",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "circle_ally" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_split" }
+            }
+          },
+          {
+            "label": "Орден прислал сюда своего человека, и он говорит первым",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "paladin_ally" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_split" }
+            }
+          },
+          {
+            "label": "Кто-то повторяет чужую ложь про вас слово в слово",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "cheated_wanderer" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_against_you" }
+            }
+          },
+          {
+            "label": "Староста поминает, что подать за вами так и не записана",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "dodged_taxman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_against_you" }
+            }
+          },
+          {
+            "label": "Сказать, что подать давно уплачена, и это правда",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "paid_taxman" }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_for_you" }
+            }
+          },
+          {
+            "label": "Не вмешиваться в чужой спор о себе",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "council_undecided" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "council_for_you",
+        "text": "Спор заканчивается сам собой. Названный случай перевешивает всё остальное — потому что его помнят не с чужих слов.\n\n«Ну вот и разобрались», — говорит кто-то с облегчением.",
+        "onEnterActions": [
+          { "action": "modifyGlobalModifier", "key": "word_kept", "amount": 1 },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "🏘 Деревня рассудила спор в пользу компании." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "council_split",
+        "text": "Человек говорит коротко и веско, и деревня раскалывается ровно пополам: одни кивают, другие отводят глаза.\n\nВаше дело решено. Но полдеревни теперь знает, чьей рукой.",
+        "onEnterActions": [
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "cunning", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "council_against_you",
+        "text": "Названный случай оказывается тем самым, который здесь помнят лучше всего. Спор заканчивается быстро и не в вашу пользу.\n\nНочевать придётся за околицей.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kicked_out" },
+          { "action": "modifyGlobalModifier", "key": "word_broken", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "council_undecided",
+        "text": "Вы молчите, и спор идёт дальше без вас — до самого вечера, ничем не кончаясь.\n\nК ночи каждый остаётся при своём.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

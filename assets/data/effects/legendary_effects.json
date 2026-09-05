@@ -1,0 +1,50 @@
+[
+  {
+    "id": "effect_altar_might",
+    "name": "Дар алтаря: Сила",
+    "description": "Древняя сила течёт по венам. Пока действует эффект, в начале каждого твоего хода ты получаешь +1 к силе.",
+    "polarity": "positive",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_altar_fortune",
+    "name": "Дар алтаря: Удача",
+    "description": "Древняя сила течёт по венам. Пока действует эффект, в начале каждого твоего хода ты получаешь +1 к удаче.",
+    "polarity": "positive",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_altar_charm",
+    "name": "Дар алтаря: Обаяние",
+    "description": "Древняя сила течёт по венам. Пока действует эффект, в начале каждого твоего хода ты получаешь +1 к харизме.",
+    "polarity": "positive",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_altar_debt",
+    "name": "Долг алтарю",
+    "description": "Пока действует эффект, ты обязан выполнить любую разумную просьбу игрока, если она произнесена со словами «алтарь требует».",
+    "polarity": "negative",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {}
+  }
+]

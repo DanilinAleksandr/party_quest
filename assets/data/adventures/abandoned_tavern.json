@@ -1,0 +1,328 @@
+[
+  {
+    "id": "abandoned_tavern",
+    "entryNodeId": "tavern_entrance",
+    "nodes": [
+      {
+        "id": "tavern_entrance",
+        "text": "На отшибе дороги стоит трактир с покосившейся вывеской. Дверь скрипит на ржавых петлях — внутри темно, но на стойке будто до сих пор стоят кружки.",
+        "choices": [
+          {
+            "label": "Войти",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "tavern_inside"
+              }
+            }
+          },
+          {
+            "label": "Не рисковать, пройти мимо",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "tavern_inside",
+        "text": "Ты толкаешь дверь. Пыль поднимается столбом в луче света.",
+        "onEnterActions": [],
+        "autoTransition": {
+          "destination": "randomNode",
+          "options": [
+            {
+              "nodeId": "ghost_appears",
+              "weight": 30
+            },
+            {
+              "nodeId": "empty_tavern",
+              "weight": 25
+            },
+            {
+              "nodeId": "old_ledger",
+              "weight": 20
+            },
+            {
+              "nodeId": "collapsing_floor",
+              "weight": 15
+            },
+            {
+              "nodeId": "spectral_feast",
+              "weight": 10
+            }
+          ]
+        }
+      },
+      {
+        "id": "empty_tavern",
+        "text": "Трактир и правда пуст. На полке за стойкой — забытая фляга с чем-то крепким.",
+        "onEnterActions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "old_ledger",
+        "text": "На стойке лежит раскрытая амбарная книга — список должников трактира, с забавными пометками на полях.",
+        "choices": [
+          {
+            "label": "Пролистать книгу",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Оставить как есть",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "collapsing_floor",
+        "text": "Половица под ногой предательски трещит — ещё мгновение, и ты провалишься в тёмный подвал.",
+        "choices": [
+          {
+            "label": "Ухватиться за верёвку, которую носит с собой компания",
+            "conditions": [
+              {
+                "condition": "partyHasItem",
+                "itemId": "item_rope"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Отскочить как получится",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_hiccups"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "spectral_feast",
+        "text": "На мгновение столы накрываются полупрозрачным пиршеством — эхо давнего праздника. Кто-то невидимый чокается с тобой бокалом.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_appears",
+        "text": "За стойкой соткается из пыли полупрозрачная фигура трактирщика. «Опять живые... Впрочем, надоело мне тут одному».",
+        "choices": [
+          {
+            "label": "Заказать так, будто всю жизнь пил у одной стойки",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_drunkard"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_pleased"
+              }
+            }
+          },
+          {
+            "label": "Заказать что-нибудь у призрака",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_pleased"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_offended"
+              }
+            }
+          },
+          {
+            "label": "Расспросить его историю",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_story"
+              }
+            }
+          },
+          {
+            "label": "Тихо уйти, не тревожа мёртвых",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_pleased",
+        "text": "Призрак хохочет и наливает тебе нечто светящееся в треснувшую кружку. На вкус — будто чистая удача.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_tavern_ghost",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_offended",
+        "text": "Трактирщик мрачнеет: «Даже мёртвых прежде уважали...» Кружка на стойке лопается сама собой.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_story",
+        "text": "Призрак рассказывает: он умер, так и не дождавшись последнего гостя, который остался ему должен.",
+        "choices": [
+          {
+            "label": "Пообещать вернуть долг за того гостя",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "helped_tavern_ghost",
+                  "value": true
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Сказать, что это не твоя забота",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_whisper"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

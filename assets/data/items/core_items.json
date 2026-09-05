@@ -1,0 +1,38 @@
+[
+  {
+    "id": "item_lucky_coin",
+    "name": "Счастливая монета",
+    "description": "Ты уже потёр её на удачу — очко удачи получено. Не деньги, а памятный талисман: расставаться с ним куда обиднее, чем тратить.",
+    "rarity": "common",
+    "usageType": "automatic",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_flask",
+    "name": "Пустая фляга",
+    "description": "Давно выпита досуха, но по весу и звону этого не отличить. Можно один раз притвориться, что выпил, вместо того чтобы пить по-настоящему.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_dice_of_fate",
+    "name": "Кости судьбы",
+    "description": "Пара костей с неясной репутацией. Просто занимают место в инвентаре — легенда, а не механика... пока.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_crown",
+    "name": "Корона вечеринки",
+    "description": "Символ власти за столом. Постоянный предмет — напоминает всем, кто сегодня главный.",
+    "rarity": "legendary",
+    "usageType": "automatic",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

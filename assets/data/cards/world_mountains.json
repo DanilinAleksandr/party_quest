@@ -1,0 +1,263 @@
+[
+  {
+    "id": "world_mtn_rockfall_fresh",
+    "title": "Свежий обвал",
+    "description": "Тропу перекрыло камнями, и на изломах они ещё светлые, необветренные. Пыль осела не везде.\n\nСверху, откуда сошло, торчит корень, который держал всё это последние лет сто.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_cairn_grown",
+    "title": "Тур на перевале",
+    "description": "Куча камней высотой по грудь. Каждый проходящий кладёт свой, и внизу камни вросли в землю, а сверху лежат свободно.\n\nСамый верхний ещё не осел.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Положить свой камень",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Найти в основании самый первый и не трогать его",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сложить как складывают дома — плоским вверх",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "world_mtn_snow_line",
+    "title": "Граница снега",
+    "description": "Она проходит поперёк склона так ровно, будто её провели. Выше — белое, ниже — бурое, и между ними полшага.\n\nК полудню она поднимется. К утру опустится обратно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_abandoned_mine",
+    "title": "Заваленный ход",
+    "description": "В склоне чёрный проём, заложенный камнем изнутри — не снаружи. Отвал перед ним порос травой.\n\nРядом лежит вагонеточное колесо. Одно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_eagle_circles",
+    "title": "Орёл над ущельем",
+    "description": "Он висит на одном месте, не двигая крыльями, и его сносит вбок ровно настолько, насколько он потом возвращается.\n\nЗа четверть часа он не сделал ни одного взмаха.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_avalanche_track",
+    "title": "След лавины",
+    "description": "Полоса от гребня до самого низа: деревья снесены и лежат вершинами вниз, все в одну сторону.\n\nПолоса шириной в сотню шагов, и по её краю лес стоит нетронутый.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_shepherd_hut",
+    "title": "Пастуший балаган",
+    "description": "Каменная хижина без двери, внутри лежанка из веток и очаг. У очага сложены дрова — сухие, наколотые, чужие.\n\nТак принято: уходя, оставь следующему.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_cloud_below",
+    "title": "Облака внизу",
+    "description": "Тропа вышла выше облаков, и долина исчезла — вместо неё ровное белое поле до горизонта.\n\nИз него торчат две вершины. Больше ничего.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_quarry_working",
+    "title": "Каменоломня",
+    "description": "Склон срезан ступенями, и на каждой лежат готовые блоки. Слышно, как далеко внизу бьют клинья — размеренно, по трое ударов.\n\nМежду ударами тишина такая, что слышно осыпающуюся крошку.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_hot_spring",
+    "title": "Тёплый ключ",
+    "description": "Из-под камней течёт вода, от которой идёт пар, и вокруг на три шага зелено даже сейчас. Камни у истока покрыты рыжей коркой.\n\nВ мелкой луже сидят птицы и не улетают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_bridge_of_ropes",
+    "title": "Верёвочный переход",
+    "description": "Через расщелину натянуты три троса — один под ноги, два под руки. Они провисли и обмотаны новой бечёвкой в тех местах, где перетёрлись.\n\nОбмотано в семи местах.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_mtn_echo_answers_late",
+    "title": "Эхо отвечает поздно",
+    "description": "Между звуком и ответом проходит столько времени, что успеваешь забыть, что кричал.\n\nОтвечает дважды: сначала близко и тихо, потом далеко и почему-то громче.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  }
+]

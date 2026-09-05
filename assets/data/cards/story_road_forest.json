@@ -1,0 +1,230 @@
+[
+  {
+    "id": "story_oak_felled",
+    "title": "Срубленный дуб",
+    "description": "Пень в два обхвата, срез белый и мокрый. Дерево увезли целиком — колея от него глубже, чем от гружёной телеги.\n\nЩепа лежит кругом, ровным веером. Рубили не один день.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "forest" }],
+    "actions": []
+  },
+  {
+    "id": "story_oak_beams_carried",
+    "title": "Балки на дороге",
+    "description": "Четверо тащат волоком тесаный брус, подложив под него катки. Дерево светлое, дубовое, торцы ещё сочатся.\n\nОни отдыхают через каждые двадцать шагов и считают эти двадцать вслух.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_new_bridge",
+    "title": "Мост через ручей",
+    "description": "Настил светлый, ещё без выбоин, и опоры пахнут свежим деревом. Перила поставили только с одной стороны.\n\nСтарые сваи торчат рядом, чуть ниже по течению. Их не убрали.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_river_choked",
+    "title": "Ручей ушёл под завал",
+    "description": "Русло забито хворостом, илом и целым сломанным деревом. Вода просачивается снизу тонкой струйкой, а выше стоит бурое озерцо.\n\nБерега вокруг него уже пожелтели.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "forest" }],
+    "actions": []
+  },
+  {
+    "id": "story_river_cleared",
+    "title": "Чистят русло",
+    "description": "Трое стоят в воде по бедро и вытаскивают на берег чёрные слежавшиеся коряги. На берегу таких уже целая гряда.\n\nОни работают молча и не оборачиваются на проходящих.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_river_runs_again",
+    "title": "Вода пошла",
+    "description": "Ручей идёт полным руслом и звенит на перекате. По берегам лежит подсохший ил, и на нём отпечатались следы — птичьи и человеческие.\n\nНа сухой гряде коряг уже проросла трава.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_causeway_broken",
+    "title": "Гать провалилась",
+    "description": "Настил из брёвен ушёл в трясину посередине, и на этом месте стоит чёрная вода с радужной плёнкой.\n\nОбходная тропка по краю натоптана свежая и очень узкая.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "forest" }],
+    "actions": []
+  },
+  {
+    "id": "story_causeway_fascines",
+    "title": "Вяжут фашины",
+    "description": "На сухом берегу вяжут связки хвороста — толщиной в бревно, перехваченные лозой через ладонь. Готовых уже десятка два.\n\nВяжут все, включая тех, кто по этой гати никогда не пойдёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_causeway_holds",
+    "title": "Гать держит",
+    "description": "Настил пружинит под ногой, но не проседает. Между брёвнами видны туго набитые связки хвороста.\n\nОбходная тропка по краю заросла. По ней больше не ходят.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_road_broken",
+    "title": "Дорогу разбило",
+    "description": "На протяжении полусотни шагов дорога превратилась в череду ям с водой. Объезжают по полю, и по полю уже идёт вторая дорога.\n\nХозяин поля вбил по краю колья. Их объезжают тоже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_road_gravel_hauled",
+    "title": "Возят щебень",
+    "description": "Телеги идут одна за другой и вываливают камень прямо в ямы. Двое разбивают крупные куски кувалдами, ещё двое разравнивают.\n\nПыль стоит белая и садится на всё, включая тех, кто просто проходит мимо.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_road_smooth",
+    "title": "Ровный участок",
+    "description": "Полсотни шагов дороги идут гладко и твёрдо, а дальше снова начинается обычная колея. Разница чувствуется ногами.\n\nПо полю рядом тянется вторая дорога, уже заросшая по краям.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_wolf_tracks_by_fold",
+    "title": "Следы у овчарни",
+    "description": "Вдоль плетня идёт цепочка следов, и в одном месте плетень примят сверху. Внутри загона всё цело.\n\nПастух ходит вдоль забора и втыкает в землю колья заострённым концом вверх.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "forest" }],
+    "actions": []
+  },
+  {
+    "id": "story_wolf_hunt_gathers",
+    "title": "Собираются на облаву",
+    "description": "У опушки стоят человек пятнадцать с рогатинами и мотками красных флажков. Собаки уже заведены и рвутся.\n\nКто-то чертит палкой по земле, объясняя, кто куда заходит. Спорят двое, остальные молчат.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_wolf_hide_on_gate",
+    "title": "Шкура на воротах",
+    "description": "Серая шкура растянута на створке и прибита по краям. Она провисела уже не первый день и выцвела с одной стороны.\n\nВ загоне за воротами овец больше, чем помещается. Их согнали со всей округи.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_burnt_saplings",
+    "title": "Подрост на гари",
+    "description": "Между чёрных стволов поднялись берёзки в рост человека — густо, стеной, не пройти напрямик.\n\nИван-чая почти не осталось: ему тут больше не хватает света.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_burnt_tall_pines",
+    "title": "Сосны в один рост",
+    "description": "Участок леса, где все сосны одинаковой высоты и стоят слишком ровно для случайного леса. Подлеска под ними нет совсем.\n\nПод ногами, если разгрести хвою, земля чёрная.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "forest" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  }
+]

@@ -1,0 +1,315 @@
+[
+  {
+    "id": "home_supper_waits",
+    "title": "Ужин остыл",
+    "description": "В окне видно накрытый стол на двоих. Одна миска пустая, вторая полная и уже давно.\n\nЖенщина сидит перед полной и не ест. Свеча догорела до половины.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_child_learns_to_whistle",
+    "title": "Учится свистеть",
+    "description": "На крыльце сидит мальчишка и дует в сложенные пальцы. Выходит только шипение.\n\nОтец проходит мимо, свистит на ходу — коротко и чисто — и уходит, ничего не объяснив. Мальчишка дует дальше, злее.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_wife_sharpens_knife",
+    "title": "Точат нож на пороге",
+    "description": "Женщина водит лезвием по камню — медленно, с одинаковым нажимом, глядя не на нож, а на дорогу.\n\nНож давно острый.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_moving_out",
+    "title": "Переезжают",
+    "description": "Телега во дворе загружена наполовину, и загрузить осталось немного. Хозяин выносит вещи и на каждой останавливается на лишнюю секунду.\n\nПоследним он выносит дверную скобу, отвинченную от косяка.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_bread_shared_over_fence",
+    "title": "Через забор",
+    "description": "Одна женщина передаёт другой миску, накрытую полотенцем. Ни слова не сказано, и обе смотрят в разные стороны.\n\nВчера они кричали друг на друга так, что слышала вся улица.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_cat_on_the_roof",
+    "title": "Кошка на крыше",
+    "description": "Она сидит на самом коньке и не собирается спускаться. Внизу стоит хозяйка с лестницей и объясняет ей, что уже поздно.\n\nКошка слушает очень внимательно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_grandfather_teaches_knot",
+    "title": "Узел",
+    "description": "Старик вяжет узел медленно, показывая каждый заход. Внук повторяет и путается на третьем.\n\nСтарик распускает свой и начинает сначала — с той же скоростью, без единого вздоха.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Показать внуку тот же узел с другой стороны",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сесть третьим и учиться вместе с ним",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не мешать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "home_leaking_roof",
+    "title": "Капает в четырёх местах",
+    "description": "Под каждой каплей стоит своя посуда, и все четыре звучат по-разному. Хозяин лежит и слушает.\n\nКогда пятая капля находит новое место, он встаёт за пятой посудиной.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_letter_read_aloud",
+    "title": "Читают письмо вслух",
+    "description": "Грамотных во дворе двое, и оба читают одно и то же письмо по очереди, чтобы всем было слышно.\n\nНа третьем чтении женщина, которой оно адресовано, начинает подсказывать слова наизусть.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_two_brothers_split",
+    "title": "Делят дом",
+    "description": "Мелом по полу проведена линия, и она проходит ровно через печь. Оба брата считают, что печь досталась другому.\n\nЛинию рисовали втроём: третьим был сосед, которого позвали как беспристрастного.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Предложить топить по очереди и записать порядок",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Указать, что линия проведена не от того угла",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что видели, чем такие дележи кончаются",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_ancient_kings_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Выйти и закрыть за собой дверь",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "home_first_snow_from_window",
+    "title": "Смотрят в окно",
+    "description": "Вся семья стоит у окна и смотрит наружу. Никто ничего не говорит.\n\nСнег идёт первый час и уже покрыл двор.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_shoes_by_door",
+    "title": "Обувь у порога",
+    "description": "Четыре пары стоят ровным рядком, от больших к маленьким. Пятая, самая большая, стоит отдельно и покрыта пылью.\n\nЕё не убирают и не переставляют.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "home_someone_sings_inside",
+    "title": "Поют за стеной",
+    "description": "Голос негромкий, и слов не разобрать. Поют явно не для кого-то — просто чтобы не молчать, пока делают что-то руками.\n\nПесня обрывается на середине и через минуту начинается заново с того же места.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

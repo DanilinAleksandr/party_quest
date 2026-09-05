@@ -1,0 +1,157 @@
+[
+  {
+    "id": "pirate_captain",
+    "entryNodeId": "captain_ship_sighted",
+    "nodes": [
+      {
+        "id": "captain_ship_sighted",
+        "text": "У пристани стоит корабль с чёрными парусами — команда явно кого-то ждёт, и, кажется, тебя.",
+        "choices": [
+          {
+            "label": "Подняться на борт",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "captain_deck" } }
+          },
+          {
+            "label": "Держаться подальше",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "captain_deck",
+        "text": "Капитан, увешанный золотыми кольцами, оглядывает тебя с прищуром. «Редко кто поднимается сам. Либо храбрец, либо дурак».",
+        "choices": [
+          {
+            "label": "Предложить сделку",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "captain_deal" } }
+          },
+          {
+            "label": "Попытаться его обмануть",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "captain_scheme" } }
+          },
+          {
+            "label": "Спрыгнуть за борт, пока не поздно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          },
+          {
+            "label": "Встретить его прищур, не мигая",
+            "conditions": [
+              { "condition": "currentPlayerOriginUnknown" }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "captain_recognizes_titan" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kicked_out" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Заговорить с ним как моряк с моряком",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_sailor" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "captain_ally", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" },
+                { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с капитаном пиратов." }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "captain_deal",
+        "text": "«Сделка — это по мне. Что у тебя есть?»",
+        "choices": [
+          {
+            "label": "Предложить чешую дракона",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_dragon_scale" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_dragon_scale" },
+                { "action": "setWorldFlag", "flag": "captain_ally", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" },
+                { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с капитаном пиратов." }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Предложить честную долю в будущих находках",
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "captain_ally", "value": true },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 },
+                { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с капитаном пиратов." }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "captain_scheme",
+        "text": "Ты пытаешься подсунуть капитану фальшивую карту сокровищ, пока он не приглядывается.",
+        "choices": [
+          {
+            "label": "Подменить карту",
+            "successChance": 0.4,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "cheated_pirate_captain", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": { "actions": [], "to": { "destination": "goToNode", "nodeId": "captain_caught" } }
+          }
+        ]
+      },
+      {
+        "id": "captain_caught",
+        "text": "Капитан хохочет — обман раскушен мгновенно. «Храбрости у тебя больше, чем ума».",
+        "choices": [
+          {
+            "label": "Просить пощады",
+            "successChance": 0.5,
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kicked_out" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "captain_recognizes_titan",
+        "text": "Капитан замирает на полуслове. Он вглядывается в тебя так, как не вглядывался ни в одного новичка на этой палубе.\n\n«Такой рост... такая тяжесть в шаге... — бормочет он, отступая на полшага. — Я слышал байки о крови исполинов, но считал их байками».\n\nОн медленно снимает шляпу — жест, которого от него никто на этом корабле прежде не видел. «Кровь титанов не поднимается на борт как попало. Добро пожаловать, наследник — этот корабль твой, пока ты на нём».",
+        "onEnterActions": [
+          { "action": "revealOrigin", "originId": "origin_titan_heir" },
+          { "action": "setWorldFlag", "flag": "captain_ally", "value": true },
+          { "action": "setWorldFlag", "flag": "captain_recognized_titan", "value": true },
+          { "action": "addChronicleEntry", "text": "⚡ {player} — Наследник титанов." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

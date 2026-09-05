@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_haunted",
+    "name": "Не по себе",
+    "description": "Пока действует эффект, оборачивайся через плечо перед тем как заговорить — кажется, что кто-то стоит за спиной.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

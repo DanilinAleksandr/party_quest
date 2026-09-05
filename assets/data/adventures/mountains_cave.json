@@ -1,0 +1,77 @@
+[
+  {
+    "id": "mountains_cave",
+    "entryNodeId": "cave_entrance",
+    "nodes": [
+      {
+        "id": "cave_entrance",
+        "text": "В скале — узкая расщелина, ведущая в маленькую пещеру. У самого входа что-то тускло поблёскивает, но настоящий блеск доносится откуда-то из темноты, глубже.",
+        "choices": [
+          {
+            "label": "Пробраться вглубь, на настоящий блеск",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "cave_deep_reward" }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "cave_in" }
+            }
+          },
+          {
+            "label": "Ограничиться тем, что лежит у входа",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "cave_shallow_reward" }
+            }
+          },
+          {
+            "label": "Не соваться в темноту",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "cave_deep_reward",
+        "text": "В глубине расщелины, среди камней, лежат старые игральные кости — кто-то давно обронил их здесь и так и не вернулся. Ты чувствуешь, что удача сегодня на твоей стороне.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "cave_shallow_reward",
+        "text": "У самого входа, среди мелких камней, находится потёртая монетка — не бог весть какая добыча, но она твоя.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "cave_in",
+        "text": "Камень под ногой предательски сдвигается — сверху сыплется мелкая крошка, и приходится поспешно выбираться наружу, оставив блеск позади.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_cloud" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,282 @@
+[
+  {
+    "id": "origin_merchant",
+    "name": "💰 Купец",
+    "description": "Всю жизнь торговал на рынках и трактах. Умеет договориться с кем угодно — а вот к тяжёлой работе не приучен.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "charisma": 1, "cunning": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_sailor",
+    "name": "🌊 Моряк",
+    "description": "Вырос на палубе, а не на земле. Море для него — не опасность, а дом, которого сейчас не хватает.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "luck": 1, "charisma": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_farmer",
+    "name": "🌾 Фермер",
+    "description": "Руки, привыкшие к земле и скотине. Вынослив и силён, но удача редко была на его стороне.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "endurance": 1, "strength": 1, "luck": -1 }
+  },
+  {
+    "id": "origin_hunter",
+    "name": "🏹 Охотник",
+    "description": "Годы в засаде научили его замечать каждую мелочь и просчитывать добычу наперёд — а вот с людьми говорить получается хуже.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "attentiveness": 1, "cunning": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_knight",
+    "name": "⚔️ Рыцарь",
+    "description": "Присяга, доспех и честь. Силён и внушает уважение, но хитрость — не его добродетель.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "strength": 1, "charisma": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_craftsman",
+    "name": "🔨 Ремесленник",
+    "description": "Дни за верстаком закалили терпение и научили находить нестандартные решения — а вот везения ему всегда не хватало.",
+    "category": "lifePath",
+    "rarity": "common",
+    "statModifiers": { "endurance": 1, "cunning": 1, "luck": -1 }
+  },
+  {
+    "id": "origin_nomad",
+    "name": "🏜 Кочевник",
+    "description": "Пустыня — единственный дом, который он когда-либо знал. Открытое небо ему привычнее, чем стены.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "endurance": 1, "cunning": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_mountaineer",
+    "name": "⛰ Горец",
+    "description": "С детства ходил по узким тропам и знает вес камня под ногой лучше, чем вкус равнинного хлеба.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "strength": 1, "endurance": 1, "luck": -1 }
+  },
+  {
+    "id": "origin_alchemist",
+    "name": "⚗️ Алхимик",
+    "description": "Годы над колбами и рецептами отточили ум и внимание к деталям — тело же осталось хрупким.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "attentiveness": 1, "cunning": 1, "endurance": -1 }
+  },
+  {
+    "id": "origin_pathfinder",
+    "name": "🧭 Следопыт",
+    "description": "Читает карту по звёздам и следы по сломанной ветке. В бою слабее многих, но почти никогда не сбивается с пути.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "attentiveness": 1, "luck": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_bard",
+    "name": "🎭 Бард",
+    "description": "Умеет расположить к себе любую компанию и находить удачу в самых неожиданных местах — но долгий путь его выматывает.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "charisma": 1, "luck": 1, "endurance": -1 }
+  },
+  {
+    "id": "origin_mercenary",
+    "name": "🗡 Наёмник",
+    "description": "Продавал меч тому, кто платил больше. Силён и расчётлив, но доверия к людям у него немного — как и у людей к нему.",
+    "category": "lifePath",
+    "rarity": "uncommon",
+    "statModifiers": { "strength": 1, "cunning": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_forest_child",
+    "name": "🌲 Дитя леса",
+    "description": "Вырос среди деревьев и до сих пор безошибочно читает следы, запахи и тени леса.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "attentiveness": 1, "luck": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_witch_heir",
+    "name": "🔮 Наследник ведьм",
+    "description": "В его крови — старая, тихая магия. Он видит то, что другие пропускают, и чувствует ложь раньше, чем она произнесена.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "cunning": 1, "attentiveness": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_desert_wanderer",
+    "name": "🏺 Пустынный странник",
+    "description": "Пески хранят память о его роде дольше, чем сами пески способны помнить. Жара и жажда ему почти не страшны.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "endurance": 1, "luck": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_wolf_blood",
+    "name": "🐺 Волчья кровь",
+    "description": "Что-то звериное живёт под его кожей — обострённые чувства, звериная сила и взгляд, от которого людям становится не по себе.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "strength": 1, "attentiveness": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_druid_descendant",
+    "name": "🍃 Потомок друидов",
+    "description": "Древняя связь с землёй и растениями передалась ему по крови, а не по обучению. Лес отвечает ему так, как не отвечает никому другому.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "endurance": 1, "cunning": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_sea_chosen",
+    "name": "🌊 Избранник моря",
+    "description": "Море однажды пощадило его — и с тех пор будто присматривает за ним. Прямолинеен, но удивительно везуч.",
+    "category": "trueNature",
+    "rarity": "rare",
+    "statModifiers": { "luck": 1, "endurance": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_phoenix_halfblood",
+    "name": "🔥 Полукровка феникса",
+    "description": "В его венах течёт что-то большее, чем кровь — жар, который не гаснет даже там, где должен.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "endurance": 1, "luck": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_spirit_chosen",
+    "name": "👻 Избранник духов",
+    "description": "Духи гор выбрали его для чего-то, о чём он сам ещё не знает. Он слышит то, что не слышат остальные.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "attentiveness": 1, "charisma": 1, "endurance": -1 }
+  },
+  {
+    "id": "origin_moonborn",
+    "name": "🌙 Луннорождённый",
+    "description": "Рождён в ночь, когда луна была особенно низкой и особенно яркой. Удача и хитрость идут за ним по пятам.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "luck": 1, "cunning": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_ancient_kings_heir",
+    "name": "👑 Наследник древних королей",
+    "description": "В его осанке — эхо давно исчезнувшей короны. Люди слушаются его, даже не зная почему.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "charisma": 1, "strength": 1, "endurance": -1 }
+  },
+  {
+    "id": "origin_rune_keeper",
+    "name": "🗿 Хранитель рун",
+    "description": "Древние знаки будто сами открываются перед ним. Он несёт знание, которое старше многих народов.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "cunning": 1, "endurance": 1, "luck": -1 }
+  },
+  {
+    "id": "origin_soul_guide",
+    "name": "💀 Проводник душ",
+    "description": "Грань между живыми и мёртвыми для него тоньше, чем для остальных. Мёртвые его не пугают — они его узнают.",
+    "category": "trueNature",
+    "rarity": "epic",
+    "statModifiers": { "attentiveness": 1, "endurance": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_dragonborn",
+    "name": "🐉 Драконорождённый",
+    "description": "В его крови — наследие древних драконов. Пламя признало его своим.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "strength": 1, "charisma": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_titan_heir",
+    "name": "⚡ Наследник титанов",
+    "description": "Кровь исполинов, забытых даже легендами, пробудилась в нём в момент, которого он не забудет никогда.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "strength": 1, "endurance": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_abyss_child",
+    "name": "🌑 Дитя Бездны",
+    "description": "Бездна коснулась его однажды — и оставила часть себя внутри. Тьма больше не пугает его: она его узнаёт.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "cunning": 1, "endurance": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_world_tree_heir",
+    "name": "🌳 Наследник Мирового Древа",
+    "description": "Корни, что старше самого времени, признали в нём своё продолжение.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "endurance": 1, "attentiveness": 1, "cunning": -1 }
+  },
+  {
+    "id": "origin_gods_chosen",
+    "name": "☀️ Избранник богов",
+    "description": "Боги древнего царства некогда отметили его род печатью, которую время не смогло стереть.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "luck": 1, "charisma": 1, "endurance": -1 }
+  },
+  {
+    "id": "origin_last_archmage",
+    "name": "📖 Последний архимаг",
+    "description": "Последняя капля силы давно исчезнувшего ордена магов нашла в нём новый сосуд.",
+    "category": "trueNature",
+    "rarity": "legendary",
+    "statModifiers": { "cunning": 1, "attentiveness": 1, "strength": -1 }
+  },
+  {
+    "id": "origin_drunkard",
+    "name": "🍺 Пьяница",
+    "description": "Слишком много вечеров закончились на дне кружки. Руки не всегда слушаются наутро, но ни один трактир в мире не покажется ему чужим.",
+    "category": "hardPast",
+    "rarity": "rare",
+    "statModifiers": { "endurance": -1, "attentiveness": -1 }
+  },
+  {
+    "id": "origin_pauper",
+    "name": "💰 Бедняк",
+    "description": "Вырос, не зная, что значит наесться досыта. Тело так и не набрало той силы, что даётся сытым детством — но люди почему-то легко открывают ему двери.",
+    "category": "hardPast",
+    "rarity": "rare",
+    "statModifiers": { "strength": -1, "luck": -1 }
+  },
+  {
+    "id": "origin_fugitive",
+    "name": "🏴 Беглец",
+    "description": "Бежит уже который год — от кого именно, он давно перестал уточнять даже себе. Зато научился читать людей быстрее, чем большинство успевает представиться.",
+    "category": "hardPast",
+    "rarity": "rare",
+    "statModifiers": { "cunning": 1 }
+  },
+  {
+    "id": "origin_charlatan",
+    "name": "🎭 Шарлатан",
+    "description": "Продавал несуществующие чудеса тем, кто отчаянно хотел в них верить. Язык подвешен идеально — жаль, что честные люди чувствуют это за версту.",
+    "category": "hardPast",
+    "rarity": "rare",
+    "statModifiers": { "cunning": 1, "charisma": -1 }
+  },
+  {
+    "id": "origin_convict",
+    "name": "⛓ Бывший каторжник",
+    "description": "Годы в кандалах на рудниках оставили на теле больше следов, чем на совести. Первый взгляд встречных редко бывает добрым — но тело помнит, как выдерживать удары.",
+    "category": "hardPast",
+    "rarity": "rare",
+    "statModifiers": { "strength": 1, "charisma": -1 }
+  }
+]

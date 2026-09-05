@@ -1,0 +1,1880 @@
+[
+  {
+    "id": "npc_peddler_desert_again",
+    "title": "Знакомая телега в песках",
+    "description": "У колодца стоит телега с потёртым пологом, и человек рядом с ней машет рукой, не дожидаясь, пока вы подойдёте. Коробейник. Тот самый.\n\n«Я же говорил, что дороги сходятся. Спасибо за тот тракт — я послушал».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "item",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_peddler"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_healing_potion"
+      }
+    ]
+  },
+  {
+    "id": "npc_peddler_tavern_grudge",
+    "title": "Коробейник за угловым столом",
+    "description": "За угловым столом сидит человек, которого вы уже видели на обочине. Он поднимает голову, узнаёт — и демонстративно отодвигает свой короб подальше.\n\nК утру половина зала будет знать, с кем не стоит торговать.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_peddler"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "npc_peddler_coast_favour",
+    "title": "Короб на пристани",
+    "description": "Коробейник разложился прямо на досках пристани. Увидев вас, он молча кивает на дальний конец причала: «Там сегодня лучше не ходить. Считай, что я не говорил».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_peddler"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_herbwoman_forest_again",
+    "title": "Та самая корзина",
+    "description": "На лесной тропе вам навстречу идёт травница с той же корзиной. Здесь, среди своих трав, она выглядит совсем иначе — и первой заговаривает.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "npc_herbwoman_graveyard_debt",
+    "title": "Травница у ограды",
+    "description": "Она собирает что-то у самой кладбищенской ограды и распрямляется, услышав шаги.\n\n«Ты у меня взял не спросив. Здесь такое не забывают — ни я, ни те, кто под камнями».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_herbwoman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вернуть взятое и не спорить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_healing_potion"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_herbwoman",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_herbwoman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сослаться на круг — она из тех же людей",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Промолчать и уйти",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "npc_cardsharp_coast_again",
+    "title": "Ловкие пальцы на пристани",
+    "description": "На перевёрнутой бочке у причала идёт игра. Пальцы у сдающего знакомые — слишком быстрые.\n\nОн поднимает глаза и, не сбиваясь с раздачи, слегка кивает вам.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cardsharp"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  },
+  {
+    "id": "npc_cardsharp_road_warning",
+    "title": "Слово вперёд вас",
+    "description": "На постоялом дворе у дороги разговор стихает, стоит вам войти. Кто-то роняет: «Это те, что шулера на чистую воду вывели».\n\nСмотрят с уважением. И с опаской.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_cardsharp"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "cunning",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_alchemist_mountains_again",
+    "title": "Алхимик на перевале",
+    "description": "На перевале, среди камней, кто-то разложил горелку и три склянки. Алхимик оборачивается на шаги и сразу тянется за одной из них.\n\n«О, руки, которые мне помогли. Держи, это как раз для гор».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_alchemist"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_bravery_flask"
+      }
+    ]
+  },
+  {
+    "id": "npc_alchemist_forest_grudge",
+    "title": "Знакомый запах дыма",
+    "description": "Между деревьями тянет знакомой горечью. Алхимик поднимает голову от котелка, узнаёт — и накрывает котелок крышкой.\n\n«С тобой я больше не меняюсь. Иди своей дорогой».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_alchemist"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать кольцо обратно — сделка была нечестной",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_alchemist",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_alchemist",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поговорить с ним на языке ремесла",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не настаивать и уйти",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_gravedigger_tavern_again",
+    "title": "Могильщик в трактире",
+    "description": "В углу трактира сидит человек, которого вы видели по колено в земле. Здесь он умытый и почти весёлый.\n\n«За ту лопату — с меня», — говорит он и подвигает вам кружку.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_gravedigger"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_generous_host"
+      }
+    ]
+  },
+  {
+    "id": "npc_gravedigger_road_rumour",
+    "title": "Слух с кладбища",
+    "description": "Встречный возчик щурится: «Старик с кладбища про вас спрашивал. Говорит, у него из мешка пропало».\n\nВозчик явно не единственный, кому он это сказал.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_gravedigger"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  },
+  {
+    "id": "npc_caravan_tavern_again",
+    "title": "Погонщик у стойки",
+    "description": "У стойки стоит человек, чью телегу вы провожали до колодца. Он узнаёт вас первым и машет трактирщику: «Этим — за мой счёт».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "npc_caravan_coast_again",
+    "title": "Караванщик на побережье",
+    "description": "Караван дошёл до самой воды — здесь его грузят на баркасы. Караванщик замечает вас издалека и идёт навстречу сам.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Попросить место на баркасе для всей компании",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_coast",
+            "amount": 2
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, не берёт ли он груз до пустыни",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_desert",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Показать жетон — он помнит и его тоже",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто поздороваться",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_caravan_hunts_thief",
+    "title": "Приметы на столбе",
+    "description": "На придорожном столбе прибита доска с приметами: рост, платье, «срезал ремень у крайней телеги». Караванщик описал вас старательно.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "robbed_caravan"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сорвать доску и унести",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вернуть жетон и попросить снять приметы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "robbed_caravan",
+            "value": false
+          }
+        ]
+      },
+      {
+        "label": "Вождь пустыни выше караванных жалоб — сослаться на него",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Идти дальше, надвинув капюшон",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "npc_wanderer_mountains_again",
+    "title": "Странник на перевале",
+    "description": "На камне у тропы сидит странник с той самой котомкой. Он ничего не спрашивает — просто двигается, освобождая место рядом.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_wanderer"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      },
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "npc_wanderer_desert_grudge",
+    "title": "Странник у сухого русла",
+    "description": "У сухого русла сидит знакомая фигура с котомкой. Завидев вас, странник придвигает котомку к себе и накрывает рукой.\n\nЗагадок сегодня не будет.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_wanderer"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "npc_musician_tavern_again",
+    "title": "Знакомый мотив",
+    "description": "В трактире играют что-то знакомое — и музыкант, увидев вас, переходит на мотив, который вы уже слышали на лесной поляне. Зал подхватывает.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_musician"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "npc_musician_coast_song",
+    "title": "Песня о шляпе",
+    "description": "На пристани поют — и в песне поминают тех, кто ушёл с чужой шляпой для сбора. Имён нет, но описание подходит слишком точно.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_musician"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "npc_smuggler_tavern_again",
+    "title": "Лис в углу",
+    "description": "В самом тёмном углу сидит человек с побережья. Тот, для которого вы свистели со скалы.\n\nОн подвигает ногой второй табурет — садись.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smuggler"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить, где сейчас стоит корабль с чёрными парусами",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "knows_captain_haunt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "knows_captain_haunt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить, что возят через орденские заставы",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто выпить с ним и ни о чём не спрашивать",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "npc_smuggler_desert_grudge",
+    "title": "Чужие глаза у колодца",
+    "description": "У колодца стоят двое и смотрят на вас чуть дольше, чем нужно. Один из них с побережья — вы запомнили его тайник, а он запомнил вас.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "curse",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_smuggler"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_marked"
+      }
+    ]
+  },
+  {
+    "id": "npc_hermit_forest_again",
+    "title": "Отшельник спустился",
+    "description": "У лесной опушки сидит старик, которого вы знали на горном обрыве. Внизу он выглядит меньше и старше.\n\n«Дрова кончились раньше зимы. Но я запомнил, кто их носил».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      },
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "endurance",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_hermit_broken_promise",
+    "title": "Обещание, о котором помнят",
+    "description": "На перевале вас окликают. Старик не сердится — это хуже.\n\n«Я ждал. Не с припасами — просто ждал».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_hermit"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать флягу и остаться до темноты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_hermit",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать бочонок компании — это дольше, чем фляга",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_hermit",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ничего не сказать и пройти мимо",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "npc_smith_road_meeting",
+    "title": "Кузнец на обочине",
+    "description": "Телега с наковальней съехала в канаву, и широкоплечий человек рядом пытается вправить слетевшее колесо в одиночку.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagUnset",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "cheated_smith"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подставить плечо под ось",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smith",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать, как ставится обод, — руки помнят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smith",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_thieves_tools"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Помочь и позвать его в компанию до ночлега",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smith",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Забрать с телеги то, что плохо лежит, пока он под осью",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smith",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_thieves_tools"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо — своих дел хватает",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_smith_mountains_again",
+    "title": "Наковальня у перевала",
+    "description": "На перевале стоит кузня — маленькая, дымная и явно недавняя. Кузнец узнаёт вас раньше, чем вы его.\n\n«Колесо доехало. И я доехал».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_ward_amulet"
+      }
+    ]
+  },
+  {
+    "id": "npc_smith_tavern_again",
+    "title": "Кузнец за общим столом",
+    "description": "Кузнец сидит за общим столом и, увидев вас, двигает скамью. У него уже спрашивали, чинил ли он что-нибудь для вашей компании.\n\nОн ответил честно — и это работает в обе стороны.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сесть рядом — он помнит, кто держал ось",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_smith"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ]
+      },
+      {
+        "label": "Не подходить: он помнит, чего недосчитался на телеге",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "cheated_smith"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Взять кружку и сесть у окна",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_cartographer_meeting",
+    "title": "Человек с футляром",
+    "description": "На развилке сидит человек с длинным кожаным футляром и разложенным на коленях листом. Он что-то дорисовывает и поднимает голову только когда вы подходите вплотную.\n\n«Не мешайте. Или помогите — а лучше и то и другое сразу».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "item",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagUnset",
+        "flag": "helped_cartographer"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "cheated_cartographer"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Рассказать ему дорогу, которой шли, — он записывает каждое слово",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_cartographer",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать, где его лист врёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_cartographer",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дождаться, пока он уснёт, и забрать футляр",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_cartographer",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не мешать человеку работать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_cartographer_repays",
+    "title": "Ваша дорога на чужой карте",
+    "description": "Встречный отряд сверяется с картой — и вы узнаёте на ней собственный маршрут, вычерченный чужой рукой. В углу подписано: «со слов путников».\n\nОтряд охотно показывает, что там дальше.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      },
+      {
+        "condition": "partyMissingItem",
+        "itemId": "item_map"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_map"
+      }
+    ]
+  },
+  {
+    "id": "npc_cartographer_missing_pages",
+    "title": "Недостающие листы",
+    "description": "Карта в ваших руках обрывается ровно там, где начинается нужное. Тот, кто её чертил, успел спрятать последние листы — видимо, ждал, что футляр однажды украдут.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_cartographer"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "npc_taxman_tavern",
+    "title": "Сборщик податей",
+    "description": "В трактир входит человек с книгой и грифелем, и половина зала немедленно вспоминает о срочных делах.\n\n«Подать берём не деньгами, — говорит он устало. — Деньгами тут никто не платит. Бочонок, добрая вещь или честный ответ на три вопроса».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "paid_taxman"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dodged_taxman"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Выкатить бочонок и не спорить",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить на три вопроса честно — это тоже подать",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Назваться чужими именами и выйти через кухню",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dodged_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сослаться на орден — у заставы свои сборы",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "npc_taxman_road_again",
+    "title": "Та же книга на дороге",
+    "description": "У заставы на тракте стоит знакомый человек с книгой. Он листает страницы, находит нужную и ведёт пальцем по строке.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "«Уплачено» — и он пропускает без разговоров",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paid_taxman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он помнит кухонную дверь — и на этот раз стоит у неё",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dodged_taxman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо: к вам у него вопросов нет",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "npc_taxman_desert_ledger",
+    "title": "Книга дошла и сюда",
+    "description": "У пустынного колодца сидит писарь с точно такой же книгой — переписанной с той, первой. Ваше имя в ней уже есть, и напротив стоит пометка.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dodged_taxman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "npc_herbwoman_coast_again",
+    "title": "Травы на солёном ветру",
+    "description": "На побережье она разбирает совсем другие пучки — морские. Увидев вас, молча протягивает один: «Пожуй, если укачает».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_healing_potion"
+      }
+    ]
+  },
+  {
+    "id": "npc_cardsharp_mountains_again",
+    "title": "Знакомая колода на перевале",
+    "description": "У костра на перевале режутся в карты. Сдающий поднимает голову, узнаёт вас и — впервые на вашей памяти — сдаёт честно.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cardsharp"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_alchemist_desert_again",
+    "title": "Склянки в тени бархана",
+    "description": "В тени бархана сидит алхимик и что-то выпаривает на солнце. «Здесь получается быстрее, — говорит он вместо приветствия. — Ты вовремя».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_alchemist"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_healing_potion"
+      }
+    ]
+  },
+  {
+    "id": "npc_gravedigger_forest_again",
+    "title": "Старик с лопатой в лесу",
+    "description": "На лесной опушке копает знакомый старик — сюда его позвали хоронить чужого. Он выпрямляется и кивает вам как своим.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_gravedigger"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      },
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "npc_wanderer_tavern_again",
+    "title": "Котомка под столом",
+    "description": "В трактире за дальним столом сидит странник, и котомка стоит у его ног. Он машет вам: «Загадка новая. Садись».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_wanderer"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      },
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_musician_mountains_again",
+    "title": "Мотив на перевале",
+    "description": "На перевале кто-то играет — пальцы стынут, но мелодия та же, что и на лесной поляне. Музыкант улыбается, не прерываясь.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_musician"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "npc_smuggler_forest_again",
+    "title": "Тропа через чащу",
+    "description": "В чаще, далеко от всякой воды, вы натыкаетесь на знакомое лицо с мешком. «И сюда доходит, — пожимает он плечами. — Молчи, и я промолчу».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smuggler"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "cunning",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "npc_hermit_graveyard_again",
+    "title": "Отшельник у чужой могилы",
+    "description": "У свежей могилы стоит старик с гор — спустился впервые за годы, чтобы проводить кого-то. Он узнаёт вас и молча становится рядом.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "endurance",
+        "amount": 1
+      },
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "npc_smith_coast_again",
+    "title": "Наковальня у воды",
+    "description": "На берегу чинят баркасные скобы, и молот в руках знакомый. Кузнец кивает на готовую работу: «Возьми, у меня лишняя».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_rope"
+      }
+    ]
+  },
+  {
+    "id": "npc_cartographer_mountains_again",
+    "title": "Футляр на высоте",
+    "description": "На гребне сидит человек с длинным футляром и зарисовывает хребет. «Ваша дорога здесь уже есть, — говорит он. — Дальше рисую с ваших слов».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      },
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_compass"
+      }
+    ]
+  },
+  {
+    "id": "npc_taxman_graveyard_ledger",
+    "title": "Книга дошла и сюда",
+    "description": "У кладбищенской сторожки сидит писарь и сверяет имена — живых с мёртвыми. Ваше имя он находит быстро и делает пометку.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dodged_taxman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  }
+]

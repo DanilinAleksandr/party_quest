@@ -1,0 +1,20 @@
+[
+  {
+    "id": "item_healing_potion",
+    "name": "Зелье лекаря",
+    "description": "Найдено в хижине ведьмы. Пахнет травами и чем-то едким.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_spellbook",
+    "name": "Книга заклинаний ведьмы",
+    "description": "Украдена прямо с полки. Ведьма наверняка это заметит.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

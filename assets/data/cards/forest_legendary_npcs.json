@@ -1,0 +1,117 @@
+[
+  {
+    "id": "legendary_great_witch",
+    "title": "Поляна, которой нет на карте",
+    "description": "Среди самых старых деревьев леса ты натыкаешься на поляну — и дом, которого здесь быть не должно.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "curse",
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "great_witch"
+      }
+    ]
+  },
+  {
+    "id": "legendary_ancient_forest_spirit",
+    "title": "Тишина между стволами",
+    "description": "Лес вокруг вдруг замирает — ни птиц, ни ветра. Кто-то очень старый обратил на тебя внимание.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "ancient_forest_spirit"
+      }
+    ]
+  },
+  {
+    "id": "callback_great_witch_intervenes",
+    "title": "Тёплый ветер",
+    "description": "На мгновение воздух вокруг тебя теплеет, будто кто-то далёкий отвёл беду в последний момент.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_great_witch"
+      },
+      {
+        "condition": "currentPlayerMissingEffect",
+        "effectId": "effect_witchs_protection"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_witchs_protection"
+      }
+    ]
+  },
+  {
+    "id": "callback_bandit_revenge",
+    "title": "Старые счёты",
+    "description": "Между деревьями мелькают знакомые лица — уцелевшие разбойники наконец нашли тебя и явно не забыли, чей это был лагерь.",
+    "type": "trap",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "raided_bandit_camp"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  }
+]

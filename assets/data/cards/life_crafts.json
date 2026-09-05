@@ -1,0 +1,220 @@
+[
+  {
+    "id": "crafts_salt_boiler",
+    "title": "Солевар у противня",
+    "description": "Рассол кипит третьи сутки, и на дне уже белая корка. Он снимает её деревянной лопаткой по краям, не трогая середину.\n\n«Середину рано. Середина всегда рано».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "crafts_horse_doctor",
+    "title": "Коновал слушает",
+    "description": "Он стоит, прижавшись ухом к лошадиному боку, и держит палец поднятым — чтобы все молчали. Стоит так очень долго.\n\nПотом выпрямляется и говорит хозяину: «Доедете. Но не быстро».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "crafts_sawyers_pit",
+    "title": "Пильщики",
+    "description": "Один стоит наверху, другой в яме под бревном, и опилки сыплются вниз, на того, кто в яме. Меняются они каждый час.\n\nТот, что наверху, ведёт счёт вслух. Тот, что внизу, не отвечает — ему нельзя открывать рот.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "crafts_road_musician_no_crowd",
+    "title": "Играет никому",
+    "description": "Бродячий музыкант стоит на перекрёстке и играет в пустоту. Шляпа лежит перед ним, и в ней ничего.\n\nОн доигрывает вещь до последней ноты, кланяется пустому перекрёстку и начинает следующую.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Остановиться и дослушать до конца",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подхватить вторым голосом — на перекрёстке станет двое",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить в шляпе флягу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не сбавляя шага",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "crafts_bathhouse_keeper",
+    "title": "Банщик подкидывает",
+    "description": "Он плещет на камни ковшом и уходит, закрыв дверь. Изнутри доносится сначала тишина, потом дружный стон.\n\nОн стоит снаружи, слушает и по звуку решает, надо ли ещё.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "crafts_paver_last_stone",
+    "title": "Последний камень",
+    "description": "Мостовщик подбирает камень к оставшейся дыре, примеряет, откладывает, берёт следующий. У его ног таких отвергнутых уже штук двадцать.\n\nОн ищет тот, который сядет без подтёски. Это дело принципа, а не работы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Найти в куче тот самый и подать молча",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что и с подтёской никто не заметит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить человека с его принципом",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "crafts_tinker_sharpens_everything",
+    "title": "Точильщик у поворота",
+    "description": "Колесо крутится ногой, искры летят в пыль. Очередь из трёх ножей, двух ножниц и одной косы, и коса явно ничья — просто стоит прислонённая с утра.\n\nОн наточит и её. Хозяин найдётся.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

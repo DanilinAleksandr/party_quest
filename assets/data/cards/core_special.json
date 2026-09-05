@@ -1,0 +1,546 @@
+[
+  {
+    "id": "curse_hiccups",
+    "title": "Икота",
+    "description": "На тебя напала икота. Следующие 2 хода ты обязан икать перед каждой своей фразой.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingEffect",
+        "effectId": "effect_hiccups"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hiccups"
+      }
+    ]
+  },
+  {
+    "id": "curse_silent_treatment",
+    "title": "Обет молчания",
+    "description": "Следующий ход ты общаешься только жестами. Каждое нарушение — минус харизма.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_silence"
+      }
+    ]
+  },
+  {
+    "id": "blessing_luck_charm",
+    "title": "Талисман удачи",
+    "description": "Ты подбираешь потускневший талисман и сжимаешь его в кулаке — сработает ли он, покажет момент.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 5,
+    "tags": [
+      "blessing",
+      "luck",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "blessing_charisma_boost",
+    "title": "Дар красноречия",
+    "description": "Ты пробуешь заговорить компанию красивой фразой — получится ли, зависит от того, как она прозвучит.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "blessing",
+      "social"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_arm_wrestle",
+    "title": "Армрестлинг",
+    "description": "Вызови любого игрока на армрестлинг прямо за столом! Проигравший подчиняется победителю.",
+    "type": "duel",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "duel",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_defeated"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_staring_contest",
+    "title": "Гляделки",
+    "description": "Выбери соперника для игры в гляделки. Кто первым моргнёт или засмеётся — проиграл.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "global_group_curse",
+    "title": "Общий вздох неудачи",
+    "description": "Странное невезение накрывает весь стол разом — кроме тебя.",
+    "type": "global",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "curse",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "allOtherPlayers",
+        "effectId": "effect_cloud"
+      }
+    ]
+  },
+  {
+    "id": "luck_risky_bet",
+    "title": "Пари между спутниками",
+    "description": "Один из спутников уверенно бьёт по рукам: «Спорим на удачу — кто проиграет, тот сразу это почувствует».",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "luck",
+      "risk",
+      "strategy"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Спорить с тобой на силу никто не станет — и на удачу тоже",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Он видит на тебе полосу удачи и спорить отказывается",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Над тобой висит дурное — и он поднимает ставку, пока ты слаб",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_omen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 2
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Ты знаешь этот трюк с ладонью — сказать вслух, и пари не будет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Предложить бросить кости судьбы — пусть решают они",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dice_of_fate"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 2
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "В круге на удачу не спорят — и ты объясняешь почему",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ударить по рукам",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 2
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отказаться от пари",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "luck_mystery_choice",
+    "title": "Две двери",
+    "description": "Перед тобой два неизвестных пути. Ни указателя, ни следов — только два тёмных проёма в скале.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Хранитель рун при свете дня прочтёт даже стёртое",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "sunny"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Прочесть, что вырезано над проёмами — это не украшение",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_last_archmage"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Спросить дорогу у того, кто её здесь помнит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_mystery"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Свериться с картой компании",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_mystery"
+          }
+        ]
+      },
+      {
+        "label": "Идти в темноте на ощупь — тебе так даже привычнее",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дверь удачи",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Дверь тайны",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_mystery"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rare_traveling_merchant",
+    "title": "Бродячий торговец",
+    "description": "На дороге навстречу попадается торговец с гружёной телегой.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 18,
+    "tags": [
+      "risk",
+      "item",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "traveling_merchant"
+      }
+    ]
+  }
+]

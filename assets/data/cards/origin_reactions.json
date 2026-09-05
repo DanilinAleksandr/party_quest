@@ -1,0 +1,226 @@
+[
+  {
+    "id": "origin_reaction_sailor_coast",
+    "title": "Солёный воздух",
+    "description": "Ты вдыхаешь солёный воздух, и что-то в груди отпускает — море пахнет домом.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_sailor"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_sailor"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_nomad_desert",
+    "title": "Привычная тяжесть песка",
+    "description": "Раскалённый песок под ногами — привычная тяжесть, будто ты никогда и не покидал этих мест.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_nomad"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_nomad"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_forest_child_forest",
+    "title": "Знакомые запахи",
+    "description": "Запах хвои и влажной земли — здесь ты как дома.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_forest_child"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_forest_child"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_mountaineer_mountains",
+    "title": "Настоящий камень",
+    "description": "Ты чувствуешь под ногами настоящий камень — здесь, наконец, всё как надо.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_mountaineer"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_mountaineer"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_mountaineer_coast",
+    "title": "Ни клочка твёрдой земли",
+    "description": "Под ногами — только шаткий песок и бескрайняя вода. Ни одной опоры, к которой привык горец.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_mountaineer"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_mountaineer"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_sailor_mountains",
+    "title": "Слишком высоко, слишком сухо",
+    "description": "Ни горизонта, ни привычного покачивания волн — только камень со всех сторон. Моряку здесь неуютно.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_sailor"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_sailor"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "origin_reaction_nomad_graveyard",
+    "title": "Слишком сыро",
+    "description": "Сырой туман и холодная земля — всё, к чему кочевник не привык за годы под открытым небом пустыни.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_nomad"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_nomad"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  }
+]

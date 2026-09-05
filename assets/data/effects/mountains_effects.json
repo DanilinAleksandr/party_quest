@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_shivering",
+    "name": "Продрог",
+    "description": "Следующий ход держи руки прижатыми к телу, будто согреваешься — здесь, наверху, действительно холодно.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

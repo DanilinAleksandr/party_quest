@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Adaptive-icon background layer: the app's near-black surface. Kept as
+         a colour rather than a drawable so launchers can parallax it cheaply. -->
+    <color name="ic_launcher_background">#0D0B0A</color>
+</resources>

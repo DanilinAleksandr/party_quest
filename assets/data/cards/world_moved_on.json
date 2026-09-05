@@ -1,0 +1,565 @@
+[
+  {
+    "id": "trace_outpost_empty",
+    "title": "Застава без людей",
+    "description": "Ворота открыты настежь, вымпел с солнцем снят, на утоптанной земле — квадраты от палаток. Кострище холодное.\n\nНа воротном столбе кто-то начал резать вторую зарубку и бросил.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "paladin_outpost"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "in_tavern",
+        "steps": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyGlobalModifier",
+        "key": "lean_mountains",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "trace_torn_banner",
+    "title": "Оборванное знамя",
+    "description": "На перекрёстке лежит полотнище с солнцем — сорванное и втоптанное. Древко переломлено надвое.\n\nКрая успели обтрепаться.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "declared_heretic"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_ritual_ashes",
+    "title": "Зола на поляне",
+    "description": "На поляне ровный круг золы — холодной, но нетронутой ветром. По краю в землю воткнуты восемь прутьев, все одной длины.\n\nВнутри круга трава примята и не поднялась.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "witch_circle"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_forest_gone_quiet",
+    "title": "Лес замолчал",
+    "description": "Птиц не слышно с самого утра. На тропе поперёк лежит свежесрезанная ветка.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      }
+    ]
+  },
+  {
+    "id": "trace_ship_already_sailed",
+    "title": "Пустая бухта",
+    "description": "В бухте никого. На песке — глубокий след киля и две борозды от сходней.\n\nЧуть выше линии прилива догорает костёр, вокруг которого сидели человек десять.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "knows_captain_haunt"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_smuggler_path_moved",
+    "title": "Тропа заросла",
+    "description": "Знакомая тропа от бухты вверх заросла — её забросили нарочно. В стороне, шагах в двухстах, появилась новая: узкая и очень аккуратная.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_smuggler"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_fair_packed_up",
+    "title": "После ярмарки",
+    "description": "Улица пуста. По всей длине в земле остались дырки от кольев, под ногами хрустит шелуха.\n\nУ стены сложены разобранные прилавки.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "climax_fair"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_caravan_left",
+    "title": "Свежая колея",
+    "description": "Колея ещё не осыпалась по краям, навоз тёплый, а у обочины валяется потерянный шкворень.\n\nПыль над дорогой не осела.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyGlobalModifier",
+        "key": "lean_desert",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "trace_broken_cart_peddler",
+    "title": "Сломанная телега",
+    "description": "У обочины стоит телега с треснувшей осью. Бросали не спеша: колёса сняли, короб забрали, брезент свернули.\n\nНа борту процарапан знак.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_peddler"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_broken_cart_caravan",
+    "title": "Сломанная телега",
+    "description": "Телега с треснувшей осью стоит поперёк съезда. Бросали не спеша: колёса сняли, короб забрали, брезент свернули.\n\nНа борту процарапан знак.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "robbed_caravan"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_forge_cold",
+    "title": "Остывшая кузня",
+    "description": "Навес на месте, горн на месте, а наковальни нет — по земле остались две глубокие вмятины.\n\nВ углях, если разгрести, ещё тёплое.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_abandoned_basket",
+    "title": "Брошенная корзина",
+    "description": "На тропе стоит корзина с травами — поставленная аккуратно, не опрокинутая. Пучки внутри подсохли.\n\nЗа ней не вернулись.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_herbwoman"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  },
+  {
+    "id": "trace_torn_page",
+    "title": "Вырванная страница",
+    "description": "Под столбом валяется страница из учётной книги — вырванная с корнем, размокшая, но одна строка ещё читается.\n\nСтрока про вас.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dodged_taxman"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_survey_stake",
+    "title": "Колышек с отметкой",
+    "description": "В землю вбит колышек с зарубками и обрывком бечёвки. Кто-то мерил здесь дорогу и записывал.\n\nЗарубок больше, чем нужно для одной дороги.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "trace_unfinished_mug",
+    "title": "Недопитая кружка",
+    "description": "За дальним столом стоит кружка — почти полная и ещё не выдохшаяся. Скамья отодвинута рывком.\n\nНа спинке пусто: плащ сняли.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 2
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_shutters_close",
+    "title": "Ставни закрываются заранее",
+    "description": "Вы ещё в конце улицы, а ставни уже прикрывают — один дом, потом второй, потом третий.\n\nНикто не бежит и не кричит.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "trace_extra_place_set",
+    "title": "Лишний прибор",
+    "description": "На длинном столе накрыто на одного больше, чем сидит. Место с краю, миска перевёрнута донышком вверх — так оставляют для тех, кого ждут.\n\nВас никто не звал. Но место, похоже, ваше.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "trace_fresh_grave",
+    "title": "Свежая могила",
+    "description": "Земля ещё тёмная и осевшая только по краям. Ни камня, ни доски — только воткнутая лопата, которую забыли забрать.\n\nЛопату вы узнаёте.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_gravedigger"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_court_dispersed",
+    "title": "Пустой дом старосты",
+    "description": "Дверь нараспашку, скамьи вдоль стен сдвинуты, на столе — раскрытая книга и погасшая свеча. Все разошлись, и разошлись быстро.\n\nСтраница заложена вашим делом.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "climax_trial"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_benches_after_council",
+    "title": "Скамьи посреди улицы",
+    "description": "Посреди улицы так и стоят вынесенные из домов скамьи — кругом, лицом друг к другу.\n\nИх не убрали со вчерашнего дня.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "climax_village_council"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_burned_farm",
+    "title": "Выгоревший двор",
+    "description": "От двора остались печная труба и обугленный частокол. Головни уже не пахнут.\n\nМежду грядок посажено заново.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_trail_village"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dragon_trail_village",
+        "steps": 6
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_sealed_chapel",
+    "title": "Закрытая часовня",
+    "description": "Придорожная часовня заперта, дверь крест-накрест заколочена свежими досками. Печати на щели сорваны — но сорваны изнутри.\n\nНа пороге лежит нетронутый хлеб.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "declared_heretic"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "trace_three_old_signs",
+    "title": "Всё сразу на одном перекрёстке",
+    "description": "На одном перекрёстке сходятся сразу три чужие истории: втоптанное полотнище с солнцем, узел из травы на нижней ветке и меловая метка на камне — из тех, что ставят у бухты.\n\nНи одна из них не оставлена для вас. Просто все три когда-то начались с вас.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "declared_heretic"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_smuggler"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "trace_debt_already_paid",
+    "title": "За вас уже заплатили",
+    "description": "Писарь находит вашу строку, ведёт по ней пальцем и хмурится: напротив стоит чужая пометка и вчерашнее число.\n\n«Уплачено. Кем — тут не написано».",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "paid_taxman"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "trace_camp_struck",
+    "title": "Разбитый лагерь",
+    "description": "Кострище, восемь примятых мест под спальники, вытоптанный круг. Ни мусора, ни забытых вещей.\n\nОдно место с краю осталось нетронутым.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 6
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 2
+      }
+    ],
+    "actions": []
+  }
+]

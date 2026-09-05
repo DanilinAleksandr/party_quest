@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_pharaohs_curse",
+    "name": "Проклятие фараона",
+    "description": "Пока действует эффект, каждый твой ход начинай со слов «да будет так» — фараон требует уважения даже на расстоянии.",
+    "polarity": "negative",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {}
+  }
+]

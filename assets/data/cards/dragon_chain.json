@@ -1,0 +1,746 @@
+[
+  {
+    "id": "mountains_dragon_tracks",
+    "title": "Исполинские следы",
+    "description": "На влажной земле — цепочка следов огромных когтистых лап, вдавленных в камень. Что бы это ни было, оно очень большое и очень тяжёлое.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_trail_tracks"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Такое здесь видели дважды за сто лет. Я знаю, куда оно уходит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_tracks",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🐉 Компания вышла к владениям дракона коротким путём."
+          }
+        ]
+      },
+      {
+        "label": "Пойти по следу",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_tracks",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не связываться — мало ли что это",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_dragon_scale_found",
+    "title": "Чешуя в расщелине",
+    "description": "Между камней застряла чешуйка размером с ладонь. Тёплая на ощупь.",
+    "type": "item",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_trail_tracks"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dragon_trail_tracks",
+        "steps": 3
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_trail_scale"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Чешуя тёплая не от солнца. Она ещё живая, и трогать её нельзя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Завернуть в плащ и нести как несут опасное",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_dragon_scale"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег рядом с чешуёй начинает жечь ладонь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "В круге за такую вещь дадут многое — и предупредят о цене",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_dragon_scale"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Орден велит доносить о таких находках, а не носить их с собой",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Забрать чешую с собой",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_scale",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_dragon_scale"
+          }
+        ]
+      },
+      {
+        "label": "Оставить — не тебе такое трогать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_dragon_rumors",
+    "title": "Разговоры о звере",
+    "description": "У походного костра путники понижают голос: «Говорят, в этих горах завёлся зверь — огромный, огнедышащий. Целая деревня пропала».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_trail_scale"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dragon_trail_scale",
+        "steps": 3
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_trail_rumors"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Разговорить их так, что они вспомнят и то, чего не помнили",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты знаешь эти горы. Половина сказанного — правда, и ты знаешь какая",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить прямо про деревню — у круга о ней уже знают",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Орден о звере уже донесли. Расспросить, что ответила застава",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать чешую и посмотреть, кто побледнеет первым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dragon_scale"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Расспросить подробнее",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_rumors",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пропустить мимо ушей",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_dragon_village",
+    "title": "Сожжённая деревня",
+    "description": "За перевалом открывается вид на деревню — вернее, на то, что от неё осталось. Обгоревшие остовы домов, и тишина. Среди руин кто-то шевелится.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "item",
+      "risk",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_trail_rumors"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dragon_trail_rumors",
+        "steps": 4
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_trail_village"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять обгоревшую балку одной рукой и вытащить выжившего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ожоги ты умеешь лечить. Выживший доживёт до утра наверняка",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Тебя огонь не тронул бы — и ты входишь в руины первым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать зелье лекаря, не торгуясь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_healing_potion"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Позвать сюда орден — заставе до перевала полдня",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Над пепелищем ещё держатся те, кто не ушёл. Ты их слышишь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      },
+      {
+        "label": "Помочь выжившему",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dragon_trail_village",
+                "value": true
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "helped_dragon_survivor",
+                "value": true
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dragon_trail_village",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Обобрать руины, пока не поздно",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_trail_village",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "betrayed_dragon_survivor",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Уйти, не задерживаясь",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_dragon_cult",
+    "title": "Культ огненного зверя",
+    "description": "У остатков костра сидят люди в масках из шкур, бормоча в унисон что-то про зверя-бога. Один из них замечает компанию и поднимает голову.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "risk",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_trail_village"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dragon_trail_village",
+        "steps": 4
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_lair_known"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сослаться на слова спасённого выжившего",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_dragon_survivor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dragon_lair_known",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Притвориться своими и выведать дорогу",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dragon_lair_known",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_omen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Не связываться с культом",
+        "actions": []
+      }
+    ]
+  }
+]

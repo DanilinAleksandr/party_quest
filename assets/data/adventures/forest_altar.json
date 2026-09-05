@@ -1,0 +1,95 @@
+[
+  {
+    "id": "forest_altar",
+    "entryNodeId": "altar_found",
+    "nodes": [
+      {
+        "id": "altar_found",
+        "text": "Между корней векового дерева ты натыкаешься на замшелый каменный алтарь. На нём — три чаши, и воздух вокруг будто гуще обычного.",
+        "choices": [
+          {
+            "label": "Подойти ближе",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "altar_ritual" } }
+          },
+          {
+            "label": "Уйти от греха подальше",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "altar_ritual",
+        "text": "Стоит тебе подойти, как ты слышишь голос — не то ветра, не то самого леса: «Один дар для одной судьбы. Выбирай, но помни: алтарь ничего не отдаёт даром».",
+        "choices": [
+          {
+            "label": "Чаша Силы",
+            "successChance": 0.75,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_might" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_might" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": -3 }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Чаша Удачи",
+            "successChance": 0.75,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_fortune" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_fortune" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": -3 }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Чаша Обаяния",
+            "successChance": 0.75,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_charm" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "made_altar_pact", "value": true },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_charm" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_altar_debt" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": -3 }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Уйти без даров",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

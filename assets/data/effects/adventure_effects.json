@@ -1,0 +1,15 @@
+[
+  {
+    "id": "effect_witch_curse",
+    "name": "Проклятие ведьмы",
+    "description": "Она заметила пропажу. Удача отворачивается от тебя на пару ходов.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": -1 }
+      ]
+    }
+  }
+]

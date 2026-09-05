@@ -1,0 +1,315 @@
+[
+  {
+    "id": "event_toast",
+    "title": "Тост дружбы",
+    "description": "Подними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession",
+    "title": "Признание",
+    "description": "Расскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_impersonation",
+    "title": "Пародия",
+    "description": "Изобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "trap_cold_shower",
+    "title": "Холодный душ",
+    "description": "Неудача! Ты немного теряешь хватку — очко удачи утекло сквозь пальцы.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_lost_item",
+    "title": "Потеря",
+    "description": "Ты отвлёкся, и фляжка куда-то пропала из твоих вещей.",
+    "type": "trap",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "risk",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_flask"
+      }
+    ],
+    "actions": [
+      {
+        "action": "takeItem",
+        "target": "currentPlayer",
+        "itemId": "item_flask"
+      }
+    ]
+  },
+  {
+    "id": "global_toast_all",
+    "title": "Общий тост",
+    "description": "Все игроки поднимают бокалы и хором произносят один общий тост!",
+    "type": "global",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "allPlayers",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "item_flask_find",
+    "title": "Находка",
+    "description": "Под трактирным столом что-то блестит — ты наклоняешься и достаёшь забытую кем-то фляжку.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "item",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_flask"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_flask"
+      }
+    ]
+  },
+  {
+    "id": "item_coin_find",
+    "title": "Придорожный камень",
+    "description": "На обочине замшелый камень с выбитым знаком дороги. В трещинах поблёскивают монеты — путники оставляют их здесь, каждый за свой благополучный путь.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Монеты свежие: их оставили ярмарочные, уходя",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_fair"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар алтаря делает чужую монету лишней — оставить обе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "made_a_wish"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак на камне — дорожный только сверху. Ниже другой, и он старше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Положить монету ребром — так просят дороги у круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Не трогать камень: орден такие места не жалует",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Монеты сами липнут к рукам — метка тянет чужую удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у камня флягу вместо монеты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять чужую монету — вам удача нужнее",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить свою и попросить дороги полегче",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не тревожа камень",
+        "actions": []
+      }
+    ]
+  }
+]

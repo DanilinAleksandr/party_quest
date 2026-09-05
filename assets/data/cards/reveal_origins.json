@@ -1,0 +1,776 @@
+[
+  {
+    "id": "reveal_sailor",
+    "title": "Зов волн",
+    "description": "Ты стоишь на берегу — и вдруг понимаешь, что твои ноги сами находят равновесие на качающейся палубе, которой здесь нет. Ты вспоминаешь, кто ты.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_sailor"
+      }
+    ]
+  },
+  {
+    "id": "reveal_nomad",
+    "title": "Отцовский компас",
+    "description": "В песке лежит потускневший компас — стрелка давно не работает, но рука сама тянется к нему, будто узнавая старого друга.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_nomad"
+      }
+    ]
+  },
+  {
+    "id": "reveal_mountaineer",
+    "title": "Знакомый вес камня",
+    "description": "Ты берёшь в руку обломок горной породы — и рука сама вспоминает вес, который ты носил всю жизнь, ещё до этого путешествия.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_mountaineer"
+      }
+    ]
+  },
+  {
+    "id": "reveal_witch_heir",
+    "title": "Эхо в крови",
+    "description": "Дни спустя после встречи с ведьмой ты ловишь себя на мысли, что понимаешь шелест листвы так, будто он складывается в слова. Она что-то оставила в тебе — или, может, лишь пробудила то, что всегда там было.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_great_witch"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_witch_heir"
+      }
+    ]
+  },
+  {
+    "id": "reveal_desert_wanderer",
+    "title": "Голос под барханами",
+    "description": "Ветер поёт между дюнами — и на миг тебе кажется, что ты различаешь в нём имена, которые никогда не слышал, но почему-то узнаёшь. Этот песок помнит твой род дольше, чем ты сам о нём знаешь.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_desert_wanderer"
+      }
+    ]
+  },
+  {
+    "id": "reveal_wolf_blood",
+    "title": "Вой вдалеке",
+    "description": "Где-то в чаще воет волк — и внутри тебя что-то отвечает раньше, чем ты успеваешь испугаться. Твои чувства обостряются, будто лес наконец заговорил на языке, который ты всегда понимал.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_wolf_blood"
+      }
+    ]
+  },
+  {
+    "id": "reveal_druid_descendant",
+    "title": "Ответ корней",
+    "description": "После испытания духа леса ты замечаешь, что трава под твоими ногами будто расступается сама, а сломанные ветки на тропе оживают чуть быстрее, чем должны. Лес не просто пропустил тебя — он тебя узнал.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "passed_spirit_trial"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_druid_descendant"
+      }
+    ]
+  },
+  {
+    "id": "reveal_sea_chosen",
+    "title": "Штиль перед тобой",
+    "description": "Волны, что беспокоят всех вокруг, у самых твоих ног вдруг стихают. Ты не замечаешь этого сразу — но море, кажется, замечает тебя.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_sea_chosen"
+      }
+    ]
+  },
+  {
+    "id": "reveal_phoenix_halfblood",
+    "title": "Жар, что не гаснет",
+    "description": "После стычки с главарём разбойников ты замечаешь на своей коже след ожога, которого не должно было остаться — он тёплый, будто живой, и не причиняет боли. Что-то в тебе горит и не гаснет.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "desert_warlord"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_phoenix_halfblood"
+      }
+    ]
+  },
+  {
+    "id": "reveal_spirit_chosen",
+    "title": "Шёпот с вершины",
+    "description": "Уже спустившись с тропы отшельника, ты вдруг слышишь голос — тихий, идущий будто ниоткуда. Он не пугает. Он звучит так, словно давно ждал, когда ты наконец начнёшь слушать.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "met_mountain_hermit"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_spirit_chosen"
+      }
+    ]
+  },
+  {
+    "id": "reveal_moonborn",
+    "title": "Низкая луна",
+    "description": "Луна этой ночью висит непривычно низко над водой, и её свет ложится на тебя так, будто ищет именно тебя среди всех остальных. Ты не можешь объяснить, откуда это чувство узнавания — но оно взаимно.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_moonborn"
+      }
+    ]
+  },
+  {
+    "id": "reveal_ancient_kings_heir",
+    "title": "Печать без хозяина",
+    "description": "Печать фараона, которую ты несёшь с собой, вдруг теплеет в руке — будто узнаёт что-то в тебе самом, а не только в древней гробнице, откуда она родом. Ты чувствуешь себя не вором, а наследником.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "found_pharaoh_seal"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_ancient_kings_heir"
+      }
+    ]
+  },
+  {
+    "id": "reveal_rune_keeper",
+    "title": "Знаки на надгробиях",
+    "description": "После предупреждения старого могильщика ты замечаешь то, чего не видел раньше: полустёртые руны на надгробиях складываются в слова сами собой, стоит тебе просто посмотреть. Ты не помнишь, чтобы учил этот язык.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "warned_by_gravedigger"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_rune_keeper"
+      }
+    ]
+  },
+  {
+    "id": "reveal_soul_guide",
+    "title": "Тишина между могил",
+    "description": "Среди надгробий стоит тишина, но не пустая — как будто кто-то невидимый идёт рядом, не тревожа тебя. Мёртвые здесь никогда не казались тебе чужими.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_soul_guide"
+      }
+    ]
+  },
+  {
+    "id": "reveal_merchant",
+    "title": "Быстрый счёт",
+    "description": "Кто-то из компании начинает делить общие припасы — и ты вдруг обнаруживаешь, что уже посчитал справедливую долю для каждого, быстрее, чем успел задуматься об этом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_merchant"
+      }
+    ]
+  },
+  {
+    "id": "reveal_farmer",
+    "title": "Запах вспаханной земли",
+    "description": "Проходя мимо поля, ты машинально проверяешь землю пальцами — влажная, плодородная, хорошая. Ты вспоминаешь, откуда знаешь, как это делается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_farmer"
+      }
+    ]
+  },
+  {
+    "id": "reveal_hunter",
+    "title": "Сломанная ветка",
+    "description": "Ты замечаешь примятую траву и сломанную ветку раньше остальных — кто-то прошёл здесь недавно. Ты не помнишь, чтобы этому учился: просто всегда так видел мир.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_hunter"
+      }
+    ]
+  },
+  {
+    "id": "reveal_knight",
+    "title": "Привычная стойка",
+    "description": "При первом же намёке на опасность ты становишься так, будто прикрываешь спину товарищей — ровно, уверенно, без раздумий. Кто-то однажды научил тебя стоять именно так.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_knight"
+      }
+    ]
+  },
+  {
+    "id": "reveal_craftsman",
+    "title": "Умелые руки",
+    "description": "Что-то в снаряжении компании развязалось или сломалось — и твои руки чинят это раньше, чем кто-то успевает предложить помощь. Работа выходит аккуратной, будто отточенной годами.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_craftsman"
+      }
+    ]
+  },
+  {
+    "id": "reveal_alchemist",
+    "title": "Знакомый запах трав",
+    "description": "Ты машинально срываешь пару листьев у тропы и растираешь их между пальцами, принюхиваясь — и понимаешь, что уже знаешь, для чего они годятся.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_alchemist"
+      }
+    ]
+  },
+  {
+    "id": "reveal_pathfinder",
+    "title": "Звёзды над головой",
+    "description": "Ночью ты поднимаешь взгляд к звёздам — просто по привычке — и вдруг понимаешь, что уже знаешь, в какую сторону идти дальше, ещё до того, как кто-то спросил.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_pathfinder"
+      }
+    ]
+  },
+  {
+    "id": "reveal_bard",
+    "title": "История у костра",
+    "description": "У вечернего костра ты вдруг начинаешь рассказывать историю — легко, будто рассказывал её сотню раз прежде. Вся компания замолкает и слушает, забыв про усталость.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_bard"
+      }
+    ]
+  },
+  {
+    "id": "reveal_mercenary",
+    "title": "Тяжесть в руке",
+    "description": "Ты берёшь оружие, чтобы просто осмотреть его — и рука сама находит правильный хват, привычный, отработанный. Ты вспоминаешь, что держал такое оружие не раз и не два.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_mercenary"
+      }
+    ]
+  },
+  {
+    "id": "reveal_drunkard",
+    "title": "Знакомая тяжесть в руке",
+    "description": "Ты берёшь пустую кружку со стойки, просто чтобы отставить её в сторону — и на миг замираешь, вспоминая, сколько таких кружек прошло через твои руки прежде. Достаточно, чтобы это место не казалось чужим.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_drunkard"
+      }
+    ]
+  },
+  {
+    "id": "reveal_pauper",
+    "title": "Привычка делить надвое",
+    "description": "Кто-то в компании достаёт последний кусок хлеба, и твои руки сами тянутся разделить его на всех поровну прежде, чем кто-то успевает попросить. Ты не помнишь, когда это стало привычкой — только помнишь, что голод учит этому быстро.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_pauper"
+      }
+    ]
+  },
+  {
+    "id": "reveal_fugitive",
+    "title": "Оглядка через плечо",
+    "description": "Среди старых могильных плит ты ловишь себя на том, что уже выбрал взглядом три пути отступления — прежде чем осознал, что вообще этим занят. Тело помнит бегство лучше, чем ты сам хотел бы признать.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_fugitive"
+      }
+    ]
+  },
+  {
+    "id": "reveal_charlatan",
+    "title": "Слова сами складываются",
+    "description": "Кто-то за соседним столом жалуется на неудачу — и прежде чем успеваешь остановиться, из тебя льётся история, полная сочувствия и полностью выдуманная. Ты вспоминаешь, сколько раз зарабатывал этим на хлеб, и тебе почти стыдно, как легко это до сих пор получается.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_charlatan"
+      }
+    ]
+  },
+  {
+    "id": "reveal_convict",
+    "title": "Шрамы от кандалов",
+    "description": "Карабкаясь по каменистому склону, ты вдруг замечаешь на своих запястьях старые, побелевшие шрамы — ровные, кольцевые. Руки помнят кирку и цепь лучше, чем ты помнишь лицо того, кто их надел.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "participant": {
+      "kind": "unknownOrigin"
+    },
+    "actions": [
+      {
+        "action": "revealOrigin",
+        "originId": "origin_convict"
+      }
+    ]
+  }
+]

@@ -1,0 +1,337 @@
+[
+  {
+    "id": "legendary_dragon",
+    "title": "Жар из глубины пещеры",
+    "description": "Вход в пещеру драконьего логова — жар чувствуется даже отсюда, у самого входа.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "risk",
+      "item",
+      "duel"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dragon_lair_known"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "dragon"
+      }
+    ]
+  },
+  {
+    "id": "legendary_dragon_awaited",
+    "title": "Дорога, которую ты уже знаешь",
+    "description": "Культисты не соврали — вот он, вход в логово, именно там, где они и говорили. Ты слышишь низкий рокот изнутри: кажется, дракон уже знает, что ты здесь.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 3,
+    "tags": [
+      "legendary",
+      "epic",
+      "risk",
+      "item",
+      "duel"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_lair_known"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "dragon"
+      }
+    ]
+  },
+  {
+    "id": "legendary_mountain_hermit",
+    "title": "Старик на краю обрыва",
+    "description": "На самом краю обрыва сидит старик, скрестив ноги. Высоты под собой он не замечает — или давно перестал замечать.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "solo",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Натаскать ему дров на всю зиму, ничего не спрашивая",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_hermit"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_hermit",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пообещать вернуться с припасами — и не вернуться",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_hermit"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сесть рядом молча — в горах так и спрашивают",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "met_mountain_hermit",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить о драконе — старик сидит здесь дольше всех слухов",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dragon_trail_tracks"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "met_mountain_hermit",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он видит метку круга и говорит без обиняков",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "met_mountain_hermit",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Поделиться флягой смелости — на такой высоте она к месту",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "met_mountain_hermit",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Продрогшему он молча пододвигает свой плащ",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
+        "label": "Спросить совета",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "met_mountain_hermit",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Попросить научить выживанию",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "endurance",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить его в покое",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "callback_dragon_survivor_betrayed",
+    "title": "Он тебя не забыл",
+    "description": "Ты ловишь на себе тяжёлый взгляд — тот самый выживший, которого ты когда-то обобрал среди руин, стоит на другой стороне тропы и молча смотрит вслед.",
+    "type": "curse",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "betrayed_dragon_survivor"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  }
+]

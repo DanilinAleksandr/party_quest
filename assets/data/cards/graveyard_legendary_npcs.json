@@ -1,0 +1,161 @@
+[
+  {
+    "id": "legendary_king_of_the_dead",
+    "title": "Мавзолей, которого не должно быть",
+    "description": "В глубине кладбища возвышается мавзолей — слишком новый, слишком нетронутый временем для этого места.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "king_of_the_dead"
+      }
+    ]
+  },
+  {
+    "id": "legendary_old_gravedigger",
+    "title": "Могила не по размеру",
+    "description": "Старик с лопатой копает могилу — и она подозрительно точно подходит по росту именно тебе.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "solo",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Взять вторую лопату и дорыть за него",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_gravedigger"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_gravedigger",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пока он копает, проверить, что лежит в его мешке",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_gravedigger"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_gravedigger",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, для кого могила",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "warned_by_gravedigger",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Предложить старику выпить за упокой — по глотку на двоих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_mystery"
+          }
+        ]
+      },
+      {
+        "label": "Уйти молча",
+        "actions": []
+      }
+    ]
+  }
+]

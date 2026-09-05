@@ -1,0 +1,733 @@
+[
+  {
+    "id": "tavern_bar_fight",
+    "title": "Опрокинутая кружка",
+    "description": "Кто-то опрокидывает твою кружку — не то нарочно, не то спьяну. Вспыхивает потасовка.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "risk",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_wager",
+    "title": "Ставки сделаны",
+    "description": "Компания за соседним столом подначивает тебя на серьёзную ставку.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "luck",
+      "item",
+      "risk",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "«Ваше Величество» за столом не переспрашивают — ставку называешь ты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_party_king"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Ставку принимаешь ты, а условия называешь тоже ты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Терять нечего — и за столом это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Поставить бочонок вместо всего остального",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "С полосой удачи против тебя садиться не хотят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "За соседним столом человек ордена. Ставки сразу становятся скромнее",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Поставить кости судьбы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dice_of_fate"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_dice_of_fate"
+          },
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_mystery"
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Не рисковать последним",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_drinking_knight",
+    "title": "Вызов рыцаря",
+    "description": "Рыцарь за барной стойкой картинно поднимает кубок и во весь голос вызывает тебя на состязание.",
+    "type": "duel",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "duel",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hedge_word"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_cardsharp",
+    "title": "Ловкие пальцы",
+    "description": "Шулер с неестественно быстрыми пальцами предлагает сыграть «по маленькой».",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "luck",
+      "risk",
+      "strategy",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Проиграть нарочно и не подать виду — ему сегодня нужнее",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_cardsharp"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_cardsharp",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поймать его за руку при всех",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_cardsharp"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_cardsharp",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Шулер против шулера при костях судьбы — вечер будет долгим",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          },
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dice_of_fate"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сесть напротив и передёрнуть первым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Назвать вслух, где у него вторая колода",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Играть его же костями судьбы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dice_of_fate"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Он косится на твоё кольцо и предлагает сыграть на него",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_silver_tongue_ring"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Шулер знает, кого не обыгрывают: за столом сидит человек ордена",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "С полосой удачи он играть не сядет и уходит сам",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сыграть по маленькой",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отказаться — руки у него подозрительно ловкие",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "tavern_musician",
+    "title": "Мелодия из угла",
+    "description": "Музыкант в углу заводит такую мелодию, что даже усталые ноги сами просятся в пляс — ты решаешься выйти в круг.",
+    "type": "blessing",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "blessing",
+      "group",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_bouncer",
+    "title": "Тяжёлая рука",
+    "description": "Вышибала кладёт тяжёлую руку тебе на плечо: «Кажется, тебе пора».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "curse",
+      "duel",
+      "risk",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вышибала смотрит тебе в лицо и молча убирает руку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Гостеприимный хозяин уже назвал вас своими — вышибала опускает руку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_generous_host"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "in_tavern"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Рука на плече не удерживает тебя даже формально",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Уйти тихо",
+        "actions": []
+      },
+      {
+        "label": "Показать знак ордена — вышибала знает, чем это кончается",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Не спорить: он уже слышал, кем вас объявили",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      },
+      {
+        "label": "Назвать своё имя и звание",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Угостить его — благо бочонок с собой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ]
+      },
+      {
+        "label": "Заговорить зубы",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Закатить сцену",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 2
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_kicked_out"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

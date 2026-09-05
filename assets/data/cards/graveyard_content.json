@@ -1,0 +1,570 @@
+[
+  {
+    "id": "graveyard_whispers",
+    "title": "Шёпот среди могил",
+    "description": "Ветер проходит между надгробиями, и тебе чудится в нём что-то похожее на слова.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Мёртвым до тебя нет дела. Живым — наоборот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Шёпот обрывается, стоит тебе повернуть голову",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "При тебе мёртвые молчат — и ты не узнаешь ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Прислушаться — для тебя это не шум, а речь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить им так, как учили в круге",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочесть отходную — слова помнятся сами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Шёпот зовёт тебя по имени — круг тебя не забыл",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Сжать оберег и идти дальше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отмахнуться и идти дальше",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graveyard_old_grave",
+    "title": "Свежераскопанная могила",
+    "description": "Земля на одной из могил вскопана совсем недавно — то ли зверем, то ли кем-то ещё.",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "luck",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Проводник душ с оберегом круга может копать спокойно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          },
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Копали не отсюда, а изнутри. Ты знаешь, как это выглядит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Определить по следам, что здесь копали не звериные лапы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить у того, кто здесь лежит, кто его тревожил",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Копали лопатой, и человек был один. Ты читаешь это как строку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Круг такие могилы метит. Метки нет — значит, копал чужой",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отмычки пригодились бы и здесь, но ты убираешь их обратно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оберег холодеет, стоит подойти ближе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Раскопать дальше",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить мёртвых в покое",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_will_o_wisp",
+    "title": "Блуждающий огонёк",
+    "description": "Между надгробиями пляшет бледный огонёк. Отдаляется, останавливается, ждёт.",
+    "type": "trap",
+    "rarity": "uncommon",
+    "weight": 9,
+    "tags": [
+      "curse",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "graveyard_will_o_wisp"
+      }
+    ]
+  },
+  {
+    "id": "graveyard_epitaph",
+    "title": "Надпись на камне",
+    "description": "Ты останавливаешься прочитать эпитафию — короткую и неожиданно трогательную историю чьей-то жизни. Камень ухожен: кто-то приходит сюда до сих пор.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Камень поставили на днях — вы были на этих похоронах",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_funeral"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Покровительство ведьмы и метка круга — здесь этого достаточно, чтобы читать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты читаешь и то имя, что стёрли с камня нарочно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разобрать знаки под эпитафией — они куда старше самой надписи",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Здесь лежит брат ордена. Ты знаешь, что говорят над такими",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить у того, кто здесь лежит, кто носит сюда цветы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не задерживаться: за такими именами приходят и живые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить у камня флягу — так провожают в дорогу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Прочесть вслух — с проклятием на плечах это стоит сделать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ]
+      },
+      {
+        "label": "Ордену вы теперь чужие — а камень орденский. Отойти",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Постоять молча и пойти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_raven",
+    "title": "Ворон на кресте",
+    "description": "Крупный чёрный ворон провожает тебя взглядом с покосившегося креста, не двигаясь с места.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  }
+]

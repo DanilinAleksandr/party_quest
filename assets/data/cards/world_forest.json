@@ -1,0 +1,270 @@
+[
+  {
+    "id": "world_forest_clearcut",
+    "title": "Вырубка",
+    "description": "Гектар голых пней и небо там, где неба не было. Свет падает вниз отвесно и освещает то, что двести лет не освещалось.\n\nМежду пнями уже поднялся малинник — за одно лето, в полный рост.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_charcoal_camp",
+    "title": "Стан угольщиков",
+    "description": "Три кучи под дёрном, шалаш из веток, кострище. Дым идёт ровно из всех трёх.\n\nЛюдей не видно, но у шалаша сушится рубаха, и она мокрая насквозь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_river_after_flood",
+    "title": "Река после разлива",
+    "description": "Вода ушла, и по кустам на высоте роста висит трава, ветки и чей-то мешок. Русло стало шире на десять шагов.\n\nБерег, по которому шли раньше, теперь под водой.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_windfall",
+    "title": "Ветровал",
+    "description": "Десяток сосен лежит в одну сторону, вывернутые с корнями. Ямы под ними уже налились водой.\n\nОстальной лес стоит как стоял. Полоса шириной в тридцать шагов и всё.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_burnt_patch",
+    "title": "Старая гарь",
+    "description": "Чёрные стволы стоят без коры и без веток, а между ними по пояс — иван-чай, розовый и густой.\n\nГорело года три назад. Сейчас тут светлее и живее, чем в целом лесу.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_tar_pit",
+    "title": "Смолокурня",
+    "description": "В яме дотлевает берёста, и от неё тянет тем густым запахом, который потом не выветривается из одежды.\n\nБочки стоят полные и закупоренные. Их не забрали — просто ещё не пришло время.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_deer_path",
+    "title": "Тропа не человеческая",
+    "description": "Через мох идёт натоптанная дорожка в ладонь шириной. Она обходит валежник там, где человек бы перелез, и ныряет под ветку на высоте колена.\n\nОна идёт куда-то очень уверенно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Пойти по ней и посмотреть, куда она ведёт",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочитать по помёту и объеденным веткам, кто её протоптал",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отметить её на карте",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить её тем, кто её протоптал",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "world_forest_beehives_in_trees",
+    "title": "Борти",
+    "description": "На четырёх соснах подряд выдолблены дупла и заложены колодами. Высоко — шагов пятнадцать, к каждой ведут затёсы для лазания.\n\nЗатёсы старые и заплывшие смолой. Новых нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_fog_in_hollow",
+    "title": "Туман в низине",
+    "description": "Он лежит ровным слоем по колено и не двигается. Деревья стоят в нём, будто отпиленные снизу.\n\nЗвуки в низине становятся глуше ровно на границе тумана.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "fog"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_marked_trees",
+    "title": "Помеченные под сруб",
+    "description": "На стволах затёсы с одной стороны и мазок краской. Помечено штук сорок, все крупные, все по одной линии.\n\nЗдесь пройдёт просека. Пока об этом знают только деревья.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_anthill_giant",
+    "title": "Муравейник в рост",
+    "description": "Куча выше человека и старше, чем окрестные деревья. По ней идёт непрерывное шевеление, от которого рябит в глазах.\n\nВокруг на два шага земля голая — там ничего не растёт и не растёт давно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_forest_spring_thaw",
+    "title": "Лес просыпается",
+    "description": "Снег остался только с северной стороны стволов, узкими серыми полосами. Всё остальное — мокрая прошлогодняя листва.\n\nПод ней уже что-то зелёное, но пока смотрит вбок, а не вверх.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inSeason",
+        "season": "spring"
+      }
+    ],
+    "actions": []
+  }
+]

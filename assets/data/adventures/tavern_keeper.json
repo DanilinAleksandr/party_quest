@@ -1,0 +1,176 @@
+[
+  {
+    "id": "tavern_keeper",
+    "entryNodeId": "keeper_private_room",
+    "nodes": [
+      {
+        "id": "keeper_private_room",
+        "text": "Хозяин таверны, которого ты прежде ни разу не замечал среди завсегдатаев, манит тебя жестом в заднюю комнату.",
+        "choices": [
+          {
+            "label": "Пройти за ним",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "keeper_offer"
+              }
+            }
+          },
+          {
+            "label": "Остаться за общим столом",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "keeper_offer",
+        "text": "«Я держу эту таверну дольше, чем кто-либо здесь помнит. И у меня кое-что есть для тебя».",
+        "choices": [
+          {
+            "label": "Присмотреться внимательнее к его глазам",
+            "conditions": [
+              {
+                "condition": "currentPlayerOriginUnknown"
+              }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "keeper_recognizes_archmage"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_kicked_out"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Выслушать предложение",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "keeper_deal"
+              }
+            }
+          },
+          {
+            "label": "Вежливо отказаться",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "keeper_deal",
+        "text": "«Мне нужна одна услуга. Взамен ты получишь то, что действительно пригодится в пути».",
+        "choices": [
+          {
+            "label": "Согласиться на его условия",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_generous_host"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_kicked_out"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Спросить цену заранее",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "keeper_recognizes_archmage",
+        "text": "Ты вглядываешься в его глаза дольше, чем позволяет вежливость — и на миг видишь то, что не должен был увидеть.\n\nЗа обычным взглядом трактирщика — что-то бесконечно старое, будто в этих глазах отражается пламя, погасшее много веков назад. Он замечает, что ты заметил, и впервые за вечер не улыбается.\n\n«Немногие видят сквозь личину, — тихо говорит он. — Последняя капля силы моего ордена искала новый сосуд дольше, чем ты можешь представить. И, кажется, она нашла его в тебе».",
+        "onEnterActions": [
+          {
+            "action": "revealOrigin",
+            "originId": "origin_last_archmage"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "keeper_recognized_archmage",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "📖 {player} — Последний архимаг."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "id": "callback_ghost_gratitude",
+    "title": "Тихий смех",
+    "description": "Где-то за спиной ты будто слышишь тихий смех — старый знакомый из заброшенного трактира одобряет твой путь.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "blessing",
+      "solo",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_tavern_ghost"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "callback_witch_reputation",
+    "title": "Дурная слава",
+    "description": "Слухи о краже разошлись по округе — прохожие узнают тебя и косятся с подозрением.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "stole_magic_book"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "callback_altar_reminder",
+    "title": "Голос из чащи",
+    "description": "На секунду тебе чудится тот самый голос из леса: «Алтарь помнит о своём».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "made_altar_pact"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "callback_merchant_rumor",
+    "title": "Слухи среди торговцев",
+    "description": "Встречный лоточник косится на тебя и вдруг узнаёт: «А, это тот, кто обманул беднягу с амулетами...» Молва о твоём трюке уже разошлась по торговым рядам.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "caught_merchant_scam"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  }
+]

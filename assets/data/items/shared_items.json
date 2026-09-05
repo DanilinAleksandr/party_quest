@@ -1,0 +1,62 @@
+[
+  {
+    "id": "item_map",
+    "name": "Карта",
+    "description": "Потрёпанная карта земель — вся компания сверяется с ней вместе, а не только тот, кому она досталась.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  },
+  {
+    "id": "item_tent",
+    "name": "Палатка",
+    "description": "Большая походная палатка. Хватит места на всех, если решите разбить лагерь.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  },
+  {
+    "id": "item_compass",
+    "name": "Компас",
+    "description": "Компас, который на удивление не врёт. Общий — стрелка одна на всю компанию.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  },
+  {
+    "id": "item_rope",
+    "name": "Верёвка",
+    "description": "Крепкая верёвка — пригодится, если кто-то из компании застрянет или провалится.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  },
+  {
+    "id": "item_cart",
+    "name": "Телега",
+    "description": "Скрипучая телега для общего скарба — тащить её тяжело, зато не приходится нести всё на себе.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  },
+  {
+    "id": "item_beer_keg",
+    "name": "Бочка пива",
+    "description": "Бочонок пива на всю компанию. Открыть можно в любой момент — хватит на всех.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "ownership": "shared",
+    "useActions": []
+  }
+]

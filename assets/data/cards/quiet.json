@@ -1,0 +1,209 @@
+[
+  {
+    "id": "quiet_empty_bridge",
+    "title": "Мост",
+    "description": "Каменный мост в три пролёта. Под ним воды почти нет — одно русло, сухое и белое от солнца.\n\nНа перилах сидит птица и не улетает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_wind_in_grass",
+    "title": "Ветер идёт полосой",
+    "description": "По траве идёт полоса — от края поля к дороге и дальше, за спину. Потом ещё одна.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_shutters",
+    "title": "Закрытые ставни",
+    "description": "Дом у дороги стоит с закрытыми ставнями. На крыльце — метла, прислонённая к косяку.\n\nДым из трубы не идёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_smoke_far",
+    "title": "Дым",
+    "description": "Далеко за холмами поднимается дым — тонкий и ровный, без ветра. Печной, не пожарный.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_echo_answers",
+    "title": "Эхо",
+    "description": "Кто-то роняет флягу, и звук уходит вниз по ущелью. Возвращается трижды.\n\nВ третий раз — не совсем тем же голосом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_birds_over_field",
+    "title": "Птицы над полем",
+    "description": "Стая ходит кругами над одним и тем же местом. Опускается, поднимается, опять опускается.\n\nЧто там — с дороги не видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_water_under_ice",
+    "title": "Вода подо льдом",
+    "description": "Ручей затянуло, но под коркой видно движение. Слышно тоже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_dust_on_road",
+    "title": "Пыль стоит столбом",
+    "description": "Далеко впереди над дорогой висит пыль. Долго, не оседая.\n\nПотом ветер меняется, и её сносит в сторону.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_open_door",
+    "title": "Дверь открыта",
+    "description": "Придорожный сарай стоит с распахнутой дверью. Внутри — солома и пустой крюк под потолком.\n\nДверь не хлопает: её что-то держит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_tavern_between_songs",
+    "title": "Между песнями",
+    "description": "Музыка кончилась, и в зале несколько секунд никто не начинает говорить первым.\n\nСлышно, как на кухне ставят посуду.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_rain_stops",
+    "title": "Дождь кончился",
+    "description": "Стук по листьям прекращается разом. С веток ещё капает, но реже и реже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_stone_wall",
+    "title": "Старая ограда",
+    "description": "Вдоль дороги тянется сложенная без раствора каменная ограда. Она обрывается посреди поля и дальше не продолжается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

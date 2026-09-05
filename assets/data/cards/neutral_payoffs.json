@@ -1,0 +1,135 @@
+[
+  {
+    "id": "neutral_well_payoff",
+    "title": "Колодец услышал",
+    "description": "Где-то далеко тихо звякает монета — то самое желание наконец сбывается.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "made_a_wish"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "made_a_wish",
+        "steps": 5
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_streak"
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "made_a_wish",
+        "value": false
+      }
+    ]
+  },
+  {
+    "id": "neutral_note_payoff",
+    "title": "Знакомый почерк",
+    "description": "Хозяин таверны присматривается к записке в твоих руках. «А, это писала Марта. Она мне монету должна — возьми за неё».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "found_tavern_note"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "found_tavern_note",
+        "value": false
+      }
+    ]
+  },
+  {
+    "id": "neutral_traveler_payoff",
+    "title": "Знакомый силуэт",
+    "description": "На мгновение тебе кажется, что тот путник снова идёт следом — и внимательно смотрит на твой мешок.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "noticed_travelers_pack"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "noticed_travelers_pack",
+        "steps": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_haunted"
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "noticed_travelers_pack",
+        "value": false
+      }
+    ]
+  },
+  {
+    "id": "neutral_figurine_payoff",
+    "title": "Мастерская у дороги",
+    "description": "На обочине — верстак, стружка и недоделанные игрушки, точь-в-точь как та, что у тебя в кармане.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_wooden_figurine"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_lucky_echo"
+      },
+      {
+        "action": "takeItem",
+        "target": "currentPlayer",
+        "itemId": "item_wooden_figurine"
+      }
+    ]
+  }
+]

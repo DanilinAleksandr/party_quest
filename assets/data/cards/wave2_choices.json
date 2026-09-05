@@ -1,0 +1,1664 @@
+[
+  {
+    "id": "luck_ward_offer",
+    "title": "Незнакомец у дороги",
+    "description": "Сгорбленная фигура протягивает тебе оберег: «Отдай мне каплю своей удачи — и он твой».",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "luck",
+      "item",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_ward_amulet"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Хитростью и отмычками выяснить, откуда у него столько оберегов",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Фигура прячет оберег за спину и торопливо уходит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Узнать плетение: так вяжет только чаща, и цена всегда честная",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Спросить, из чьей могилы взят шнурок",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      },
+      {
+        "label": "Отказаться: орден такое не одобряет, а слово вы держите",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать чешую — рядом с ней его оберег и сам гаснет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dragon_scale"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Расплатиться бочонком вместо удачи",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Согласиться на обмен",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "curse_amulet_escape",
+    "title": "Тень проклятия",
+    "description": "Ты чувствуешь, как на тебя вот-вот обрушится проклятие — воздух густеет, и звуки отстают на полшага.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 11,
+    "tags": [
+      "curse",
+      "item",
+      "solo"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Оберег и слово круга вместе — проклятие уходит, не задев",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Проклятие идёт к тебе само — как всё, что живёт в темноте",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_forbidden_word"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать оберег",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Назвать проклятие по имени — ты знаешь его род",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Стоять спокойно: мёртвые тебе не враги, а это их работа",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Позволить покровительству ведьмы сделать своё дело",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Вспомнить слова, которыми на заставе отгоняют такое",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оно идёт по метке — и метку придётся отдать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      },
+      {
+        "label": "Принять проклятие",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_forbidden_word"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "black_spot_pass_along",
+    "title": "Метка жжёт руки",
+    "description": "Чёрная метка в кармане тяжелеет с каждой минутой. Пора от неё избавиться — или оставить себе.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "item",
+      "curse",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_black_spot"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отнести метку в круг — там знают, куда её деть",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Сдать метку ордену и не спрашивать, что дальше",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Разобрать, из чего она сделана — метка не бумага",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Носить и не жаловаться — тебе не впервой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прикрыть оберегом — пусть жжёт его",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Незаметно подбросить соседу",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "giveItem",
+            "target": "randomOtherPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у себя",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "black_spot_collector",
+    "title": "Человек в дверях",
+    "description": "В дверях появляется человек с недобрым прищуром — он узнаёт метку в твоих руках. «Это моё. Отдавай — или объясняй, откуда она у тебя».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "curse",
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_black_spot"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ты знаешь, кому она принадлежала до него. И говоришь это вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Круг такие метки забирает первым. Сказать, у кого она теперь",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Позвать заставу — он уходит быстрее, чем договорил",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Оберег гасит метку прямо у него на глазах",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Отдать метку без разговоров",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          }
+        ]
+      },
+      {
+        "label": "Соврать, что видишь её впервые",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сунуть флягу — пусть выпьет и забудет, зачем пришёл",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Метнуться прочь",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_black_spot"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ring_owner_returns",
+    "title": "Знакомый голос",
+    "description": "Пожилая женщина всматривается в твою руку и ахает: «Моё кольцо! Я думала, потеряла его навсегда...»",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "item",
+      "risk",
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_silver_tongue_ring"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Кольцо не её. Ты видишь это по тому, как она его называет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Такую работу ты узнаешь — и знаешь, что чинили её дважды",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вернуть кольцо и попросить взамен благословение круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Орден учит возвращать чужое без торга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Вернуть кольцо владелице",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить кольцо себе и предложить флягу взамен",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Уговорить её, что кольцо тебе нужнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 3
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отрицать, что это то самое кольцо",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_silver_tongue_ring"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "luck_double_or_nothing",
+    "title": "Ва-банк",
+    "description": "Тебе предлагают либо взять малое, либо рискнуть всем.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "luck",
+      "risk",
+      "strategy"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Спорить с судьбой, которая тебя выбрала, — дурная примета",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Дар алтаря и своя удача складываются — ты уже знаешь, чем кончится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "luck",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Терять тебе нечего — и это единственное твоё преимущество",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 3
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Посчитать в уме, чего это стоит на самом деле",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подбросить свою монету и принять её ответ",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 3
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Полоса удачи держится — сегодня можно и ва-банк",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Вздох неудачи за плечом. Рисковать сейчас — не смелость, а глупость",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_cloud"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Рискнуть по-крупному",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 3
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Синица в руках",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "item_flask_of_courage_find",
+    "title": "Фляга у остывающего костра",
+    "description": "Костёр у обочины ещё тёплый, но вокруг никого. На камне оставлена фляга — полная, заткнутая пробкой. Хозяин явно собирался вернуться.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "item",
+      "risk",
+      "drink"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "По запаху понять, что налито, — и стоит ли это пить вообще",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Такую флягу ты узнаешь по одному весу в руке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Костёр бросили в спешке. Уходить надо и вам",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_forest",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Чужого орден не берёт — и вы не берёте",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Перелить в свою флягу, а чужую оставить на камне",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Метка на руке темнеет, стоит поднести флягу к губам",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отхлебнуть залпом, не раздумывая",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дождаться хозяина и выпить с ним за знакомство",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не трогать чужое",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "event_wanderer_riddle",
+    "title": "Странник у костра",
+    "description": "Странник с котомкой предлагает разгадать его загадку за компанию. Загадка старая — таких уже почти не рассказывают.",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "luck",
+      "solo",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отгадать, но сделать вид, что не смог, — ему важнее выиграть",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_wanderer",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пока он думает над своей же загадкой, заглянуть в котомку",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_wanderer",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Счастливое эхо подсказывает ответ раньше, чем ты его додумал",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить прежде, чем он договорит: эту загадку поют в балладах",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сказать, на каком языке она была задана впервые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_last_archmage"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Не разгадывать, а убедить, что разгадал",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hedge_word"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Надеть кольцо красноречия и заговорить ему зубы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Поднести флягу — под такое загадки идут веселее",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заодно обменяться дорожными байками, раз денёк такой погожий",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "sunny"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, не слышал ли он о вас — слухи ходят быстрее",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Попробовать отгадать",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "event_alchemist_swap",
+    "title": "Бродячий алхимик",
+    "description": "Алхимик щурится на твою монету: «Обычная вещица. Давай я превращу её во что-то получше?»",
+    "type": "item",
+    "rarity": "rare",
+    "weight": 7,
+    "tags": [
+      "item",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Донести ему ящик до перекрёстка — руки у него заняты",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_alchemist",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подменить монету, пока он отвернулся",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_alchemist",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Говорить с ним на языке ремесла — цену он назовёт другую",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты сам так работал. Он это понимает и убирает руки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Он узнаёт, от кого вы, и сделка становится честной",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ]
+      },
+      {
+        "label": "От вас пахнет заставой — алхимик сворачивает лоток",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Предложить взамен необычный камень — на него он смотрит дольше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_odd_stone"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Оберег на тебе он замечает первым и меняет тон",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Согласиться на обмен",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ]
+      },
+      {
+        "label": "Монета памятна — отказаться",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "event_hunter_challenge",
+    "title": "Охотник на привале",
+    "description": "Охотник кивает на дальнюю мишень: «Спорим, не попадёшь».",
+    "type": "duel",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "duel",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отказаться — в такой ливень и его лук подведёт",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разделить с ним добычу — самый разгар охотничьего сезона",
+        "conditions": [
+          {
+            "condition": "inSeason",
+            "season": "autumn"
+          },
+          {
+            "condition": "currentPlayerLacksOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Выдержать его взгляд — он чует в тебе что-то не то и не спешит опускать лук",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Принять вызов",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_no_gestures"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Не связываться",
+        "actions": []
+      }
+    ]
+  }
+]

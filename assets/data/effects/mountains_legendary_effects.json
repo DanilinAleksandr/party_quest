@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_dragons_burn",
+    "name": "Драконий жар",
+    "description": "Следующие 3 хода дуй на руки, будто до сих пор чувствуешь жар — дракон тебя опалил.",
+    "polarity": "negative",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

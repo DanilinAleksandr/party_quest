@@ -1,0 +1,251 @@
+[
+  {
+    "id": "atmosphere_silent_road",
+    "title": "Молча",
+    "description": "Какое-то время никто не говорит. Только шаги, дыхание и скрип поклажи. Иногда дорога не требует слов.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_wave",
+    "title": "Рука на холме",
+    "description": "На дальнем холме стоит человек и медленно машет рукой. Не зовёт, не окликает — просто машет. Вы машете в ответ, и он скрывается за гребнем.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_music",
+    "title": "Музыка издалека",
+    "description": "Где-то далеко играет свирель — так тихо, что не разобрать мотива. Через сотню шагов звук пропадает, и никто так и не понял, откуда он шёл.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_birds_rise",
+    "title": "Птицы снялись разом",
+    "description": "Вся стая срывается с ветвей разом и уходит за верхушки. Лес остаётся неподвижным, и от этого тише, чем было до птиц.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_rain_canopy",
+    "title": "Дождь по кронам",
+    "description": "Дождь идёт где-то наверху — до земли долетают только редкие тяжёлые капли. Идти под этим шорохом почти уютно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_wind_ripples",
+    "title": "Ветер перебирает песок",
+    "description": "Ветер тянет по гребню бархана тонкую позёмку из песка. За вашими спинами следы затягивает прежде, чем вы успеваете обернуться.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_night_stars",
+    "title": "Небо над пустыней",
+    "description": "Здесь, вдали от любого жилья, звёзд оказывается неприлично много. Компания какое-то время просто стоит и смотрит вверх.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_echo",
+    "title": "Эхо",
+    "description": "Из-под ноги срывается камешек и уходит вниз — стук доносится ещё долго, всё тише и тише. Никто не считает, сколько именно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_clouds_below",
+    "title": "Облака под ногами",
+    "description": "Тропа выводит выше облаков. Внизу — сплошное белое поле, и весь остальной мир куда-то делся.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_coast_birds_over_water",
+    "title": "Птицы над водой",
+    "description": "Над самой водой низко тянется вереница птиц — одна за другой, к дальней косе. Прибой перекрывает шум их крыльев.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_graveyard_grass",
+    "title": "Трава между камней",
+    "description": "На самых старых могилах не осталось ни имён, ни дат — только трава, ровная и высокая. За этими давно уже некому приходить.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_autumn_leaves",
+    "title": "Листья по дороге",
+    "description": "Ветер гонит по тропе палую листву. Она обгоняет идущих и уходит вперёд.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "autumn"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  }
+]

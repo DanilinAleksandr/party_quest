@@ -1,0 +1,939 @@
+[
+  {
+    "id": "road_courier_wrong_way",
+    "title": "Гонец не в ту сторону",
+    "description": "Всадник осаживает коня и спрашивает, далеко ли до переправы. Переправа позади — он проскакал мимо неё час назад.\n\nОн выслушивает, кивает, разворачивается. И едет всё-таки вперёд.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_postman_heavy_bag",
+    "title": "Почтальон и одно письмо",
+    "description": "Сумка у него набита, но он вынимает одно-единственное письмо и перечитывает адрес в третий раз.\n\n«Двор с красной калиткой. Тут все калитки красные».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вспомнить, где видели такую калитку с петлями наружу",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать по карте, откуда считать дворы",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пожать плечами и пойти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_porter_rests",
+    "title": "Носильщик считает до ста",
+    "description": "Он ставит короб на камень, не снимая лямок, и стоит, закрыв глаза. Губы шевелятся.\n\nДосчитав, поднимает и идёт дальше. До следующего камня — ровно сто шагов.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_shepherd_counts_wrong",
+    "title": "Пастух пересчитывает",
+    "description": "Овец восемнадцать. Он считает и получает семнадцать. Считает снова — девятнадцать.\n\n«Одна и та же прячется. Каждый вечер одна и та же».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Найти ту, что стоит за спиной у пастуха",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Свистнуть так, как свистят своим",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не вмешиваться, он сам разберётся",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_charcoal_burner_smoke",
+    "title": "Углежог не спит третьи сутки",
+    "description": "Куча дымится ровно, без огня. Он обходит её кругом и подсыпает земли там, где дым стал светлее.\n\n«Отвернёшься — прогорит. Неделю работы за один вдох».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Постоять вместо него, пока он поспит хоть час",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить ему флягу и уйти",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Обойти дым стороной",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_woodcutter_wedge",
+    "title": "Лесоруб и зажатый топор",
+    "description": "Топор ушёл в ствол и застрял намертво. Лесоруб сидит рядом и смотрит на него без всякой злости, как на погоду.\n\n«Подожду. К вечеру дерево само отпустит».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Взяться вдвоём и вытащить",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подсунуть верёвку и сделать рычаг",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Согласиться, что к вечеру отпустит",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_old_man_milestone",
+    "title": "Старик у верстового камня",
+    "description": "Он сидит на камне и трогает выбитую цифру пальцем, будто проверяя, не стёрлась ли.\n\n«Тут раньше было четырнадцать. Кто-то подправил на двенадцать, и теперь все приходят раньше времени».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_boy_with_stick",
+    "title": "Мальчишка с палкой",
+    "description": "Он идёт по обочине и ведёт палкой по частоколу, извлекая ровный треск. Дойдя до конца, разворачивается и идёт обратно.\n\nЗа калиткой кто-то не выдерживает и кричит. Мальчишка ускоряет шаг, но палку не убирает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_cart_stuck_rut",
+    "title": "Телега в колее",
+    "description": "Колесо село в колею по самую ось. Возчик уже не тянет — просто стоит и смотрит, как лошадь дышит.\n\nМимо прошли двое и не остановились.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подналечь всей компанией",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подложить под колесо жерди и вывести шагом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Впрячь своего верблюда — он вытянет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_stray_camel"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, как те двое",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_two_carts_narrow",
+    "title": "Двое на узкой дороге",
+    "description": "Телеги встали нос к носу. Слева обрыв, справа стена. Пятиться должен кто-то один, и оба это знают.\n\nОни стоят так уже долго. Лошади успели задремать.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Уговорить попятиться того, кто ближе к развороту",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Бросить жребий за них двоих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dice_of_fate"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подождать, пока решат сами",
+        "actions": []
+      },
+      {
+        "label": "Пролезть между стеной и колесом и идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_funeral_procession",
+    "title": "Встречная процессия",
+    "description": "Навстречу идут человек двадцать, и никто не разговаривает. Впереди несут что-то, накрытое холстиной.\n\nДорога узкая. Придётся сойти на обочину и постоять.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_broken_wheel_left",
+    "title": "Колесо без телеги",
+    "description": "У обочины лежит колесо — целое, крепкое, с новой ступицей. Телеги рядом нет, следов тоже.\n\nКто-то бросил хорошую вещь и очень торопился.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_pilgrim_barefoot",
+    "title": "Монах без обуви",
+    "description": "Он идёт босиком по щебню, ровным шагом, и на лице у него ничего не написано. Сандалии висят на поясе.\n\n«Обещал дойти так. Обещал, правда, до другого места».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить, что он пообещал и кому",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Промолчать: с обещаниями у вас свои счёты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пожелать дойти",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_hunter_waits",
+    "title": "Охотница ждёт",
+    "description": "Она сидит в развилке дерева над самой тропой и не шевелится. Заметить её можно только по дыханию.\n\nВнизу проходят люди. Она их пропускает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять голову и встретиться взглядом",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Понять по следам, кого именно она ждёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пройти под деревом, ничего не заметив",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_traveller_asks_water",
+    "title": "Просьба о воде",
+    "description": "Человек с пустым бурдюком сидит у дороги. Он не просит — только смотрит, как вы проходите, и отводит глаза первым.\n\nКолодец в полудне пути. В обе стороны.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать флягу целиком",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать ему бочажок, о котором знают только пустынные",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поделиться, потому что сами когда-то так сидели",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо и не оборачиваться",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_signpost_repainted",
+    "title": "Заново написанный указатель",
+    "description": "Столб старый, а буквы свежие. Написано другой рукой и с ошибкой в одном названии.\n\nСтарая надпись просвечивает снизу и указывает в другую сторону.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Разобрать нижнюю надпись",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сверить с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Верить тому, что написано сверху",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_woman_with_geese",
+    "title": "Гуси поперёк дороги",
+    "description": "Их штук тридцать, и они идут поперёк, не торопясь. Женщина с прутиком идёт следом и на вас даже не смотрит.\n\nОбъехать негде. Обойти — тоже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_beekeeper_swarm",
+    "title": "Пасечник ловит рой",
+    "description": "Рой сел на низкую ветку чёрным гудящим комом. Пасечник стоит под ним с корзиной и разговаривает с пчёлами вполголоса, называя их по-родственному.\n\n«Ну куда собрались. Дома же лучше».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подержать корзину, не дёргаясь",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "endurance",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать рою уйти — и он уходит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отойти подальше и посмотреть оттуда",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_mason_measures",
+    "title": "Каменщик у мостовой опоры",
+    "description": "Он прикладывает шнур к трещине и хмурится. Потом прикладывает ещё раз, ниже.\n\n«Прошлым летом было в палец. Сейчас в два».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_late_wedding",
+    "title": "Свадьба опаздывает",
+    "description": "Три телеги в лентах несутся так, что лязгают вёдра. На передней стоит человек и машет всем встречным обеими руками.\n\n«Опаздываем! На собственную!»",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "road_dog_follows",
+    "title": "Собака идёт следом",
+    "description": "Она пристала ещё у прошлого поворота и держится ровно в двадцати шагах. Ошейника нет, рёбра видно.\n\nКогда останавливаешься — она тоже останавливается и садится.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поделиться едой и больше не оборачиваться",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Позвать так, как зовут своих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прогнать, пока не привыкла",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_carpenter_carries_door",
+    "title": "Плотник несёт дверь",
+    "description": "Один человек, одна дверь, ветер сбоку. Его разворачивает на каждом шагу, и он идёт зигзагом, как лодка против течения.\n\nОн отказывается ставить её на землю. Говорит, поднимать хуже.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Взяться за второй край",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Показать, как нести её ребром к ветру",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Посторониться и пропустить",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_watchman_shift_over",
+    "title": "Сторож сдал смену",
+    "description": "Он идёт домой с колотушкой под мышкой, и глаза у него закрываются на ходу. У самой развилки он останавливается и долго думает, куда сворачивать.\n\nСворачивает правильно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

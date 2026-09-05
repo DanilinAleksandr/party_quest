@@ -1,0 +1,153 @@
+[
+  {
+    "id": "dragon",
+    "entryNodeId": "dragon_lair_entrance",
+    "nodes": [
+      {
+        "id": "dragon_lair_entrance",
+        "text": "Вход в пещеру драконьего логова — жар чувствуется даже отсюда, у самого входа.",
+        "choices": [
+          {
+            "label": "Войти",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "dragon_encounter" } }
+          },
+          {
+            "label": "Развернуться, пока цел",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "dragon_encounter",
+        "text": "Дракон поднимает голову — огромную, покрытую шрамами от прошлых схваток. «Ещё один искатель сокровищ. Как предсказуемо».",
+        "choices": [
+          {
+            "label": "Заговорить с драконом",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "dragon_talk" } }
+          },
+          {
+            "label": "Попытаться прокрасться к сокровищам",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "dragon_sneak" } }
+          },
+          {
+            "label": "Убежать немедленно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "dragon_talk",
+        "text": "Дракон прищуривается — похоже, ты первый за долгое время, кто решил поговорить, а не нападать.",
+        "choices": [
+          {
+            "label": "Восхититься его историей",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "dragon_respects_you", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 2 },
+                { "action": "addChronicleEntry", "text": "🐉 Компания заслужила уважение дракона." }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_hedge_word" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "dragon_sneak",
+        "text": "Ты пытаешься скользнуть вдоль стены, пока дракон, кажется, отвлечён на что-то своё.",
+        "choices": [
+          {
+            "label": "Проскользнуть к сокровищам",
+            "successChance": 0.35,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "stole_from_dragon", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dragon_scale" },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 2 },
+                { "action": "addChronicleEntry", "text": "🐉 Компания похитила сокровища из логова дракона." }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": { "actions": [], "to": { "destination": "goToNode", "nodeId": "dragon_furious" } }
+          }
+        ]
+      },
+      {
+        "id": "dragon_furious",
+        "text": "Дракон замечает тебя мгновенно — глаза вспыхивают яростью, а из ноздрей поднимается дым.",
+        "choices": [
+          {
+            "label": "Замереть и посмотреть дракону в глаза, не отступая",
+            "conditions": [
+              { "condition": "currentPlayerOriginUnknown" }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "dragon_recognizes_blood" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_dragons_burn" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Сражаться",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "duel",
+                  "winnerActions": [
+                    { "action": "setWorldFlag", "flag": "defeated_dragon", "value": true },
+                    { "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": 3 }
+                  ],
+                  "loserActions": [
+                    { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_dragons_burn" }
+                  ]
+                }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Молить о пощаде",
+            "successChance": 0.5,
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_dragons_burn" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "dragon_recognizes_blood",
+        "text": "Дракон уже раскрывает пасть — жар обжигает лицо ещё до огня. И вдруг замирает.\n\nОн долго смотрит на тебя, не шевелясь. «Эта кровь... — рокочет он почти неслышно. — Не может быть».\n\nОн медленно склоняет голову — древний ящер преклоняется перед тем, кого мгновение назад собирался испепелить. «Наследие моего рода не должно было выжить. И всё же — вот ты, стоишь передо мной». Он отступает от сокровищ и пропускает всю компанию мимо, не тронув никого.",
+        "onEnterActions": [
+          { "action": "revealOrigin", "originId": "origin_dragonborn" },
+          { "action": "setWorldFlag", "flag": "dragon_recognized_bloodline", "value": true },
+          { "action": "modifyStat", "target": "allPlayers", "stat": "luck", "amount": 1 },
+          { "action": "addChronicleEntry", "text": "🐉 {player} — Драконорождённый." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

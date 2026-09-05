@@ -1,0 +1,119 @@
+[
+  {
+    "id": "legendary_pharaoh",
+    "title": "Проход глубже гробницы",
+    "description": "Там, где, казалось бы, гробница заканчивается, ты замечаешь ещё один проход — старше и темнее прежнего.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "curse",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "pharaoh"
+      }
+    ]
+  },
+  {
+    "id": "legendary_desert_warlord",
+    "title": "Знамя со скорпионом",
+    "description": "На вершине дальнего бархана видно шатёр под знаменем, вышитым скорпионом — лагерь легендарного вожака.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "duel",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "desert_warlord"
+      }
+    ]
+  },
+  {
+    "id": "callback_warlord_ambush",
+    "title": "Засада на дороге",
+    "description": "Из-за камней внезапно появляются знакомые лица — вожак не забыл, как ты поступил в прошлый раз.",
+    "type": "trap",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "warlord_enemy"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_defeated"
+      }
+    ]
+  },
+  {
+    "id": "callback_warlord_aid",
+    "title": "Тень каравана",
+    "description": "Вдалеке движется вооружённый караван — но, разглядев цвета вашей компании, воины проходят мимо. Военачальник узнаёт своих.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "warlord_ally"
+      },
+      {
+        "condition": "currentPlayerMissingEffect",
+        "effectId": "effect_warlords_protection"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_warlords_protection"
+      }
+    ]
+  }
+]

@@ -1,0 +1,312 @@
+[
+  {
+    "id": "legendary_pirate_captain",
+    "title": "Корабль с чёрными парусами",
+    "description": "У пристани стоит корабль с чёрными парусами — команда явно кого-то ждёт, и, кажется, тебя.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "pirate_captain"
+      }
+    ]
+  },
+  {
+    "id": "legendary_sea_witch",
+    "title": "Песня на кромке прибоя",
+    "description": "На камне у самой кромки прибоя сидит женщина с волосами цвета водорослей и поёт на языке, которого ты не понимаешь, но чувствуешь.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "solo",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Она поёт не тебе, а тому, что за тобой стоит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Море узнаёт титанову кровь и отступает от твоих ног",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты понимаешь язык. И понимаешь, о чём именно она поёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Подпеть — мелодию ты слышал в другой части света",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что вас принял круг, — она обрывает песню и слушает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Зов моря в тебе отзывается на её голос сам собой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_sea_call"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sea_call"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег на шее теплеет — плетение узнаёт плетение",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подойти ближе",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_healing_potion"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sea_call"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Слушать издалека",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Уйти, не тревожа её",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "callback_pirate_ambush",
+    "title": "Крюки из тумана",
+    "description": "Из ниоткуда появляются знакомые лица с крюками и кортиками — капитан не забыл твой трюк с картой.",
+    "type": "trap",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_pirate_captain"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_kicked_out"
+      }
+    ]
+  },
+  {
+    "id": "callback_captain_aid",
+    "title": "Знакомый парус на горизонте",
+    "description": "На горизонте на миг мелькают чёрные паруса — капитан узнаёт вас издалека и слегка меняет курс, чтобы прикрыть от беды.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "captain_ally"
+      },
+      {
+        "condition": "currentPlayerMissingEffect",
+        "effectId": "effect_captains_favor"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_captains_favor"
+      }
+    ]
+  },
+  {
+    "id": "coast_captain_haunt",
+    "title": "Бухта, о которой знают немногие",
+    "description": "Вы приходите туда сами — в бухту, названную контрабандистами. За скалой действительно стоит корабль с чёрными парусами, и вахтенный уже разглядел вас.",
+    "type": "legendary",
+    "rarity": "epic",
+    "weight": 7,
+    "tags": [
+      "legendary",
+      "epic",
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "knows_captain_haunt"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "pirate_captain"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "pirate_captain"
+      }
+    ]
+  }
+]

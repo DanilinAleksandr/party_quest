@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_sea_call",
+    "name": "Зов моря",
+    "description": "Следующие 2 хода отвечай на любой вопрос только пением.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  }
+]

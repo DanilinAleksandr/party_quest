@@ -1,0 +1,92 @@
+[
+  {
+    "id": "legendary_cardsharp",
+    "entryNodeId": "legend_cardsharp_table",
+    "nodes": [
+      {
+        "id": "legend_cardsharp_table",
+        "text": "В углу зала, за отдельным столом, сидит игрок, о котором ходят легенды — говорят, он не проигрывал ни разу.",
+        "choices": [
+          {
+            "label": "Сесть за стол",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "legend_cardsharp_game" } }
+          },
+          {
+            "label": "Обойти стороной",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "legend_cardsharp_game",
+        "text": "«Ставки должны быть по-крупному, или зачем вообще садиться».",
+        "choices": [
+          {
+            "label": "Играть честно на кости судьбы",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_dice_of_fate" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" },
+                {
+                  "action": "duel",
+                  "winnerActions": [
+                    { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+                    { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" },
+                    { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 2 }
+                  ],
+                  "loserActions": []
+                }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Смошенничать с отточенным годами мастерством",
+            "conditions": [
+              { "condition": "currentPlayerHasOrigin", "originId": "origin_charlatan" }
+            ],
+            "successChance": 0.85,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "cheated_legendary_cardsharp", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kicked_out" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Попытаться смошенничать",
+            "successChance": 0.4,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "cheated_legendary_cardsharp", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kicked_out" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Просто понаблюдать со стороны",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

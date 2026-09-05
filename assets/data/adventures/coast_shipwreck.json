@@ -1,0 +1,77 @@
+[
+  {
+    "id": "coast_shipwreck",
+    "entryNodeId": "wreck_entrance",
+    "nodes": [
+      {
+        "id": "wreck_entrance",
+        "text": "Прибой выносит на песок доски с остатками груза — где-то неподалёку затонул корабль. Часть обломков ещё видна у самой кромки воды, но настоящий трюм скрыт дальше, под волнами.",
+        "choices": [
+          {
+            "label": "Забраться вглубь, к затопленному трюму",
+            "successChance": 0.55,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wreck_hold_reward" }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wreck_undertow" }
+            }
+          },
+          {
+            "label": "Ограничиться обломками у берега",
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "wreck_shore_reward" }
+            }
+          },
+          {
+            "label": "Не рисковать, уйти",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wreck_hold_reward",
+        "text": "В затопленном трюме, среди водорослей, находится нетронутый сундучок судового лекаря — бутылёк внутри цел и запечатан.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_healing_potion" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wreck_shore_reward",
+        "text": "Среди досок у берега находится позеленевшая, но всё ещё крепкая монета.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "wreck_undertow",
+        "text": "Течение у трюма оказывается сильнее, чем казалось, — тебя утягивает и бьёт о борт корабля, прежде чем удаётся выбраться на песок.",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_cloud" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

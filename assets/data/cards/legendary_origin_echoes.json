@@ -1,0 +1,351 @@
+[
+  {
+    "id": "echo_titan_recognized",
+    "title": "Слух с побережья",
+    "description": "На пристани разговор стихает. Кто-то из команды видел, как капитан говорил с тобой — и как он при этом стоял.\n\n«Так это правда», — говорит боцман, ни к кому не обращаясь.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasOrigin",
+        "originId": "origin_titan_heir"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подтвердить при милости капитана — команда услышит это иначе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_captains_favor"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "captain_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Поднять то, что впятером не сдвинули, — и не объяснять ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "captain_recognized_titan",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Орден о такой крови слышал — и не одобряет",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Смолчать. Пусть говорят что хотят",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "echo_gods_chosen_sun",
+    "title": "Полдень над барханами",
+    "description": "Солнце стоит прямо над головой, и жара валит всех — кроме одного. Кочевники замечают это раньше, чем сама компания.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasOrigin",
+        "originId": "origin_gods_chosen"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вождь уже назвал вас своими — теперь кочевники знают и почему",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "warlord_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "warlord_respect",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_warlords_protection"
+          }
+        ]
+      },
+      {
+        "label": "Показать печать — фараон уже признал, чья ты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_pharaohs_seal"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "pharaoh_recognized_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "earned_pharaoh_respect",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "warlord_respect",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Круг такому не радуется: солнце их обряды не любит",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "label": "Идти дальше, будто ничего не происходит",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "echo_abyss_child_quiet",
+    "title": "Слишком тихо",
+    "description": "Кладбище замолкает целиком. Ни ветра, ни шороха — будто всё здешнее разом решило не привлекать к себе внимания.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasOrigin",
+        "originId": "origin_abyss_child"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Король уже видел, кто ты. Пройти там, где мёртвые расступаются",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "king_recognized_abyss"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "kings_mercy",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег круга гаснет рядом с тобой — и они это заметят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Снять чужое проклятие, просто постояв рядом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ]
+      },
+      {
+        "label": "Уйти, пока тишина не кончилась",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "echo_world_tree_roots",
+    "title": "Корни под ногами",
+    "description": "Тропа сама выравнивается под шагом. Корни уходят в стороны, ветки поднимаются — лес пропускает, не спрашивая.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 4,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasOrigin",
+        "originId": "origin_world_tree_heir"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дух уже склонился перед тобой — круг узнаёт об этом сразу",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "spirit_recognized_heir"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "startAdventure",
+            "adventureId": "witch_circle"
+          }
+        ]
+      },
+      {
+        "label": "Под дождём лес говорит громче — послушать, что он скажет",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          },
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_echo"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Орден смотрит на такое как на язычество — не при них",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто идти дальше",
+        "actions": []
+      }
+    ]
+  }
+]

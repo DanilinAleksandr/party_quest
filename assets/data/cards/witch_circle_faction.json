@@ -1,0 +1,178 @@
+[
+  {
+    "id": "forest_circle_clearing",
+    "title": "Костёр без дыма",
+    "description": "Между стволами виден низкий огонь. Он горит ровно и совсем не даёт дыма — а вокруг сидят люди и молчат.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 9,
+    "tags": [
+      "solo",
+      "risk",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "witch_circle"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "witch_circle"
+      }
+    ]
+  },
+  {
+    "id": "graveyard_circle_gathering",
+    "title": "Огонь у ограды",
+    "description": "У дальней ограды кладбища горит костёр — низкий, ровный, без единой искры. Кто-то сидит вокруг него и явно не удивлён вашему появлению.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 6,
+    "tags": [
+      "solo",
+      "risk",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "witch_circle"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "witch_circle"
+      }
+    ]
+  },
+  {
+    "id": "town_circle_herbwoman",
+    "title": "Травница у чёрного хода",
+    "description": "У чёрного хода трактира сидит женщина с корзиной сушёных пучков. Она смотрит на вас дольше, чем смотрят на незнакомых.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "tavern",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Помочь ей разобрать корзину до темноты",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_herbwoman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_herbwoman",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять пучок без спроса — она заметит потом",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_herbwoman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_herbwoman",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто поздороваться и пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "road_circle_crows",
+    "title": "Вороны считают вас",
+    "description": "Вороны на изгороди поворачивают головы все разом и провожают компанию до самого поворота. В лесу такое замечают.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_enemy"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  }
+]

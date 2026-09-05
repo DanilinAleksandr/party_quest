@@ -1,0 +1,16 @@
+[
+  {
+    "id": "transition_to_floodlands",
+    "title": "Дорога уходит под воду",
+    "description": "Колея спускается к берегу и не выходит на той стороне. Дальше вода — ровная, светлая, до самого горизонта, и из неё торчат верхушки плетней.\n\nНа отмели стоит человек с шестом и смотрит на вас без всякого удивления.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "floodlands" },
+      { "condition": "minimumTurnsInBiome", "turns": 7 }
+    ],
+    "actions": [{ "action": "setBiome", "biomeId": "floodlands" }]
+  }
+]

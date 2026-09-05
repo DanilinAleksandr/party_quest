@@ -1,0 +1,427 @@
+[
+  {
+    "id": "town_market_closing",
+    "title": "Рынок сворачивается",
+    "description": "Половина рядов уже пустая, вторая распродаёт остатки задёшево и без охоты. Кто-то метёт, кто-то считает.\n\nОдна торговка сидит перед полным лотком и не собирается уходить. Она стоит тут до последнего покупателя каждый день.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_gate_queue",
+    "title": "Очередь у ворот",
+    "description": "Стража проверяет каждого, и очередь стоит уже долго. Впереди спорят, сзади подпирают, посередине кто-то тихо предлагает пройти в обход за долю.\n\nТот, кто предлагает, стоит в очереди сам.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отстоять как все",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти по знакомству с заставой",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пойти в обход и ничего никому не платить",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заговорить стражу так, что она забудет проверить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ],
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "town_scaffolding",
+    "title": "Леса у колокольни",
+    "description": "Наверху работают трое, внизу стоит десяток и смотрит вверх. Работающим это, судя по всему, мешает.\n\nОдин из смотрящих объясняет остальным, как надо было делать.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_water_carrier",
+    "title": "Водонос на лестнице",
+    "description": "Коромысло, два полных ведра, сорок ступеней вверх. Он идёт не останавливаясь и дышит ровно, как будто идёт по ровному.\n\nНаверху он выливает оба ведра в чан, разворачивается и идёт вниз.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_stray_chicken_market",
+    "title": "Курица на рынке",
+    "description": "Она вырвалась и бежит между рядов, а за ней бегут четверо — трое хозяйских и один просто так.\n\nКурицу поймает тот, кто просто так. Он потом долго будет объяснять, что не собирался её оставлять себе.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_dyer_hands",
+    "title": "Руки красильщика",
+    "description": "Он вынимает ткань из чана, и руки у него синие до локтя — не сегодняшние, а въевшиеся навсегда.\n\nОн замечает взгляд и показывает ладони сам, без обиды: «Двадцать три года. Смывается только вместе с кожей».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_beggar_gives_change",
+    "title": "Нищий у паперти",
+    "description": "К нему подходит мальчишка и просит хлеба. Нищий делит свой кусок пополам, не раздумывая.\n\nПотом снова садится и снова протягивает руку.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сесть рядом и разделить своё",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить флягу и уйти быстро",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "town_glassblower_watchers",
+    "title": "У печи стеклодува",
+    "description": "Дверь открыта, и внутри на скамейке сидят пятеро детей. Они не разговаривают, только смотрят, как из комка на трубке получается шар.\n\nСтеклодув к ним привык. Он даже поворачивается так, чтобы всем было видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_lost_child",
+    "title": "Потерялся",
+    "description": "Он стоит посреди площади и не плачет — просто стоит и очень внимательно смотрит на всех проходящих.\n\nОн явно решил, что если заплачет, то мать точно не найдёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Присесть рядом и ждать вместе с ним",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поднять на плечи, чтобы его было видно издалека",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разглядеть в толпе женщину, которая ищет глазами низко",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать стражнику и идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "town_tanner_downwind",
+    "title": "С подветренной стороны",
+    "description": "Кожевенный двор стоит за городом, и это понятно за двести шагов. Работники ходят в фартуках до земли и, кажется, ничего не чувствуют.\n\nОдин из них ест обед прямо там, сидя на краю чана.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_crier_reads",
+    "title": "Глашатай дочитывает",
+    "description": "Толпа разошлась на середине объявления, но он дочитывает до конца — ровным голосом, глядя поверх пустой площади.\n\nПотом сворачивает лист и идёт на следующую площадь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "town_two_shops_same_street",
+    "title": "Две лавки друг напротив друга",
+    "description": "Товар один и тот же, цена одна и та же, и торговцы уже двадцать лет не здороваются.\n\nПокупатели ходят и туда и туда. Каждый уверен, что его лавка лучше.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поторговаться в обеих и купить там, где уступили",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать каждому, что у другого дороже",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Купить в первой попавшейся",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "town_saddler_apprentice_leaves",
+    "title": "Ученик уходит от седельника",
+    "description": "Мешок собран, стоит у порога. Мастер выносит ему инструмент — свой, старый, с вытертой рукоятью — и суёт в руки не глядя.\n\nНи один из них ничего не говорит. Мешок мальчишка берёт другой рукой.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

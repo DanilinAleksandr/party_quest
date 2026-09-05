@@ -1,0 +1,209 @@
+[
+  {
+    "id": "climax_trial_summons",
+    "title": "Вас зовут к старосте",
+    "description": "У околицы вас догоняет мальчишка: «Староста зовёт. Говорит, есть о чём поговорить».\n\nСудя по лицу мальчишки, разговор будет не первым за сегодня — и не про погоду.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 12
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 2
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_trial"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_trial"
+      }
+    ]
+  },
+  {
+    "id": "climax_trial_old_lie",
+    "title": "Книга нашлась",
+    "description": "Писарь, которого вы обошли когда-то через кухонную дверь, всё-таки нашёл вашу деревню. Книгу он принёс с собой.\n\nЗа то время, что прошло, страница успела обрасти чужими пометками.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dodged_taxman"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dodged_taxman",
+        "steps": 10
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_trial"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_trial"
+      }
+    ]
+  },
+  {
+    "id": "climax_feast_invitation",
+    "title": "За стол зовут вас",
+    "description": "Улицу перегородили столами, и кто-то из толпы машет вам рукой так, будто ждал именно вас.\n\nСудя по тому, сколько людей оборачивается, ждали действительно вас.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 12
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_feast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_feast"
+      }
+    ]
+  },
+  {
+    "id": "climax_funeral_gathering",
+    "title": "Много людей у одной могилы",
+    "description": "У дальнего края кладбища собралось слишком много народу для обычного дня. Хоронят кого-то, кого знали все.\n\nСреди пришедших вы различаете знакомые лица — и не одно.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 10
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_funeral"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_funeral"
+      }
+    ]
+  },
+  {
+    "id": "climax_fair_day",
+    "title": "Ярмарочный день",
+    "description": "Дорога вливается в улицу, а улица — в сплошные ряды пологов, лотков и телег. Ярмарка идёт с утра.\n\nВы делаете первые шаги вдоль рядов, и кто-то уже произносит ваше имя.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 14
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_fair"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_fair"
+      }
+    ]
+  },
+  {
+    "id": "climax_council_argument",
+    "title": "Спорят посреди деревни",
+    "description": "Посреди улицы стоит толпа и спорит так, что слышно от околицы. Разобрать можно немного, но одно слово повторяется чаще прочих.\n\nЭто слово — про вас.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 12
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "adventureNotCompleted",
+        "adventureId": "climax_village_council"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "climax_village_council"
+      }
+    ]
+  }
+]

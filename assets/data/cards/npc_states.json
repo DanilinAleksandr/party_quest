@@ -1,0 +1,1120 @@
+[
+  {
+    "id": "state_smith_mending_cart",
+    "title": "Кузнец у чужой телеги",
+    "description": "Телега лежит на боку, ось пополам. Кузнец сидит на корточках рядом и держит обломок на свету, поворачивая его так и эдак.\n\nХозяин телеги стоит поодаль и молчит, потому что уже всё сказал.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smith_cold_forge",
+    "title": "Холодный горн",
+    "description": "Кузня открыта, но горн не топлен со вчера. Кузнец сидит на пороге, вытянув ноги, и смотрит на дорогу.\n\nМолот стоит у стены рукоятью вниз — так его ставят, когда работы нет.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_herbwoman_drying_bundles",
+    "title": "Травница развешивает пучки",
+    "description": "Под навесом в три ряда висят перевязанные пучки. Она подходит к каждому, мнёт пальцами лист, нюхает и либо перевешивает выше, либо снимает совсем.\n\nСнятых больше.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_herbwoman_one_flower",
+    "title": "Травница ищет один цветок",
+    "description": "Она идёт вдоль обрыва медленно, глядя только под ноги, и корзина у неё пустая.\n\n«Не мешайте. Он тут один на весь берег, и он закрывается к полудню».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_cardsharp_alone",
+    "title": "Шулер без зрителей",
+    "description": "За дальним столом человек раскладывает колоду сам себе. Одна и та же комбинация, снова и снова, всё быстрее.\n\nКогда в зале становится тише, он смешивает карты и начинает заново.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_alchemist_boiling",
+    "title": "Алхимик у дорожного костра",
+    "description": "На камнях кипит котелок размером с кулак. Алхимик считает вслух до сорока и снимает его точно на счёт.\n\nПахнет горелым мёдом и чем-то ещё, чему названия нет.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_alchemist_broken_glass",
+    "title": "Разбитые склянки",
+    "description": "Алхимик стоит на коленях среди осколков и разбирает их по цвету стекла. Целых нет ни одной.\n\nОн складывает осколки в мешок. Зачем — не объясняет.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_gravedigger_lunch",
+    "title": "Обед на краю ямы",
+    "description": "Могильщик сидит, свесив ноги в свежую яму, и ест хлеб с луком. Лопата воткнута рядом.\n\nОн доедает, вытирает руки о штаны и берётся за черенок. Между этими двумя движениями не проходит и секунды.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_caravan_counting_twice",
+    "title": "Караванщик пересчитывает груз",
+    "description": "Он идёт вдоль вьюков, касаясь каждого ладонью и шевеля губами. Дойдя до конца, разворачивается и начинает сначала.\n\nПогонщики ждут. Они знают, что раньше третьего раза он не тронется.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_wanderer_asleep",
+    "title": "Странник спит",
+    "description": "У самой обочины лежит человек, накрыв лицо шляпой. Рядом посох и развязанный мешок.\n\nОн не шевелится, когда мимо проходят. Похоже, это давняя привычка — спать там, где идут.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_musician_tuning",
+    "title": "Музыкант настраивается",
+    "description": "Он подтягивает колок, слушает, отпускает. Потом снова. Зал давно перестал ждать.\n\nЗа всё время он сыграл четыре ноты, и все четыре — одну и ту же.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smuggler_waiting",
+    "title": "Контрабандист ждёт",
+    "description": "На камнях у самой воды сидит человек и смотрит в море. Рядом с ним два тюка, накрытых мешковиной, и ни одной лодки.\n\nОн сидит так с рассвета.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_hermit_carrying_water",
+    "title": "Отшельник носит воду",
+    "description": "Он идёт вверх по тропе с двумя вёдрами, ставит их у порога, разворачивается и идёт вниз.\n\nВёдра остаются полными. Он ходит не за водой.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_cartographer_pacing",
+    "title": "Картограф меряет шагами",
+    "description": "Человек идёт вдоль опушки ровным шагом, беззвучно считая, и через каждую сотню втыкает в землю щепку.\n\nЩепок за ним уже длинная цепочка. К вечеру он их соберёт.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_taxman_by_candle",
+    "title": "Сборщик податей при свече",
+    "description": "Он сидит в углу с книгой и грифелем, и свеча перед ним оплыла набок. В зале шумно, но за его столом пусто на два шага во все стороны.\n\nОн не поднимает головы.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_peddler_fixing_wheel",
+    "title": "Коробейник чинит колесо",
+    "description": "Короб стоит на боку, одно колесо снято. Коробейник вбивает клин, проверяет, выбивает обратно и берёт другой.\n\nТовар разложен на плаще рядом, чтобы не запылился.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smith_keeps_hammering",
+    "title": "Молоток не останавливается",
+    "description": "Кузнец видит, кто подошёл, и не откладывает молоток — говорит между ударами, не глядя.\n\n«Стойте где стоите, искра летит. Нет, не мешаете».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smith_sets_down_hammer",
+    "title": "Молоток на наковальне",
+    "description": "Кузнец кладёт молоток поперёк наковальни и выпрямляется. Работа была в самом разгаре.\n\nОн ничего не говорит и ждёт, пока дорога перед кузней снова станет пустой.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_smith"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_herbwoman_no_startle",
+    "title": "Травница не вздрагивает",
+    "description": "Она стоит спиной, разбирая корзину. Шаги слышит — плечи не поднимаются.\n\n«Слева не рвите, там молодое».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_herbwoman_shifts_basket",
+    "title": "Корзина на другой стороне",
+    "description": "Травница перекладывает корзину с одной руки на другую — на ту, что дальше от дороги. Делает это спокойно, будто просто устала.\n\nРазговор идёт о погоде и заканчивается быстро.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_herbwoman"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smuggler_hand_stays",
+    "title": "Рука не идёт к поясу",
+    "description": "Он замечает движение в темноте и оборачивается — но рука так и остаётся на верёвке тюка.\n\n«А, это вы. Подержите тогда с той стороны».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smuggler"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_cardsharp_shows_trick",
+    "title": "Шулер показывает руки",
+    "description": "Он раскладывает четыре карты, накрывает ладонью, поднимает — их три. Потом делает это ещё раз, очень медленно, специально для вас.\n\n«Вот тут. Все смотрят сюда, а надо было туда».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cardsharp"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_cardsharp_leaves_table",
+    "title": "Шулер собирает карты",
+    "description": "Игра идёт полным ходом, ставки на столе. Он собирает свою колоду, кивает остальным и встаёт.\n\n«На сегодня хватит». До этого он говорил, что сядет до утра.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_cardsharp"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_gravedigger_keeps_digging",
+    "title": "Могильщик кивает из ямы",
+    "description": "Из-за края ямы видна только голова и черенок лопаты, ходящий вверх-вниз. Ритм не сбивается.\n\n«Тут левее не ходите, там прошлогоднее».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_gravedigger"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_caravan_place_by_fire",
+    "title": "Место у костра",
+    "description": "У огня четыре тюка вместо трёх — четвёртый лежит с краю, плоский, будто на него уже кто-то садился.\n\nКараванщик двигает котелок ближе к нему, ещё не поздоровавшись.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_caravan_counts_at_you",
+    "title": "Счёт в другую сторону",
+    "description": "Он снова идёт вдоль вьюков и считает — только теперь не смотрит на них. Смотрит поверх.\n\nДосчитав, начинает сначала и не отводит взгляда.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "robbed_caravan"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_hermit_second_bowl",
+    "title": "Вторая миска",
+    "description": "На камне у входа стоят две миски. Он прожил здесь одиннадцать лет и всё это время обходился одной.\n\nОн выходит, смотрит на тропу, возвращается. Миски остаются стоять.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_cartographer_turns_map",
+    "title": "Карта развёрнута не к себе",
+    "description": "Он разворачивает лист так, чтобы читалось не ему, и придерживает угол пальцем.\n\n«Вот здесь я вам верю на слово. Больше никому по этой дороге — не верю».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_taxman_book_closed",
+    "title": "Книга остаётся закрытой",
+    "description": "Он поднимает голову, узнаёт — и кладёт грифель поперёк книги, не открывая её.\n\n«С вами у меня всё сходится. Садитесь, если сядете тихо».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "paid_taxman"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "state_smith_apprentice_asks",
+    "title": "Ученик у наковальни",
+    "description": "Кузнец ушёл за углём, а его ученик остался перед остывающей заготовкой. Он смотрит на неё, потом на дорогу.\n\n«Он сказал — сама поймёшь, когда бить. Я не понимаю».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "«Не глазами. Слушай, как отвечает» — и постучать ногтем по железу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять заготовку голой рукой и вернуть, пока она не остыла",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Показать пальцем на цвет у самого края — он уже уходит",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подпереть заготовку верёвкой, чтобы не повело",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сказать, что железо прощает больше, чем кажется",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Дождаться кузнеца и ничего не советовать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "state_alchemist_opens_lid",
+    "title": "Алхимик открывает крышку",
+    "description": "Обычно он держит склянку закрытой, пока не сговорятся о цене. Сейчас он снимает крышку первым.\n\n«Нюхайте. Если не понравится — не берите, я не обижусь».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_alchemist"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Назвать по запаху всё, что он туда положил",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что одной травы там быть не должно",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_herbwoman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Предложить долить во фляжку и проверить на себе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Понюхать и промолчать, чтобы не выдать, что узнал",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отказаться: от такого запаха у вас уже были неприятности",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Понюхать, кивнуть и ничего не понять",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "state_musician_that_song",
+    "title": "Та самая песня",
+    "description": "Он оглядывает зал, находит взглядом знакомое лицо и меняет мелодию на середине такта.\n\nПесня та же, что и в прошлый раз. Слова он поёт чуть иначе.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "social",
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_musician"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подхватить второй голос — вы знаете, где он ошибается",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Узнать в припеве имя человека, которого больше нет",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_gravedigger"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Выставить бочонок всему залу под эту песню",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "modifyStat",
+            "target": "allPlayers",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Стоять у стены: под такое в вашем прошлом уже пели",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заметить, что зал притих раньше, чем понял почему",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дослушать до конца",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "state_wanderer_makes_room",
+    "title": "Странник двигается",
+    "description": "Он сидит у самого костра, и места рядом нет. Увидев, кто подошёл, он подбирает мешок и отодвигается — молча, будто это давно решено.\n\nОсвободившееся место — с наветренной стороны, где не ест дым.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_wanderer"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сесть и спросить, где он ночевал позавчера",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать ему место обратно и сесть с подветренной",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "endurance",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Достать фляжку — за место у огня платят так",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разложить карту и попросить поправить",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, не встречал ли он одного человека с коробом",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_peddler"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сесть и молчать вместе с ним",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "state_peddler_from_the_bottom",
+    "title": "Из-под низа короба",
+    "description": "Коробейник раскладывает обычный товар, а потом, не глядя по сторонам, вынимает нижнюю доску.\n\n«Это не продаётся. Но посмотреть можно».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "social",
+      "solo",
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_peddler"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Понять с одного взгляда, чего он на самом деле просит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ]
+      },
+      {
+        "label": "Спросить, откуда у него вещь с чужим клеймом",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Обменять на свою — ту, что и так тянет карман",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_odd_stone"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что видели такое клеймо у заставы",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Поставить бочонок на доску вместо ответа",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Посмотреть и вернуть доску на место",
+        "actions": []
+      }
+    ]
+  }
+]

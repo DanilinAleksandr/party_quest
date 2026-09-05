@@ -1,0 +1,270 @@
+[
+  {
+    "id": "world_road_after_storm",
+    "title": "После ночной грозы",
+    "description": "Дорога вымыта до камня, и по обочине идёт свежая промоина в ладонь глубиной. В ней стоят листья, сбитые ветки и один птичий пух.\n\nВ промоине уже проложена узкая тропка — кто-то прошёл здесь до рассвета.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_bridge_repaired",
+    "title": "Мост чинят",
+    "description": "Половина настила снята, вторая держится на честном слове. Через провал перекинуты две доски и верёвочные перила.\n\nРаботы идут не спеша: внизу сушится брус, который положат только завтра.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Пройти по доскам, не глядя вниз",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Натянуть свою верёвку вместо их перил — им останется",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Заметить, что второй брус тоже гнилой",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Перейти вброд ниже по течению",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "world_road_widened",
+    "title": "Дорогу расширили",
+    "description": "Обочина срыта, кусты выкорчеваны, и по краю лежат вывернутые пни — корнями вверх, как перевёрнутые пауки.\n\nТеперь тут разъедутся две телеги. Раньше не разъезжались.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_sheep_drive",
+    "title": "Перегон",
+    "description": "Отара идёт по дороге сплошным потоком, и пыль от неё стоит выше человека. Слышно только копыта и редкий свист откуда-то сбоку.\n\nОна идёт уже четверть часа и конца не видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_cart_in_mud",
+    "title": "Телега по ступицу",
+    "description": "Колея после дождя стала глиняной кашей, и телега сидит в ней прочно. Лошадь распрягли и увели — значит, будут ждать, пока подсохнет.\n\nПоклажу сняли и сложили рядом, накрыв рогожей. Никого нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_rain_just_stopped",
+    "title": "Дождь только кончился",
+    "description": "Небо ещё тёмное, но капель уже нет. С каждой ветки над дорогой падает по одной капле, и все в разное время.\n\nВ колеях стоит вода, и в ней отражается просвет, которого сверху пока не видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_birds_off_field",
+    "title": "Птицы поднялись",
+    "description": "Всё поле справа взлетает разом — чёрное, шумное, сплошное — и через десять ударов сердца садится обратно метрах в двухстах.\n\nПричины не видно ни в поле, ни в небе.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_lime_kiln_smoke",
+    "title": "Дым известковой печи",
+    "description": "Печь стоит у самого откоса, и дым из неё идёт белый и тяжёлый — стелется по земле, а не поднимается.\n\nТрава вокруг на десять шагов седая. Так тут будет ещё лет двадцать.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_new_chapel",
+    "title": "Новая часовня",
+    "description": "Сруб поставлен неделю назад: доски ещё жёлтые, стружка не убрана, крыша под холстиной. Внутри пусто и пахнет смолой.\n\nНа пороге кто-то уже оставил горсть ягод.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_first_snow",
+    "title": "Первый снег на дороге",
+    "description": "Он лёг ночью и ещё не растаял в колеях. Посередине дороги протянулась одна цепочка следов — от края и до поворота, туда и обратно не возвращаясь.\n\nВсё остальное белое и нетронутое.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_milestone_overgrown",
+    "title": "Заросший поворот",
+    "description": "От дороги отходит вторая, но её почти не видно: колея заросла, а на въезде поднялись молодые берёзы в руку толщиной.\n\nЛет пять по ней никто не ездил. Раньше ездили — колея глубокая.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_road_dust_ahead",
+    "title": "Пыль впереди",
+    "description": "Далеко на дороге поднимается пыльный хвост — кто-то едет навстречу и едет быстро. Пока не разобрать, сколько их.\n\nПыль сворачивает в сторону раньше, чем становится видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  }
+]

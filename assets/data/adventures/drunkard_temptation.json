@@ -1,0 +1,58 @@
+[
+  {
+    "id": "drunkard_temptation",
+    "entryNodeId": "temptation_offer",
+    "nodes": [
+      {
+        "id": "temptation_offer",
+        "text": "Трактирщик со знанием подмигивает и ставит перед тобой кружку до самых краёв — «за счёт заведения, для своих». Не успеваешь оглянуться — рядом уже вторая.",
+        "choices": [
+          {
+            "label": "Отставить кружку в сторону",
+            "successChance": 0.3,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_hiccups"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Выпить залпом и заказать третью, не моргнув",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_generous_host"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

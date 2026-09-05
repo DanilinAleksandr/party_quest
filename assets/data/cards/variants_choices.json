@@ -1,0 +1,3241 @@
+[
+  {
+    "id": "item_coin_find_v2",
+    "title": "Дерево с монетами",
+    "description": "Старая сосна у развилки утыкана монетами: их вбивают в кору ребром, и кора нарастает поверх. Свежие блестят, старые едва торчат.\n\nПод самой нижней виден вырезанный знак — не дорожный.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Монеты свежие: их оставили ярмарочные, уходя",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_fair"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар алтаря делает чужую монету лишней — оставить обе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "made_a_wish"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак на камне — дорожный только сверху. Ниже другой, и он старше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Положить монету ребром — так просят дороги у круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Не трогать камень: орден такие места не жалует",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Монеты сами липнут к рукам — метка тянет чужую удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у камня флягу вместо монеты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять чужую монету — вам удача нужнее",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить свою и попросить дороги полегче",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не тревожа камень",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "item_coin_find_v3",
+    "title": "Ниша в парапете",
+    "description": "В каменном парапете моста выбрана ниша, и в ней лежат монеты, пуговицы и один наперсток. Кладут, проходя, не останавливаясь.\n\nЗадняя стенка ниши размечена бороздками, которые старше моста.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Монеты свежие: их оставили ярмарочные, уходя",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_fair"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар алтаря делает чужую монету лишней — оставить обе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "made_a_wish"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак на камне — дорожный только сверху. Ниже другой, и он старше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Положить монету ребром — так просят дороги у круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Не трогать камень: орден такие места не жалует",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Монеты сами липнут к рукам — метка тянет чужую удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у камня флягу вместо монеты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять чужую монету — вам удача нужнее",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить свою и попросить дороги полегче",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не тревожа камень",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "item_coin_find_v4",
+    "title": "Столб на меже",
+    "description": "Межевой столб оброс мхом с одной стороны, и в щели между камнем и деревом натыканы монеты. Никто не помнит, кто начал.\n\nПод мхом на камне проступает другая метка.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Монеты свежие: их оставили ярмарочные, уходя",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_fair"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар алтаря делает чужую монету лишней — оставить обе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "made_a_wish"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак на камне — дорожный только сверху. Ниже другой, и он старше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Положить монету ребром — так просят дороги у круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Не трогать камень: орден такие места не жалует",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Монеты сами липнут к рукам — метка тянет чужую удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у камня флягу вместо монеты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять чужую монету — вам удача нужнее",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить свою и попросить дороги полегче",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не тревожа камень",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "item_coin_find_v5",
+    "title": "Куча у поворота",
+    "description": "Камни сложены горкой, и под верхним придавлены монеты — чтобы не унесло ветром. Верхний камень лежит недавно.\n\nНижний врос в землю, и на нём что-то выбито.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_lucky_coin"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Монеты свежие: их оставили ярмарочные, уходя",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_fair"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар алтаря делает чужую монету лишней — оставить обе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_fortune"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "made_a_wish"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Знак на камне — дорожный только сверху. Ниже другой, и он старше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Положить монету ребром — так просят дороги у круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Не трогать камень: орден такие места не жалует",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Монеты сами липнут к рукам — метка тянет чужую удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_black_spot"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Оставить у камня флягу вместо монеты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Взять чужую монету — вам удача нужнее",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить свою и попросить дороги полегче",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не тревожа камень",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_epitaph_v2",
+    "title": "Доска вместо камня",
+    "description": "На могиле стоит не камень, а доска, и надпись на ней вырезана глубоко, с запасом на годы. Кто-то подновляет буквы смолой.\n\nПоследнее подновление — совсем свежее.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Камень поставили на днях — вы были на этих похоронах",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_funeral"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Покровительство ведьмы и метка круга — здесь этого достаточно, чтобы читать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты читаешь и то имя, что стёрли с камня нарочно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разобрать знаки под эпитафией — они куда старше самой надписи",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Здесь лежит брат ордена. Ты знаешь, что говорят над такими",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить у того, кто здесь лежит, кто носит сюда цветы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не задерживаться: за такими именами приходят и живые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить у камня флягу — так провожают в дорогу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Прочесть вслух — с проклятием на плечах это стоит сделать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ]
+      },
+      {
+        "label": "Ордену вы теперь чужие — а камень орденский. Отойти",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Постоять молча и пойти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_epitaph_v3",
+    "title": "Две руки на одном камне",
+    "description": "Верхние строки выбиты уверенно и ровно, нижние — криво и мельче. Их дописывали много позже и другим человеком.\n\nТрава вокруг подстрижена.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Камень поставили на днях — вы были на этих похоронах",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_funeral"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Покровительство ведьмы и метка круга — здесь этого достаточно, чтобы читать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты читаешь и то имя, что стёрли с камня нарочно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разобрать знаки под эпитафией — они куда старше самой надписи",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Здесь лежит брат ордена. Ты знаешь, что говорят над такими",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить у того, кто здесь лежит, кто носит сюда цветы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не задерживаться: за такими именами приходят и живые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить у камня флягу — так провожают в дорогу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Прочесть вслух — с проклятием на плечах это стоит сделать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ]
+      },
+      {
+        "label": "Ордену вы теперь чужие — а камень орденский. Отойти",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Постоять молча и пойти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_epitaph_v4",
+    "title": "Табличка на дереве",
+    "description": "К стволу прибита медная пластинка с несколькими словами. Дерево растёт и уже наполовину обняло её краями коры.\n\nПод деревом чисто выметено.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Камень поставили на днях — вы были на этих похоронах",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "climax_funeral"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Покровительство ведьмы и метка круга — здесь этого достаточно, чтобы читать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ты читаешь и то имя, что стёрли с камня нарочно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разобрать знаки под эпитафией — они куда старше самой надписи",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Здесь лежит брат ордена. Ты знаешь, что говорят над такими",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_debt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Спросить у того, кто здесь лежит, кто носит сюда цветы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не задерживаться: за такими именами приходят и живые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Оставить у камня флягу — так провожают в дорогу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Прочесть вслух — с проклятием на плечах это стоит сделать вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ]
+      },
+      {
+        "label": "Ордену вы теперь чужие — а камень орденский. Отойти",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Постоять молча и пойти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "graveyard_whispers_v2",
+    "title": "Сухая трава",
+    "description": "Высокая трава между камней трётся сама о себя, и в этом шелесте отчётливо слышны согласные.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Мёртвым до тебя нет дела. Живым — наоборот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Шёпот обрывается, стоит тебе повернуть голову",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "При тебе мёртвые молчат — и ты не узнаешь ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Прислушаться — для тебя это не шум, а речь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить им так, как учили в круге",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочесть отходную — слова помнятся сами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Шёпот зовёт тебя по имени — круг тебя не забыл",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Сжать оберег и идти дальше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отмахнуться и идти дальше",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graveyard_whispers_v3",
+    "title": "Треснувший сосуд",
+    "description": "На плите стоит разбитая каменная чаша, и ветер, проходя через трещину, издаёт длинный шипящий звук.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Мёртвым до тебя нет дела. Живым — наоборот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Шёпот обрывается, стоит тебе повернуть голову",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "При тебе мёртвые молчат — и ты не узнаешь ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Прислушаться — для тебя это не шум, а речь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить им так, как учили в круге",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочесть отходную — слова помнятся сами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Шёпот зовёт тебя по имени — круг тебя не забыл",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Сжать оберег и идти дальше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отмахнуться и идти дальше",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graveyard_whispers_v4",
+    "title": "Верёвка колокола",
+    "description": "Верёвка у часовни качается и трётся о брус. Звона нет — только ровный скрип, в котором слышится ритм речи.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Мёртвым до тебя нет дела. Живым — наоборот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Шёпот обрывается, стоит тебе повернуть голову",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "При тебе мёртвые молчат — и ты не узнаешь ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Прислушаться — для тебя это не шум, а речь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ответить им так, как учили в круге",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочесть отходную — слова помнятся сами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Шёпот зовёт тебя по имени — круг тебя не забыл",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          }
+        ]
+      },
+      {
+        "label": "Сжать оберег и идти дальше",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отмахнуться и идти дальше",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_whisper"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_cold_night_v2",
+    "title": "Иней на одеялах",
+    "description": "К середине ночи шерсть покрывается белым, и она хрустит, если пошевелиться. Костёр греет только с одной стороны.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дракон однажды узнал вашу кровь. Холод об этом тоже знает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dragon_recognized_bloodline"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Драконья кровь не мёрзнет. Сидеть у костра просто за компанию",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Холод обходит тебя стороной — и спутники это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ни одного живого корня вокруг. Здесь ты мёрзнешь сильнее прочих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег держит тепло, пока ночь не кончится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сесть спиной к костру — тебя этот холод не берёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заночевать на заставе ордена — там всегда топят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Бросить в костёр то, что дали в круге, — он будет гореть до утра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку и не геройствовать",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пустить по кругу флягу смелости",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Кутаться до самого рассвета",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_cold_night_v3",
+    "title": "Ветер нашёл щель",
+    "description": "Как ни садись, находится зазор, через который тянет ледяным. Он перемещается вместе с тобой.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дракон однажды узнал вашу кровь. Холод об этом тоже знает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dragon_recognized_bloodline"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Драконья кровь не мёрзнет. Сидеть у костра просто за компанию",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Холод обходит тебя стороной — и спутники это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ни одного живого корня вокруг. Здесь ты мёрзнешь сильнее прочих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег держит тепло, пока ночь не кончится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сесть спиной к костру — тебя этот холод не берёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заночевать на заставе ордена — там всегда топят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Бросить в костёр то, что дали в круге, — он будет гореть до утра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку и не геройствовать",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пустить по кругу флягу смелости",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Кутаться до самого рассвета",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountains_cold_night_v4",
+    "title": "Вода замёрзла во фляге",
+    "description": "Утро ещё не близко, а фляга уже не булькает. Внутри лёд, и отогреть его нечем, кроме себя.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Дракон однажды узнал вашу кровь. Холод об этом тоже знает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "dragon_recognized_bloodline"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Драконья кровь не мёрзнет. Сидеть у костра просто за компанию",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Холод обходит тебя стороной — и спутники это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_gods_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ни одного живого корня вокруг. Здесь ты мёрзнешь сильнее прочих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оберег держит тепло, пока ночь не кончится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Сесть спиной к костру — тебя этот холод не берёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Заночевать на заставе ордена — там всегда топят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Бросить в костёр то, что дали в круге, — он будет гореть до утра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку и не геройствовать",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пустить по кругу флягу смелости",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ]
+      },
+      {
+        "label": "Кутаться до самого рассвета",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "neutral_stream_v2",
+    "title": "Ключ под корнем",
+    "description": "Из-под вывороченного корня бьёт вода и уходит в мох. Она такая холодная, что от неё ломит зубы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "С даром алтаря перейти вброд там, где остальные ищут мост",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_might"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вода идёт к твоей ладони сама",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ручей мутнеет там, где ты наклонился",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Ниже по течению вода стоячая. Пить надо здесь и сейчас",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Из лесных ручьёв вам теперь пить не стоит — круг предупреждал",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Наполнить флягу до краёв — путь впереди сухой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Смыть песок с лица — впервые за много дней",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ]
+      },
+      {
+        "label": "В дождь ручей мутнеет — лучше подождать",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Напиться",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Наполнить флягу и идти дальше",
+        "actions": []
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "neutral_stream_v3",
+    "title": "Вода по камню",
+    "description": "По наклонной плите тонким слоем стекает вода — прозрачная и быстрая. Подставить ладонь удаётся не сразу.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "С даром алтаря перейти вброд там, где остальные ищут мост",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_might"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вода идёт к твоей ладони сама",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ручей мутнеет там, где ты наклонился",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Ниже по течению вода стоячая. Пить надо здесь и сейчас",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Из лесных ручьёв вам теперь пить не стоит — круг предупреждал",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Наполнить флягу до краёв — путь впереди сухой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Смыть песок с лица — впервые за много дней",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ]
+      },
+      {
+        "label": "В дождь ручей мутнеет — лучше подождать",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Напиться",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Наполнить флягу и идти дальше",
+        "actions": []
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "neutral_stream_v4",
+    "title": "Чаша в скале",
+    "description": "В углублении скалы стоит вода, и её всё время подтачивает сверху капель. Дно чистое, песка нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "С даром алтаря перейти вброд там, где остальные ищут мост",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_might"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Вода идёт к твоей ладони сама",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Ручей мутнеет там, где ты наклонился",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Ниже по течению вода стоячая. Пить надо здесь и сейчас",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Из лесных ручьёв вам теперь пить не стоит — круг предупреждал",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_enemy"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Наполнить флягу до краёв — путь впереди сухой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Смыть песок с лица — впервые за много дней",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sand_in_eyes"
+          }
+        ]
+      },
+      {
+        "label": "В дождь ручей мутнеет — лучше подождать",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Напиться",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Наполнить флягу и идти дальше",
+        "actions": []
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "neutral_campfire_v2",
+    "title": "Под навесом скалы",
+    "description": "Под каменным козырьком остался круг золы, и над ним закопчён потолок. Зола ещё тёплая.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "Восемь мест вокруг. Столько сидит только круг",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "witch_circle"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "«Как дома» — и ночь у чужого костра действительно похожа на дом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_at_home"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "По углям видно, сколько их было и куда ушли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Костёр бросили в спешке. Тебе такое знакомо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Огонь без дыма. Здесь сидел кто-то из круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Раздуть заново и высушить промокшее",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Продрогшему такой костёр — половина спасения",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку прямо здесь — место готовое",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Погреться немного",
+        "actions": []
+      },
+      {
+        "label": "Затоптать угли",
+        "actions": []
+      },
+      {
+        "label": "Оставить как есть и идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "neutral_campfire_v3",
+    "title": "В яме",
+    "description": "Костёр разводили в вырытой ямке, по-походному, чтобы не видно было издалека. Угли внизу ещё дышат.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "Восемь мест вокруг. Столько сидит только круг",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "witch_circle"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "«Как дома» — и ночь у чужого костра действительно похожа на дом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_at_home"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "По углям видно, сколько их было и куда ушли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Костёр бросили в спешке. Тебе такое знакомо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Огонь без дыма. Здесь сидел кто-то из круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Раздуть заново и высушить промокшее",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Продрогшему такой костёр — половина спасения",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку прямо здесь — место готовое",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Погреться немного",
+        "actions": []
+      },
+      {
+        "label": "Затоптать угли",
+        "actions": []
+      },
+      {
+        "label": "Оставить как есть и идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "neutral_campfire_v4",
+    "title": "Кольцо камней",
+    "description": "Камни выложены кольцом, и один сдвинут — на нём сушили что-то и убрали второпях. Внутри кольца краснеет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "prologue"
+    ],
+    "choices": [
+      {
+        "label": "Восемь мест вокруг. Столько сидит только круг",
+        "conditions": [
+          {
+            "condition": "adventureCompleted",
+            "adventureId": "witch_circle"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "«Как дома» — и ночь у чужого костра действительно похожа на дом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_at_home"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "По углям видно, сколько их было и куда ушли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Костёр бросили в спешке. Тебе такое знакомо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Огонь без дыма. Здесь сидел кто-то из круга",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Раздуть заново и высушить промокшее",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Продрогшему такой костёр — половина спасения",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку прямо здесь — место готовое",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Погреться немного",
+        "actions": []
+      },
+      {
+        "label": "Затоптать угли",
+        "actions": []
+      },
+      {
+        "label": "Оставить как есть и идти дальше",
+        "actions": []
+      }
+    ]
+  }
+]

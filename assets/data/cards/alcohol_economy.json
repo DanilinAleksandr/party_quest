@@ -1,0 +1,608 @@
+[
+  {
+    "id": "tavern_bartender_rumor",
+    "title": "Слух за кружку",
+    "description": "Бармен протирает кружку и понижает голос: «За стаканчик моего особого — расскажу кое-что интересное».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "luck",
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Хозяин узнал в вас того, кому его предшественник передал своё",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "keeper_recognized_archmage"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Спросить про бухту с чёрными парусами — он бледнеет и наливает",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "knows_captain_haunt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Слух о союзе с капитаном дошёл и сюда — говорят с вами тише",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "captain_ally"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "in_tavern"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Бармен наливает молча и отходит. Слухов сегодня не будет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Выпить за услышанное",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Разговорить его без выпивки",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          },
+          {
+            "condition": "currentPlayerLacksOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Спросить про травницу у чёрного хода — он поймёт, от кого вы",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Спросить в лоб — он отвечает скупо и косится на твои руки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, что говорят про вас — он и так уже говорит",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Подслушать самому, не платя",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_lucky_echo"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hedge_word"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отмахнуться — не время для слухов",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "peddler_honest_deal",
+    "title": "Коробейник у обочины",
+    "description": "Коробейник протягивает тебе амулет: «Забирай — по рукам. Но сперва выпьем за честную сделку, а?»",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "item",
+      "solo"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Он слышал, как вы выручили торговца на тракте, и не торгуется",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "helped_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Предупредить его, что впереди на тракте неспокойно",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_peddler"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_peddler",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Забрать амулет и уйти, пока он разливает",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_peddler"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_peddler",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Выпить за сделку так, как умеешь только ты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Выпить за сделку",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Взять без выпивки — за вас ручается орден",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Показать, чем вас снабдили в круге, — он берёт такое охотнее серебра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он узнал вас и просит вдвое — отдать бочонок",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          },
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Показать жетон — мы уже сотрудничали",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Сторговаться без выпивки",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          },
+          {
+            "condition": "currentPlayerLacksOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Отказаться от сделки",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "mountains_shaman_trial",
+    "title": "Испытание духов",
+    "description": "Шаман у костра протягивает флягу дымящегося зелья: «Оно станет твоим. Но сперва духи должны увидеть твою решимость».",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Шаман знает вождя пустыни и его знак на тебе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_warlords_protection"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Ты пил и похуже. Осушить флягу и вернуть её пустой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разобрать состав по запаху и назвать травы вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Шаман видит метку круга и меняет обряд на другой",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Орден такие обряды запрещает. Отказаться, но остаться у костра",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Духи уже отметили тебя. Шаман это видит и отступает",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Выпить не морщась",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Пройти испытание жаром костра",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Показать чешую дракона как доказательство отваги",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_dragon_scale"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_dragon_scale"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          }
+        ]
+      },
+      {
+        "label": "Уйти — не твой обряд",
+        "actions": []
+      }
+    ]
+  }
+]

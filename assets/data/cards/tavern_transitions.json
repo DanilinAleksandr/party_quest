@@ -1,0 +1,121 @@
+[
+  {
+    "id": "transition_to_tavern",
+    "title": "Огни старой таверны",
+    "description": "После долгого пути вдали показались огни старой таверны — тёплый свет и гул голосов зовут внутрь.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_tavern",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "transition_to_tavern_leaned",
+    "title": "Дорога вела сюда не просто так",
+    "description": "На повороте пахнет дымом и жареным. Дальше по дороге — окна и голоса.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 7
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "lean_tavern",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_tavern",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "tavern_departure",
+    "title": "Прочь из таверны",
+    "description": "Тёплый гул голосов остаётся позади — дверь закрывается, и путешествие продолжается там, где вы его оставили.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInTavern",
+        "turns": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_tavern",
+        "value": false
+      }
+    ]
+  },
+  {
+    "id": "tavern_departure_kicked_out",
+    "title": "На выход",
+    "description": "Хозяин таверны без лишних слов указывает компании на дверь. Свежий воздух отрезвляет быстрее, чем ожидалось — путешествие продолжается там, где вы его оставили.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInTavern",
+        "turns": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_tavern",
+        "value": false
+      }
+    ]
+  }
+]

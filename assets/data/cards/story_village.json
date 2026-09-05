@@ -1,0 +1,293 @@
+[
+  {
+    "id": "story_roof_torn_off",
+    "title": "Крышу сорвало",
+    "description": "Стропила голые, солома разбросана по всему двору и висит на плетне. В доме через открытый верх видно печь.\n\nВещи вынесены и накрыты. Хозяева сидят на них.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_carpenters_working",
+    "title": "Плотники на стропилах",
+    "description": "Четверо наверху, двое подают. Стучат в три топора вразнобой, и от этого стук слышен со всех сторон разом.\n\nЖенщины внизу вяжут снопы для кровли и не поднимают головы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_children_by_new_house",
+    "title": "Дети у нового дома",
+    "description": "Крыша жёлтая и ровная, конёк выведен под шнур. Под стеной сложены остатки соломы, и в них с визгом ныряют трое.\n\nВзрослые прогоняют их без всякой настойчивости.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_well_run_dry",
+    "title": "Колодец пересох",
+    "description": "Ведро уходит вниз и стукается о сухое. Ворот замотан верёвкой и подвязан — чтобы не крутили зря.\n\nК соседнему двору тянется натоптанная дорожка, которой раньше не было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_digging_new_well",
+    "title": "Копают новый",
+    "description": "Из ямы торчит только верёвка и голова того, кто внизу. Наверху крутят ворот и поднимают бадью с глиной.\n\nВокруг растёт кольцо вынутой земли — уже выше человека.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_water_came",
+    "title": "Вода пришла",
+    "description": "Сруб свежий, светлый, ворот новый и ходит туго. Ведро возвращается полным и расплёскивает через край.\n\nЧуть в стороне торчит старый сруб, заваленный доверху жердями.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_belfry_empty",
+    "title": "Пустая колокольня",
+    "description": "Проём наверху зияет, и в нём видно небо насквозь. Балка на месте, крюк на месте, а под крюком ничего.\n\nВнизу на верёвке сушат бельё.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_bell_hauled_up",
+    "title": "Поднимают",
+    "description": "Через блок наверху идёт канат, и за него тянут человек двадцать, отступая назад по улице. Тёмная тяжесть ползёт вверх рывками.\n\nОдин стоит отдельно и командует. Его слушают беспрекословно, и это явно ненадолго.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_bell_rings",
+    "title": "Слышно за три версты",
+    "description": "Звон идёт низкий и неровный — звонарь ещё привыкает. Он бьёт лишний раз и сбивается.\n\nВ поле работающие поднимают головы. Каждый раз.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_forge_cold",
+    "title": "Кузня стоит пустая",
+    "description": "Дверь распахнута, горн разобран, на полу окалина, вросшая в утоптанную землю. Наковальни нет — остался только чёрный квадрат на месте колоды.\n\nПодковы над входом висят. Все три.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_anvil_delivered",
+    "title": "Привезли наковальню",
+    "description": "Телега просела на оба задних колеса. Наковальню снимают вшестером по слегам, и никто не разговаривает — берегут дыхание.\n\nПоловина деревни стоит и смотрит. Помогать не лезут.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_forge_smoking",
+    "title": "Дым над кузней",
+    "description": "Стучат неровно — то часто, то с паузами. Дым из трубы идёт рывками, в такт мехам.\n\nУ входа стоит очередь: три лемеха, обод и одна сломанная коса.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_field_burnt",
+    "title": "Выжженное поле",
+    "description": "Полоса чёрная и ровная, до самой межи. Дым уже не идёт, но земля тёплая, и над ней дрожит воздух.\n\nПо краю чёрного тянется полоса нетронутого — там, где кто-то успел встать со лопатами.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "actions": []
+  },
+  {
+    "id": "story_field_ploughed",
+    "title": "Поднимают заново",
+    "description": "Две упряжки идут по чёрному, и за ними ложится борозда — бурая с угольными прожилками. Пашут глубже обычного.\n\nПахарь останавливается, выбирает из отвала обгорелый корень и отбрасывает в сторону. Таких корней целая куча.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_field_green_again",
+    "title": "Всходы",
+    "description": "Поле подёрнулось зелёным — редким, неровным, но сплошь по всей полосе. Земля под всходами тёмная, почти чёрная.\n\nПо краю сложены в кучу обгорелые корни. Их так и не увезли.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_mill_stones_hauled",
+    "title": "Везут блоки",
+    "description": "Четыре подводы одна за другой, на каждой по тёсаному камню, обвязанному верёвкой крест-накрест. Возчики идут рядом, а не сидят.\n\nНа спуске под колёса подкладывают жерди и придерживают все вместе.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_mill_wheel_turns",
+    "title": "Колесо пошло",
+    "description": "Новое колесо скрипит и вращается неровно, обливаясь водой. Кладка под ним светлее старой на два ряда.\n\nВнутри слышно, как жёрнов берёт первое зерно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_fence_dug_together",
+    "title": "Копают вдвоём",
+    "description": "Двое роют одну яму с двух сторон, мешая друг другу лопатами. Разговаривают только о глубине.\n\nРядом лежит новый столб — один. Не два.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_fence_shared",
+    "title": "Забор без спора",
+    "description": "Новый прясел идёт ровно, и в середине стоит один общий столб — толще остальных, вкопанный глубже.\n\nПо обе стороны от него растёт одинаковая трава. Раньше, говорят, было заметно, где чья.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "notInBiome", "biomeId": "tavern" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_orchard_bare",
+    "title": "Сад стоит голый",
+    "description": "Ветки чёрные и мокрые, стволы побелены снизу. Между рядами разбросан обрезанный хворост — режут по весне, значит, режут сейчас.\n\nПод одним деревом стоит лестница и не убрана.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inSeason", "season": "spring" }],
+    "actions": []
+  },
+  {
+    "id": "story_orchard_blooming",
+    "title": "Сад цветёт",
+    "description": "Белого столько, что издали кажется, будто на сад легло облако. Гул пчёл стоит ровный, как звук.\n\nЛепестки уже начали осыпаться и лежат по земле полосами — там, где тянет ветром.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inSeason", "season": "summer" }],
+    "actions": []
+  },
+  {
+    "id": "story_orchard_harvest",
+    "title": "Снимают урожай",
+    "description": "Корзины стоят рядами вдоль межи, и ещё столько же лежит прямо на земле, накрытое рогожей. Лестницы переставляют втроём.\n\nПод деревьями падалица, и её не подбирают — не до неё.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [{ "condition": "inSeason", "season": "autumn" }],
+    "actions": []
+  }
+]

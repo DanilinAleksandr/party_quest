@@ -1,0 +1,1493 @@
+[
+  {
+    "id": "event_toast_v2",
+    "title": "Чужой праздник",
+    "description": "За соседним столом поднимают кружки за кого-то, кого здесь нет. Повод неясен, но настроение доходит через две скамьи.\n\nПодними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_toast_v3",
+    "title": "Первая за дорогу",
+    "description": "Разлито, но никто не начинает: все ждут, чтобы кто-нибудь взял на себя первое слово.\n\nВозьми его. Подними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_toast_v4",
+    "title": "Кто здесь умеет говорить",
+    "description": "Кто-то заявляет, что за этим столом никто не умеет сказать нормального тоста. Такое не оставляют без ответа.\n\nПодними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_toast_v5",
+    "title": "Забытая дата",
+    "description": "Выясняется, что у кого-то сегодня какая-то годовщина. Какая именно — не помнит уже и он сам.\n\nПодними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_toast_v6",
+    "title": "Бочку вскрыли",
+    "description": "Пена ещё оседает, кружки полные, и все зачем-то смотрят друг на друга.\n\nПодними бокал и произнеси тост в честь любого игрока за столом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession_v2",
+    "title": "Костёр прогорел",
+    "description": "Угли краснеют, разговоры кончились, и настала та тишина, в которой почему-то тянет говорить правду.\n\nРасскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession_v3",
+    "title": "Игра, из которой не выйти",
+    "description": "Кто-то предлагает: каждый говорит о себе то, чего не говорил. Отказаться уже нельзя — все успели согласиться.\n\nРасскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession_v4",
+    "title": "Вопрос без подготовки",
+    "description": "Тебя спрашивают прямо и в лоб, и за столом становится тихо в ожидании.\n\nРасскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession_v5",
+    "title": "Попутчик разоткровенничался",
+    "description": "Незнакомец у огня рассказал о себе куда больше, чем стоило. Теперь неловко молчать в ответ.\n\nРасскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_confession_v6",
+    "title": "Хорошо бы знать, с кем идёшь",
+    "description": "Завтра дальше, дорога длинная, и кто-то произносит это вслух — без нажима, просто как мысль.\n\nРасскажи компании одну вещь о себе, которую здесь никто не знает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_impersonation_v2",
+    "title": "Бродячий балаган",
+    "description": "На площади показывают представление: актёры изображают людей, которых все знают, и зал угадывает с полужеста.\n\nИзобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_impersonation_v3",
+    "title": "Тени на стене",
+    "description": "Огонь бросает на стену длинные тени, и кто-то замечает, что одна подозрительно похожа на своего хозяина.\n\nИзобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_impersonation_v4",
+    "title": "У каждого есть словечко",
+    "description": "За столом уверяют, что у любого человека найдётся жест или присказка, по которой его узнают с закрытыми глазами.\n\nИзобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "event_impersonation_v5",
+    "title": "Кривое зеркало",
+    "description": "В лавке выставлено гнутое зеркало, и все по очереди корчат в него рожи, пока хозяин не смотрит.\n\nИзобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "trap_cold_shower_v2",
+    "title": "Не тот карман",
+    "description": "Рука лезет за нужной вещью и находит дырку. Утром дырки не было, и вещь была на месте.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_cold_shower_v3",
+    "title": "Оступился на ровном",
+    "description": "Ничего ведь не случилось: просто нога поехала там, где ехать было нечему. Но с этой секунды всё идёт чуть наперекосяк.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_cold_shower_v4",
+    "title": "Мешочек развязался",
+    "description": "Узел ослаб в самый неподходящий момент, и половина содержимого ушла в траву. Собрали не всё.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_cold_shower_v5",
+    "title": "Разбилось",
+    "description": "Что-то падает и разлетается вдребезги — не ценное, но осколки улетают дальше, чем это вообще возможно.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_cold_shower_v6",
+    "title": "Кошка перешла дорогу",
+    "description": "Она вышла из-за угла, посмотрела ровно столько, сколько нужно, и ушла обратно. Мелочь. А осадок остался.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "trap_steady_hand_v2",
+    "title": "Скамья качнулась",
+    "description": "Кто-то встаёт с другого края, скамья идёт вбок, и всё на столе едет вместе с ней.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_steady_hand"
+      }
+    ]
+  },
+  {
+    "id": "trap_steady_hand_v3",
+    "title": "Ладонь скользит",
+    "description": "Кружка запотела, и рука соскальзывает по мокрому боку — не сразу, а на середине движения.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_steady_hand"
+      }
+    ]
+  },
+  {
+    "id": "trap_steady_hand_v4",
+    "title": "Локоть соседа",
+    "description": "Сосед оборачивается на чей-то оклик и задевает тебя локтем ровно в тот момент, когда ты подносишь кружку.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_steady_hand"
+      }
+    ]
+  },
+  {
+    "id": "trap_steady_hand_v5",
+    "title": "Половица",
+    "description": "Под ногой проваливается половица, и это отдаётся в руке раньше, чем доходит до головы.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_steady_hand"
+      }
+    ]
+  },
+  {
+    "id": "tavern_bar_fight_v2",
+    "title": "Наступили на ногу",
+    "description": "Кто-то проходит мимо и наступает — не сильно, но с явным намерением не извиняться. За соседним столом уже разворачиваются.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "risk",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_bar_fight_v3",
+    "title": "Задели плечом",
+    "description": "Проходя, тебя задевают плечом так, что приходится ухватиться за стол. Идущий даже не оборачивается.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "risk",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_bar_fight_v4",
+    "title": "Не то сказано",
+    "description": "Со стороны стойки долетает фраза, которая явно про тебя. Зал делает вид, что не расслышал, но все расслышали.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "risk",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_bar_fight_v5",
+    "title": "Скамью выдернули",
+    "description": "Скамья уезжает из-под тебя ровно тогда, когда ты собирался сесть. Кто-то за спиной сдержанно смеётся.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "risk",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_staring_contest_v2",
+    "title": "Кто первым отведёт глаза",
+    "description": "Разговор упирается в тупик, и остаётся один способ выяснить, кто прав.\n\nВыбери соперника. Кто первым моргнёт или засмеётся — проиграл.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_staring_contest_v3",
+    "title": "Через костёр",
+    "description": "Огонь между вами, дым идёт то в одну сторону, то в другую, и слезящиеся глаза — половина испытания.\n\nВыбери соперника. Кто первым моргнёт или засмеётся — проиграл.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_staring_contest_v4",
+    "title": "Спор без слов",
+    "description": "Говорить уже нечего, а уступать никто не собирается.\n\nВыбери соперника для игры в гляделки. Кто первым моргнёт или засмеётся — проиграл.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_staring_contest_v5",
+    "title": "Детская забава",
+    "description": "Кто-то вспоминает игру, в которую играли лет двадцать назад, и оказывается, что все её помнят.\n\nВыбери соперника. Кто первым моргнёт или засмеётся — проиграл.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curse_whisper_v2",
+    "title": "Перекричал ветер",
+    "description": "На перевале приходилось орать друг другу в ухо, и к вечеру от голоса осталось одно шипение.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      }
+    ]
+  },
+  {
+    "id": "curse_whisper_v3",
+    "title": "Пел до утра",
+    "description": "Всё было хорошо, пока пели. Утром выяснилось, чем за это платят.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      }
+    ]
+  },
+  {
+    "id": "curse_whisper_v4",
+    "title": "Надышался дымом",
+    "description": "Ветер весь вечер заворачивал дым от костра прямо в лицо, и першить начало ещё ночью.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      }
+    ]
+  },
+  {
+    "id": "curse_whisper_v5",
+    "title": "Простыл на реке",
+    "description": "Переправа была по грудь, а обсохнуть было негде. Горло отозвалось первым.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      }
+    ]
+  },
+  {
+    "id": "curse_hedge_word_v2",
+    "title": "Сомнение",
+    "description": "Кто-то мимоходом спрашивает: «А ты уверен?» — и вопрос почему-то остаётся висеть.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "curse_hedge_word_v3",
+    "title": "Чужая привычка",
+    "description": "К вечеру ловишь себя на том, что повторяешь чужую манеру недоговаривать. Отделаться не выходит.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "curse_hedge_word_v4",
+    "title": "Оговорка",
+    "description": "Ты сказал одно, а вышло другое, и все услышали. Теперь каждое следующее слово проверяешь дважды.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "curse_hedge_word_v5",
+    "title": "Совет старика",
+    "description": "Старик у дороги посоветовал ничего не утверждать наверняка. Совет оказался прилипчивым.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "curse_freeze_statue_v2",
+    "title": "Спор на выдержку",
+    "description": "Кто-то заявляет, что не сумеешь простоять неподвижно и десяти вдохов. Спор принят прежде, чем ты успел подумать.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_freeze_statue"
+      }
+    ]
+  },
+  {
+    "id": "curse_freeze_statue_v3",
+    "title": "Игра у ворот",
+    "description": "Дети играют во что-то с замиранием на месте и втягивают тебя, потому что взрослому отказаться нельзя.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_freeze_statue"
+      }
+    ]
+  },
+  {
+    "id": "curse_freeze_statue_v4",
+    "title": "Не шевелись",
+    "description": "Кто-то в компании поднимает руку и требует полной неподвижности. Объяснять он не собирается, а условие принято всеми.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_freeze_statue"
+      }
+    ]
+  },
+  {
+    "id": "curse_freeze_statue_v5",
+    "title": "Каменная фигура",
+    "description": "У дороги стоит выветренная статуя в нелепой позе. Кто-то предлагает её повторить, и повторить приходится тебе.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "curse",
+      "solo",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_freeze_statue"
+      }
+    ]
+  },
+  {
+    "id": "tavern_musician_v2",
+    "title": "Заиграли плясовую",
+    "description": "Из угла ударяет мотив, под который в этом зале не усидел ещё никто. Тебя выталкивают в круг первым.",
+    "type": "blessing",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "blessing",
+      "group",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_musician_v3",
+    "title": "Круг разошёлся",
+    "description": "Столы сдвинули к стенам, посередине образовалось место, и все смотрят, кто выйдет.\n\nВыходишь ты.",
+    "type": "blessing",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "blessing",
+      "group",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_musician_v4",
+    "title": "Свадебная",
+    "description": "Кто-то заказывает свадебную, хотя свадьбы нет, — и зал всё равно поднимается.",
+    "type": "blessing",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "blessing",
+      "group",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tavern_musician_v5",
+    "title": "Ногами по половицам",
+    "description": "Половицы отзываются на каждый удар, и уже непонятно, кто кого ведёт: музыкант зал или зал музыканта.",
+    "type": "blessing",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "blessing",
+      "group",
+      "party",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "global_toast_all_v2",
+    "title": "Все разом",
+    "description": "Кто-то поднимается, и без единого слова поднимается весь стол.\n\nВсе игроки поднимают бокалы и хором произносят один общий тост!",
+    "type": "global",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "allPlayers",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "global_toast_all_v3",
+    "title": "За дорогу",
+    "description": "Дорога позади длиннее, чем казалась утром, и это стоит отметить сообща.\n\nВсе игроки поднимают бокалы и хором произносят один общий тост!",
+    "type": "global",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "allPlayers",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "global_toast_all_v4",
+    "title": "Зал подхватил",
+    "description": "Тост начали за одним столом, а подхватили за всеми.\n\nВсе игроки поднимают бокалы и хором произносят один общий тост!",
+    "type": "global",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "allPlayers",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "global_toast_all_v5",
+    "title": "Не чокаясь, а потом чокаясь",
+    "description": "Сначала выпили молча. Потом кто-то говорит, что хватит грустить.\n\nВсе игроки поднимают бокалы и хором произносят один общий тост!",
+    "type": "global",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "group",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "allPlayers",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "duel_name_calling_v2",
+    "title": "Кто ведёт",
+    "description": "Разговор о том, кто выбирает дорогу, заходит слишком далеко, чтобы кончиться сам собой.\n\nВызови любого игрока разрешить спор.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_name_calling_v3",
+    "title": "Место у огня",
+    "description": "Лучшее место одно, а желающих двое, и оба уже сказали лишнее.\n\nВызови любого игрока разрешить спор.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_name_calling_v4",
+    "title": "Старая обида",
+    "description": "Всплывает случай, о котором договаривались больше не вспоминать. О нём вспоминают.\n\nВызови любого игрока разрешить спор.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duel_name_calling_v5",
+    "title": "Кто платит",
+    "description": "Счёт один, мнений четыре, и каждое подкреплено доводами.\n\nВызови любого игрока разрешить спор.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "duel",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "coast_message_in_bottle_v2",
+    "title": "Весло без лодки",
+    "description": "На песке лежит весло — целое, с выжженной меткой на рукояти. Лодки нигде нет.",
+    "type": "luck",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "coast_message_in_bottle_v3",
+    "title": "Узел на плавнике",
+    "description": "К выброшенной коряге привязан обрывок верёвки, и узел на нём завязан не морской рукой.",
+    "type": "luck",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "coast_message_in_bottle_v4",
+    "title": "Монета в водорослях",
+    "description": "В спутанной куче водорослей что-то блестит. Достать удаётся не с первого раза.",
+    "type": "luck",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "coast_message_in_bottle_v5",
+    "title": "Птица уронила",
+    "description": "Чайка проносится над головой и роняет что-то мелкое прямо к ногам. Она даже не оборачивается.",
+    "type": "luck",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,113 @@
+[
+  {
+    "id": "effect_whisper",
+    "name": "Шёпот",
+    "description": "Следующие 2 хода ты можешь говорить только шёпотом.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_forbidden_word",
+    "name": "Запретное слово",
+    "description": "До конца эффекта тебе нельзя говорить слово «да» — заменяй его на «истинно так».",
+    "polarity": "negative",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_royal_address",
+    "name": "Придворный этикет",
+    "description": "Следующие 2 хода обращайся к любому игроку только «уважаемый(ая)» плюс имя — никаких имён без титула.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_steady_hand",
+    "name": "Твёрдая рука",
+    "description": "Весь следующий ход держи свой стакан только в одной руке и не перекладывай его.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_no_gestures",
+    "name": "Без рук",
+    "description": "Следующие 2 хода тебе нельзя ничего показывать руками — объясняйся только словами.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_freeze_statue",
+    "name": "Морская фигура",
+    "description": "Следующие 2 хода: как только кто-то произносит твоё имя, ты замираешь на месте на 5 секунд.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_hedge_word",
+    "name": "Неуверенность",
+    "description": "Следующие 2 хода заканчивай каждую фразу словом «наверное».",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_generous_host",
+    "name": "Гостеприимный хозяин",
+    "description": "Пока действует эффект, в начале каждого твоего хода все остальные игроки получают +1 к удаче — ты делишься везением стола.",
+    "polarity": "positive",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "allOtherPlayers", "stat": "luck", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_omen",
+    "name": "Дурное предзнаменование",
+    "description": "Пока действует эффект, с каждым твоим ходом мир становится чуть опаснее (+1 к общему «уровню опасности» партии).",
+    "polarity": "negative",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyGlobalModifier", "key": "danger_level", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_marked",
+    "name": "Отмеченный",
+    "description": "Пока действует эффект, все за столом обращаются к тебе только «меченый».",
+    "polarity": "negative",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_lucky_echo",
+    "name": "Счастливое эхо",
+    "description": "Пока действует эффект, каждый раз, когда ты разрешаешь выпавшую карточку, ты получаешь +1 к удаче.",
+    "polarity": "positive",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {
+      "cardResolved": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+      ]
+    }
+  }
+]

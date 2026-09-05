@@ -1,0 +1,11 @@
+[
+  {
+    "id": "effect_kings_judgment",
+    "name": "Приговор Короля",
+    "description": "Пока действует эффект, сними воображаемую корону перед тем, как заговорить — Король мёртвых напоминает о себе.",
+    "polarity": "negative",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {}
+  }
+]

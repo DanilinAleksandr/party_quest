@@ -1,0 +1,11 @@
+[
+  {
+    "id": "item_dragon_scale",
+    "name": "Чешуя дракона",
+    "description": "Тёплая на ощупь даже спустя часы. Такую чешую не купить — только забрать, если хватит смелости.",
+    "rarity": "epic",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

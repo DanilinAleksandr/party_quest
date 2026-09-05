@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launcher label. Kept as a string resource rather than inline in the
+         manifest so the displayed name has one place to change and no
+         encoding surprises. -->
+    <string name="app_name">Алко-Квест</string>
+</resources>

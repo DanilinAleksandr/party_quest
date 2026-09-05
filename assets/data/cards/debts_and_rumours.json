@@ -1,0 +1,879 @@
+[
+  {
+    "id": "rumour_reputation_honest",
+    "title": "Вас уже ждали",
+    "description": "Хозяин двора выходит навстречу раньше, чем вы успеваете постучать.\n\n«Про вас говорили. Говорили хорошо — а у нас тут редко говорят хорошо про проезжих».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  },
+  {
+    "id": "rumour_reputation_broken",
+    "title": "Разговор не состоится",
+    "description": "Вы начинаете фразу — и человек напротив коротко качает головой.\n\n«Не надо. Я знаю, чем такие разговоры заканчиваются. Мне рассказывали».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "curse",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "rumour_reputation_mixed",
+    "title": "Разное про вас говорят",
+    "description": "Двое у костра спорят, стоит ли вас пускать к огню. Один слышал одно, другой — другое, и оба, кажется, правы.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 2
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 2
+      }
+    ],
+    "choices": [
+      {
+        "label": "Рассказать обе истории самому — так честнее",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Подтвердить ту версию, что выгоднее",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не вмешиваться в чужой спор",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "conflict_herbwoman_vs_alchemist",
+    "title": "Двое за одной травой",
+    "description": "На поляне сталкиваются двое, и оба тянутся к одному и тому же корню: травница с корзиной и алхимик со склянками.\n\n«Рассуди», — говорят они одновременно и оба смотрят на вас.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 3
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать корень травнице — она собирает для людей",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_herbwoman",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_alchemist",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать корень алхимику — из него выйдет лекарство на всех",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_alchemist",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_herbwoman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Круг вас учил, чей это корень на самом деле",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_herbwoman",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_alchemist",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Забрать корень себе, пока они спорят",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_herbwoman",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_alchemist",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Уйти и не разнимать",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "conflict_caravan_vs_smuggler",
+    "title": "Чей это груз",
+    "description": "Караванщик держит за плечо человека с побережья: «Этот тюк снят с моей телеги». Контрабандист смотрит на вас и молчит — он знает, что вы его знаете.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подтвердить слова караванщика",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_caravan",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smuggler",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что тюк был при нём с самого берега",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smuggler",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "robbed_caravan",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Орден учит не лгать даже ради своих",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_caravan",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smuggler",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отказаться говорить — пусть разбираются сами",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hedge_word"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conflict_taxman_asks_names",
+    "title": "Три вопроса писаря",
+    "description": "Сборщик податей раскрывает книгу и смотрит поверх неё.\n\n«Мне нужны имена тех, кто провозит мимо застав. Одно имя — и подать с вас снимается».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smuggler"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Назвать имя и уйти без подати",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smuggler",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smuggler",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Промолчать и выкатить бочонок вместо имени",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что имён не помните",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dodged_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conflict_one_keg_two_debts",
+    "title": "Один бочонок, два долга",
+    "description": "У дороги вас ждут двое — и оба по делу. Старик с гор пришёл за обещанным. Писарь с книгой пришёл за податью.\n\nБочонок у компании один.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "partyHasItem",
+        "itemId": "item_beer_keg"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_hermit"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "paid_taxman"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Убедить обоих, что бочонок достался другому",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dodged_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Орден закрывает подать за вас — бочонок уходит старику",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_hermit",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smuggler",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Разлить бочонок на двоих здесь же — недовольны оба, но не злы",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "charisma",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": false
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать старику — обещание старше подати",
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_hermit",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_hermit",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dodged_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать писарю — с книгой не спорят",
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paid_taxman",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не отдавать никому и уйти",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dodged_taxman",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_omen"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rumour_alchemist_warned",
+    "title": "Алхимик предупреждал",
+    "description": "Знахарь у дороги окидывает вас взглядом и убирает склянки под прилавок.\n\n«Мне про вас говорил один человек со склянками. Сказал: дел не иметь».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_alchemist"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "rumour_caravan_told_peddler",
+    "title": "Коробейник уже слышал",
+    "description": "Коробейник видит вас и не спеша закрывает короб.\n\n«Караванщик рассказывал. Подробно рассказывал».",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "robbed_caravan"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "cheated_peddler"
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "cheated_peddler",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "rumour_herbwoman_told_gravedigger",
+    "title": "О вас хорошо отзывались",
+    "description": "Могильщик опирается на лопату и разглядывает вас без обычной хмурости.\n\n«Травница про вас говорила. Она про людей зря не говорит».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "helped_gravedigger",
+        "value": true
+      },
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "rumour_smith_vouches",
+    "title": "Кузнец поручился",
+    "description": "На заставе вас задерживают недолго: кто-то называет имя кузнеца, и старший машет рукой — проходите.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "paladin_ally"
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "paladin_debt",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "rumour_smuggler_wary_of_taxman",
+    "title": "Осторожный разговор в бухте",
+    "description": "Контрабандист слушает вас вполуха и всё поглядывает за спину.\n\n«Ты подать платил. Значит, тебя в книгу вписали. А кто в книге — тот и разговоры пересказывает».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smuggler"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "paid_taxman"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Показать, что в книге вас записали неверно",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не спорить — он прав, и вы оба это знаете",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smuggler",
+            "value": false
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rumour_hermit_vouches_to_circle",
+    "title": "Старик замолвил слово",
+    "description": "У костра без дыма вас встречают спокойнее обычного.\n\n«Про вас говорил тот, кто зимует один. Ему мы верим больше, чем себе».",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_witchs_protection"
+      }
+    ]
+  },
+  {
+    "id": "rumour_cartographer_marked_you",
+    "title": "Пометка на полях",
+    "description": "Встречный отряд сверяется с картой и вдруг замолкает. На полях чужой рукой приписано что-то короткое — и явно про вас.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "solo",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_cartographer"
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_marked"
+      }
+    ]
+  }
+]

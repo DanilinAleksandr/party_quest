@@ -1,0 +1,487 @@
+[
+  {
+    "id": "bandit_camp",
+    "entryNodeId": "camp_sighted",
+    "nodes": [
+      {
+        "id": "camp_sighted",
+        "text": "Сквозь деревья виден дым костра и силуэты вооружённых людей — разбойничий лагерь на другой стороне поляны.",
+        "choices": [
+          {
+            "label": "Подобраться ближе",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_approach"
+              }
+            }
+          },
+          {
+            "label": "Обойти лагерь стороной",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_approach",
+        "text": "Ты подбираешься ближе. Часовой прохаживается у самой границы лагеря, вот-вот тебя заметит. Как действовать?",
+        "choices": [
+          {
+            "label": "Прокрасться мимо часового",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_sneak_success"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_caught"
+              }
+            }
+          },
+          {
+            "label": "Выйти открыто и заговорить",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_talk"
+              }
+            }
+          },
+          {
+            "label": "Атаковать в лоб",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_bravery_flask"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_attack_roll"
+              }
+            }
+          },
+          {
+            "label": "Предложить бочонок вместо драки",
+            "conditions": [
+              {
+                "condition": "partyHasItem",
+                "itemId": "item_beer_keg"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_bribe_roll"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_sneak_success",
+        "text": "Ты проскальзываешь мимо, никем не замеченный, и добираешься до самого шатра атамана. Внутри — сундук с трофеями.",
+        "choices": [
+          {
+            "label": "Взять и бежать",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "raided_bandit_camp",
+                  "value": true
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_dice_of_fate"
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🏴 Компания ограбила лагерь бандитов."
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Не рисковать, тихо уйти",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_caught",
+        "text": "Часовой замечает тебя и поднимает тревогу! Из палаток высыпают разбойники.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_confrontation"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_talk",
+        "text": "Ты выходишь на свет с поднятыми руками. Атаман лагеря, хмурый детина со шрамом через бровь, оглядывает тебя с прищуром.",
+        "choices": [
+          {
+            "label": "Дать понять, что тоже вне закона",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_fugitive"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_let_go"
+              }
+            }
+          },
+          {
+            "label": "Попросить пропустить с миром",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_let_go"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_confrontation"
+              }
+            }
+          },
+          {
+            "label": "Предложить лагерю помощь",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_offer_help"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_offer_help",
+        "text": "«Помощь, говоришь? — усмехается атаман. — У нас как раз бочка с припасами не поддаётся».",
+        "choices": [
+          {
+            "label": "Закатать рукава — такую работу ты знаешь слишком хорошо",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_convict"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_earn_respect"
+              }
+            }
+          },
+          {
+            "label": "Взяться за бочку",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_earn_respect"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "camp_confrontation"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_earn_respect",
+        "text": "Бочка поддаётся с громким хлопком. Атаман хохочет и хлопает тебя по плечу: «А ты крепче, чем кажешься».",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "earned_bandit_respect",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_black_spot"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_let_go",
+        "text": "Атаман нехотя машет рукой: «Иди, не порти мне настроение». Ты уходишь с колотящимся сердцем.",
+        "onEnterActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_attack_roll",
+        "text": "Ты с рёвом бросаешься вперёд, не оставляя себе пути назад.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "randomNode",
+                "options": [
+                  {
+                    "nodeId": "camp_attack_win",
+                    "weight": 40
+                  },
+                  {
+                    "nodeId": "camp_attack_lose",
+                    "weight": 60
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_attack_win",
+        "text": "Внезапность на твоей стороне — разбойники разбегаются, и лагерь остаётся тебе.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "raided_bandit_camp",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_dice_of_fate"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 2
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🏴 Компания ограбила лагерь бандитов."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_attack_lose",
+        "text": "Численный перевес не на твоей стороне. Тебя быстро скручивают и как следует встряхивают, прежде чем отпустить.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_no_gestures"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_bribe_roll",
+        "text": "Ты выкатываешь бочонок к ногам атамана: «Хватит на весь лагерь — только пропустите».",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "randomNode",
+                "options": [
+                  {
+                    "nodeId": "camp_bribe_accepted",
+                    "weight": 70
+                  },
+                  {
+                    "nodeId": "camp_confrontation",
+                    "weight": 30
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_bribe_accepted",
+        "text": "Атаман довольно выбивает пробку и делает первый глоток: «Приятно иметь дело с понимающими людьми».",
+        "onEnterActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "camp_confrontation",
+        "text": "Разбойники плотным кольцом обступают тебя. Атаман поднимает нож: «Похоже, придётся договариваться иначе».",
+        "choices": [
+          {
+            "label": "Драться",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "duel",
+                  "winnerActions": [
+                    {
+                      "action": "modifyStat",
+                      "target": "currentPlayer",
+                      "stat": "strength",
+                      "amount": 1
+                    }
+                  ],
+                  "loserActions": [
+                    {
+                      "action": "applyEffect",
+                      "target": "currentPlayer",
+                      "effectId": "effect_defeated"
+                    }
+                  ]
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Сдаться без боя",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_marked"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

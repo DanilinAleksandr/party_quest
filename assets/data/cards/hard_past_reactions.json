@@ -1,0 +1,146 @@
+[
+  {
+    "id": "drunkard_temptation_trigger",
+    "title": "Кружка за счёт заведения",
+    "description": "Трактирщик замечает в тебе своего — и решает проверить, насколько глубоко это у тебя в крови.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_drunkard"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_drunkard"
+    },
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "drunkard_temptation"
+      }
+    ]
+  },
+  {
+    "id": "fugitive_suspicion",
+    "title": "Цепкий взгляд",
+    "description": "Кто-то в форме задерживает на тебе взгляд на пару секунд дольше, чем следовало бы. Ты уже давно научился не подавать виду — но спина всё равно напрягается.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_fugitive"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_fugitive"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "charlatan_distrust",
+    "title": "Слишком гладко звучит",
+    "description": "Ты пробуешь привычный трюк на честном с виду прохожем — и по его прищуру сразу понимаешь: не сработало. Не всех можно обвести вокруг пальца одинаково легко.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_charlatan"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_charlatan"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "convict_first_impression",
+    "title": "Тяжёлый взгляд встречных",
+    "description": "Кто-то отшатывается, заметив шрамы на твоих запястьях, прежде чем ты успеваешь сказать хоть слово. Первое впечатление редко бывает к тебе добрым.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_convict"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_convict"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_out_of_place"
+      }
+    ]
+  },
+  {
+    "id": "pauper_kindness",
+    "title": "Простые люди",
+    "description": "Кто-то из простых путников, завидев потрёпанную одежду, без лишних слов делится куском своего хлеба. Ты давно заметил: беднякам легче понять беднягу, чем богачу — бедняка.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasOrigin",
+        "originId": "origin_pauper"
+      }
+    ],
+    "participant": {
+      "kind": "hasOrigin",
+      "originId": "origin_pauper"
+    },
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_at_home"
+      }
+    ]
+  }
+]

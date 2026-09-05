@@ -1,0 +1,278 @@
+[
+  {
+    "id": "traveling_merchant",
+    "entryNodeId": "merchant_entrance",
+    "nodes": [
+      {
+        "id": "merchant_entrance",
+        "text": "На пыльной дороге навстречу попадается торговец с гружёной телегой. «Не желаешь взглянуть на товар, путник?»",
+        "choices": [
+          {
+            "label": "Посмотреть товар",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_stall"
+              }
+            }
+          },
+          {
+            "label": "Идти своей дорогой",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_stall",
+        "text": "Торговец раскладывает товар: потрёпанные амулеты, склянки, странные безделушки сомнительного происхождения.",
+        "choices": [
+          {
+            "label": "Честно признаться, что денег нет ни гроша",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_pauper"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Купить оберег втридорога",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "luck",
+                  "amount": -1
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Предложить помощь по хозяйству",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_help"
+              }
+            }
+          },
+          {
+            "label": "Приглядеться к товару внимательнее",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_suspicious"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_help",
+        "text": "Торговец хмыкает: «Помоги закатить телегу на пригорок — в долгу не останусь».",
+        "choices": [
+          {
+            "label": "Взяться за колесо",
+            "successChance": 0.7,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_grateful"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_annoyed"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_grateful",
+        "text": "Телега вкатывается на пригорок. Торговец доволен и достаёт из-под полы медный жетон: «Сохрани его — при следующей нашей встрече он сослужит тебе добрую службу».",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_merchant",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_annoyed",
+        "text": "Колесо срывается и едва не отдавливает тебе ногу. Ты вывихиваешь руку, хватаясь за телегу.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_steady_hand"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_suspicious",
+        "text": "Приглядевшись, ты замечаешь: один из «серебряных» амулетов явно крашеная жестянка.",
+        "choices": [
+          {
+            "label": "Уличить его при всех",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_exposed"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "merchant_backfire"
+              }
+            }
+          },
+          {
+            "label": "Промолчать и уйти",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_exposed",
+        "text": "Торговец краснеет и суёт тебе настоящую монету — лишь бы ты не поднимал шум перед другими покупателями.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "caught_merchant_scam",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "merchant_backfire",
+        "text": "Торговец громко и убедительно всё отрицает — да так, что уже ты выглядишь дураком перед случайными зеваками.",
+        "onEnterActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_forbidden_word"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

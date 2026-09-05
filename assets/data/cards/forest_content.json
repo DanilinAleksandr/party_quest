@@ -1,0 +1,1106 @@
+[
+  {
+    "id": "forest_mushrooms",
+    "title": "Грибы у корней",
+    "description": "У корней старого дерева — россыпь ярких грибов. Аппетитно выглядят. Подозрительно ярко выглядят.",
+    "type": "luck",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "luck",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Разобрать их по одному — половина съедобна, половина нет, и ты знаешь какая",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Приглядеться внимательнее — в тумане поганку от съедобного гриба не отличить с одного взгляда",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "fog"
+          },
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Рискнуть попробовать",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": 2
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hiccups"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить в покое",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "forest_wolves",
+    "title": "Вой в чаще",
+    "description": "Из глубины леса доносится протяжный вой — стая взяла след.",
+    "type": "trap",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "risk",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Стая уходит, не завыв ни разу. Так уходят от того, что старше волков",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Стая ложится. Не от страха — от узнавания",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Волки чуют, что ты тяжелее любого из них, и уходят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Выйти навстречу и не отводить взгляд — стая узнаёт своих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Стая знает метку круга и обходит стороной",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Встать так, чтобы вожак увидел тебя первым — этому учат",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отдать им мясо из припасов и уйти без спора",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "На метку ведьмы стая идёт охотнее, чем на человека",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_whisper"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_omen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отбиваться",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_whisper"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Тихо отступить, пока стая ещё колеблется",
+        "conditions": [
+          {
+            "condition": "notInWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "forest_druid",
+    "title": "Хранитель чащи",
+    "description": "Между деревьями стоит фигура в плаще из мха и перьев — друид смотрит на тебя, не мигая.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "blessing",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "С ведьмой вы в своё время договорились словами — здесь это ценят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "talked_down_great_witch"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Дар обаяния и слово круга — друид говорит с тобой как с равным",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_altar_charm"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Не называть ордена — здесь это имя не любят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что орден объявил вас еретиками — здесь это рекомендация",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Заговорить с ним первым — вы одной крови",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Укрыться у него от дождя",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Попросить благословения леса",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_mystery"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_lucky_echo"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              },
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо, не мешая ритуалу",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "forest_ancient_tree",
+    "title": "Дерево старше леса",
+    "description": "Перед тобой дерево невероятных размеров — кажется, оно росло здесь ещё до того, как лес стал лесом.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Это дерево старше леса — но не старше тебя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "На коре вырезан знак. Он свежий — и хижина отсюда в четверти часа",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "visited_witch_hut"
+          }
+        ],
+        "actions": [
+          {
+            "action": "startAdventure",
+            "adventureId": "witch_hut"
+          }
+        ]
+      },
+      {
+        "label": "Дождаться, когда дерево оживёт в темноте",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Загадать желание",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_lucky_streak"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Просто постоять рядом",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "forest_spring_bloom",
+    "title": "Поляна в цвету",
+    "description": "Между деревьями открывается поляна, сплошь усыпанная цветами — кажется, весь лес разом решил зацвести именно здесь.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inSeason",
+        "season": "spring"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поляна поворачивается к тебе, как поворачиваются к солнцу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_world_tree_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Под дождём покровительство ведьмы пахнет травой сильнее обычного",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Собрать то, что цветёт здесь один день в году",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Разобрать поляну на пучки — половина отсюда идёт в лекарства",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Собрать для круга то, за чем они сюда и ходят",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          }
+        ]
+      },
+      {
+        "label": "Цветы вянут там, где ты прошёл. Лучше не собирать ничего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Набрать полную флягу цветочной воды",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Собрать цветы на удачу",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Просто полюбоваться и пройти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "forest_traveling_performer",
+    "title": "Бродячий артист",
+    "description": "На поляне у дороги жонглёр и музыкант устроили небольшое летнее представление для редких прохожих.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "duel",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inSeason",
+        "season": "summer"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Собрать для них публику на дороге — вечер выйдет прибыльным",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_musician"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_musician",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Уйти со шляпой для сбора, пока все смотрят на жонглёра",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "cunning",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_musician"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_musician",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Перехватить инструмент и повести мелодию самому",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Показать фокус с монетой — публика твоя, пока ты не ушёл",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Одолжить им кольцо на один номер — сборы будут другими",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_silver_tongue_ring"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "label": "Артисты знают, кого объявили еретиками, и представление сворачивают",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "declared_heretic"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Выкатить бочонок — представление станет вдвое длиннее",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Присоединиться к представлению",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 2
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hedge_word"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Просто посмотреть со стороны",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "forest_winter_hermit",
+    "title": "Зимний отшельник",
+    "description": "У едва тлеющего костра сидит старик в потрёпанном плаще — кажется, он живёт здесь один, невзирая на любые морозы.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "blessing",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Оберег на тебе греет сильнее, чем его костёр, — отдать оберег ему",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_mystery"
+          },
+          {
+            "condition": "inSeason",
+            "season": "winter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_mystery"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 2
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Старик смотрит тебе за спину и больше не поднимает глаз",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он узнаёт в тебе своего — и говорит куда охотнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Спросить, что он знает о круге, — старик отвечает не сразу",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Он видит знак ордена и перестаёт греть руки о кружку",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Отдать ему палатку — до весны она нужнее ему",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_tent"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поднести бочонок — он не откажется",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Продрогшему у его костра теплее вдвойне",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
+        "label": "Разделить с ним костёр и послушать историю",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Оставить его в покое",
+        "actions": []
+      }
+    ]
+  }
+]

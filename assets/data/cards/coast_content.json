@@ -1,0 +1,371 @@
+[
+  {
+    "id": "coast_shipwreck",
+    "title": "Обломки на берегу",
+    "description": "Прибой выносит на песок доски с остатками груза — где-то неподалёку затонул корабль.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 11,
+    "tags": [
+      "item",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "coast_shipwreck"
+      }
+    ]
+  },
+  {
+    "id": "coast_smugglers",
+    "title": "Контрабандисты в бухте",
+    "description": "В укромной бухте разгружают лодку люди, явно не желающие лишних свидетелей.",
+    "type": "duel",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "duel",
+      "risk",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Один из них видел, как капитан говорил с вами. И как он при этом стоял",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "captain_recognized_titan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Постоять на скале и посвистеть, если появится чужой",
+        "conditions": [
+          {
+            "condition": "worldFlagUnset",
+            "flag": "cheated_smuggler"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_smuggler",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Запомнить, где они прячут груз, и вернуться позже",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "attentiveness",
+            "value": 2
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "helped_smuggler"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "cheated_smuggler",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Один из них видит твои глаза при свете фонаря и роняет ящик",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "С тобой не спорят. Просто отходят от лодки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Милость капитана здесь весит больше любого слова",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_captains_favor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Они уже слышали, как вы обошлись с капитаном. Уходить быстро",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "cheated_pirate_captain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      },
+      {
+        "label": "Показать, что вы из тех, кто платит травой и словом, а не серебром",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          }
+        ]
+      },
+      {
+        "label": "Не подходить: от вас за версту несёт заставой",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ]
+      },
+      {
+        "label": "Назвать бухту её настоящим именем — так её зовут только свои",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Груз чужой. Спросить, в какой бухте его ждут — и кто",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "knows_captain_haunt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "knows_captain_haunt",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Тихо уйти",
+        "actions": []
+      },
+      {
+        "label": "Заговорить с ними как наёмник с нанимателями",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Предложить помощь за долю",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "coast_message_in_bottle",
+    "title": "Бутылка с запиской",
+    "description": "На волнах покачивается бутылка с запечатанной запиской внутри.",
+    "type": "luck",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "luck",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "luck",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "coast_tide_pool",
+    "title": "Заводь после отлива",
+    "description": "Отлив оставил в камнях небольшую заводь — и что-то в ней тускло блестит.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  },
+  {
+    "id": "coast_seagulls",
+    "title": "Наглые чайки",
+    "description": "Стая чаек пикирует прямо на твои вещи, разложенные на песке.",
+    "type": "trap",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "risk",
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_lucky_coin"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "takeItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  }
+]

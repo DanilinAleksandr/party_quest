@@ -1,0 +1,144 @@
+[
+  {
+    "id": "king_of_the_dead",
+    "entryNodeId": "king_mausoleum",
+    "nodes": [
+      {
+        "id": "king_mausoleum",
+        "text": "В глубине кладбища возвышается мавзолей, которого здесь не должно быть — слишком новый, слишком нетронутый временем.",
+        "choices": [
+          {
+            "label": "Войти",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "king_throne" } }
+          },
+          {
+            "label": "Уйти, пока не поздно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "king_throne",
+        "text": "На каменном троне восседает фигура в истлевшей короне. «Ещё один живой, ищущий что-то среди мёртвых».",
+        "choices": [
+          {
+            "label": "Выдержать его взгляд, не отводя глаз",
+            "conditions": [
+              { "condition": "currentPlayerOriginUnknown" }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": { "destination": "goToNode", "nodeId": "king_recognizes_abyss" }
+            },
+            "onFailure": { "actions": [], "to": { "destination": "goToNode", "nodeId": "king_judgment" } }
+          },
+          {
+            "label": "Спросить о прошлых ошибках",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "king_judgment" } }
+          },
+          {
+            "label": "Молча поклониться",
+            "onSuccess": {
+              "actions": [
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Потребовать сокровища",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "king_demand" } }
+          }
+        ]
+      },
+      {
+        "id": "king_judgment",
+        "text": "«Каждый несёт с собой то, что сделал. Покажи мне свою ношу».",
+        "choices": [
+          {
+            "label": "«Ты обокрал ведьму леса...»",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "stole_magic_book" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kings_judgment" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "«Ты обманул того, кто не должен быть обманут...»",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "cheated_legendary_cardsharp" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kings_judgment" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "«Твоя ноша легче, чем у многих»",
+            "conditions": [
+              { "condition": "worldFlagUnset", "flag": "stole_magic_book" },
+              { "condition": "worldFlagUnset", "flag": "cheated_legendary_cardsharp" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "kings_mercy", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      },
+      {
+        "id": "king_demand",
+        "text": "«Сокровища? Здесь их забирают только мёртвые». Трон под ним будто темнеет.",
+        "choices": [
+          {
+            "label": "Настоять на своём",
+            "successChance": 0.3,
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_ward_amulet" },
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_mystery" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_kings_judgment" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Передумать и отступить",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "king_recognizes_abyss",
+        "text": "Король мёртвых наклоняется вперёд — впервые за века трон под ним скрипит.\n\n«Ты не боишься меня, — произносит он медленно, — потому что часть тебя уже была там, где нахожусь я».\n\nОн долго молчит, вглядываясь в тебя, будто читает что-то за пределами лица. «Бездна касалась тебя однажды. Я чувствую её холод в твоей тени». Корона на его голове на мгновение вспыхивает тусклым светом — и гаснет. «Иди. Мёртвые не трогают своих».",
+        "onEnterActions": [
+          { "action": "revealOrigin", "originId": "origin_abyss_child" },
+          { "action": "setWorldFlag", "flag": "king_recognized_abyss", "value": true },
+          { "action": "addChronicleEntry", "text": "🌑 {player} — Дитя Бездны." }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

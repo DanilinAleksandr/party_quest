@@ -1,0 +1,91 @@
+[
+  {
+    "id": "legendary_tavern_keeper",
+    "title": "Хозяин, которого никто не помнит нанятым",
+    "description": "Хозяин таверны — тот самый, что был здесь ещё до твоего рождения, если верить завсегдатаям, — манит тебя в заднюю комнату.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "blessing",
+      "item",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "tavern_keeper"
+      }
+    ]
+  },
+  {
+    "id": "legendary_cardsharp_encounter",
+    "title": "Игрок, который не проигрывал",
+    "description": "В углу зала сидит игрок, о котором рассказывают легенды в каждой таверне отсюда до побережья.",
+    "type": "legendary",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "legendary",
+      "epic",
+      "luck",
+      "item",
+      "risk",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 4
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "legendary_cardsharp"
+      }
+    ]
+  },
+  {
+    "id": "callback_cardsharp_revenge",
+    "title": "Знакомая колода карт",
+    "description": "Кто-то за соседним столом раскладывает карты — точь-в-точь такие же, как у того самого шулера. Он тебя узнаёт.",
+    "type": "curse",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_legendary_cardsharp"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_marked"
+      }
+    ]
+  }
+]

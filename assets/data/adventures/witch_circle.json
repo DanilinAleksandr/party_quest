@@ -1,0 +1,644 @@
+[
+  {
+    "id": "witch_circle",
+    "entryNodeId": "circle_clearing",
+    "nodes": [
+      {
+        "id": "circle_clearing",
+        "text": "На поляне горит низкий костёр без дыма, и вокруг него сидят женщины разных лет — от девчонки до древней старухи. Разговор обрывается разом.\n\nСтаруха поворачивает голову, не вставая:\n\n«Далеко забрели. Говорите, зачем».",
+        "choices": [
+          {
+            "label": "Старуха щурится: «От тебя светом тянет. Не нашим»",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_gods_chosen"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_wary"
+              }
+            }
+          },
+          {
+            "label": "Круг знает, чья кровь в тебе, и подвигается, освобождая место",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_world_tree_heir"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_kin"
+              }
+            }
+          },
+          {
+            "label": "Сказать, что орден объявил вас еретиками",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "declared_heretic"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_welcome"
+              }
+            }
+          },
+          {
+            "label": "Не скрывать, что за вас ручается орден",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "paladin_ally"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_wary"
+              }
+            }
+          },
+          {
+            "label": "Достать книгу и положить её у костра",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_spellbook"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_book_returned"
+              }
+            }
+          },
+          {
+            "label": "Молчать. Они и так знают, чья книга пропала из чащи",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "stole_magic_book"
+              },
+              {
+                "condition": "currentPlayerMissingItem",
+                "itemId": "item_spellbook"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_thief"
+              }
+            }
+          },
+          {
+            "label": "Назвать имя своей бабки — здесь его помнят",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_witch_heir"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_kin"
+              }
+            }
+          },
+          {
+            "label": "Промолчать и дать лесу говорить за тебя",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_forest_child"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_kin"
+              }
+            }
+          },
+          {
+            "label": "Показать оберег — они узнают собственное плетение",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_ward_amulet"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_weave"
+              }
+            }
+          },
+          {
+            "label": "Сказать, что на тебе их метка, и попросить снять",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasEffect",
+                "effectId": "effect_witchs_mark"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_mark"
+              }
+            }
+          },
+          {
+            "label": "Сказать правду: забрели случайно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_stranger"
+              }
+            }
+          },
+          {
+            "label": "Отступить в темноту, пока не поздно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_left"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_welcome",
+        "text": "Старуха коротко смеётся, и напряжение спадает по всему кругу.\n\n«Кого орден гонит, того мы кормим. Садитесь».\n\nВас усаживают к огню и разговаривают с вами как со своими — долго, до самого рассвета.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "circle_ally",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🔮 Компания принята ведьмовским кругом."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_wary",
+        "text": "Никто не двигается, но круг словно становится теснее.\n\n«Значит, вы их люди», — говорит старуха. «Они держат дороги, мы держим то, что между дорогами. Пока вы за них — вы гости. Гостей мы не трогаем. И не помогаем им».",
+        "choices": [
+          {
+            "label": "Сказать, что слово ордена вы больше не носите",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "paladin_ally",
+                  "value": false
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "circle_ally",
+                  "value": true
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🔮 Компания оставила орден ради круга."
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_switched"
+              }
+            }
+          },
+          {
+            "label": "Не отрекаться. Слово есть слово",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "charisma",
+                  "amount": 1
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          },
+          {
+            "label": "Выставить бочонок и не говорить о политике вовсе",
+            "conditions": [
+              {
+                "condition": "partyHasItem",
+                "itemId": "item_beer_keg"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "itemId": "item_beer_keg"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_switched",
+        "text": "Старуха долго смотрит в огонь, прежде чем ответить.\n\n«Кто ушёл от них, тому у нас место есть. Только знай: обратно они тебя уже не позовут».",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_respected_refusal",
+        "text": "«Вот и хорошо», — старуха кивает почти одобрительно. «С теми, кто верен хоть кому-то, разговаривать можно».\n\nВас провожают до края поляны. Ни друзьями, ни врагами.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_book_returned",
+        "text": "Книгу поднимают с земли осторожно, будто птицу. По кругу проходит долгий выдох.\n\n«Мы думали, она сгорела вместе с той, кто её вела».\n\nСтаруха впервые смотрит вам в глаза без прищура.",
+        "onEnterActions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_spellbook"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "stole_magic_book",
+            "value": false
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "returned_spellbook",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "circle_ally",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🔮 Книга вернулась в круг, и круг это запомнил."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_thief",
+        "text": "Молчание длится слишком долго.\n\n«Книга», — произносит старуха наконец. Не вопрос.\n\nКруг смыкается плотнее.",
+        "choices": [
+          {
+            "label": "Отдать оберег взамен — вещь за вещь",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_ward_amulet"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          },
+          {
+            "label": "Сказать, что вы сделали для Великой Ведьмы",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "helped_great_witch"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          },
+          {
+            "label": "Выкручиваться",
+            "successChance": 0.35,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_enmity"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_enmity",
+        "text": "Старуха отворачивается к огню, и этим всё сказано.\n\n«Идите. И не пейте из лесных ручьёв».\n\nЗа спиной костёр гаснет разом, без дыма — так же, как горел.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "circle_enemy",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_mark"
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🔮 Круг отвернулся от компании."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_kin",
+        "text": "Старуха поднимается — впервые за весь разговор.\n\n«Я знала твою кровь. Она сидела там, где ты сейчас стоишь».\n\nТебя оглядывают уже иначе: не как чужака, а как того, кто вернулся позже, чем обещал.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "circle_ally",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_protection"
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "🔮 Круг признал в компании свою кровь."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_weave",
+        "text": "Оберег передают по кругу, пока он не возвращается к старухе.\n\n«Наша работа. Значит, кто-то из наших счёл вас достойными».\n\nОберег вам возвращают. Разговор становится проще.",
+        "onEnterActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_mark",
+        "text": "Старуха берёт твою руку и разглядывает метку долго, поворачивая к огню.\n\n«Не наша. Похожа, но не наша — так метят те, кто учился у нас и ушёл».\n\nОна проводит по метке большим пальцем, и та бледнеет.",
+        "onEnterActions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_witchs_mark"
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_stranger",
+        "text": "«Случайно», — повторяет старуха. «На эту поляну случайно не выходят».\n\nОна протягивает вам чашу с чем-то тёмным и терпким.\n\n«Выпей — и посмотрим, что скажет лес».",
+        "choices": [
+          {
+            "label": "Выпить не раздумывая",
+            "successChance": 0.55,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "circle_ally",
+                  "value": true
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🔮 Компания принята ведьмовским кругом."
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_welcome_quiet"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_hiccups"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          },
+          {
+            "label": "Сперва спросить, что в чаше — ты разберёшь состав по запаху",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_alchemist"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "circle_ally",
+                  "value": true
+                },
+                {
+                  "action": "addChronicleEntry",
+                  "text": "🔮 Компания принята ведьмовским кругом."
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_welcome_quiet"
+              }
+            }
+          },
+          {
+            "label": "Отказаться от чаши",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "circle_respected_refusal"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_welcome_quiet",
+        "text": "Ты пьёшь. Вкус — как у осеннего леса после дождя.\n\n«Лес не против», — говорит старуха. «Значит, и мы не против».",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "circle_left",
+        "text": "Вы отступаете в темноту, и никто вас не окликает.\n\nУже далеко от поляны кто-то замечает, что костра за спиной не видно совсем — хотя оборачивались всего пару раз.",
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

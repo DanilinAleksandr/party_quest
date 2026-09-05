@@ -1,0 +1,405 @@
+[
+  {
+    "id": "nature_fisherman_empty_net",
+    "title": "Рыбак вытягивает пустое",
+    "description": "Сеть идёт легко — значит, пусто. Он всё равно выбирает её до конца, аккуратно, виток за витком.\n\n«Завтра тоже будет утро».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Показать, где вода темнее — там стоит рыба",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Помочь выбрать сеть и не сказать ни слова",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пойти дальше по берегу",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "nature_deer_at_dawn",
+    "title": "Олень на просеке",
+    "description": "Он стоит боком и жуёт, не поднимая головы. Расстояние — шагов сорок.\n\nПотом ухо поворачивается в вашу сторону, а голова так и не поднимается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_river_low",
+    "title": "Река обмелела",
+    "description": "Вода ушла, и обнажилось дно с камнями, чужими вёслами и одним сапогом. Мальчишки ходят по руслу и подбирают всё подряд.\n\nСтарики стоят на берегу и говорят, что такое было в позапрошлом году и добром не кончилось.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_tree_fell_across",
+    "title": "Дерево поперёк тропы",
+    "description": "Ствол в обхват, свежий излом, смолой пахнет за десять шагов. Упало этой ночью и точно поперёк.\n\nПерелезть можно. Обойти — дольше на час.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Перелезть и подать руку остальным",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Обойти: сюда ещё придут телеги, а тропа тут не одна",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Перекинуть верёвку и втащить поклажу поверху",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Лезть напрямик и ободрать колени",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "nature_frogs_stop",
+    "title": "Лягушки замолчали",
+    "description": "Всю дорогу вдоль болота стоял ровный гул. Он обрывается разом, будто кто-то накрыл болото ладонью.\n\nЧерез минуту начинается снова, с той же ноты.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_bird_trapper",
+    "title": "Птицелов и пустые силки",
+    "description": "Он снимает силок за силком и складывает в сумку. Все пустые.\n\n«Умные пошли. Или я старый».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_spring_in_rocks",
+    "title": "Родник в камнях",
+    "description": "Вода идёт тонкой струйкой из трещины, и под ней подставлен чей-то глиняный черепок — чтобы набиралось, пока никого нет.\n\nЧерепок полный. Значит, давно никого не было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_sandstorm_far",
+    "title": "Стена на горизонте",
+    "description": "С юга поднимается бурая полоса, и она шире, чем весь горизонт. До неё часа два, если не свернёт.\n\nЯщерицы уже ушли под камни. Все разом.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ставить палатку немедленно, спиной к югу",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Сказать, куда она свернёт, и не ошибиться",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Успеть дойти до гряды и залечь за ней",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "endurance",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Идти дальше и надеяться, что свернёт",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "nature_ants_move",
+    "title": "Муравьи переезжают",
+    "description": "Через тропу тянется живая нить в две ладони шириной. Каждый несёт что-то белое и больше себя.\n\nНить не кончается. Она была тут до вас и будет после.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_ice_on_puddles",
+    "title": "Первый лёд",
+    "description": "На лужах корка, и она проламывается под ногой с одинаковым сухим звуком. Кто-то до вас прошёл здесь и проломил каждую.\n\nЦелых не осталось ни одной.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "autumn"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_gull_follows_boat",
+    "title": "Чайка над пустой лодкой",
+    "description": "Лодка идёт к берегу, и над ней висит одна чайка — низко, почти касаясь мачты. В лодке никого.\n\nОна подходит к берегу сама, боком, и утыкается в гальку.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "nature_wolf_tracks_circle",
+    "title": "Следы вокруг стоянки",
+    "description": "Утром вокруг кострища обнаруживается цепочка следов — ровный круг, ни одного шага внутрь.\n\nКто-то ходил вокруг всю ночь и так и не подошёл.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Прочитать по следам, сколько их было и чего они ждали",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Узнать походку — она вам знакома с детства",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Затоптать круг и идти дальше",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "nature_mushroom_year",
+    "title": "Грибной год",
+    "description": "Их столько, что некуда ступить, и половину уже кто-то срезал — аккуратно, ножом, оставляя ножки.\n\nСрезано ровно столько, сколько можно унести за раз. Остальное не тронуто.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  }
+]

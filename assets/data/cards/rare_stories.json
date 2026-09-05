@@ -1,0 +1,450 @@
+[
+  {
+    "id": "rare_one_broken_promise",
+    "title": "Он всё равно ждал",
+    "description": "На перевале сидит старик и смотрит на дорогу. Не на вас — просто на дорогу.\n\nКогда вы проходите мимо, он говорит, ни к кому не обращаясь: «Я знал, что придёте. Все приходят. Только поздно».",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 5
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_hermit"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "cheated_hermit",
+        "steps": 8
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "rare_left_the_order_honestly",
+    "title": "Ушли, не хлопнув дверью",
+    "description": "Брат ордена сходит с тракта, чтобы вас пропустить, и коротко кивает.\n\nНичего не говорит. Просто уступает дорогу и ждёт, пока вы пройдёте.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "circle_ally"
+      },
+      {
+        "condition": "adventureCompleted",
+        "adventureId": "paladin_outpost"
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "declared_heretic"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "rare_thief_who_pays",
+    "title": "Про вас говорят странное",
+    "description": "«Обманет — и вернётся отдать», — слышно из-за соседнего стола. Говорят не со зла и даже с уважением.\n\nВторой отвечает: «Такое хуже, чем просто вор. С таким не знаешь, как считать».",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_broken",
+        "value": 3
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_hermit"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "rare_explorer_no_trade",
+    "title": "Ни одного знакомого лица",
+    "description": "Вы называете три места, где были. Погонщик слушает и качает головой: про два он не слышал вовсе, а в третьем, по его словам, никого нет уже лет двадцать.\n\nПотом спрашивает, чем вы, собственно, живёте.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dragon_lair_known"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "found_pharaoh_seal"
+      },
+      {
+        "condition": "partyMissingItem",
+        "itemId": "item_merchant_token"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "helped_caravan"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "rare_survived_everything",
+    "title": "Считают по пальцам",
+    "description": "Кто-то у костра начинает перечислять, что о вас рассказывают, и загибает пальцы. Пальцы кончаются.\n\nОн смотрит на свою руку, потом на вас, и больше в тот вечер не заговаривает.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "defeated_dragon"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "raided_bandit_camp"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "cheated_pirate_captain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "rare_four_remember",
+    "title": "Все сразу",
+    "description": "У колодца случайно сходятся четверо: женщина с корзиной, кузнец, погонщик и музыкант со скрипкой под мышкой.\n\nОни не знакомы между собой. Но каждый здоровается с вами по имени — и после этого начинают разглядывать друг друга.",
+    "type": "event",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_caravan"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_musician"
+      }
+    ],
+    "actions": [
+      {
+        "action": "addChronicleEntry",
+        "text": "🕯 У одного колодца сошлись сразу четверо, знавших компанию."
+      }
+    ]
+  },
+  {
+    "id": "rare_never_broke_word",
+    "title": "Ни разу",
+    "description": "Старуха у дороги долго смотрит вслед, потом окликает — не чтобы попросить, а чтобы сказать.\n\n«Про вас ни одного дурного слова. Я слушаю эту дорогу сорок лет и такого не припомню».",
+    "type": "event",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 6
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "cheated_peddler"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "cheated_herbwoman"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "robbed_caravan"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dodged_taxman"
+      }
+    ],
+    "actions": [
+      {
+        "action": "addChronicleEntry",
+        "text": "🕯 За всю дорогу о компании не сказали ни одного дурного слова."
+      }
+    ]
+  },
+  {
+    "id": "rare_token_on_the_map",
+    "title": "Знакомый значок",
+    "description": "На чужой карте, среди дорог и высот, стоит мелкий значок — такой же, как выбит на жетоне у вас в кармане.\n\nТот, кто чертил карту, и тот, кто дал жетон, никогда друг о друге не слышали.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_merchant_token"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_cartographer"
+      }
+    ],
+    "actions": [
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "attentiveness",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "rare_stone_returns",
+    "title": "Камень с той могилы",
+    "description": "Могильщик замечает у вас в руках гладкий камень и меняется в лице.\n\n«Такие кладут только на одну могилу. И кладут те, кто помнит».\n\nОн не спрашивает, откуда камень. Он спрашивает, помните ли вы.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_odd_stone"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_gravedigger"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ты знаешь, кто там лежит, — и называешь имя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "В круге такие камни кладут молча — сделать так же",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "circle_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ]
+      },
+      {
+        "label": "Отдать камень ему",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить себе и ничего не объяснять",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "rare_long_echo",
+    "title": "Кто-то оставил у дороги",
+    "description": "На камне у развилки лежит свёрток: хлеб, моток бечёвки и сухие травы. Сверху придавлено камнем, чтобы не унесло.\n\nНикого вокруг. И ни слова о том, кому это.",
+    "type": "blessing",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_herbwoman"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "helped_herbwoman",
+        "steps": 12
+      },
+      {
+        "condition": "globalModifierAtLeast",
+        "key": "word_kept",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_healing_potion"
+      }
+    ]
+  },
+  {
+    "id": "rare_three_powers",
+    "title": "Трое передают привет",
+    "description": "За вечер вам трижды передают одно и то же — что о вас помнят. Через погонщика, через матроса и через человека в тяжёлом плаще.\n\nНикто из троих не знает про остальных двоих.",
+    "type": "event",
+    "rarity": "legendary",
+    "weight": 1,
+    "tags": [
+      "solo",
+      "social",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "paladin_debt"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "captain_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "warlord_ally"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "addChronicleEntry",
+        "text": "🕯 Три разные силы в один вечер передали компании, что помнят."
+      }
+    ]
+  },
+  {
+    "id": "rare_figurine_carver",
+    "title": "Та же рука",
+    "description": "Кузнец берёт вашу деревянную фигурку двумя пальцами и поворачивает к свету.\n\n«Это резал мой брат. У него всегда так — левое плечо ниже».\n\nБольше он про брата ничего не говорит.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 2,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_wooden_figurine"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "helped_smith"
+      }
+    ],
+    "actions": []
+  }
+]

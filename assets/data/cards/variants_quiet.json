@@ -1,0 +1,592 @@
+[
+  {
+    "id": "quiet_empty_bridge_v2",
+    "title": "Брод",
+    "description": "Место, где дорога входит в воду и выходит на той стороне. Дно выложено плоскими камнями кем-то очень давно.\n\nОдин камень вывернут и лежит поперёк.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_empty_bridge_v3",
+    "title": "Створ",
+    "description": "Две скалы почти сходятся, и между ними вода идёт узко и быстро. Пены нет — слишком глубоко.\n\nНа одной скале выбита черта. Вода до неё не доходит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_empty_bridge_v4",
+    "title": "Мол",
+    "description": "Каменная гряда уходит в море и обрывается. Дальше — только ровные ряды волн, приходящие в одном и том же ритме.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_wind_in_grass_v2",
+    "title": "Трава легла",
+    "description": "Весь склон наклонился в одну сторону и остался так. Ветра уже нет.\n\nЧерез минуту трава начинает подниматься — не вся сразу.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_wind_in_grass_v3",
+    "title": "Пыль на камнях",
+    "description": "На плоском камне у тропы лежит слой пыли, и на нём отпечатался лист. Самого листа нигде нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_wind_in_grass_v4",
+    "title": "Свист в расщелине",
+    "description": "В узкой щели между камнями воздух свистит на одной ноте. Нота не меняется, сколько ни слушай.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_shutters_v2",
+    "title": "Ворота подпёрты",
+    "description": "Створки заложены жердью снаружи. Изнутри так не сделать.\n\nВо дворе за ними кричит петух.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_shutters_v3",
+    "title": "Веревка через двор",
+    "description": "От дома к сараю натянута верёвка, и на ней ничего не висит. Прищепки собраны в один угол.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_shutters_v4",
+    "title": "Колея кончается",
+    "description": "Следы колёс подходят к воротам и обрываются. От ворот они не отходят.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_smoke_far_v2",
+    "title": "Огонь за холмом",
+    "description": "Небо в одном месте чуть светлее, чем должно быть в этот час. Ровно, без вспышек.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_smoke_far_v3",
+    "title": "Звон вдалеке",
+    "description": "Откуда-то издалека доносится звон — не колокол, а железо о железо. Ритм рабочий, размеренный.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_smoke_far_v4",
+    "title": "Ряд тополей",
+    "description": "На горизонте стоит ровная линия тополей. Их сажали в одну линию, значит, там что-то было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_echo_answers_v2",
+    "title": "Камень летит долго",
+    "description": "Камешек уходит вниз со склона, и стука о дно не слышно.\n\nПотом слышно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_echo_answers_v3",
+    "title": "Голоса снизу",
+    "description": "Из ущелья доносится разговор — отчётливый, но слов не разобрать. Людей внизу не видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_echo_answers_v4",
+    "title": "Тишина после ветра",
+    "description": "Ветер обрывается разом, и наступает такая тишина, что закладывает уши.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_birds_over_field_v2",
+    "title": "Вороны на одном дереве",
+    "description": "Всё дерево облеплено чёрным, и все молчат. На соседних деревьях ни одной.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_birds_over_field_v3",
+    "title": "Клин низко",
+    "description": "Птицы идут клином так низко, что слышно крылья. Обычно их слышно не бывает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_birds_over_field_v4",
+    "title": "Одна не улетела",
+    "description": "Стая снялась и ушла, а одна осталась сидеть на меже и смотрит в другую сторону.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_water_under_ice_v2",
+    "title": "Прорубь замёрзла заново",
+    "description": "Круглая лунка затянулась тонким и прозрачным. По краю остались зарубки топора.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_water_under_ice_v3",
+    "title": "Иней с одной стороны",
+    "description": "Все стволы вдоль дороги белые с северной стороны и чёрные с южной. Граница проходит ровно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_water_under_ice_v4",
+    "title": "Наледь на камнях",
+    "description": "Из склона сочилась вода и застыла слоями. Каждый слой — отдельный день.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "winter"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_dust_on_road_v2",
+    "title": "Марево",
+    "description": "Дорога впереди дрожит и плывёт, и телега на ней кажется вдвое выше, чем есть.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_dust_on_road_v3",
+    "title": "Следы поверх следов",
+    "description": "Свежая колея прошла точно по вчерашней. Так ездят, когда торопятся и знают дорогу.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_dust_on_road_v4",
+    "title": "Мошка столбом",
+    "description": "Над дорогой стоит гудящий столб мошкары высотой в человека. Он не сносится ветром.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 1,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_open_door_v2",
+    "title": "Ставень болтается",
+    "description": "Один ставень сорвало с верхней петли, и он висит наискось. Стучать ему не обо что.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_open_door_v3",
+    "title": "Крыльцо подметено",
+    "description": "Дом пустой, а ступени чистые и веник стоит у стены. Подметали сегодня.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "quiet_stone_wall_v2",
+    "title": "Межевой камень",
+    "description": "Плоский камень врос в землю, и на нём выбита черта с двумя зарубками. Что она делит — по местности не понять.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_stone_wall_v3",
+    "title": "Изгородь из жердей",
+    "description": "Три жерди в ряд, вкопанные столбы, и всё это стоит посреди поля, ничего не огораживая.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_tavern_between_songs_v2",
+    "title": "Стук ножа на кухне",
+    "description": "Разговор просел, и стало слышно, как за стеной ровно и часто стучат по доске.\n\nПотом кто-то смеётся, и стук пропадает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_tavern_between_songs_v3",
+    "title": "Свеча оплыла",
+    "description": "Одна свеча на столе догорела до самого блюдца и погасла. Никто её не заменил, и никто этого не заметил.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_tavern_between_songs_v4",
+    "title": "Дверь открыли и закрыли",
+    "description": "На секунду в зал заходит холод и уличный шум, потом дверь захлопывается.\n\nВошедший стоит у порога и осматривается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_rain_stops_v2",
+    "title": "Просвет",
+    "description": "В сплошной серости открывается полоса чистого неба, и от неё по земле идёт светлое пятно.\n\nПятно движется быстрее, чем можно идти.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_rain_stops_v3",
+    "title": "Пар от земли",
+    "description": "Дождь кончился, и от нагретой дороги пошёл пар — тонкий, вверх, без ветра.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "quiet_rain_stops_v4",
+    "title": "Ручьи по колее",
+    "description": "В колеях побежала вода и понесла хвою, щепки и чей-то потерянный лоскут.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  }
+]

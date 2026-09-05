@@ -1,0 +1,78 @@
+[
+  {
+    "id": "effect_hiccups",
+    "name": "Икота",
+    "description": "Икай перед каждой фразой, пока эффект не закончится.",
+    "polarity": "negative",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_silence",
+    "name": "Обет молчания",
+    "description": "Общайся только жестами. Каждый ход под этим эффектом ты теряешь очко харизмы за болтливость.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": -1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_lucky_streak",
+    "name": "Полоса удачи",
+    "description": "Удача сама тебя находит. Каждый ход под этим эффектом ты получаешь +1 к удаче.",
+    "polarity": "positive",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+      ]
+    }
+  },
+  {
+    "id": "effect_defeated",
+    "name": "Побеждён",
+    "description": "Выполни одно требование победителя дуэли.",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_cloud",
+    "name": "Вздох неудачи",
+    "description": "Каждую фразу в свой следующий ход начинай со слова «увы».",
+    "polarity": "negative",
+    "duration": 1,
+    "autoExpire": true,
+    "reactions": {}
+  },
+  {
+    "id": "effect_mystery",
+    "name": "Оберег",
+    "description": "Гасит следующее проклятие, которое должно было на тебя подействовать.",
+    "polarity": "positive",
+    "duration": -1,
+    "autoExpire": false,
+    "reactions": {},
+    "blocksNextNegativeEffect": true
+  },
+  {
+    "id": "effect_party_king",
+    "name": "Ваше Величество",
+    "description": "Ближайшие 2 хода все за столом обращаются к тебе только «Ваше Величество».",
+    "polarity": "positive",
+    "duration": 2,
+    "autoExpire": true,
+    "reactions": {
+      "turnStarted": [
+        { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }
+      ]
+    }
+  }
+]

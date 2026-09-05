@@ -1,0 +1,74 @@
+[
+  {
+    "id": "item_ward_amulet",
+    "name": "Амулет-оберег",
+    "description": "Тёплый на ощупь оберег. Пока он у тебя — можешь отказаться от следующего проклятия, показав его вместо ответа.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_bravery_flask",
+    "name": "Фляга смелости",
+    "description": "Пара глотков отсюда — и любая безумная затея кажется хорошей идеей. Открывает самые дерзкие варианты в приключениях.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_thieves_tools",
+    "name": "Воровские отмычки",
+    "description": "Набор потрёпанных отмычек. С ними можно вскрыть замок наверняка, без риска — были бы руки умелые.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_silver_tongue_ring",
+    "name": "Кольцо красноречия",
+    "description": "Стоило его надеть, и слова полились сами собой — харизма уже при тебе.",
+    "rarity": "uncommon",
+    "usageType": "automatic",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_black_spot",
+    "name": "Чёрная метка",
+    "description": "Клочок просмолённой бумаги с чёрным пятном. Пока он у тебя на руках, все за столом знают, кто ты. Передай её другому при случае.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_merchant_token",
+    "name": "Жетон торговца",
+    "description": "Медный жетон с выгравированной подписью. Покажи его при следующей встрече с тем же торговцем — он вспомнит тебя.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_broken_compass",
+    "name": "Сломанный компас",
+    "description": "Стрелка крутится, куда хочет. Абсолютно бесполезен, но выглядит внушительно на столе.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_stray_camel",
+    "name": "Прибившийся верблюд",
+    "description": "Верблюд идёт рядом, как будто всегда был частью компании. Кто-то наверняка его ищет.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  }
+]

@@ -1,0 +1,896 @@
+[
+  {
+    "id": "atmosphere_silent_road_v2",
+    "title": "Шаг в шаг",
+    "description": "Незаметно все начинают ступать в одну ногу. Никто этого не предлагал и никто не сбивается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_silent_road_v3",
+    "title": "Считалка под нос",
+    "description": "Кто-то впереди тихо считает шаги и сбивается на сотне. Начинает заново.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_silent_road_v4",
+    "title": "Разговор кончился сам",
+    "description": "Фраза повисает без ответа, и продолжать её не хочется. Так и идут дальше.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_wave_v2",
+    "title": "Двое на меже",
+    "description": "Далеко в поле стоят двое и смотрят в вашу сторону. Когда вы поравнялись, они уже смотрят в другую.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_wave_v3",
+    "title": "Всадник на гребне",
+    "description": "На дальнем гребне неподвижно стоит всадник. Он стоял там и полчаса назад.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_wave_v4",
+    "title": "Кто-то свистнул",
+    "description": "Со стороны леса раздаётся короткий свист в две ноты. Через паузу оттуда же отвечают тем же.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_music_v2",
+    "title": "Поют за холмом",
+    "description": "Из-за холма доносится хоровое — несколько голосов, слов не разобрать. Мотив обрывается и не начинается снова.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_music_v3",
+    "title": "Барабан",
+    "description": "Где-то далеко бьют мерно и глухо. Не тревожно — так отбивают ритм работы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_distant_music_v4",
+    "title": "Колокольчик",
+    "description": "В стороне позвякивает колокольчик — то ближе, то дальше, будто ходит кругами.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_birds_rise_v2",
+    "title": "Дятел замолчал",
+    "description": "Стук, который шёл всю дорогу и стал незаметным, обрывается. Тишина после него оказывается громкой.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_birds_rise_v3",
+    "title": "Ветка качнулась",
+    "description": "Высоко над головой качается одна ветка, хотя ветра нет и никого не видно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_birds_rise_v4",
+    "title": "Кто-то ушёл в чащу",
+    "description": "Слева хрустит и удаляется — крупное, неспешное, не убегающее.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_rain_canopy_v2",
+    "title": "Стук по листу лопуха",
+    "description": "Одна капля попадает в широкий лист, и тот бьёт как маленький барабан. Потом ещё раз, ровно туда же.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_rain_canopy_v3",
+    "title": "Пар от мха",
+    "description": "От мокрого мха идёт лёгкий пар, и в нём висит запах прели и грибов.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_forest_rain_canopy_v4",
+    "title": "Паутина в каплях",
+    "description": "Между двумя ветками растянута паутина, вся в мелкой воде. Она держит вес и не рвётся.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "rain"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_wind_ripples_v2",
+    "title": "Рябь на песке",
+    "description": "Весь склон бархана покрыт одинаковыми волнами, и все они лежат в одну сторону. Ни одной поперёк.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_wind_ripples_v3",
+    "title": "Песок поёт",
+    "description": "Со склона идёт низкий гул, как от далёкого стада. Склон при этом пустой.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_wind_ripples_v4",
+    "title": "Кость в песке",
+    "description": "Из бархана торчит выбеленное ребро — чьё, уже не понять. К вечеру его засыплет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_night_stars_v2",
+    "title": "Холод пришёл разом",
+    "description": "Жара сходит за считанные минуты, и пот на спине становится ледяным. Все молча тянутся за плащами.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_night_stars_v3",
+    "title": "Луна на песке",
+    "description": "Свет ложится так, что каждая рябь отбрасывает свою тень. Пустыня выглядит рифлёной.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_desert_night_stars_v4",
+    "title": "Костёр виден издалека",
+    "description": "В темноте огонь заметен на много вёрст. Все это понимают, но никто не предлагает его гасить.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_echo_v2",
+    "title": "Осыпь пошла",
+    "description": "Мелкий щебень начинает течь по склону сам собой и останавливается через десяток шагов.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_echo_v3",
+    "title": "Ветер сменился",
+    "description": "Тёплый воздух снизу сменяется холодным сверху за один вдох. Так тут бывает каждый день в одно и то же время.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_echo_v4",
+    "title": "Снег сверху",
+    "description": "С вершины срывается снежный флаг и тянется по ветру, хотя внизу ни ветерка.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_clouds_below_v2",
+    "title": "Верхушка над туманом",
+    "description": "Из белого поля торчит одна скала, и на ней что-то стоит — то ли тур, то ли человек.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_clouds_below_v3",
+    "title": "Тень на облаках",
+    "description": "Солнце сзади, и на облачном поле лежит длинная тень гребня с ровным зубчатым краем.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_mountains_clouds_below_v4",
+    "title": "Радуга кольцом",
+    "description": "Внизу, в облаке, стоит круглая радуга. Она движется вместе с идущими и не отстаёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_coast_birds_over_water_v2",
+    "title": "Полоса другой воды",
+    "description": "Вдоль берега тянется полоса, где вода темнее и глаже. Она идёт ровно и не смешивается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_coast_birds_over_water_v3",
+    "title": "Прибой сменил голос",
+    "description": "Волна начинает бить реже и тяжелее, хотя ветра не прибавилось.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_coast_birds_over_water_v4",
+    "title": "Пена на камнях",
+    "description": "Между камней стоит жёлтая пена, и её колышет, но не уносит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_graveyard_grass_v2",
+    "title": "Плита ушла в землю",
+    "description": "Камень наклонился и погрузился так, что читается только верхняя строка. Остальное под дёрном.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_graveyard_grass_v3",
+    "title": "Тропинка к одной могиле",
+    "description": "Между рядов протоптана узкая дорожка. Она ведёт к одному камню и никуда больше.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_graveyard_grass_v4",
+    "title": "Кованая ограда без калитки",
+    "description": "Ограду ставили основательно, а входа не сделали. Внутри трава выше, чем снаружи.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_autumn_leaves_v2",
+    "title": "Паутина летит",
+    "description": "В воздухе тянутся длинные светлые нити и цепляются за лицо. Их не видно, пока не попадёшь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "autumn"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_autumn_leaves_v3",
+    "title": "Пахнет дымом и яблоками",
+    "description": "Ветер приносит сразу два запаха, и оба означают одно и то же время года.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "autumn"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "atmosphere_autumn_leaves_v4",
+    "title": "Всё созрело разом",
+    "description": "Терновник, шиповник и рябина стоят красные одновременно. Такое совпадает не каждый год.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "participant": {
+      "kind": "wholeGroup"
+    },
+    "conditions": [
+      {
+        "condition": "inSeason",
+        "season": "autumn"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "coast_tide_pool_v2",
+    "title": "В расщелине камня",
+    "description": "В трещине скалы что-то застряло и не вымывается прибоем. Достать удаётся кончиками пальцев.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  },
+  {
+    "id": "coast_tide_pool_v3",
+    "title": "Под килем лодки",
+    "description": "Лодка лежит на боку, и в песке под ней остался отпечаток чего-то круглого.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  },
+  {
+    "id": "coast_tide_pool_v4",
+    "title": "Чайка выронила",
+    "description": "Птица долго возилась на камне с чем-то блестящим и в итоге бросила это и улетела.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item",
+      "luck"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_lucky_coin"
+      }
+    ]
+  },
+  {
+    "id": "item_compass_find_v2",
+    "title": "Мешок у обочины",
+    "description": "Дорожный мешок лежит развязанный, вещи вывалены и перебраны чужой рукой. Взяли не всё.\n\nСреди оставленного — старый компас. Стрелка держит север.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_broken_compass"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_broken_compass"
+      }
+    ]
+  },
+  {
+    "id": "item_compass_find_v3",
+    "title": "Обмен у камня",
+    "description": "На плоском камне разложены вещи и рядом придавлена записка: «Бери что нужно, оставь что можешь».\n\nСреди прочего лежит компас. Стрелка держит север.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_broken_compass"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_broken_compass"
+      }
+    ]
+  },
+  {
+    "id": "item_compass_find_v4",
+    "title": "Подкладка плаща",
+    "description": "Брошенный на кустах плащ порван по шву, и из подкладки что-то выпадает в траву.\n\nСтарый компас. Стрелка держит север.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_broken_compass"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_broken_compass"
+      }
+    ]
+  }
+]

@@ -1,0 +1,274 @@
+[
+  {
+    "id": "world_coast_nets_drying",
+    "title": "Сети на кольях",
+    "description": "Они растянуты вдоль всего берега и сохнут на ветру. В ячеях застряли водоросли, щепки и одна серебряная чешуйка, которая ловит солнце.\n\nТри сети залатаны нитками другого цвета. Одна залатана трижды.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_after_storm_beach",
+    "title": "Берег после шторма",
+    "description": "Полоса выброшенного тянется вдоль всей воды: водоросли, доски, обрывок каната, целая бочка без дна.\n\nПо ней уже идут дети и что-то собирают, оставляя большое там, где оно лежит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "social",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Пройти по полосе и посмотреть, что осталось после детей",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Понять по обломкам, чей это был борт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оттащить бочку выше прилива — пригодится кому-нибудь",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Идти дальше по сухому песку",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "world_coast_low_tide_flats",
+    "title": "Отлив обнажил дно",
+    "description": "Вода ушла так далеко, что лодки лежат на боку в двухстах шагах от неё. По мокрому песку идут женщины с корзинами и копают.\n\nЧерез четыре часа тут будет по грудь.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_boat_upturned",
+    "title": "Лодка вверх дном",
+    "description": "Она лежит на гальке выше линии прилива, просмолённая заново и ещё липкая. Под неё подложены два бревна.\n\nВёсла стоят рядом, прислонённые к борту, и одно короче другого.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_salt_pans",
+    "title": "Соляные садки",
+    "description": "Мелкие квадратные лужи, разделённые глиняными валиками. В одних вода, в других белая корка, в третьих уже ничего.\n\nПо валикам можно пройти насквозь, если знать, какие держат.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_lighthouse_unlit",
+    "title": "Башня без огня",
+    "description": "Каменная башня на мысу, дверь заперта, ступени внутри целы. Наверху пусто и чисто.\n\nЖгли тут в последний раз давно, но кто-то до сих пор подметает.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_gulls_over_catch",
+    "title": "Над уловом",
+    "description": "Лодки только вернулись, и над ними стоит белый кричащий вихрь. Рыбаки разгружают, не поднимая головы и не отмахиваясь.\n\nОдну рыбину они кладут отдельно, на камень, и на неё чайки не садятся.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_shells_road",
+    "title": "Дорога из ракушек",
+    "description": "Тропа к посёлку насыпана битой ракушкой и хрустит на каждом шагу. Идти по ней тихо невозможно.\n\nЭто, вероятно, и было целью.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_cliff_birds",
+    "title": "Птичий базар",
+    "description": "Обрыв заселён снизу доверху, и шум стоит такой, что приходится говорить громче. Пахнет так, что запах чувствуется на языке.\n\nКаждый уступ занят, и на каждом порядок, понятный только птицам.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_fog_from_sea",
+    "title": "Туман с воды",
+    "description": "Он приходит стеной и глотает берег по частям: сначала мыс, потом лодки, потом собственные ноги.\n\nГде-то в нём бьёт колокол — не быстро и не тревожно. Просто чтобы было слышно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "fog"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_wreck_ribs",
+    "title": "Рёбра в песке",
+    "description": "Из отмели торчат почерневшие шпангоуты — ровным полукругом, как грудная клетка. Между ними намыло песка вровень с бортом.\n\nМестные считают их частью берега и назначают тут встречи.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "world_coast_boats_all_ashore",
+    "title": "Все лодки на берегу",
+    "description": "Ни одной на воде, все вытащены выше обычного и привязаны к кольям. Погода при этом тихая.\n\nЗначит, кто-то посмотрел на небо раньше остальных, и остальные с ним согласились.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "actions": []
+  }
+]

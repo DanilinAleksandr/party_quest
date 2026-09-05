@@ -1,0 +1,411 @@
+[
+  {
+    "id": "curse_whisper",
+    "title": "Потеря голоса",
+    "description": "Долгая дорога и крики на привале берут своё — голос садится почти до шёпота.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      }
+    ]
+  },
+  {
+    "id": "curse_royal_address",
+    "title": "Дворцовый этикет",
+    "description": "Кто-то из компании только что представился особой королевских кровей.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "curse",
+      "solo",
+      "social"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_royal_address"
+      }
+    ]
+  },
+  {
+    "id": "trap_steady_hand",
+    "title": "Дрожь в руках",
+    "description": "Ты неловко задеваешь трактирный стол — стакан чуть не летит на пол.",
+    "type": "trap",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "risk",
+      "solo",
+      "tavern"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_steady_hand"
+      }
+    ]
+  },
+  {
+    "id": "curse_no_gestures",
+    "title": "Связанные руки",
+    "description": "Кто-то в шутку обмотал тебе запястья салфеткой — жестикулировать неудобно.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_no_gestures"
+      }
+    ]
+  },
+  {
+    "id": "curse_freeze_statue",
+    "title": "Море волнуется раз",
+    "description": "Один из спутников со смехом выкрикивает считалку и объявляет тебя «морской фигурой» — теперь придётся замирать каждый раз, когда услышишь своё имя.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo",
+      "party"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_freeze_statue"
+      }
+    ]
+  },
+  {
+    "id": "curse_hedge_word",
+    "title": "Внезапная неуверенность",
+    "description": "Один из спутников роняет случайную фразу, которая почему-то засела в голове — и вот ты уже ни в чём не уверен.",
+    "type": "curse",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_hedge_word"
+      }
+    ]
+  },
+  {
+    "id": "blessing_generous_host",
+    "title": "Душа компании",
+    "description": "Ты пробуешь взять на себя роль тамады — получится ли задать настроение столу, ещё не ясно.",
+    "type": "blessing",
+    "rarity": "rare",
+    "weight": 5,
+    "tags": [
+      "blessing",
+      "group"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_generous_host"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curse_omen",
+    "title": "Дурной знак",
+    "description": "Чёрная кошка перебегает дорогу — где-то далеко, но ты всё равно чувствуешь себя неуютно.",
+    "type": "curse",
+    "rarity": "rare",
+    "weight": 4,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_omen"
+      }
+    ]
+  },
+  {
+    "id": "blessing_lucky_echo",
+    "title": "Попутный ветер",
+    "description": "Ты чувствуешь, что удача где-то рядом — осталось понять, на твоей она стороне сегодня или нет.",
+    "type": "blessing",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "blessing",
+      "luck",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curse_forbidden_word",
+    "title": "Оговорка",
+    "description": "Кто-то замечает, что ты слишком часто говоришь одно и то же слово — и просит от него отказаться.",
+    "type": "curse",
+    "rarity": "uncommon",
+    "weight": 7,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_forbidden_word"
+      }
+    ]
+  },
+  {
+    "id": "item_compass_find",
+    "title": "Брошенный привал",
+    "description": "У дороги — остывшее кострище и наспех оставленные вещи: одеяло, котелок, один сапог.\n\nСреди брошенного лежит старый компас. Стрелка держит север.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_broken_compass"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_broken_compass"
+      }
+    ]
+  },
+  {
+    "id": "item_ring_find",
+    "title": "Блеск под ногами",
+    "description": "У самых ног что-то блестит — кольцо. Стоило его надеть, и слова полились сами собой.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "item",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_silver_tongue_ring"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_silver_tongue_ring"
+      },
+      {
+        "action": "modifyStat",
+        "target": "currentPlayer",
+        "stat": "charisma",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "duel_name_calling",
+    "title": "Спор за столом",
+    "description": "Внезапно вспыхивает спор о том, кто здесь главный. Вызови любого игрока разрешить его.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "duel",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "duel",
+        "winnerActions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "loserActions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "item_black_spot_found",
+    "title": "Клочок бумаги",
+    "description": "Под твоей тарелкой обнаруживается клочок просмолённой бумаги с чёрным пятном.",
+    "type": "item",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "item",
+      "curse"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_black_spot"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_black_spot"
+      }
+    ]
+  },
+  {
+    "id": "item_merchant_reunion",
+    "title": "Знакомое лицо",
+    "description": "Знакомый торговец узнаёт свой жетон раньше, чем лицо, и машет рукой через всю дорогу.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "item",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_merchant_token"
+      }
+    ],
+    "actions": [
+      {
+        "action": "takeItem",
+        "target": "currentPlayer",
+        "itemId": "item_merchant_token"
+      },
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_healing_potion"
+      }
+    ]
+  },
+  {
+    "id": "global_forbidden_word_all",
+    "title": "Слово дня",
+    "description": "Компания сообща выбирает одно слово, которое сегодня нельзя произносить никому.",
+    "type": "global",
+    "rarity": "rare",
+    "weight": 3,
+    "tags": [
+      "curse",
+      "group",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumPlayers",
+        "count": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "allPlayers",
+        "effectId": "effect_forbidden_word"
+      }
+    ]
+  }
+]

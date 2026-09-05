@@ -1,0 +1,260 @@
+[
+  {
+    "id": "pharaoh",
+    "entryNodeId": "pharaoh_deeper_passage",
+    "nodes": [
+      {
+        "id": "pharaoh_deeper_passage",
+        "text": "За тем залом, где ты уже когда-то бывал, находится ещё один проход — глубже, темнее, старше.",
+        "choices": [
+          {
+            "label": "Спуститься глубже",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "pharaoh_throne_room"
+              }
+            }
+          },
+          {
+            "label": "Достаточно на сегодня",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "pharaoh_throne_room",
+        "text": "Тронный зал. На троне — фигура, обёрнутая золотом и временем. Она поднимает голову.",
+        "choices": [
+          {
+            "label": "Встретить его взгляд, не склоняя головы",
+            "conditions": [
+              {
+                "condition": "currentPlayerOriginUnknown"
+              }
+            ],
+            "successChance": 0.1,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "pharaoh_recognizes_chosen"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_pharaohs_curse"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "«Ты носишь мою печать...»",
+            "conditions": [
+              {
+                "condition": "worldFlagSet",
+                "flag": "found_pharaoh_seal"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "pharaoh_recognizes_seal"
+              }
+            }
+          },
+          {
+            "label": "Фараон молча указывает на пустой постамент рядом с троном",
+            "conditions": [
+              {
+                "condition": "worldFlagUnset",
+                "flag": "found_pharaoh_seal"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "pharaoh_first_meeting"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "pharaoh_recognizes_seal",
+        "text": "«Верни то, что взял — или докажи, что достоин носить это».",
+        "choices": [
+          {
+            "label": "Вернуть печать",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_pharaohs_seal"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_pharaohs_seal"
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "returned_pharaoh_seal",
+                  "value": true
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                },
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_mystery"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Доказать, что достоин",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "earned_pharaoh_respect",
+                  "value": true
+                },
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "strength",
+                  "amount": 2
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_pharaohs_curse"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "pharaoh_first_meeting",
+        "text": "«Немногие доходят так далеко и не берут ничего. Чего ты хочешь, путник?»",
+        "choices": [
+          {
+            "label": "Попросить сокровища",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "found_pharaoh_seal",
+                  "value": true
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_pharaohs_seal"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            },
+            "onFailure": {
+              "actions": [
+                {
+                  "action": "applyEffect",
+                  "target": "currentPlayer",
+                  "effectId": "effect_pharaohs_curse"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Попросить лишь мудрости",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "modifyStat",
+                  "target": "currentPlayer",
+                  "stat": "luck",
+                  "amount": 2
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "pharaoh_recognizes_chosen",
+        "text": "Фараон медленно поднимается с трона — впервые за века золото на его плечах сдвигается само.\n\n«Немногие смотрят мне в глаза, не отводя взгляда, — произносит он. — Ещё меньше делают это, потому что имеют на это право».\n\nОн протягивает руку, и печать царства на миг вспыхивает на твоей коже, будто была там всегда. «Боги моего царства отметили твой род задолго до твоего рождения. Я лишь узнаю то, что уже было решено».",
+        "onEnterActions": [
+          {
+            "action": "revealOrigin",
+            "originId": "origin_gods_chosen"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "pharaoh_recognized_chosen",
+            "value": true
+          },
+          {
+            "action": "addChronicleEntry",
+            "text": "☀️ {player} — Избранник богов."
+          }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

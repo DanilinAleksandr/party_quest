@@ -1,0 +1,103 @@
+[
+  {
+    "id": "desert_warlord",
+    "entryNodeId": "warlord_camp_sighted",
+    "nodes": [
+      {
+        "id": "warlord_camp_sighted",
+        "text": "На вершине бархана — шатёр со знаменем, вышитым скорпионом. Лагерь самого известного вожака пустынных банд.",
+        "choices": [
+          {
+            "label": "Подойти открыто",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "warlord_audience" } }
+          },
+          {
+            "label": "Обойти лагерь стороной",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "warlord_audience",
+        "text": "Вожак — высокий человек со шрамом через всё лицо — меряет тебя взглядом. «Редко кто приходит сюда сам».",
+        "choices": [
+          {
+            "label": "Предложить сделку",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "warlord_deal" } }
+          },
+          {
+            "label": "Бросить вызов",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "warlord_challenge" } }
+          },
+          {
+            "label": "Развернуться и уйти, пока не поздно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "warlord_deal",
+        "text": "«Сделка, значит. Слушаю».",
+        "choices": [
+          {
+            "label": "Предложить печать фараона",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_pharaohs_seal" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_pharaohs_seal" },
+                { "action": "setWorldFlag", "flag": "warlord_ally", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_bravery_flask" },
+                { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с военачальником пустыни." }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Выпить с ним за сделку",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_flask" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_flask" },
+                { "action": "setWorldFlag", "flag": "warlord_ally", "value": true },
+                { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с военачальником пустыни." }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "У меня нечего предложить",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "warlord_challenge" } }
+          }
+        ]
+      },
+      {
+        "id": "warlord_challenge",
+        "text": "«Тогда докажи, что достоин уважения хоть чем-то».",
+        "choices": [
+          {
+            "label": "Принять вызов",
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "warlord_respect", "value": true },
+                { "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": 2 }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_defeated" },
+                { "action": "setWorldFlag", "flag": "warlord_enemy", "value": true }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

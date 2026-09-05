@@ -1,0 +1,172 @@
+[
+  {
+    "id": "witch_hut",
+    "entryNodeId": "hut_entrance",
+    "nodes": [
+      {
+        "id": "hut_entrance",
+        "text": "Среди деревьев ты замечаешь покосившуюся хижину. Дверь чуть приоткрыта, изнутри пахнет травами.",
+        "choices": [
+          {
+            "label": "Войти",
+            "onSuccess": { "actions": [], "to": { "destination": "goToNode", "nodeId": "hut_interior" } }
+          },
+          {
+            "label": "Уйти своей дорогой",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "hut_interior",
+        "text": "Ты толкаешь дверь и заходишь внутрь.",
+        "onEnterActions": [
+          { "action": "setWorldFlag", "flag": "visited_witch_hut", "value": true }
+        ],
+        "autoTransition": {
+          "destination": "randomNode",
+          "options": [
+            { "nodeId": "witch_home", "weight": 20 },
+            { "nodeId": "empty_house", "weight": 30 },
+            { "nodeId": "chest_found", "weight": 15 },
+            { "nodeId": "potion_found", "weight": 15 },
+            { "nodeId": "trap", "weight": 20 }
+          ]
+        }
+      },
+      {
+        "id": "witch_home",
+        "text": "Ведьма поднимает взгляд от котла и пристально смотрит на тебя.",
+        "choices": [
+          {
+            "label": "«Вор! Ты вернул мою книгу?!» — она узнала тебя",
+            "conditions": [
+              { "condition": "worldFlagSet", "flag": "stole_magic_book" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_witch_curse" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Попросить у неё зелье",
+            "conditions": [
+              { "condition": "worldFlagUnset", "flag": "stole_magic_book" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_healing_potion" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Стащить книгу заклинаний, пока она отвернулась",
+            "conditions": [
+              { "condition": "worldFlagUnset", "flag": "stole_magic_book" }
+            ],
+            "successChance": 0.5,
+            "onSuccess": {
+              "actions": [
+                { "action": "setWorldFlag", "flag": "stole_magic_book", "value": true },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_spellbook" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_witch_curse" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Молча выйти",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "empty_house",
+        "text": "Дом пуст. На столе среди пыли блестит забытая монета. Ты трёшь её на удачу.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_lucky_coin" },
+          { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "chest_found",
+        "text": "У стены стоит запертый сундук.",
+        "choices": [
+          {
+            "label": "Вскрыть отмычками",
+            "conditions": [
+              { "condition": "currentPlayerHasItem", "itemId": "item_thieves_tools" }
+            ],
+            "onSuccess": {
+              "actions": [
+                { "action": "takeItem", "target": "currentPlayer", "itemId": "item_thieves_tools" },
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Взломать замок силой",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [
+                { "action": "giveItem", "target": "currentPlayer", "itemId": "item_dice_of_fate" }
+              ],
+              "to": { "destination": "endAdventure" }
+            },
+            "onFailure": {
+              "actions": [
+                { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_hiccups" }
+              ],
+              "to": { "destination": "endAdventure" }
+            }
+          },
+          {
+            "label": "Не трогать чужое",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "potion_found",
+        "text": "На полке стоит одинокая склянка зелья.",
+        "onEnterActions": [
+          { "action": "giveItem", "target": "currentPlayer", "itemId": "item_healing_potion" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      },
+      {
+        "id": "trap",
+        "text": "Половица под ногой проваливается — это была ловушка!",
+        "onEnterActions": [
+          { "action": "applyEffect", "target": "currentPlayer", "effectId": "effect_cloud" }
+        ],
+        "choices": [
+          {
+            "label": "Понятно",
+            "onSuccess": { "actions": [], "to": { "destination": "endAdventure" } }
+          }
+        ]
+      }
+    ]
+  }
+]

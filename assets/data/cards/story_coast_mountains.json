@@ -1,0 +1,190 @@
+[
+  {
+    "id": "story_nets_torn",
+    "title": "Сети порваны",
+    "description": "Их вытащили и бросили кучей выше прилива. В ячеях застряли обрывки водорослей и щепки, а посередине зияет дыра в рост человека.\n\nРядом сидит один и разбирает узлы. Он один, а сетей четыре.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "coast" }],
+    "actions": []
+  },
+  {
+    "id": "story_nets_being_woven",
+    "title": "Вяжут заново",
+    "description": "На берегу сидят шестеро, и у каждого на колене челнок. Работа идёт под разговор, и разговор не про сети.\n\nДети подают моток за мотком и путаются под ногами. Их не гонят.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_boats_full",
+    "title": "Лодки вернулись гружёные",
+    "description": "Борта сидят низко, и разгружают в четыре пары рук. Улов вываливают прямо на камни, и он ещё шевелится.\n\nОдна сеть на кольях сохнет отдельно — совсем новая, светлее прочих.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_boat_holed",
+    "title": "Пробитый борт",
+    "description": "Лодка лежит на боку, и в борту рваная дыра длиной в локоть — не от камня, слишком ровные края.\n\nВёсла аккуратно сложены рядом. Значит, дошли.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "coast" }],
+    "actions": []
+  },
+  {
+    "id": "story_boat_tarred",
+    "title": "Смолят",
+    "description": "Котёл кипит на камнях, и запах стоит такой, что перебивает море. Двое кладут заплату, третий держит наготове паклю.\n\nОни спорят, хватит ли одного слоя. Кладут третий.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_boat_at_sea",
+    "title": "Ушла с утренней водой",
+    "description": "На гальке остался отпечаток киля и два бревна-катка. Котёл из-под смолы стоит перевёрнутый и уже остыл.\n\nДалеко на воде видна одна лодка. Идёт ровно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_salt_pans_dry",
+    "title": "Садки пустые",
+    "description": "Глиняные валики растрескались, дно квадратов покрыто засохшей коркой пополам с песком. Канавка от моря засыпана.\n\nЛопата воткнута в валик и стоит так давно — черенок выбелило солнце.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "coast" }],
+    "actions": []
+  },
+  {
+    "id": "story_salt_pans_filling",
+    "title": "Пускают воду",
+    "description": "Канавку прокопали заново, и по ней идёт мутная волна, разливаясь по первому квадрату. Двое стоят по щиколотку и подправляют валики руками.\n\nТретий сидит на берегу и следит, чтобы не пустили сразу во второй.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_salt_crust",
+    "title": "Белая корка",
+    "description": "В трёх квадратах вода, в двух уже белое. Женщина сгребает корку деревянной лопаткой к краю, и получается маленький сугроб.\n\nЛопата с выбеленным черенком воткнута рядом. Ею опять пользуются.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "coast" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_hut_roof_gone",
+    "title": "Балаган без крыши",
+    "description": "Стены стоят, а плоская кровля из жердей и дёрна провалилась внутрь. В очаге лежит снег вперемешку с трухой.\n\nДрова у стены сложены и целы. Их никто не тронул.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [{ "condition": "inBiome", "biomeId": "mountains" }],
+    "actions": []
+  },
+  {
+    "id": "story_hut_roof_mended",
+    "title": "Кладут жерди",
+    "description": "Двое таскают снизу жерди по одной — больше за раз не поднять по этой тропе. Третий укладывает их поперёк и рубит по месту.\n\nДёрн нарезан квадратами и сложен стопкой, как хлеб.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "mountains" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_hut_smoking",
+    "title": "Дым из балагана",
+    "description": "Из-под дёрновой кровли тянет тонкой струйкой, и на пороге сохнут чьи-то портянки. Внутри никого.\n\nДрова у стены сложены заново — теперь их больше, чем было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "mountains" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  },
+
+  {
+    "id": "story_rockfall_cleared",
+    "title": "Разбирают завал",
+    "description": "Камни оттаскивают по одному и скидывают вниз, в ущелье. Каждый удар о дно приходит с задержкой.\n\nРаботают четверо, и один всё время смотрит вверх, а не под ноги.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["group"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "mountains" },
+      { "condition": "minimumStep", "steps": 4 }
+    ],
+    "actions": []
+  },
+  {
+    "id": "story_path_goes_around",
+    "title": "Тропа обходит выше",
+    "description": "Новая тропка забирает вверх и обходит осыпь по большой дуге. Она уже натоптана и в двух местах подперта каменной кладкой.\n\nСтарая тропа внизу видна до сих пор. По ней никто не идёт.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 2,
+    "tags": ["solo"],
+    "conditions": [
+      { "condition": "inBiome", "biomeId": "mountains" },
+      { "condition": "minimumStep", "steps": 9 }
+    ],
+    "actions": []
+  }
+]
