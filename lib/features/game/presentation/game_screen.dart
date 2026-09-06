@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/theme/steel_palette.dart';
 import '../../../core/widgets/biome_banner.dart';
 import '../../../core/widgets/game_result_card.dart';
 import '../../../core/widgets/item_chip.dart';
@@ -14,10 +15,12 @@ import '../application/result_diff.dart';
 import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
+import 'widgets/journey_trail.dart';
 import 'widgets/participant_selection_dialog.dart';
 import 'widgets/player_profile_sheet.dart';
 import 'widgets/player_status_panel.dart';
 import 'widgets/season_reveal_dialog.dart';
+import 'widgets/take_step_button.dart';
 import 'win_screen.dart';
 
 class GameScreen extends ConsumerWidget {
@@ -93,7 +96,11 @@ class GameScreen extends ConsumerWidget {
         final entries = computeResultEntries(
           previous: previous!,
           next: next,
-          targets: _diffTargets(previous, next, previous.pendingCard!.participant),
+          targets: _diffTargets(
+            previous,
+            next,
+            previous.pendingCard!.participant,
+          ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
         for (final entry in entries) {
@@ -108,7 +115,11 @@ class GameScreen extends ConsumerWidget {
         final entries = computeResultEntries(
           previous: previous!,
           next: next,
-          targets: _diffTargets(previous, next, const TwoRandomPlayersParticipant()),
+          targets: _diffTargets(
+            previous,
+            next,
+            const TwoRandomPlayersParticipant(),
+          ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
         for (final entry in entries) {
@@ -135,23 +146,43 @@ class GameScreen extends ConsumerWidget {
         gameState.status == GameStatus.inProgress;
     final currentBiome = biomes?.byId(gameState.worldState.currentBiomeId);
 
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
+      backgroundColor: SteelPalette.background,
       appBar: AppBar(
-        title: const Text('Алко-Квест'),
+        backgroundColor: SteelPalette.background,
+        surfaceTintColor: Colors.transparent,
+        // Left, not centred: the title is a mark of where you are, and the
+        // theme's centred Material title reads as an app bar rather than as
+        // the chrome of a game.
+        centerTitle: false,
+        titleSpacing: 20,
+        title: Text(
+          'Алко-Квест',
+          style: textTheme.titleLarge?.copyWith(
+            fontSize: 19,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1.71,
+            color: SteelPalette.textLow,
+          ),
+        ),
         actions: [
           IconButton(
             tooltip: 'Журнал путешествия',
-            icon: const Icon(Icons.menu_book_outlined),
+            icon: const Icon(Icons.menu_book_outlined, size: 21),
+            color: SteelPalette.steelDim,
             onPressed: () => showJourneyLogSheet(
               context: context,
               journeyLog: gameState.journeyLog,
             ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
           child: Column(
             children: [
               if (gameState.phase == JourneyPhase.prologue) ...[
@@ -167,98 +198,109 @@ class GameScreen extends ConsumerWidget {
                   const SizedBox(height: 8),
                   const TavernBanner(),
                 ],
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
               ],
               if (stepsToWin != null)
-                Row(
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: LinearProgressIndicator(
-                          value: (gameState.partySteps / stepsToWin).clamp(0, 1),
-                          minHeight: 10,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Шаг ${gameState.partySteps} / $stepsToWin',
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                  ],
+                JourneyTrail(
+                  partySteps: gameState.partySteps,
+                  totalSteps: stepsToWin,
                 )
               else
+                // No length means no notches to draw: the endless journey
+                // keeps its own row rather than pretending to have a
+                // destination it can measure against.
                 Row(
                   children: [
-                    Icon(Icons.all_inclusive, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.all_inclusive,
+                      size: 18,
+                      color: SteelPalette.steel,
+                    ),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         'Шаг ${gameState.partySteps} — путешествие без конца',
-                        style: Theme.of(context).textTheme.labelLarge,
+                        style: textTheme.labelSmall?.copyWith(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.88,
+                          color: SteelPalette.textLow.withValues(alpha: 0.66),
+                        ),
                       ),
                     ),
                     TextButton(
                       onPressed: gameState.status == GameStatus.inProgress
-                          ? () => ref.read(provider.notifier).endJourneyManually()
+                          ? () =>
+                                ref.read(provider.notifier).endJourneyManually()
                           : null,
+                      style: TextButton.styleFrom(
+                        foregroundColor: SteelPalette.steel,
+                      ),
                       child: const Text('Завершить путешествие'),
                     ),
                   ],
                 ),
               if (gameState.partyInventory.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: gameState.partyInventory
-                        .map((item) => ItemChip(item: item))
-                        .toList(),
-                  ),
+                const SizedBox(height: 18),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'СНАРЯЖЕНИЕ ПАРТИИ',
+                      style: textTheme.labelSmall?.copyWith(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.52,
+                        color: SteelPalette.textLow.withValues(alpha: 0.66),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.end,
+                        children: gameState.partyInventory
+                            .map((item) => ItemChip(item: item))
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 ),
               ],
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 18),
                   child: SingleChildScrollView(
-                    child: Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      alignment: WrapAlignment.center,
-                      children: gameState.players.map((player) {
-                        final playerOrigin = player.originId == null
-                            ? null
-                            : origins?.byId(player.originId!);
-                        return PlayerStatusPanel(
-                          player: player,
-                          origin: playerOrigin,
-                          onTap: () => showPlayerProfileSheet(
-                            context: context,
+                    child: Column(
+                      children: _rosterRows(
+                        players: gameState.players,
+                        card: (player) {
+                          final playerOrigin = player.originId == null
+                              ? null
+                              : origins?.byId(player.originId!);
+                          return PlayerStatusPanel(
                             player: player,
                             origin: playerOrigin,
-                            partyInventory: gameState.partyInventory,
-                            worldState: gameState.worldState,
-                          ),
-                        );
-                      }).toList(),
+                            onTap: () => showPlayerProfileSheet(
+                              context: context,
+                              player: player,
+                              origin: playerOrigin,
+                              partyInventory: gameState.partyInventory,
+                              worldState: gameState.worldState,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: canTakeStep
-                      ? () => ref.read(provider.notifier).takeStep()
-                      : null,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Сделать шаг', style: TextStyle(fontSize: 18)),
-                  ),
-                ),
+              const SizedBox(height: 4),
+              TakeStepButton(
+                onPressed: canTakeStep
+                    ? () => ref.read(provider.notifier).takeStep()
+                    : null,
               ),
             ],
           ),
@@ -266,6 +308,37 @@ class GameScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Lays the roster out two to a row, with an odd last player taking the
+/// whole width instead of leaving a hole beside them.
+///
+/// Built by hand rather than with a grid: every grid widget in the
+/// framework either forces one cell size on all children or needs a
+/// staggered-layout package, and this is four lines of `Row`.
+List<Widget> _rosterRows({
+  required List<Player> players,
+  required Widget Function(Player player) card,
+}) {
+  final rows = <Widget>[];
+  for (var i = 0; i < players.length; i += 2) {
+    if (i > 0) rows.add(const SizedBox(height: 10));
+    if (i == players.length - 1) {
+      rows.add(SizedBox(width: double.infinity, child: card(players[i])));
+    } else {
+      rows.add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: card(players[i])),
+            const SizedBox(width: 10),
+            Expanded(child: card(players[i + 1])),
+          ],
+        ),
+      );
+    }
+  }
+  return rows;
 }
 
 /// Resolves who to show in [EventParticipantBanner] for a just-drawn card —
@@ -276,9 +349,10 @@ class GameScreen extends ConsumerWidget {
 List<Player>? _participantsFor(GameState state, EventParticipant participant) {
   return switch (participant) {
     WholeGroupParticipant() => null,
-    TwoRandomPlayersParticipant() => state.secondaryPlayer == null
-        ? [state.currentPlayer]
-        : [state.currentPlayer, state.secondaryPlayer!],
+    TwoRandomPlayersParticipant() =>
+      state.secondaryPlayer == null
+          ? [state.currentPlayer]
+          : [state.currentPlayer, state.secondaryPlayer!],
     _ => [state.currentPlayer],
   };
 }

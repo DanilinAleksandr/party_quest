@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../game_engine/models/models.dart';
 import '../theme/app_colors.dart';
+import 'line_icons.dart';
 
 /// One inventory item, tinted by [InventoryItem.rarity] via [RarityFrame]'s
 /// same color ramp (without the full glow treatment — that's reserved for
@@ -26,7 +27,10 @@ class ItemChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inventory_2_outlined, size: 16, color: color),
+          // A drawn flask rather than Material's cardboard box: the party
+          // carries things a traveller carries, and the box icon reads as
+          // warehouse software.
+          LineIcon(shape: LineIconShape.flask, size: 15, color: color),
           const SizedBox(width: 6),
           Text(item.name, style: Theme.of(context).textTheme.labelMedium),
         ],

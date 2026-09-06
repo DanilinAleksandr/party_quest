@@ -3,15 +3,16 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../app/routes.dart';
-import '../../../core/theme/main_menu_palette.dart';
 import '../../../core/theme/main_menu_taglines.dart';
+import '../../../core/theme/steel_palette.dart';
+import '../../../core/widgets/tactile_press_button.dart';
 
 const EdgeInsets _screenPadding = EdgeInsets.fromLTRB(40, 96, 40, 64);
 const double _taglineMaxWidth = 300;
 
 /// The title screen. Everything here is branding rather than gameplay UI, so
 /// it is the one place in the app that paints against literal values from
-/// [MainMenuPalette] instead of the `ColorScheme`.
+/// [SteelPalette] instead of the `ColorScheme`.
 ///
 /// The composition is deliberately quiet: light, air and one weighty title,
 /// with no frame, plate or ornament anywhere. The menu entries are bare
@@ -53,7 +54,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MainMenuPalette.background,
+      backgroundColor: SteelPalette.background,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -113,7 +114,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               height: 1.5,
               fontWeight: FontWeight.w600,
               letterSpacing: 3.1,
-              color: MainMenuPalette.titleLow.withValues(alpha: 0.82),
+              color: SteelPalette.textLow.withValues(alpha: 0.82),
             ),
           ),
         ),
@@ -253,8 +254,8 @@ class _EngravedTitle extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              MainMenuPalette.titleHigh,
-              MainMenuPalette.titleLow,
+              SteelPalette.textHigh,
+              SteelPalette.textLow,
               Color(0x9ED8DCE0),
             ],
             stops: [0, 0.55, 1],
@@ -296,8 +297,8 @@ class _DividerLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = [
-      MainMenuPalette.steel.withValues(alpha: 0),
-      MainMenuPalette.steel.withValues(alpha: 0.6),
+      SteelPalette.steel.withValues(alpha: 0),
+      SteelPalette.steel.withValues(alpha: 0.6),
     ];
     return Container(
       height: 1,
@@ -332,11 +333,11 @@ class _Lozenge extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: MainMenuPalette.steel.withValues(alpha: faceAlpha),
+          color: SteelPalette.steel.withValues(alpha: faceAlpha),
           boxShadow: glow
               ? [
                   BoxShadow(
-                    color: MainMenuPalette.steel.withValues(
+                    color: SteelPalette.steel.withValues(
                       alpha: 0.55 * (1 - 0.75 * press),
                     ),
                     blurRadius: 10 * (1 - 0.6 * press),
@@ -355,11 +356,10 @@ class _Lozenge extends StatelessWidget {
 /// of lit lozenges. The generous padding is not decoration; it is the tap
 /// target, which now has no plate to inherit one from.
 ///
-/// A tap plays the press through and *then* navigates. There is no ink
-/// splash: a rectangular highlight the width of the row would announce a
-/// plate, which is exactly what this screen took out. The press itself is
-/// the whole feedback — the word sinks away from the light and comes back.
-class _MenuItem extends StatefulWidget {
+/// A tap plays the press through and *then* navigates — see
+/// [TactilePressButton], which owns the timing and the guard while this
+/// widget decides what "pressed" looks like for a bare word.
+class _MenuItem extends StatelessWidget {
   final String title;
   final bool primary;
 
@@ -378,127 +378,62 @@ class _MenuItem extends StatefulWidget {
   });
 
   @override
-  State<_MenuItem> createState() => _MenuItemState();
-}
-
-class _MenuItemState extends State<_MenuItem>
-    with SingleTickerProviderStateMixin {
-  /// 375 ms down, 375 ms back. Shared by both entries on purpose: a
-  /// difference in speed between two adjacent words reads as a bug long
-  /// before the delay itself does.
-  static const Duration _pressDuration = Duration(milliseconds: 750);
-
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: _pressDuration,
-  )..addStatusListener(_onStatusChanged);
-
-  /// 0 at rest, 1 at the bottom of the press. `easeIn` going down and
-  /// `easeOut` coming back is what gives it weight: the word gathers speed
-  /// as it is pushed in, then eases up to the surface instead of snapping.
-  late final Animation<double> _press = TweenSequence<double>([
-    TweenSequenceItem(
-      tween: Tween(
-        begin: 0.0,
-        end: 1.0,
-      ).chain(CurveTween(curve: Curves.easeIn)),
-      weight: 1,
-    ),
-    TweenSequenceItem(
-      tween: Tween(
-        begin: 1.0,
-        end: 0.0,
-      ).chain(CurveTween(curve: Curves.easeOut)),
-      weight: 1,
-    ),
-  ]).animate(_controller);
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onStatusChanged(AnimationStatus status) {
-    if (status == AnimationStatus.completed && mounted) {
-      widget.onActivate();
-    }
-  }
-
-  void _handleTap() {
-    if (_controller.isAnimating || !widget.beginPress()) return;
-    _controller.forward(from: 0);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Semantics(
-      button: true,
-      // GestureDetector alone announces nothing; the removed InkWell used
-      // to carry this.
-      child: GestureDetector(
-        onTap: _handleTap,
-        behavior: HitTestBehavior.opaque,
-        child: Padding(
+    return TactilePressButton(
+      beginPress: beginPress,
+      onPressed: onActivate,
+      builder: (context, press) {
+        final baseAlpha = primary ? 1.0 : 0.66;
+        final color = (primary ? SteelPalette.textHigh : SteelPalette.textLow)
+            .withValues(alpha: baseAlpha * (1 - 0.4 * press));
+        final label = Text(
+          title,
+          textAlign: TextAlign.center,
+          style: primary
+              ? textTheme.titleLarge?.copyWith(
+                  fontSize: 26,
+                  height: 1.2,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 3.64,
+                  color: color,
+                )
+              : textTheme.titleLarge?.copyWith(
+                  fontSize: 21,
+                  height: 1.2,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 2.94,
+                  color: color,
+                ),
+        );
+
+        return Padding(
+          // The padding is inside the press so it scales with the word —
+          // and it is the tap target, since there is no plate to inherit
+          // one from.
           padding: EdgeInsets.symmetric(
-            vertical: widget.primary ? 16 : 14,
+            vertical: primary ? 16 : 14,
             horizontal: 24,
           ),
-          child: AnimatedBuilder(
-            animation: _press,
-            builder: (context, _) {
-              final t = _press.value;
-              final baseAlpha = widget.primary ? 1.0 : 0.66;
-              final color =
-                  (widget.primary
-                          ? MainMenuPalette.titleHigh
-                          : MainMenuPalette.titleLow)
-                      .withValues(alpha: baseAlpha * (1 - 0.4 * t));
-              final label = Text(
-                widget.title,
-                textAlign: TextAlign.center,
-                style: widget.primary
-                    ? textTheme.titleLarge?.copyWith(
-                        fontSize: 26,
-                        height: 1.2,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 3.64,
-                        color: color,
-                      )
-                    : textTheme.titleLarge?.copyWith(
-                        fontSize: 21,
-                        height: 1.2,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 2.94,
-                        color: color,
-                      ),
-              );
-
-              return Transform.scale(
-                // The lozenges ride with the word rather than staying put:
-                // the two of them read as one surface being pushed in.
-                scale: 1 - 0.06 * t,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: widget.primary
-                      ? [
-                          _Lozenge(size: 4, glow: true, press: t),
-                          // Tracking already pads the word's right edge, so
-                          // the leading gap is the wider of the two.
-                          const SizedBox(width: 18),
-                          Flexible(child: label),
-                          const SizedBox(width: 14),
-                          _Lozenge(size: 4, glow: true, press: t),
-                        ]
-                      : [Flexible(child: label)],
-                ),
-              );
-            },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: primary
+                ? [
+                    // The lozenges ride with the word rather than staying
+                    // put: the three of them read as one surface.
+                    _Lozenge(size: 4, glow: true, press: press),
+                    // Tracking already pads the word's right edge, so the
+                    // leading gap is the wider of the two.
+                    const SizedBox(width: 18),
+                    Flexible(child: label),
+                    const SizedBox(width: 14),
+                    _Lozenge(size: 4, glow: true, press: press),
+                  ]
+                : [Flexible(child: label)],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/influence_source.dart';
+import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/origin_reveal_flash.dart';
 import '../../../../core/widgets/rarity_frame.dart';
 import '../../../../core/widgets/stat_chip.dart';
@@ -49,36 +50,66 @@ class PlayerStatusPanel extends StatelessWidget {
     final blessings = player.blessings.length;
     final curses = player.curses.length;
 
-    final card = Card(
+    final card = Material(
+      color: SteelPalette.surface,
       clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(color: SteelPalette.steel.withValues(alpha: 0.12)),
+      ),
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(14),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                radius: 26,
-                backgroundColor: avatarColor.withValues(alpha: 0.25),
+              Container(
+                width: 38,
+                height: 38,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  // A cut stone rather than a social-app circle, lit from
+                  // the same upper left as everything else.
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      SteelPalette.steel.withValues(alpha: 0.14),
+                      Colors.black.withValues(alpha: 0.25),
+                    ],
+                  ),
+                ),
                 child: Text(
                   player.name.isEmpty ? '?' : player.name[0].toUpperCase(),
                   style: theme.textTheme.titleLarge?.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    // The per-player colour survives the repaint: it is how
+                    // the table tells four cards apart at a glance, and it
+                    // is the one hue on the card that is not saying
+                    // something about rarity.
                     color: avatarColor,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 player.name,
-                style: theme.textTheme.titleMedium,
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.6,
+                  color: SteelPalette.textHigh,
+                ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               OriginRevealFlash(origin: origin),
               if (stats.isNotEmpty) ...[
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
@@ -97,7 +128,7 @@ class PlayerStatusPanel extends StatelessWidget {
               if (player.inventory.isNotEmpty ||
                   blessings > 0 ||
                   curses > 0) ...[
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
@@ -136,7 +167,7 @@ class PlayerStatusPanel extends StatelessWidget {
                 Text(
                   'Подробнее ›',
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                    color: SteelPalette.textLow.withValues(alpha: 0.6),
                   ),
                 ),
               ],
