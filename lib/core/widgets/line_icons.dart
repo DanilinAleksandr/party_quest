@@ -22,6 +22,9 @@ enum LineIconShape {
   /// as data, so a new biome id must never crash or draw nothing.
   waypoint,
 
+  /// The prologue: the party has not left yet.
+  home,
+
   flask,
   die,
 }
@@ -229,6 +232,33 @@ class _LineIconPainter extends CustomPainter {
       case LineIconShape.waypoint:
         canvas.drawCircle(const Offset(12, 12), 6.5, stroke);
         canvas.drawCircle(const Offset(12, 12), 1.6, fill);
+
+      case LineIconShape.home:
+        // Roof, walls, and a door standing open — the house you are about
+        // to leave, not the one you live in.
+        canvas.drawPath(
+          Path()
+            ..moveTo(3, 11.5)
+            ..lineTo(12, 4)
+            ..lineTo(21, 11.5),
+          stroke,
+        );
+        canvas.drawPath(
+          Path()
+            ..moveTo(5.5, 10)
+            ..lineTo(5.5, 20)
+            ..lineTo(18.5, 20)
+            ..lineTo(18.5, 10),
+          stroke,
+        );
+        canvas.drawPath(
+          Path()
+            ..moveTo(9.8, 20)
+            ..lineTo(9.8, 14.2)
+            ..lineTo(14.2, 14.2)
+            ..lineTo(14.2, 20),
+          stroke,
+        );
 
       case LineIconShape.flask:
         canvas.drawPath(
