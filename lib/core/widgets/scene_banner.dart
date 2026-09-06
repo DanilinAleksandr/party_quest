@@ -34,7 +34,16 @@ class SceneBanner extends StatelessWidget {
   final IconData? trailingIcon;
   final String? trailingLabel;
 
-  static const double height = 176;
+  /// A floor, not a fixed height. A short line should still get a scene
+  /// worth looking at; a long one — the atmosphere line composes a season
+  /// phrase with a weather phrase, so it runs to four lines in the worst
+  /// case the content actually produces — must not be cut off with an
+  /// ellipsis. The banner grows past this instead.
+  static const double minHeight = 176;
+
+  /// Sky above the text. Also what keeps the title off the top edge once
+  /// the banner does grow: at [minHeight] the block simply sits lower.
+  static const EdgeInsets _contentPadding = EdgeInsets.fromLTRB(18, 60, 18, 16);
 
   const SceneBanner({
     super.key,
@@ -52,69 +61,79 @@ class SceneBanner extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
-        height: height,
         width: double.infinity,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF181B20), Color(0xFF14161A)],
-                ),
-              ),
-            ),
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment(-0.65, -0.85),
-                  radius: 1.15,
-                  colors: [Color(0x389CA3AF), Color(0x009CA3AF)],
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: FractionallySizedBox(
-                heightFactor: 0.62,
-                child: ShaderMask(
-                  // dstIn keeps the bars only where the mask is opaque, so
-                  // they stand solid on the floor and dissolve upward.
-                  blendMode: BlendMode.dstIn,
-                  shaderCallback: (bounds) => const LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [Colors.white, Color(0x00FFFFFF)],
-                    stops: [0.1, 1],
-                  ).createShader(bounds),
-                  // Size.infinite, not the default: a childless CustomPaint
-                  // prefers Size.zero, and the loose width it gets here
-                  // would collapse it to nothing at all.
-                  child: const CustomPaint(
-                    size: Size.infinite,
-                    painter: _StandingBarsPainter(),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: minHeight),
+          child: Stack(
+            // Every decorative layer is Positioned.fill, so the *text* is
+            // the only child that decides how tall the banner is; the
+            // scene then stretches to whatever that came out as.
+            alignment: Alignment.bottomLeft,
+            children: [
+              const Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xFF181B20), Color(0xFF14161A)],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const DecoratedBox(
-              // Floor darkening, so the title never has to compete with the
-              // texture behind it.
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [Color(0xE014161A), Color(0x0014161A)],
-                  stops: [0, 0.62],
+              const Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment(-0.65, -0.85),
+                      radius: 1.15,
+                      colors: [Color(0x389CA3AF), Color(0x009CA3AF)],
+                    ),
+                  ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 16),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.62,
+                    child: ShaderMask(
+                      // dstIn keeps the bars only where the mask is opaque, so
+                      // they stand solid on the floor and dissolve upward.
+                      blendMode: BlendMode.dstIn,
+                      shaderCallback: (bounds) => const LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.white, Color(0x00FFFFFF)],
+                        stops: [0.1, 1],
+                      ).createShader(bounds),
+                      // Size.infinite, not the default: a childless CustomPaint
+                      // prefers Size.zero, and the loose width it gets here
+                      // would collapse it to nothing at all.
+                      child: const CustomPaint(
+                        size: Size.infinite,
+                        painter: _StandingBarsPainter(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Positioned.fill(
+                child: DecoratedBox(
+                  // Floor darkening, so the title never has to compete with
+                  // the texture behind it.
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Color(0xE014161A), Color(0x0014161A)],
+                      stops: [0, 0.62],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: _contentPadding,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,9 +180,9 @@ class SceneBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 7),
                     Text(
+                      // No maxLines: the banner grows to fit the line
+                      // instead of the line being cut to fit the banner.
                       subtitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall?.copyWith(
                         fontSize: 12.5,
                         height: 1.35,
@@ -174,8 +193,8 @@ class SceneBanner extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
