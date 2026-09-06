@@ -47,10 +47,14 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Алко-Квест'), findsOneWidget);
+    // The menu sets its title as two hard-wrapped lines, exactly as drawn.
+    expect(find.text('АЛКО\nКВЕСТ'), findsOneWidget);
     expect(find.text('Новая игра'), findsOneWidget);
     expect(find.text('Настройки'), findsOneWidget);
 
+    // The menu scrolls on viewports shorter than the design's phone, and the
+    // default test surface is one of them.
+    await tester.ensureVisible(find.text('Новая игра'));
     await tester.tap(find.text('Новая игра'));
     await tester.pumpAndSettle();
 
