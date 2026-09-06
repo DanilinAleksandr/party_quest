@@ -147,35 +147,63 @@ class SceneBanner extends StatelessWidget {
                           strokeWidth: 1.4,
                         ),
                         const SizedBox(width: 11),
-                        Flexible(
-                          child: Text(
-                            title,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 25,
-                              height: 1.1,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.25,
-                              color: SteelPalette.textHigh,
-                            ),
+                        Expanded(
+                          child: Row(
+                            // Baseline, not centre. A 25px title beside an
+                            // 11px tag centres by *box*, which left the tag
+                            // floating four points above the line the eye
+                            // actually follows — measured on device, the
+                            // label's baseline sat 4.5pt above the title's.
+                            // Sharing a baseline is what "on the same line"
+                            // means typographically, and it survives a
+                            // change to either font size.
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  title,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontSize: 25,
+                                    height: 1.1,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 1.25,
+                                    color: SteelPalette.textHigh,
+                                  ),
+                                ),
+                              ),
+                              if (trailingIcon != null &&
+                                  trailingLabel != null) ...[
+                                const SizedBox(width: 12),
+                                // The icon is centred against its own
+                                // label rather than against the title: it
+                                // has no baseline to share, and this
+                                // group reports the label's.
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      trailingIcon,
+                                      size: 14,
+                                      color: SteelPalette.steel,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      trailingLabel!,
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            fontSize: 11,
+                                            color: SteelPalette.steel,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ],
                           ),
                         ),
-                        if (trailingIcon != null && trailingLabel != null) ...[
-                          const SizedBox(width: 12),
-                          Icon(
-                            trailingIcon,
-                            size: 14,
-                            color: SteelPalette.steel,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            trailingLabel!,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 11,
-                              color: SteelPalette.steel,
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                     const SizedBox(height: 7),
