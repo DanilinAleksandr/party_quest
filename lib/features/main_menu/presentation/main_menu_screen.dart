@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import '../../../app/routes.dart';
 import '../../../core/theme/main_menu_palette.dart';
 import '../../../core/theme/main_menu_taglines.dart';
-import 'widgets/main_menu_medallion.dart';
 
-const double _medallionSize = 196;
-const double _rosetteSize = 320;
-const EdgeInsets _screenPadding = EdgeInsets.fromLTRB(40, 74, 40, 44);
+const EdgeInsets _screenPadding = EdgeInsets.fromLTRB(40, 96, 40, 64);
 const double _taglineMaxWidth = 300;
 
 /// The title screen. Everything here is branding rather than gameplay UI, so
 /// it is the one place in the app that paints against literal values from
 /// [MainMenuPalette] instead of the `ColorScheme`.
+///
+/// The composition is deliberately quiet: light, air and one weighty title,
+/// with no frame, plate or ornament anywhere. The menu entries are bare
+/// words — what marks the primary one is a pair of small lozenges and more
+/// light, not a container.
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
 
@@ -34,7 +36,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const _BackgroundGlow(),
+          const _BackgroundLight(),
           SafeArea(
             child: LayoutBuilder(
               // The design is laid out for a tall phone. On a short screen —
@@ -73,38 +75,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
     return Column(
       children: [
-        const _Emblem(),
-        const SizedBox(height: 34),
-        Padding(
-          // Nudged by one letter-space: the trailing tracking on the last
-          // glyph of each line otherwise pushes centred text visibly left.
-          padding: const EdgeInsets.only(left: 2.4),
-          child: Text(
-            'АЛКО\nКВЕСТ',
-            textAlign: TextAlign.center,
-            style: textTheme.headlineMedium?.copyWith(
-              fontSize: 40,
-              height: 1.08,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 2.4,
-              color: MainMenuPalette.parchment,
-              shadows: [
-                const Shadow(
-                  color: Color(0xB3000000),
-                  offset: Offset(0, 2),
-                  blurRadius: 8,
-                ),
-                Shadow(
-                  color: MainMenuPalette.gold.withValues(alpha: 0.22),
-                  blurRadius: 26,
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        const _DiamondDivider(),
-        const SizedBox(height: 16),
+        const _EngravedTitle(),
+        const SizedBox(height: 22),
+        const _SteelDivider(),
+        const SizedBox(height: 18),
         Padding(
           padding: EdgeInsets.only(
             left: taglineInset + 3.1,
@@ -118,24 +92,23 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               height: 1.5,
               fontWeight: FontWeight.w600,
               letterSpacing: 3.1,
-              color: MainMenuPalette.taglineTint.withValues(alpha: 0.8),
+              color: MainMenuPalette.titleLow.withValues(alpha: 0.82),
             ),
           ),
         ),
-        // Minimum air between the emblem block and the menu, kept even on a
+        // Minimum air between the title block and the menu, kept even on a
         // screen too short for the [Spacer] to contribute anything.
-        const SizedBox(height: 48),
+        const SizedBox(height: 72),
         const Spacer(),
         _MenuItem(
           title: 'Новая игра',
-          subtitle: 'собрать компанию и выйти на дорогу',
-          active: true,
+          primary: true,
           onTap: () => Navigator.of(context).pushNamed(AppRoutes.gameSetup),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         _MenuItem(
           title: 'Настройки',
-          active: false,
+          primary: false,
           onTap: () => Navigator.of(context).pushNamed(AppRoutes.settings),
         ),
       ],
@@ -143,11 +116,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 }
 
-/// Layered lighting for the whole screen: a warm glow above the emblem, a
-/// fainter one rising from the floor, and a vignette that pulls the corners
-/// back down into the dark.
-class _BackgroundGlow extends StatelessWidget {
-  const _BackgroundGlow();
+/// Cold light pooling behind the title and, more faintly, off the floor,
+/// with the corners pulled back down into the dark.
+class _BackgroundLight extends StatelessWidget {
+  const _BackgroundLight();
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +129,12 @@ class _BackgroundGlow extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              center: Alignment(0, -0.72),
+              center: Alignment(0, -0.62),
               radius: 1.05,
               colors: [
-                Color(0x33D4A94C),
-                Color(0x1A653E10),
-                Color(0x00100C08),
+                Color(0x339CA3AF),
+                Color(0x129CA3AF),
+                Color(0x0014161A),
               ],
               stops: [0, 0.45, 1],
             ),
@@ -177,7 +149,7 @@ class _BackgroundGlow extends StatelessWidget {
                 gradient: RadialGradient(
                   center: Alignment.bottomCenter,
                   radius: 0.9,
-                  colors: [Color(0x1FD4A94C), Color(0x00D4A94C)],
+                  colors: [Color(0x1A9CA3AF), Color(0x009CA3AF)],
                 ),
               ),
               child: SizedBox.expand(),
@@ -201,80 +173,83 @@ class _BackgroundGlow extends StatelessWidget {
   }
 }
 
-/// The medallion with the faint seal engraved behind it.
-class _Emblem extends StatelessWidget {
-  const _Emblem();
+/// The title, cut from metal rather than filled with a colour.
+///
+/// Two shaders, nested, because they do different jobs:
+///  * the inner one ([BlendMode.srcIn]) replaces the glyph colour with a
+///    vertical light-to-shadow ramp, which is what makes the letters read
+///    as a surface catching light from above;
+///  * the outer one ([BlendMode.srcATop]) lays fine diagonal scoring over
+///    whatever is already opaque — that is, over the glyphs and nothing
+///    else. Drawn as a sibling instead, the hatching would show up as a
+///    rectangle across the whole line box.
+class _EngravedTitle extends StatelessWidget {
+  const _EngravedTitle();
+
+  /// One tile of the engraving, in logical pixels. The rect handed to
+  /// `createShader` is what sets the period, so it is deliberately far
+  /// smaller than the text: the gradient repeats across the glyphs instead
+  /// of stretching once over them. Its width:height ratio is the angle.
+  static const Rect _hatchTile = Rect.fromLTWH(0, 0, 9, 4.5);
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.square(
-      dimension: _medallionSize,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          // The rings are wider than the coin, so they are allowed to
-          // overflow their slot instead of reserving layout space and
-          // pushing the title down.
-          OverflowBox(
-            maxWidth: _rosetteSize,
-            maxHeight: _rosetteSize,
-            child: CustomPaint(
-              size: Size.square(_rosetteSize),
-              painter: _RosettePainter(),
-            ),
-          ),
-          MainMenuMedallion(size: _medallionSize),
-        ],
+    final style = Theme.of(context).textTheme.headlineMedium?.copyWith(
+      fontSize: 40,
+      height: 1.14,
+      fontWeight: FontWeight.w700,
+      letterSpacing: 6.4,
+      color: Colors.white,
+      // Kept deliberately light. A heavier drop shadow reads as a halo
+      // around every glyph and muddies the metal ramp above it; this is
+      // only here so the darkest part of the letterform still separates
+      // from the background.
+      shadows: const [
+        Shadow(color: Color(0x8C000000), offset: Offset(0, 2), blurRadius: 7),
+      ],
+    );
+
+    return Padding(
+      // Nudged by one letter-space: the trailing tracking on the last glyph
+      // of each line otherwise pushes centred text visibly left.
+      padding: const EdgeInsets.only(left: 6.4),
+      child: ShaderMask(
+        blendMode: BlendMode.srcATop,
+        shaderCallback: (bounds) => const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0x00000000),
+            Color(0x00000000),
+            Color(0x30000000),
+            Color(0x30000000),
+            Color(0x00000000),
+          ],
+          stops: [0, 0.62, 0.64, 0.74, 0.76],
+          tileMode: TileMode.repeated,
+        ).createShader(_hatchTile),
+        child: ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (bounds) => const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              MainMenuPalette.titleHigh,
+              MainMenuPalette.titleLow,
+              Color(0x9ED8DCE0),
+            ],
+            stops: [0, 0.55, 1],
+          ).createShader(bounds),
+          child: Text('АЛКО\nКВЕСТ', textAlign: TextAlign.center, style: style),
+        ),
       ),
     );
   }
 }
 
-/// Concentric hairlines and rim notches — the same notches struck into the
-/// launcher icon, faint enough here to read as texture rather than as a
-/// second object competing with the coin.
-class _RosettePainter extends CustomPainter {
-  const _RosettePainter();
-
-  static const List<double> _radii = [0.35, 0.415, 0.475, 0.5];
-  static const List<double> _alphas = [0.09, 0.065, 0.05, 0.04];
-  static const int _notchCount = 24;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = size.center(Offset.zero);
-    final span = size.shortestSide;
-    final ring = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    for (var i = 0; i < _radii.length; i++) {
-      ring.color = MainMenuPalette.gold.withValues(alpha: _alphas[i]);
-      canvas.drawCircle(center, span * _radii[i], ring);
-    }
-
-    final notch = Paint()
-      ..color = MainMenuPalette.gold.withValues(alpha: 0.07)
-      ..strokeWidth = 1
-      ..strokeCap = StrokeCap.round;
-    for (var i = 0; i < _notchCount; i++) {
-      final angle = i * 2 * math.pi / _notchCount;
-      final direction = Offset(math.cos(angle), math.sin(angle));
-      canvas.drawLine(
-        center + direction * (span * 0.475),
-        center + direction * (span * 0.5),
-        notch,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-/// Two tapering hairlines meeting at a small gold lozenge.
-class _DiamondDivider extends StatelessWidget {
-  const _DiamondDivider();
+/// Two tapering hairlines meeting at a small steel lozenge.
+class _SteelDivider extends StatelessWidget {
+  const _SteelDivider();
 
   @override
   Widget build(BuildContext context) {
@@ -283,15 +258,9 @@ class _DiamondDivider extends StatelessWidget {
       child: Row(
         children: [
           const Expanded(child: _DividerLine(fadesInwards: true)),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Transform.rotate(
-              angle: math.pi / 4,
-              child: const SizedBox.square(
-                dimension: 5,
-                child: ColoredBox(color: MainMenuPalette.gold),
-              ),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: _Lozenge(size: 5, glow: false),
           ),
           const Expanded(child: _DividerLine(fadesInwards: false)),
         ],
@@ -308,8 +277,8 @@ class _DividerLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = [
-      MainMenuPalette.gold.withValues(alpha: 0),
-      MainMenuPalette.gold.withValues(alpha: 0.55),
+      MainMenuPalette.steel.withValues(alpha: 0),
+      MainMenuPalette.steel.withValues(alpha: 0.6),
     ];
     return Container(
       height: 1,
@@ -322,132 +291,98 @@ class _DividerLine extends StatelessWidget {
   }
 }
 
-/// One plate in the menu. [active] is the whole difference between the
-/// primary and the secondary entry — same shape, different amount of light,
-/// so the eye lands on «Новая игра» without «Настройки» having to look
-/// disabled.
+/// A small square stood on its corner. [glow] is what separates the marks
+/// flanking the primary entry from the inert one in the divider.
+class _Lozenge extends StatelessWidget {
+  final double size;
+  final bool glow;
+
+  const _Lozenge({required this.size, required this.glow});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: math.pi / 4,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: MainMenuPalette.steel.withValues(alpha: glow ? 0.85 : 0.7),
+          boxShadow: glow
+              ? [
+                  BoxShadow(
+                    color: MainMenuPalette.steel.withValues(alpha: 0.55),
+                    blurRadius: 10,
+                  ),
+                ]
+              : null,
+        ),
+      ),
+    );
+  }
+}
+
+/// One entry in the menu: a word, centred, with nothing drawn around it.
+///
+/// [primary] carries the whole distinction — size, brightness, and a pair
+/// of lit lozenges. The generous padding is not decoration; it is the tap
+/// target, which now has no plate to inherit one from.
 class _MenuItem extends StatelessWidget {
   final String title;
-  final String? subtitle;
-  final bool active;
+  final bool primary;
   final VoidCallback onTap;
 
   const _MenuItem({
     required this.title,
-    required this.active,
+    required this.primary,
     required this.onTap,
-    this.subtitle,
   });
 
   @override
   Widget build(BuildContext context) {
-    const gold = MainMenuPalette.gold;
     final textTheme = Theme.of(context).textTheme;
-    final radius = BorderRadius.circular(16);
+    final label = Text(
+      title,
+      textAlign: TextAlign.center,
+      style: primary
+          ? textTheme.titleLarge?.copyWith(
+              fontSize: 26,
+              height: 1.2,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 3.64,
+              color: MainMenuPalette.titleHigh,
+            )
+          : textTheme.titleLarge?.copyWith(
+              fontSize: 21,
+              height: 1.2,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 2.94,
+              color: MainMenuPalette.titleLow.withValues(alpha: 0.66),
+            ),
+    );
+
     return Material(
       type: MaterialType.transparency,
-      child: Ink(
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          border: Border.all(
-            color: active
-                ? gold.withValues(alpha: 0.32)
-                : MainMenuPalette.muted.withValues(alpha: 0.12),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: primary ? 16 : 14,
+            horizontal: 24,
           ),
-          gradient: active
-              ? LinearGradient(
-                  colors: [
-                    gold.withValues(alpha: 0.14),
-                    gold.withValues(alpha: 0),
-                  ],
-                  stops: const [0, 0.78],
-                )
-              : null,
-        ),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: radius,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: active ? 20 : 18,
-              horizontal: 18,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 3,
-                  height: active ? 34 : 24,
-                  decoration: BoxDecoration(
-                    color: active
-                        ? gold
-                        : MainMenuPalette.muted.withValues(alpha: 0.22),
-                    borderRadius: BorderRadius.circular(2),
-                    boxShadow: active
-                        ? [
-                            BoxShadow(
-                              color: gold.withValues(alpha: 0.55),
-                              blurRadius: 14,
-                            ),
-                          ]
-                        : null,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: active
-                            ? textTheme.titleLarge?.copyWith(
-                                fontSize: 21,
-                                height: 1.15,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.26,
-                                color: MainMenuPalette.parchment,
-                              )
-                            : textTheme.titleLarge?.copyWith(
-                                fontSize: 16,
-                                height: 1.2,
-                                fontWeight: FontWeight.w600,
-                                color: MainMenuPalette.muted.withValues(
-                                  alpha: 0.8,
-                                ),
-                              ),
-                      ),
-                      if (subtitle != null) ...[
-                        const SizedBox(height: 3),
-                        Text(
-                          subtitle!,
-                          style: textTheme.bodySmall?.copyWith(
-                            fontSize: 12,
-                            height: 1.25,
-                            color: MainMenuPalette.taglineTint.withValues(
-                              alpha: 0.66,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                ExcludeSemantics(
-                  // Decorative: read aloud, "›" is noise on top of a button
-                  // that already announces its own label.
-                  child: Text(
-                    '›',
-                    style: TextStyle(
-                      fontSize: active ? 22 : 20,
-                      height: 1,
-                      color: active
-                          ? gold
-                          : MainMenuPalette.muted.withValues(alpha: 0.4),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: primary
+                ? [
+                    const _Lozenge(size: 4, glow: true),
+                    // Tracking already pads the word's right edge, so the
+                    // leading gap is the wider of the two.
+                    const SizedBox(width: 18),
+                    Flexible(child: label),
+                    const SizedBox(width: 14),
+                    const _Lozenge(size: 4, glow: true),
+                  ]
+                : [Flexible(child: label)],
           ),
         ),
       ),

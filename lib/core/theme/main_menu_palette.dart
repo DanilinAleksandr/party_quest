@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
-/// The main menu's own palette.
+/// The main menu's own palette — "forged steel".
 ///
 /// Deliberately literal hexes instead of `ColorScheme` lookups: the menu is
 /// the one screen that is pure branding rather than gameplay UI, and its
 /// design is specified against these exact values. Everything else in the
 /// app keeps pulling colors from the theme.
 ///
-/// [gold] is the same value as `AppColors.rarityColor(Rarity.legendary)` and
-/// as the Android launcher icon — restated here rather than imported,
-/// because on this screen it means "the game's gold", not "this thing is
-/// legendary".
+/// No gold here, on purpose. `AppColors.rarityColor(Rarity.legendary)` owns
+/// that hue, and it earns its meaning inside the game by being the colour
+/// of the rarest thing a player can find. A title screen that spends it on
+/// decoration devalues it before the first card is drawn.
 abstract final class MainMenuPalette {
-  static const Color gold = Color(0xFFD4A94C);
-  static const Color background = Color(0xFF100C08);
-  static const Color medallionFill = Color(0xFF0D0B0A);
-  static const Color parchment = Color(0xFFF6EADA);
-  static const Color muted = Color(0xFFEBE1D8);
-  static const Color taglineTint = Color(0xFFD2C4B9);
+  /// Near-black with a cold blue-grey cast, so the steel above it reads as
+  /// lit metal rather than as beige paper.
+  static const Color background = Color(0xFF14161A);
+
+  /// The one accent: rules, lozenges, and the light that pools behind the
+  /// title.
+  static const Color steel = Color(0xFF9CA3AF);
+
+  /// The two ends of the title's metal gradient — bright where the light
+  /// hits, dimmer where the letterform falls away.
+  static const Color titleHigh = Color(0xFFEDEFF2);
+  static const Color titleLow = Color(0xFFD8DCE0);
 }
