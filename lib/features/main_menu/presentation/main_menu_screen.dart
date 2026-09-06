@@ -29,10 +29,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   /// changed on every frame would read as a glitch, not as flavour.
   late final String _tagline = randomMainMenuTagline();
 
-  /// Guards the whole menu, not one entry: a press takes a full second to
-  /// play out, which is long enough for a second tap to land on the *other*
-  /// word and push two routes. Deliberately a plain field — nothing on
-  /// screen is painted from it, so a `setState` would only cost a rebuild.
+  /// Guards the whole menu, not one entry: a press takes most of a second
+  /// to play out, which is long enough for a second tap to land on the
+  /// *other* word and push two routes. Deliberately a plain field — nothing
+  /// on screen is painted from it, so a `setState` would only cost a
+  /// rebuild.
   bool _pressInFlight = false;
 
   bool _beginPress() {
@@ -354,7 +355,7 @@ class _Lozenge extends StatelessWidget {
 /// of lit lozenges. The generous padding is not decoration; it is the tap
 /// target, which now has no plate to inherit one from.
 ///
-/// A tap plays a one-second press and *then* navigates. There is no ink
+/// A tap plays the press through and *then* navigates. There is no ink
 /// splash: a rectangular highlight the width of the row would announce a
 /// plate, which is exactly what this screen took out. The press itself is
 /// the whole feedback — the word sinks away from the light and comes back.
@@ -382,8 +383,10 @@ class _MenuItem extends StatefulWidget {
 
 class _MenuItemState extends State<_MenuItem>
     with SingleTickerProviderStateMixin {
-  /// Half a second down, half a second back.
-  static const Duration _pressDuration = Duration(seconds: 1);
+  /// 375 ms down, 375 ms back. Shared by both entries on purpose: a
+  /// difference in speed between two adjacent words reads as a bug long
+  /// before the delay itself does.
+  static const Duration _pressDuration = Duration(milliseconds: 750);
 
   late final AnimationController _controller = AnimationController(
     vsync: this,
