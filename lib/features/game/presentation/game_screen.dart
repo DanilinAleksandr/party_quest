@@ -316,6 +316,13 @@ class GameScreen extends ConsumerWidget {
 /// Built by hand rather than with a grid: every grid widget in the
 /// framework either forces one cell size on all children or needs a
 /// staggered-layout package, and this is four lines of `Row`.
+///
+/// Both cards in a row share the taller one's height. The alternative —
+/// reserving space for chips a player might one day pick up — means
+/// guessing a maximum and then either guessing low or leaving a hole under
+/// most cards for most of the match. [IntrinsicHeight] costs one extra
+/// layout pass over two cards and always matches whatever is actually
+/// there.
 List<Widget> _rosterRows({
   required List<Player> players,
   required Widget Function(Player player) card,
@@ -327,13 +334,15 @@ List<Widget> _rosterRows({
       rows.add(SizedBox(width: double.infinity, child: card(players[i])));
     } else {
       rows.add(
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: card(players[i])),
-            const SizedBox(width: 10),
-            Expanded(child: card(players[i + 1])),
-          ],
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: card(players[i])),
+              const SizedBox(width: 10),
+              Expanded(child: card(players[i + 1])),
+            ],
+          ),
         ),
       );
     }
