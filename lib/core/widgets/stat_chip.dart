@@ -16,6 +16,22 @@ class StatChip extends StatelessWidget {
   /// screen heavy — the full names live one tap away in the player profile.
   final bool compact;
 
+  /// The size every compact cell on a roster card settles at — stat chips
+  /// and `_CountPill` alike.
+  ///
+  /// Without this they sized to their contents, and since the two widgets
+  /// had different padding they came out visibly different heights sitting
+  /// side by side in the same card. Worse, a card gained and lost cells as
+  /// the match went on, so the row appeared to resize itself whenever a
+  /// player picked up a stat. A fixed cell makes the card a grid that fills
+  /// in, instead of a row that reflows.
+  ///
+  /// [cellMinWidth] is a floor rather than a fixed width so a three-digit
+  /// value still fits; in the range the game actually produces every cell
+  /// comes out identical.
+  static const double cellHeight = 28;
+  static const double cellMinWidth = 50;
+
   const StatChip({
     super.key,
     required this.stat,
@@ -48,9 +64,17 @@ class StatChip extends StatelessWidget {
       // otherwise, and cheaper than branching the whole widget.
       message: labelFor(stat),
       child: Container(
+        height: compact ? cellHeight : null,
+        // No `alignment:` here on purpose. Container turns that into an
+        // Align, which expands to the largest size its constraints allow —
+        // inside a Wrap that means every chip stretches to the full row.
+        // The Row below does the centring instead.
+        constraints: compact
+            ? const BoxConstraints(minWidth: cellMinWidth)
+            : null,
         padding: EdgeInsets.symmetric(
           horizontal: compact ? 8 : 10,
-          vertical: 6,
+          vertical: compact ? 0 : 6,
         ),
         decoration: BoxDecoration(
           color: SteelPalette.surfaceRaised,
@@ -58,6 +82,7 @@ class StatChip extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(iconFor(stat), size: 15, color: SteelPalette.steel),
             const SizedBox(width: 6),

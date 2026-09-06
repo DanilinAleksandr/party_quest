@@ -55,7 +55,11 @@ class PlayerStatusPanel extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
-        side: BorderSide(color: SteelPalette.steel.withValues(alpha: 0.12)),
+        // Quiet, but present. A card whose origin is still unrevealed gets
+        // no [RarityFrame] around it, and at a fainter alpha than this it
+        // stopped reading as a separate object and dissolved into the
+        // screen behind it.
+        side: BorderSide(color: SteelPalette.steel.withValues(alpha: 0.22)),
       ),
       child: InkWell(
         onTap: onTap,
@@ -209,7 +213,12 @@ class _CountPill extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        // Same cell as [StatChip]: these two sit next to each other in the
+        // same card, and sizing each to its own contents made one look
+        // shrunken beside the other.
+        height: StatChip.cellHeight,
+        constraints: const BoxConstraints(minWidth: StatChip.cellMinWidth),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.14),
           borderRadius: BorderRadius.circular(20),
@@ -217,8 +226,9 @@ class _CountPill extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 14, color: color),
+            Icon(icon, size: 15, color: color),
             const SizedBox(width: 4),
             Text(
               '$count',
