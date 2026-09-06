@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../game_engine/models/models.dart';
+import '../theme/steel_palette.dart';
 
 /// One player stat, rendered as a small pill — icon + Russian label + value.
 /// Centralizes the icon/label mapping that used to live inline in
@@ -42,25 +43,29 @@ class StatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Tooltip(
       // Only useful in compact mode, where the name is gone — harmless
       // otherwise, and cheaper than branching the whole widget.
       message: labelFor(stat),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: compact ? 8 : 10, vertical: 6),
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 8 : 10,
+          vertical: 6,
+        ),
         decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest,
+          color: SteelPalette.surfaceRaised,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(iconFor(stat), size: 16, color: colorScheme.onSurfaceVariant),
+            Icon(iconFor(stat), size: 15, color: SteelPalette.steel),
             const SizedBox(width: 6),
             Text(
               compact ? '$value' : '${labelFor(stat)} $value',
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: SteelPalette.textLow),
             ),
           ],
         ),

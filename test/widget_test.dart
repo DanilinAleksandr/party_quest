@@ -76,14 +76,17 @@ void main() {
     // up in the roster from the start, not one at a time.
     expect(find.text('Аня'), findsOneWidget);
     expect(find.text('Боря'), findsOneWidget);
-    expect(find.text('Шаг 0 / 20'), findsOneWidget);
+    // The trail labels itself "walked / total" — the word "Шаг" moved into
+    // the notches themselves.
+    expect(find.text('0 / 20'), findsOneWidget);
 
     // Take a step: a card should be drawn and presented as a dialog (or,
     // rarely for a card whose event needs the table to pick a player, a
     // participant-selection dialog first — resolve that too if it shows).
-    await tester.tap(find.text('Сделать шаг'));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
+    // The button plays its press through before firing, so this has to
+    // settle rather than pump a fixed number of frames.
+    await tester.tap(find.text('СДЕЛАТЬ ШАГ'));
+    await tester.pumpAndSettle();
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
 
@@ -120,6 +123,6 @@ void main() {
     expect(find.byKey(gameResultCardKey), findsNothing);
     expect(find.text('Аня'), findsOneWidget);
     expect(find.text('Боря'), findsOneWidget);
-    expect(find.text('Шаг 1 / 20'), findsOneWidget);
+    expect(find.text('1 / 20'), findsOneWidget);
   });
 }

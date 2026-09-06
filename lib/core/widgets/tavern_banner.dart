@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
 import '../theme/biome_flavor.dart';
+import '../theme/steel_palette.dart';
+import 'line_icons.dart';
 
 /// Shown alongside `BiomeBanner` while `WorldState.flag('in_tavern')` is
 /// set — the tavern is a detour *inside* whatever real biome the party is
@@ -20,49 +21,45 @@ class TavernBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = AppColors.biomeColor(_biomeId);
-    final icon = AppColors.biomeIcon(_biomeId);
     final atmosphere = biomeAtmosphere(_biomeId);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            color.withValues(alpha: 0.32),
-            theme.colorScheme.surfaceContainerHigh,
-          ],
-        ),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
+        borderRadius: BorderRadius.circular(14),
+        color: SteelPalette.surface,
+        border: Border.all(color: SteelPalette.steel.withValues(alpha: 0.14)),
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.25),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color),
+          const LineIcon(
+            shape: LineIconShape.mug,
+            size: 20,
+            color: SteelPalette.steel,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 11),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Остановка: Таверна', style: theme.textTheme.titleMedium),
+                Text(
+                  'Остановка: Таверна',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: SteelPalette.textHigh,
+                  ),
+                ),
                 if (atmosphere.isNotEmpty)
                   Text(
                     atmosphere,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                      fontSize: 12,
                       fontStyle: FontStyle.italic,
+                      color: SteelPalette.textLow.withValues(alpha: 0.72),
                     ),
                   ),
               ],
