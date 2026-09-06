@@ -29,6 +29,26 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   /// changed on every frame would read as a glitch, not as flavour.
   late final String _tagline = randomMainMenuTagline();
 
+  /// Guards the whole menu, not one entry: a press takes a full second to
+  /// play out, which is long enough for a second tap to land on the *other*
+  /// word and push two routes. Deliberately a plain field — nothing on
+  /// screen is painted from it, so a `setState` would only cost a rebuild.
+  bool _pressInFlight = false;
+
+  bool _beginPress() {
+    if (_pressInFlight) return false;
+    _pressInFlight = true;
+    return true;
+  }
+
+  void _go(String route) {
+    if (!mounted) return;
+    Navigator.of(context).pushNamed(route);
+    // Released once the route is on its way, so the menu is live again by
+    // the time the player comes back to it.
+    _pressInFlight = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,13 +123,15 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         _MenuItem(
           title: 'Новая игра',
           primary: true,
-          onTap: () => Navigator.of(context).pushNamed(AppRoutes.gameSetup),
+          beginPress: _beginPress,
+          onActivate: () => _go(AppRoutes.gameSetup),
         ),
         const SizedBox(height: 10),
         _MenuItem(
           title: 'Настройки',
           primary: false,
-          onTap: () => Navigator.of(context).pushNamed(AppRoutes.settings),
+          beginPress: _beginPress,
+          onActivate: () => _go(AppRoutes.settings),
         ),
       ],
     );
@@ -131,11 +153,7 @@ class _BackgroundLight extends StatelessWidget {
             gradient: RadialGradient(
               center: Alignment(0, -0.62),
               radius: 1.05,
-              colors: [
-                Color(0x339CA3AF),
-                Color(0x129CA3AF),
-                Color(0x0014161A),
-              ],
+              colors: [Color(0x339CA3AF), Color(0x129CA3AF), Color(0x0014161A)],
               stops: [0, 0.45, 1],
             ),
           ),
@@ -293,26 +311,34 @@ class _DividerLine extends StatelessWidget {
 
 /// A small square stood on its corner. [glow] is what separates the marks
 /// flanking the primary entry from the inert one in the divider.
+///
+/// [press] is 0 at rest and 1 at the bottom of a press; it pulls both the
+/// face and the halo down, so the mark drops away from the light along
+/// with the word it flanks.
 class _Lozenge extends StatelessWidget {
   final double size;
   final bool glow;
+  final double press;
 
-  const _Lozenge({required this.size, required this.glow});
+  const _Lozenge({required this.size, required this.glow, this.press = 0});
 
   @override
   Widget build(BuildContext context) {
+    final faceAlpha = (glow ? 0.85 : 0.7) * (1 - 0.35 * press);
     return Transform.rotate(
       angle: math.pi / 4,
       child: Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: MainMenuPalette.steel.withValues(alpha: glow ? 0.85 : 0.7),
+          color: MainMenuPalette.steel.withValues(alpha: faceAlpha),
           boxShadow: glow
               ? [
                   BoxShadow(
-                    color: MainMenuPalette.steel.withValues(alpha: 0.55),
-                    blurRadius: 10,
+                    color: MainMenuPalette.steel.withValues(
+                      alpha: 0.55 * (1 - 0.75 * press),
+                    ),
+                    blurRadius: 10 * (1 - 0.6 * press),
                   ),
                 ]
               : null,
@@ -327,62 +353,146 @@ class _Lozenge extends StatelessWidget {
 /// [primary] carries the whole distinction — size, brightness, and a pair
 /// of lit lozenges. The generous padding is not decoration; it is the tap
 /// target, which now has no plate to inherit one from.
-class _MenuItem extends StatelessWidget {
+///
+/// A tap plays a one-second press and *then* navigates. There is no ink
+/// splash: a rectangular highlight the width of the row would announce a
+/// plate, which is exactly what this screen took out. The press itself is
+/// the whole feedback — the word sinks away from the light and comes back.
+class _MenuItem extends StatefulWidget {
   final String title;
   final bool primary;
-  final VoidCallback onTap;
+
+  /// Asks the menu for permission to start. Returns false while another
+  /// entry is mid-press, so a second tap cannot push a second route.
+  final bool Function() beginPress;
+
+  /// Called once the press has finished playing, not when the finger lands.
+  final VoidCallback onActivate;
 
   const _MenuItem({
     required this.title,
     required this.primary,
-    required this.onTap,
+    required this.beginPress,
+    required this.onActivate,
   });
+
+  @override
+  State<_MenuItem> createState() => _MenuItemState();
+}
+
+class _MenuItemState extends State<_MenuItem>
+    with SingleTickerProviderStateMixin {
+  /// Half a second down, half a second back.
+  static const Duration _pressDuration = Duration(seconds: 1);
+
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: _pressDuration,
+  )..addStatusListener(_onStatusChanged);
+
+  /// 0 at rest, 1 at the bottom of the press. `easeIn` going down and
+  /// `easeOut` coming back is what gives it weight: the word gathers speed
+  /// as it is pushed in, then eases up to the surface instead of snapping.
+  late final Animation<double> _press = TweenSequence<double>([
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 0.0,
+        end: 1.0,
+      ).chain(CurveTween(curve: Curves.easeIn)),
+      weight: 1,
+    ),
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 1.0,
+        end: 0.0,
+      ).chain(CurveTween(curve: Curves.easeOut)),
+      weight: 1,
+    ),
+  ]).animate(_controller);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onStatusChanged(AnimationStatus status) {
+    if (status == AnimationStatus.completed && mounted) {
+      widget.onActivate();
+    }
+  }
+
+  void _handleTap() {
+    if (_controller.isAnimating || !widget.beginPress()) return;
+    _controller.forward(from: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final label = Text(
-      title,
-      textAlign: TextAlign.center,
-      style: primary
-          ? textTheme.titleLarge?.copyWith(
-              fontSize: 26,
-              height: 1.2,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 3.64,
-              color: MainMenuPalette.titleHigh,
-            )
-          : textTheme.titleLarge?.copyWith(
-              fontSize: 21,
-              height: 1.2,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 2.94,
-              color: MainMenuPalette.titleLow.withValues(alpha: 0.66),
-            ),
-    );
 
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: onTap,
+    return Semantics(
+      button: true,
+      // GestureDetector alone announces nothing; the removed InkWell used
+      // to carry this.
+      child: GestureDetector(
+        onTap: _handleTap,
+        behavior: HitTestBehavior.opaque,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: primary ? 16 : 14,
+            vertical: widget.primary ? 16 : 14,
             horizontal: 24,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: primary
-                ? [
-                    const _Lozenge(size: 4, glow: true),
-                    // Tracking already pads the word's right edge, so the
-                    // leading gap is the wider of the two.
-                    const SizedBox(width: 18),
-                    Flexible(child: label),
-                    const SizedBox(width: 14),
-                    const _Lozenge(size: 4, glow: true),
-                  ]
-                : [Flexible(child: label)],
+          child: AnimatedBuilder(
+            animation: _press,
+            builder: (context, _) {
+              final t = _press.value;
+              final baseAlpha = widget.primary ? 1.0 : 0.66;
+              final color =
+                  (widget.primary
+                          ? MainMenuPalette.titleHigh
+                          : MainMenuPalette.titleLow)
+                      .withValues(alpha: baseAlpha * (1 - 0.4 * t));
+              final label = Text(
+                widget.title,
+                textAlign: TextAlign.center,
+                style: widget.primary
+                    ? textTheme.titleLarge?.copyWith(
+                        fontSize: 26,
+                        height: 1.2,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 3.64,
+                        color: color,
+                      )
+                    : textTheme.titleLarge?.copyWith(
+                        fontSize: 21,
+                        height: 1.2,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 2.94,
+                        color: color,
+                      ),
+              );
+
+              return Transform.scale(
+                // The lozenges ride with the word rather than staying put:
+                // the two of them read as one surface being pushed in.
+                scale: 1 - 0.06 * t,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.primary
+                      ? [
+                          _Lozenge(size: 4, glow: true, press: t),
+                          // Tracking already pads the word's right edge, so
+                          // the leading gap is the wider of the two.
+                          const SizedBox(width: 18),
+                          Flexible(child: label),
+                          const SizedBox(width: 14),
+                          _Lozenge(size: 4, glow: true, press: t),
+                        ]
+                      : [Flexible(child: label)],
+                ),
+              );
+            },
           ),
         ),
       ),
