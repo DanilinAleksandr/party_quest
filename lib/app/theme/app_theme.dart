@@ -11,15 +11,19 @@ import 'package:google_fonts/google_fonts.dart';
 /// `ThemeMode.system` users but isn't the visual target — it derives from
 /// the same seed rather than a separate palette, so the two never drift.
 ///
-/// Two type faces, not one: [_displayFont] (Cinzel — a carved, classical
-/// feel without tipping into "old scroll" pastiche) carries headings/titles,
-/// where the fantasy identity actually matters; [_bodyFont] is a plain
-/// humanist sans, because body text gets read out loud at a table over
-/// drinks and has to stay effortless.
+/// Two type faces, not one: [_displayFont] (Alegreya — a literary, dramatic
+/// serif with full Cyrillic support) carries headings/titles, where the
+/// fantasy identity actually matters; [_bodyFont] is a plain humanist sans,
+/// because body text gets read out loud at a table over drinks and has to
+/// stay effortless.
+///
+/// The display face must cover Cyrillic: this game is written in Russian,
+/// and a Latin-only face silently falls back to the system sans for every
+/// heading — which is exactly what Cinzel, the previous choice, did.
 abstract final class AppTheme {
   static const Color _seedColor = Color(0xFFB0793F);
 
-  static final TextTheme _displayFont = GoogleFonts.cinzelTextTheme();
+  static final TextTheme _displayFont = GoogleFonts.alegreyaTextTheme();
   static final TextTheme _bodyFont = GoogleFonts.nunitoTextTheme();
 
   static TextTheme _blendedTextTheme(TextTheme base) => _bodyFont
