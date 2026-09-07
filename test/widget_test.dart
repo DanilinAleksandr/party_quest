@@ -58,7 +58,7 @@ void main() {
     await tester.tap(find.text('Новая игра'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Начать игру'), findsOneWidget);
+    expect(find.text('НАЧАТЬ ИГРУ'), findsOneWidget);
 
     // Add two players and start the match.
     for (final name in ['Аня', 'Боря']) {
@@ -69,7 +69,9 @@ void main() {
     expect(find.text('Аня'), findsOneWidget);
     expect(find.text('Боря'), findsOneWidget);
 
-    await tester.tap(find.text('Начать игру'));
+    // Like the menu entries, this button plays its press through before
+    // firing, so this has to settle rather than pump a fixed count.
+    await tester.tap(find.text('НАЧАТЬ ИГРУ'));
     await tester.pumpAndSettle();
 
     // Game screen: the whole party travels together, so both players show

@@ -27,6 +27,9 @@ enum LineIconShape {
 
   flask,
   die,
+  trash,
+  warning,
+  chevronLeft,
 }
 
 /// Maps a `Biome.id` to its drawn mark. Ids come from
@@ -312,6 +315,64 @@ class _LineIconPainter extends CustomPainter {
         ]) {
           canvas.drawCircle(pip, 1.35, fill);
         }
+
+      case LineIconShape.trash:
+        canvas.drawLine(const Offset(4, 7), const Offset(20, 7), stroke);
+        canvas.drawPath(
+          Path()
+            ..moveTo(9.5, 7)
+            ..lineTo(9.5, 4.8)
+            ..lineTo(14.5, 4.8)
+            ..lineTo(14.5, 7),
+          stroke,
+        );
+        canvas.drawPath(
+          Path()
+            ..moveTo(6.5, 7)
+            ..lineTo(7.4, 19.4)
+            ..arcToPoint(
+              const Offset(10.4, 21.2),
+              radius: const Radius.circular(2),
+            )
+            ..lineTo(13.6, 21.2)
+            ..arcToPoint(
+              const Offset(16.6, 19.4),
+              radius: const Radius.circular(2),
+            )
+            ..lineTo(17.5, 7),
+          stroke,
+        );
+        canvas.drawLine(
+          const Offset(10.5, 10.6),
+          const Offset(10.8, 17.6),
+          stroke,
+        );
+        canvas.drawLine(
+          const Offset(13.5, 10.6),
+          const Offset(13.2, 17.6),
+          stroke,
+        );
+
+      case LineIconShape.warning:
+        canvas.drawPath(
+          Path()
+            ..moveTo(12, 3.6)
+            ..lineTo(22, 20.4)
+            ..lineTo(2, 20.4)
+            ..close(),
+          stroke,
+        );
+        canvas.drawLine(const Offset(12, 10), const Offset(12, 15.2), stroke);
+        canvas.drawCircle(const Offset(12, 17.8), 0.9, fill);
+
+      case LineIconShape.chevronLeft:
+        canvas.drawPath(
+          Path()
+            ..moveTo(15, 4.5)
+            ..lineTo(8, 12)
+            ..lineTo(15, 19.5),
+          stroke,
+        );
     }
 
     canvas.restore();
