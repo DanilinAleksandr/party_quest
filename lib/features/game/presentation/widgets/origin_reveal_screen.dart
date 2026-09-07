@@ -101,7 +101,7 @@ class OriginRevealScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 30),
                             Text(
-                              _displayName(origin.name),
+                              originDisplayName(origin.name),
                               textAlign: TextAlign.center,
                               style: textTheme.headlineMedium?.copyWith(
                                 fontSize: 34,
@@ -164,18 +164,6 @@ class OriginRevealScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Origin names carry a leading emoji in content (`🐉 Драконорождённый`) —
-/// it was the icon, back when there was no icon. Stripped here only, so
-/// the drawn mark in the medallion isn't doubled by a tiny cartoon of
-/// itself; every other screen still shows the name exactly as authored.
-String _displayName(String name) {
-  final firstSpace = name.indexOf(' ');
-  if (firstSpace <= 0) return name;
-  final head = name.substring(0, firstSpace);
-  final isEmoji = head.runes.every((r) => r > 0x2000);
-  return isEmoji ? name.substring(firstSpace + 1) : name;
 }
 
 /// Three static layers: rarity-tinted light above, a fainter pool below,
