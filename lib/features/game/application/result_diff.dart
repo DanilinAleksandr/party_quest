@@ -33,6 +33,7 @@ List<ResultEntry> computeResultEntries({
           playerName: after.name,
           headline: origin.name,
           rarity: origin.rarity,
+          originId: origin.id,
         ),
       );
     }

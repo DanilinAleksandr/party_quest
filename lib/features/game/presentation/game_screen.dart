@@ -12,10 +12,12 @@ import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
 import '../application/game_controller.dart';
 import '../application/result_diff.dart';
+import '../application/result_entry.dart';
 import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
 import 'widgets/journey_trail.dart';
+import 'widgets/origin_reveal_screen.dart';
 import 'widgets/participant_selection_dialog.dart';
 import 'widgets/player_profile_sheet.dart';
 import 'widgets/player_status_panel.dart';
@@ -103,10 +105,8 @@ class GameScreen extends ConsumerWidget {
           ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
-        for (final entry in entries) {
-          await showGameResultCard(context, entry);
-          if (!context.mounted) return;
-        }
+        await _showResults(context, entries, origins);
+        if (!context.mounted) return;
       }
 
       final adventureJustFinished =
@@ -122,10 +122,8 @@ class GameScreen extends ConsumerWidget {
           ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
-        for (final entry in entries) {
-          await showGameResultCard(context, entry);
-          if (!context.mounted) return;
-        }
+        await _showResults(context, entries, origins);
+        if (!context.mounted) return;
       }
 
       final justFinished =
@@ -307,6 +305,38 @@ class GameScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+/// Walks the changes a resolved event produced, one moment at a time.
+///
+/// An origin reveal takes over the whole screen instead of arriving as
+/// another small result card. Every playtest audit called it the best and
+/// most under-shown moment in a match, and it cannot be that while it looks
+/// exactly like picking up a flask. The small card is *replaced*, not
+/// preceded, so the table gets one ceremony rather than two in a row; the
+/// half-second flash in the roster card stays where it is, for whenever a
+/// player opens their profile later.
+Future<void> _showResults(
+  BuildContext context,
+  List<ResultEntry> entries,
+  OriginCatalog? origins,
+) async {
+  for (final entry in entries) {
+    final originId = entry.originId;
+    if (entry.kind == ResultKind.originRevealed &&
+        originId != null &&
+        origins != null &&
+        origins.contains(originId)) {
+      await showOriginRevealScreen(
+        context,
+        playerName: entry.playerName ?? '',
+        origin: origins.byId(originId),
+      );
+    } else {
+      await showGameResultCard(context, entry);
+    }
+    if (!context.mounted) return;
   }
 }
 
