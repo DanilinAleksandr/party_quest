@@ -30,9 +30,15 @@ Future<void> showJourneyLogSheet({
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                 child: Row(
                   children: [
-                    Icon(Icons.menu_book_outlined, color: theme.colorScheme.primary),
+                    Icon(
+                      Icons.menu_book_outlined,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(width: 10),
-                    Text('Журнал путешествия', style: theme.textTheme.titleLarge),
+                    Text(
+                      'Журнал путешествия',
+                      style: theme.textTheme.titleLarge,
+                    ),
                   ],
                 ),
               ),

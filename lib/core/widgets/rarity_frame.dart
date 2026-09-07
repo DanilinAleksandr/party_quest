@@ -59,7 +59,8 @@ class _RarityFrameState extends State<RarityFrame> {
       duration: const Duration(milliseconds: 1400),
       curve: Curves.easeInOut,
       onEnd: () => setState(() => _glowUp = !_glowUp),
-      builder: (context, shadowAlpha, child) => _frame(color, glow, shadowAlpha),
+      builder: (context, shadowAlpha, child) =>
+          _frame(color, glow, shadowAlpha),
       child: widget.child,
     );
   }

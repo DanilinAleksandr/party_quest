@@ -5,11 +5,20 @@ import 'package:google_fonts/google_fonts.dart';
 /// rather than hardcoding them, so the visual identity can change in one
 /// place later.
 ///
-/// Design direction: "dark fantasy, muted" — a dark, warm-bronze seed carries
-/// the whole `ColorScheme` (the "adventurer's camp" feel), while [dark] is
-/// the signature look the app is designed around. [light] exists for
-/// `ThemeMode.system` users but isn't the visual target — it derives from
-/// the same seed rather than a separate palette, so the two never drift.
+/// Design direction: "forged steel" — a cold grey seed carries the whole
+/// `ColorScheme`, matching the screens that have already been drawn by hand
+/// against `SteelPalette`. [dark] is the signature look the app is designed
+/// around. [light] exists for `ThemeMode.system` users but isn't the visual
+/// target — it derives from the same seed rather than a separate palette,
+/// so the two never drift.
+///
+/// Deliberately no warm gold in the base palette. That hue belongs to
+/// `AppColors.rarityColor(Rarity.legendary)`, and it earns its meaning by
+/// being the colour of the rarest thing a player can find — a chrome that
+/// spends it everywhere devalues it before the first card is drawn. The
+/// seed is the same grey `SteelPalette.steelDim` uses, so the screens that
+/// have not been redrawn yet at least sit in the right temperature instead
+/// of staying visibly bronze next to the ones that have.
 ///
 /// Two type faces, not one: [_displayFont] (Alegreya — a literary, dramatic
 /// serif with full Cyrillic support) carries headings/titles, where the
@@ -21,7 +30,7 @@ import 'package:google_fonts/google_fonts.dart';
 /// and a Latin-only face silently falls back to the system sans for every
 /// heading — which is exactly what Cinzel, the previous choice, did.
 abstract final class AppTheme {
-  static const Color _seedColor = Color(0xFFB0793F);
+  static const Color _seedColor = Color(0xFF6B7280);
 
   static final TextTheme _displayFont = GoogleFonts.alegreyaTextTheme();
   static final TextTheme _bodyFont = GoogleFonts.nunitoTextTheme();

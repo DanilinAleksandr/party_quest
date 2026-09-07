@@ -5,6 +5,7 @@ import '../../../../core/constants/world_state_labels.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/game_labels.dart';
 import '../../../../core/theme/influence_source.dart';
+import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/rarity_frame.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../game_engine/models/models.dart';
@@ -80,7 +81,7 @@ class _PlayerProfile extends StatelessWidget {
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
           children: [
-            _Header(player: player),
+            _Header(player: player, origin: origin),
             const SizedBox(height: 24),
             _OriginSection(origin: origin),
             const SizedBox(height: 24),
@@ -91,10 +92,7 @@ class _PlayerProfile extends StatelessWidget {
             ],
             if (player.inventory.isNotEmpty || partyInventory.isNotEmpty) ...[
               const SizedBox(height: 24),
-              _ItemsSection(
-                personal: player.inventory,
-                party: partyInventory,
-              ),
+              _ItemsSection(personal: player.inventory, party: partyInventory),
             ],
             if (allies.isNotEmpty || worldStates.isNotEmpty) ...[
               const SizedBox(height: 24),
@@ -107,44 +105,93 @@ class _PlayerProfile extends StatelessWidget {
   }
 }
 
-/// Avatar and name only. The origin deliberately isn't repeated here even
-/// though it's the character's identity — it gets the whole section directly
-/// below, and showing the name in both places made the top of the sheet read
-/// as a stutter.
+/// Portrait, name, and — once it is known — the origin as an epithet under
+/// the name.
+///
+/// The epithet used to be left out deliberately, because repeating the
+/// origin here and again in the section below read as a stutter. It earns
+/// its place now that the two are shaped differently: this is a title the
+/// character carries, in small caps under their name, while the section
+/// below is the explanation. Before the reveal there is no line at all —
+/// not a placeholder, which would be a worse stutter than the one avoided.
 class _Header extends StatelessWidget {
   final Player player;
+  final Origin? origin;
 
-  const _Header({required this.player});
+  const _Header({required this.player, required this.origin});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final avatarColor = AppColors.playerAvatarColor(player.id);
-    return Row(
+    final origin = this.origin;
+    // The ring is the only thing on the portrait that knows about rarity;
+    // before the reveal it is plain steel rather than absent, so the shape
+    // does not change when an origin lands.
+    final ringColor = origin == null
+        ? SteelPalette.steel.withValues(alpha: 0.4)
+        : AppColors.rarityColor(origin.rarity);
+
+    return Column(
       children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: avatarColor.withValues(alpha: 0.25),
+        Container(
+          width: 64,
+          height: 64,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: const Color(0xFF14171B),
+            border: Border.all(color: ringColor),
+          ),
+          foregroundDecoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              center: const Alignment(0, -0.2),
+              radius: 0.9,
+              colors: [
+                ringColor.withValues(alpha: 0.16),
+                ringColor.withValues(alpha: 0),
+              ],
+            ),
+          ),
           child: Text(
             player.name.isEmpty ? '?' : player.name[0].toUpperCase(),
             style: theme.textTheme.headlineSmall?.copyWith(
-              color: avatarColor,
-              fontWeight: FontWeight.bold,
+              fontSize: 29,
+              fontWeight: FontWeight.w600,
+              color: SteelPalette.textHigh,
             ),
           ),
         ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(player.name, style: theme.textTheme.headlineSmall),
+        const SizedBox(height: 12),
+        Text(
+          player.name,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontSize: 27,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.81,
+          ),
         ),
+        if (origin != null) ...[
+          const SizedBox(height: 7),
+          Text(
+            originDisplayName(origin.name).toUpperCase(),
+            textAlign: TextAlign.center,
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 10.5,
+              letterSpacing: 2.73,
+              color: SteelPalette.textLow.withValues(alpha: 0.62),
+            ),
+          ),
+        ],
       ],
     );
   }
 }
 
-/// Section heading — an accent-tinted icon plus the title, the same shape
-/// `JourneyLogSheet` uses for its own header, so the two sheets read as
-/// parts of one interface.
+/// Section heading: the title centred between two rules that fade out from
+/// it. Every section in the sheet uses this one shape, so the eye can find
+/// where a section starts without reading anything.
 class _SectionTitle extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -160,37 +207,103 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: color),
-          const SizedBox(width: 8),
+          Expanded(child: _Rule(color: color, fadesInwards: true)),
+          const SizedBox(width: 12),
+          Icon(icon, size: 17, color: color),
+          const SizedBox(width: 9),
+          // Not `Flexible`: that would make the title share the row's free
+          // space with the two rules three ways, and every heading wrapped
+          // mid-word. Inflexible, it takes the width it needs and the rules
+          // divide what is left — which is what "centred between two rules"
+          // means. The titles are a fixed, short set, so one line is safe.
           Text(
             title,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: theme.textTheme.titleSmall?.copyWith(
-              color: color,
+              fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              letterSpacing: 0.4,
+              letterSpacing: 2.76,
+              color: color,
             ),
           ),
+          const SizedBox(width: 12),
+          Expanded(child: _Rule(color: color, fadesInwards: false)),
         ],
       ),
     );
   }
 }
 
-/// One dossier entry: a name, an optional muted qualifier on the same line
-/// (rarity, remaining turns, "общее"), and a sentence under it. The uniform
-/// shape is what keeps a long profile readable — the eye learns one row.
-class _ProfileEntry extends StatelessWidget {
-  final IconData icon;
+class _Rule extends StatelessWidget {
+  final Color color;
+  final bool fadesInwards;
+
+  const _Rule({required this.color, required this.fadesInwards});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = [color.withValues(alpha: 0), color.withValues(alpha: 0.45)];
+    return Container(
+      height: 1,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: fadesInwards ? colors : colors.reversed.toList(),
+        ),
+      ),
+    );
+  }
+}
+
+/// A run of dossier entries strung on one vertical line.
+///
+/// The line is what makes five different sections read as one document
+/// rather than five lists: blessings, curses, items, allies and world
+/// memory all hang off the same rail, and only the colour of the marker
+/// says which kind of thing an entry is.
+class _Timeline extends StatelessWidget {
+  final List<Widget> children;
+
+  static const double _railX = 5.5;
+
+  const _Timeline({required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          left: _railX,
+          top: 6,
+          bottom: 10,
+          child: Container(
+            width: 1,
+            color: SteelPalette.steel.withValues(alpha: 0.2),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        ),
+      ],
+    );
+  }
+}
+
+/// One entry on the rail: a marker, a name with an optional muted
+/// qualifier beside it, and a sentence under both. The uniform shape is
+/// what keeps a long profile readable — the eye learns one row.
+class _TimelineEntry extends StatelessWidget {
   final Color color;
   final String name;
   final String? qualifier;
   final String description;
 
-  const _ProfileEntry({
-    required this.icon,
+  const _TimelineEntry({
     required this.color,
     required this.name,
     required this.description,
@@ -201,26 +314,35 @@ class _ProfileEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.16),
-              shape: BoxShape.circle,
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: SizedBox(
+              width: 12,
+              height: 12,
+              child: Center(
+                child: Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
             ),
-            child: Icon(icon, size: 16, color: color),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.end,
-                  spacing: 8,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 9,
                   children: [
                     Text(
                       name,
@@ -230,19 +352,23 @@ class _ProfileEntry extends StatelessWidget {
                     ),
                     if (qualifier != null)
                       Text(
-                        qualifier!,
+                        // Upper-cased here rather than in the data: the
+                        // same string is a sentence fragment elsewhere.
+                        qualifier!.toUpperCase(),
                         style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                          fontSize: 10,
+                          letterSpacing: 1.2,
+                          color: color.withValues(alpha: 0.85),
                         ),
                       ),
                   ],
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 3),
                 Text(
                   description,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
-                    height: 1.35,
+                    height: 1.4,
                   ),
                 ),
               ],
@@ -267,26 +393,29 @@ class _OriginSection extends StatelessWidget {
 
     if (origin == null) {
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _SectionTitle(
             icon: Icons.help_outline,
             title: 'ПРОИСХОЖДЕНИЕ',
-            color: theme.colorScheme.onSurfaceVariant,
+            color: accent,
           ),
           Text(
-            'Кто ты на самом деле — пока неизвестно. Путешествие само выберет '
-            'момент, когда это выяснится.',
+            // Same voice as "Происхождение забыто" on the game screen: the
+            // character already *is* this, the table simply has not
+            // remembered it yet. "Unknown" would describe a blank.
+            'Кем ты был — забыто. Путешествие само выберет момент вспомнить.',
+            textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
               fontStyle: FontStyle.italic,
-              height: 1.35,
+              height: 1.4,
             ),
           ),
         ],
       );
     }
 
+    final rarityColor = AppColors.rarityColor(origin.rarity);
     final modifiers = origin.statModifiers.entries
         .where((entry) => entry.value != 0)
         .map(
@@ -297,7 +426,6 @@ class _OriginSection extends StatelessWidget {
         .join(', ');
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SectionTitle(
           icon: InfluenceSource.origin.icon,
@@ -307,39 +435,68 @@ class _OriginSection extends StatelessWidget {
         RarityFrame(
           rarity: origin.rarity,
           borderRadius: BorderRadius.circular(14),
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                origin.name,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                '${rarityLabel(origin.rarity)} · '
-                '${originCategoryLabel(origin.category)}',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: AppColors.rarityColor(origin.rarity),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                origin.description,
-                style: theme.textTheme.bodyMedium?.copyWith(height: 1.35),
-              ),
-              if (modifiers.isNotEmpty) ...[
-                const SizedBox(height: 10),
+          // The fill sits *inside* the frame rather than being the frame's
+          // padding. RarityFrame paints its glow behind a box with no
+          // background of its own, so on the higher tiers the blur showed
+          // straight through the card and turned the interior into a muddy
+          // wash. An opaque inner surface keeps the glow outside, where it
+          // belongs.
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+            decoration: BoxDecoration(
+              color: const Color(0xFF14171B),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Text(
-                  'Оставило свой след: $modifiers.',
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                  originDisplayName(origin.name),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
+                const SizedBox(height: 5),
+                Text(
+                  '${rarityLabel(origin.rarity)} · '
+                          '${originCategoryLabel(origin.category)}'
+                      .toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.7,
+                    color: rarityColor,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  origin.description,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    height: 1.4,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                if (modifiers.isNotEmpty) ...[
+                  const SizedBox(height: 14),
+                  Container(
+                    height: 1,
+                    color: rarityColor.withValues(alpha: 0.3),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Оставило свой след: $modifiers.',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ],
@@ -355,26 +512,23 @@ class _StatsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final accent = InfluenceSource.stat.color;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(
           icon: InfluenceSource.stat.icon,
           title: 'ХАРАКТЕРИСТИКИ',
-          color: InfluenceSource.stat.color,
+          color: accent,
         ),
         // Every stat, including the zeroes the roster card hides — a
         // dossier's job is completeness, and "Хитрость 0" is itself an
-        // answer to why a cunning-gated option never appears.
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final stat in StatType.values)
-              StatChip(stat: stat, value: stats.valueOf(stat)),
-          ],
-        ),
-        const SizedBox(height: 8),
+        // answer to why a cunning-gated option never appears. A zero is
+        // dimmed rather than dropped or flagged: it is still a fact about
+        // the character, just not one doing any work today.
+        for (final stat in StatType.values)
+          _StatRow(stat: stat, value: stats.valueOf(stat), accent: accent),
+        const SizedBox(height: 10),
         Text(
           'Проверки характеристик в событиях сравниваются с этими значениями.',
           style: theme.textTheme.labelSmall?.copyWith(
@@ -382,6 +536,59 @@ class _StatsSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _StatRow extends StatelessWidget {
+  final StatType stat;
+  final int value;
+  final Color accent;
+
+  const _StatRow({
+    required this.stat,
+    required this.value,
+    required this.accent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final alpha = value == 0 ? 0.45 : 0.9;
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 9),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: SteelPalette.steel.withValues(alpha: 0.12)),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            StatChip.iconFor(stat),
+            size: 16,
+            color: accent.withValues(alpha: alpha),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              StatChip.labelFor(stat),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontSize: 13,
+                color: SteelPalette.textLow.withValues(alpha: alpha),
+              ),
+            ),
+          ),
+          Text(
+            '$value',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: SteelPalette.textHigh.withValues(alpha: alpha),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -403,7 +610,7 @@ class _EffectsSection extends StatelessWidget {
     final curses = player.curses;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (blessings.isNotEmpty) ...[
           _SectionTitle(
@@ -411,14 +618,17 @@ class _EffectsSection extends StatelessWidget {
             title: 'БЛАГОСЛОВЕНИЯ',
             color: AppColors.positiveEffectColor,
           ),
-          for (final effect in blessings)
-            _ProfileEntry(
-              icon: Icons.auto_awesome,
-              color: AppColors.positiveEffectColor,
-              name: effect.name,
-              qualifier: _durationLabel(effect),
-              description: effect.description,
-            ),
+          _Timeline(
+            children: [
+              for (final effect in blessings)
+                _TimelineEntry(
+                  color: AppColors.positiveEffectColor,
+                  name: effect.name,
+                  qualifier: _durationLabel(effect),
+                  description: effect.description,
+                ),
+            ],
+          ),
         ],
         if (curses.isNotEmpty) ...[
           if (blessings.isNotEmpty) const SizedBox(height: 10),
@@ -427,14 +637,17 @@ class _EffectsSection extends StatelessWidget {
             title: 'ПРОКЛЯТИЯ',
             color: AppColors.negativeEffectColor,
           ),
-          for (final effect in curses)
-            _ProfileEntry(
-              icon: Icons.dangerous_outlined,
-              color: AppColors.negativeEffectColor,
-              name: effect.name,
-              qualifier: _durationLabel(effect),
-              description: effect.description,
-            ),
+          _Timeline(
+            children: [
+              for (final effect in curses)
+                _TimelineEntry(
+                  color: AppColors.negativeEffectColor,
+                  name: effect.name,
+                  qualifier: _durationLabel(effect),
+                  description: effect.description,
+                ),
+            ],
+          ),
         ],
       ],
     );
@@ -468,15 +681,19 @@ class _ItemsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(
           icon: InfluenceSource.item.icon,
           title: 'ПРЕДМЕТЫ',
           color: InfluenceSource.item.color,
         ),
-        for (final item in personal) _itemEntry(item, shared: false),
-        for (final item in party) _itemEntry(item, shared: true),
+        _Timeline(
+          children: [
+            for (final item in personal) _itemEntry(item, shared: false),
+            for (final item in party) _itemEntry(item, shared: true),
+          ],
+        ),
       ],
     );
   }
@@ -492,8 +709,7 @@ class _ItemsSection extends StatelessWidget {
       if (item.isConsumable) 'одноразовый',
     ].join(' · ');
 
-    return _ProfileEntry(
-      icon: shared ? Icons.groups_outlined : Icons.inventory_2_outlined,
+    return _TimelineEntry(
       color: AppColors.rarityColor(item.rarity),
       name: item.name,
       qualifier: qualifier,
@@ -521,7 +737,7 @@ class _PartySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (allies.isNotEmpty) ...[
           _SectionTitle(
@@ -529,13 +745,16 @@ class _PartySection extends StatelessWidget {
             title: 'СОЮЗНИКИ КОМПАНИИ',
             color: InfluenceSource.ally.color,
           ),
-          for (final ally in allies)
-            _ProfileEntry(
-              icon: InfluenceSource.ally.icon,
-              color: InfluenceSource.ally.color,
-              name: ally.name,
-              description: ally.description,
-            ),
+          _Timeline(
+            children: [
+              for (final ally in allies)
+                _TimelineEntry(
+                  color: InfluenceSource.ally.color,
+                  name: ally.name,
+                  description: ally.description,
+                ),
+            ],
+          ),
         ],
         if (worldStates.isNotEmpty) ...[
           if (allies.isNotEmpty) const SizedBox(height: 10),
@@ -544,21 +763,25 @@ class _PartySection extends StatelessWidget {
             title: 'МИР ПОМНИТ',
             color: InfluenceSource.world.color,
           ),
-          for (final state in worldStates)
-            _ProfileEntry(
-              icon: switch (state.standing) {
-                WorldStanding.favorable => Icons.favorite_border,
-                WorldStanding.hostile => Icons.local_fire_department_outlined,
-                WorldStanding.neutral => InfluenceSource.world.icon,
-              },
-              color: switch (state.standing) {
-                WorldStanding.favorable => AppColors.positiveEffectColor,
-                WorldStanding.hostile => AppColors.negativeEffectColor,
-                WorldStanding.neutral => InfluenceSource.world.color,
-              },
-              name: state.name,
-              description: state.description,
-            ),
+          _Timeline(
+            children: [
+              for (final state in worldStates)
+                _TimelineEntry(
+                  color: switch (state.standing) {
+                    WorldStanding.favorable => AppColors.positiveEffectColor,
+                    WorldStanding.hostile => AppColors.negativeEffectColor,
+                    WorldStanding.neutral => InfluenceSource.world.color,
+                  },
+                  name: state.name,
+                  qualifier: switch (state.standing) {
+                    WorldStanding.favorable => 'благосклонность',
+                    WorldStanding.hostile => 'вражда',
+                    WorldStanding.neutral => null,
+                  },
+                  description: state.description,
+                ),
+            ],
+          ),
           Text(
             'Это память о всей компании — её знают и те, кого вы ещё не '
             'встречали.',

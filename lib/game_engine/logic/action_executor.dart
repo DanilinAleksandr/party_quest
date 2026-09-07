@@ -94,8 +94,7 @@ final class ActionExecutor {
 
   Player _neighborOfCurrentPlayer(GameContext context, int offset) {
     final players = context.players;
-    final index =
-        (context.state.currentPlayerIndex + offset) % players.length;
+    final index = (context.state.currentPlayerIndex + offset) % players.length;
     return players[(index + players.length) % players.length];
   }
 
@@ -359,7 +358,10 @@ final class ActionExecutor {
     final text = action.text.replaceAll('{player}', player.name);
     return context.withState(
       context.state.copyWith(
-        chronicle: [...context.state.chronicle, ChronicleEntry(text: text)],
+        chronicle: [
+          ...context.state.chronicle,
+          ChronicleEntry(text: text),
+        ],
       ),
     );
   }

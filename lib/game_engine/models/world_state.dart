@@ -155,10 +155,12 @@ final class WorldState {
       currentBiomeId: currentBiomeId ?? this.currentBiomeId,
       turnsInCurrentBiome: turnsInCurrentBiome ?? this.turnsInCurrentBiome,
       currentWeather: currentWeather ?? this.currentWeather,
-      turnsInCurrentWeather: turnsInCurrentWeather ?? this.turnsInCurrentWeather,
+      turnsInCurrentWeather:
+          turnsInCurrentWeather ?? this.turnsInCurrentWeather,
       currentSeason: currentSeason ?? this.currentSeason,
       turnsInTavern: turnsInTavern ?? this.turnsInTavern,
-      previousParticipantId: previousParticipantId ?? this.previousParticipantId,
+      previousParticipantId:
+          previousParticipantId ?? this.previousParticipantId,
       previousWinnerId: previousWinnerId ?? this.previousWinnerId,
       previousLoserId: previousLoserId ?? this.previousLoserId,
       leaderId: leaderId ?? this.leaderId,

@@ -33,6 +33,7 @@ List<ResultEntry> computeResultEntries({
           playerName: after.name,
           headline: origin.name,
           rarity: origin.rarity,
+          originId: origin.id,
         ),
       );
     }
@@ -120,7 +121,11 @@ List<ResultEntry> computeResultEntries({
   for (final item in previous.partyInventory) {
     if (!_consume(afterPartyItemIds, item.id)) {
       entries.add(
-        ResultEntry(kind: ResultKind.partyItemLost, headline: item.name, rarity: item.rarity),
+        ResultEntry(
+          kind: ResultKind.partyItemLost,
+          headline: item.name,
+          rarity: item.rarity,
+        ),
       );
     }
   }
@@ -155,7 +160,6 @@ List<ResultEntry> computeResultEntries({
 
   return entries;
 }
-
 
 /// Removes the first occurrence of [id] from [ids] and reports whether it
 /// was there — id-based multiset diff so a player holding two of the same

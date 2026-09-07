@@ -96,6 +96,18 @@ Future<void> _openProfile(
   await tester.pumpAndSettle();
 }
 
+/// The sheet is a lazy `ListView`, so anything below the fold of the test
+/// surface is never built. Sections past the stats table have to be scrolled
+/// to before they can be found.
+Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
+  await tester.dragUntilVisible(
+    finder,
+    find.byType(ListView),
+    const Offset(0, -120),
+  );
+  await tester.pumpAndSettle();
+}
+
 /// Every `setWorldFlag` flag any bundled content sets — read straight from
 /// the JSON rather than through the typed models, so the walk survives
 /// structural changes to cards/adventures.
@@ -245,8 +257,11 @@ void main() {
         origin: _hunter,
       );
 
-      expect(find.text('🏹 Охотник'), findsOneWidget);
-      expect(find.text('Обычное · жизненный путь'), findsOneWidget);
+      // The card drops the name's leading emoji: the section is about the
+      // origin itself, and the epithet under the player's name already
+      // carries it in small caps.
+      expect(find.text('Охотник'), findsOneWidget);
+      expect(find.text('ОБЫЧНОЕ · ЖИЗНЕННЫЙ ПУТЬ'), findsOneWidget);
       expect(find.textContaining('читаешь следы'), findsOneWidget);
       // Stat modifiers spelled out, with the minus shown as a real minus.
       expect(
@@ -260,7 +275,7 @@ void main() {
     ) async {
       await _openProfile(tester, player: _player(), origin: null);
 
-      expect(find.textContaining('пока неизвестно'), findsOneWidget);
+      expect(find.textContaining('Кем ты был — забыто'), findsOneWidget);
       // The sheet's own header stays name-only, so the unknown state is told
       // in words here rather than repeated as a muted "?" badge.
       expect(find.text('ПРОИСХОЖДЕНИЕ'), findsOneWidget);
@@ -269,11 +284,15 @@ void main() {
     testWidgets('every stat is listed, including the zeroes', (tester) async {
       await _openProfile(tester, player: _player(), origin: null);
 
-      expect(find.text('Сила 2'), findsOneWidget);
-      expect(find.text('Удача 1'), findsOneWidget);
+      // Name and value are separate cells in the table now.
+      expect(find.text('Сила'), findsOneWidget);
+      expect(find.text('2'), findsOneWidget);
+      expect(find.text('Удача'), findsOneWidget);
       // The roster card hides zeroes; a dossier shows them, because
-      // "Хитрость 0" answers why a cunning option never appears.
-      expect(find.text('Хитрость 0'), findsOneWidget);
+      // "Хитрость 0" answers why a cunning option never appears. Four of
+      // the six stats are zero for this player, and all four are listed.
+      expect(find.text('Хитрость'), findsOneWidget);
+      expect(find.text('0'), findsNWidgets(4));
     });
 
     testWidgets('effects show their description and how long they last', (
@@ -285,15 +304,18 @@ void main() {
         origin: null,
       );
 
+      await _scrollTo(tester, find.text('ПРОКЛЯТИЯ'));
+
       expect(find.text('БЛАГОСЛОВЕНИЯ'), findsOneWidget);
       expect(find.text('Полоса удачи'), findsOneWidget);
       expect(find.textContaining('Удача держится'), findsOneWidget);
-      expect(find.text('ещё 2 хода'), findsOneWidget);
+      // Qualifiers are set in small caps beside the name.
+      expect(find.text('ЕЩЁ 2 ХОДА'), findsOneWidget);
 
       expect(find.text('ПРОКЛЯТИЯ'), findsOneWidget);
       expect(find.text('Меченый'), findsOneWidget);
       // An indefinite effect must not render as "ещё -1 ходов".
-      expect(find.text('до конца путешествия'), findsOneWidget);
+      expect(find.text('ДО КОНЦА ПУТЕШЕСТВИЯ'), findsOneWidget);
     });
 
     testWidgets('party gear is listed alongside personal items, marked', (
@@ -306,10 +328,12 @@ void main() {
         partyInventory: const [_keg],
       );
 
+      await _scrollTo(tester, find.text('Бочонок пива'));
+
       expect(find.text('Фляга'), findsOneWidget);
-      expect(find.text('обычное · одноразовый'), findsOneWidget);
+      expect(find.text('ОБЫЧНОЕ · ОДНОРАЗОВЫЙ'), findsOneWidget);
       expect(find.text('Бочонок пива'), findsOneWidget);
-      expect(find.text('необычное · общее · одноразовый'), findsOneWidget);
+      expect(find.text('НЕОБЫЧНОЕ · ОБЩЕЕ · ОДНОРАЗОВЫЙ'), findsOneWidget);
       expect(find.textContaining('Хватит на всю компанию'), findsOneWidget);
     });
 
@@ -330,6 +354,8 @@ void main() {
           },
         ),
       );
+
+      await _scrollTo(tester, find.textContaining('память о всей компании'));
 
       expect(find.text('СОЮЗНИКИ КОМПАНИИ'), findsOneWidget);
       expect(find.text('Капитан пиратов'), findsOneWidget);

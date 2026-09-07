@@ -71,7 +71,8 @@ sealed class GameCondition {
       'currentPlayerLacksOrigin' => CurrentPlayerLacksOriginCondition(
         originId: json['originId'] as String,
       ),
-      'currentPlayerOriginUnknown' => const CurrentPlayerOriginUnknownCondition(),
+      'currentPlayerOriginUnknown' =>
+        const CurrentPlayerOriginUnknownCondition(),
       'gameMode' => GameModeCondition(modeId: json['modeId'] as String),
       'inPhase' => InPhaseCondition(
         phase: JourneyPhase.fromJson(json['phase'] as String),
@@ -436,7 +437,8 @@ final class CurrentPlayerOriginUnknownCondition extends GameCondition {
   const CurrentPlayerOriginUnknownCondition();
 
   @override
-  bool isSatisfied(GameContext context) => context.currentPlayer.originId == null;
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.originId == null;
 
   @override
   Map<String, dynamic> toJson() => {'condition': 'currentPlayerOriginUnknown'};
@@ -779,7 +781,10 @@ final class MinimumStepsSinceFlagCondition extends GameCondition {
   final String flag;
   final int steps;
 
-  const MinimumStepsSinceFlagCondition({required this.flag, required this.steps});
+  const MinimumStepsSinceFlagCondition({
+    required this.flag,
+    required this.steps,
+  });
 
   @override
   bool isSatisfied(GameContext context) {

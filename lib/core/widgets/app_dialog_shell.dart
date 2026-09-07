@@ -41,13 +41,13 @@ Future<T?> showAppDialog<T>({
       );
     },
     transitionBuilder: (context, animation, secondaryAnimation, child) {
-      final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+      );
       return Opacity(
         opacity: curved.value.clamp(0, 1),
-        child: Transform.scale(
-          scale: 0.92 + 0.08 * curved.value,
-          child: child,
-        ),
+        child: Transform.scale(scale: 0.92 + 0.08 * curved.value, child: child),
       );
     },
   );
@@ -92,7 +92,11 @@ class _AppDialogContent extends StatelessWidget {
           child: Icon(icon, color: color, size: 28),
         ),
         const SizedBox(height: 12),
-        Text(title, textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.titleLarge,
+        ),
         const SizedBox(height: 12),
         content,
         const SizedBox(height: 20),

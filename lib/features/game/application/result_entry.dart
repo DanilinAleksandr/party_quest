@@ -48,6 +48,13 @@ class ResultEntry {
   /// never has to guess why a change mattered. Null for every other kind.
   final String? description;
 
+  /// Set only for [ResultKind.originRevealed]. The presentation layer needs
+  /// the whole [Origin] to build the reveal moment — its description, its
+  /// category, and the icon keyed by this id — and looking one up by
+  /// display name would be guesswork. Still just a string here, so this
+  /// file keeps having no engine or Flutter dependency.
+  final String? originId;
+
   const ResultEntry({
     required this.kind,
     this.playerName,
@@ -55,5 +62,6 @@ class ResultEntry {
     this.rarity,
     this.isNegative = false,
     this.description,
+    this.originId,
   });
 }

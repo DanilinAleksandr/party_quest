@@ -132,7 +132,10 @@ class _GameSetupScreenState extends State<GameSetupScreen> {
                       ),
               ),
               const SizedBox(height: 16),
-              Text('Длина путешествия', style: Theme.of(context).textTheme.labelLarge),
+              Text(
+                'Длина путешествия',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
               const SizedBox(height: 4),
               JourneyLengthPicker(
                 value: _journeySteps,
