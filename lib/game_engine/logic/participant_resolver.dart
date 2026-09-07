@@ -54,7 +54,10 @@ final class ParticipantResolver {
       ),
       ChosenParticipant() => const NeedsManualPick(),
       PreviousParticipant() => ResolvedParticipant(
-        _pickByRememberedId(context, context.state.worldState.previousParticipantId),
+        _pickByRememberedId(
+          context,
+          context.state.worldState.previousParticipantId,
+        ),
       ),
       PreviousWinner() => ResolvedParticipant(
         _pickByRememberedId(context, context.state.worldState.previousWinnerId),
@@ -112,7 +115,10 @@ final class ParticipantResolver {
       for (var i = 0; i < players.length; i++)
         if (values[i] == best) i,
     ];
-    return _setPrimary(context, candidates[context.random.nextInt(candidates.length)]);
+    return _setPrimary(
+      context,
+      candidates[context.random.nextInt(candidates.length)],
+    );
   }
 
   /// Resolves a remembered player id (previous participant/winner/loser, or

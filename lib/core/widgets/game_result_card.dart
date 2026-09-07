@@ -44,7 +44,11 @@ Future<void> showGameResultCard(BuildContext context, ResultEntry entry) {
             child: Icon(style.icon, color: accentColor, size: 32),
           ),
           const SizedBox(height: 16),
-          Text(style.title, textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
+          Text(
+            style.title,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.titleMedium,
+          ),
           if (entry.playerName != null) ...[
             const SizedBox(height: 4),
             Text(
@@ -98,7 +102,9 @@ Future<void> showGameResultCard(BuildContext context, ResultEntry entry) {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: borderRadius,
-                  border: Border.all(color: accentColor.withValues(alpha: 0.55)),
+                  border: Border.all(
+                    color: accentColor.withValues(alpha: 0.55),
+                  ),
                 ),
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
                 child: inner,
@@ -116,7 +122,11 @@ class _ResultStyle {
   final String title;
   final Color color;
 
-  const _ResultStyle({required this.icon, required this.title, required this.color});
+  const _ResultStyle({
+    required this.icon,
+    required this.title,
+    required this.color,
+  });
 }
 
 _ResultStyle _styleFor(ResultKind kind, bool isNegative) {
@@ -131,33 +141,35 @@ _ResultStyle _styleFor(ResultKind kind, bool isNegative) {
       title: 'Предмет потерян',
       color: Color(0xFF9AA0A6),
     ),
-    ResultKind.effectGained => isNegative
-        ? const _ResultStyle(
-            icon: Icons.dangerous_outlined,
-            title: '⚠ Получено проклятие',
-            color: AppColors.negativeEffectColor,
-          )
-        : const _ResultStyle(
-            icon: Icons.auto_awesome,
-            title: '✨ Получено благословение',
-            color: AppColors.positiveEffectColor,
-          ),
+    ResultKind.effectGained =>
+      isNegative
+          ? const _ResultStyle(
+              icon: Icons.dangerous_outlined,
+              title: '⚠ Получено проклятие',
+              color: AppColors.negativeEffectColor,
+            )
+          : const _ResultStyle(
+              icon: Icons.auto_awesome,
+              title: '✨ Получено благословение',
+              color: AppColors.positiveEffectColor,
+            ),
     ResultKind.effectLost => const _ResultStyle(
       icon: Icons.clear,
       title: 'Эффект закончился',
       color: Color(0xFF9AA0A6),
     ),
-    ResultKind.statChanged => isNegative
-        ? const _ResultStyle(
-            icon: Icons.trending_down,
-            title: 'Характеристика изменилась',
-            color: AppColors.negativeEffectColor,
-          )
-        : const _ResultStyle(
-            icon: Icons.trending_up,
-            title: 'Характеристика изменилась',
-            color: AppColors.positiveEffectColor,
-          ),
+    ResultKind.statChanged =>
+      isNegative
+          ? const _ResultStyle(
+              icon: Icons.trending_down,
+              title: 'Характеристика изменилась',
+              color: AppColors.negativeEffectColor,
+            )
+          : const _ResultStyle(
+              icon: Icons.trending_up,
+              title: 'Характеристика изменилась',
+              color: AppColors.positiveEffectColor,
+            ),
     ResultKind.originRevealed => const _ResultStyle(
       icon: Icons.auto_awesome,
       title: '🌟 Раскрыто происхождение',

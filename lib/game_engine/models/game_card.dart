@@ -99,7 +99,9 @@ final class GameCard {
         .toList(growable: false),
     participant: json['participant'] == null
         ? const RandomPlayerParticipant()
-        : EventParticipant.fromJson(json['participant'] as Map<String, dynamic>),
+        : EventParticipant.fromJson(
+            json['participant'] as Map<String, dynamic>,
+          ),
   );
 
   Map<String, dynamic> toJson() => {

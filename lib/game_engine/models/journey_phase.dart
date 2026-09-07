@@ -15,7 +15,8 @@ enum JourneyPhase {
   journey,
   epilogue;
 
-  static JourneyPhase fromJson(String value) => JourneyPhase.values.byName(value);
+  static JourneyPhase fromJson(String value) =>
+      JourneyPhase.values.byName(value);
 
   String toJson() => name;
 }

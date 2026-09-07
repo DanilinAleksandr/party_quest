@@ -93,7 +93,8 @@ worldStateLabels = {
   // --- Forest ---
   'helped_great_witch': (
     name: 'Долг Великой Ведьмы',
-    description: 'Ведьма помнит помощь и при случае вмешается на вашей стороне.',
+    description:
+        'Ведьма помнит помощь и при случае вмешается на вашей стороне.',
     standing: WorldStanding.favorable,
   ),
   'stole_magic_book': (
@@ -141,7 +142,8 @@ worldStateLabels = {
   ),
   'helped_herbwoman': (
     name: 'Травница вам обязана',
-    description: 'Женщина с корзиной трав. Её знают и в лесу, и у кладбищенской ограды.',
+    description:
+        'Женщина с корзиной трав. Её знают и в лесу, и у кладбищенской ограды.',
     standing: WorldStanding.favorable,
   ),
   'cheated_herbwoman': (
@@ -300,7 +302,8 @@ worldStateLabels = {
   ),
   'helped_merchant': (
     name: 'Благодарность торговцев',
-    description: 'Торговый люд передаёт друг другу, что с вами можно дело иметь.',
+    description:
+        'Торговый люд передаёт друг другу, что с вами можно дело иметь.',
     standing: WorldStanding.favorable,
   ),
   'caught_merchant_scam': (

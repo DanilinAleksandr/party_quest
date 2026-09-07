@@ -20,7 +20,8 @@ enum OriginCategory {
   /// just origins whose cost is paid in stats instead of narrative weight.
   hardPast;
 
-  static OriginCategory fromJson(String value) => OriginCategory.values.byName(value);
+  static OriginCategory fromJson(String value) =>
+      OriginCategory.values.byName(value);
 
   String toJson() => name;
 }

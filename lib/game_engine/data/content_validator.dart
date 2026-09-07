@@ -119,7 +119,9 @@ final class ContentValidator {
       if (card.participant case HasItemParticipant(itemId: final itemId)) {
         _requireItem(itemId, source, itemCatalog, errors);
       }
-      if (card.participant case HasOriginParticipant(originId: final originId)) {
+      if (card.participant case HasOriginParticipant(
+        originId: final originId,
+      )) {
         _requireOrigin(originId, source, originCatalog, errors);
       }
     }

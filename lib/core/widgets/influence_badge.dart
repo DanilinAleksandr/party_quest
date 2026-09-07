@@ -148,8 +148,9 @@ List<InfluenceTag> influenceTagsOf(
 }
 
 /// Just the systems involved, without labels — for classification and tests.
-List<InfluenceSource> influencesOf(List<GameCondition> conditions) =>
-    [for (final tag in influenceTagsOf(conditions)) tag.source];
+List<InfluenceSource> influencesOf(List<GameCondition> conditions) => [
+  for (final tag in influenceTagsOf(conditions)) tag.source,
+];
 
 /// `Origin.name` already carries its own emoji, so it needs no decoration.
 /// Falls back to the generic word when the catalog is absent or doesn't know

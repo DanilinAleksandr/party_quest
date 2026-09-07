@@ -305,7 +305,9 @@ class _PlayerRecapCard extends StatelessWidget {
                 OriginBadge(origin: origin),
               ],
             ),
-            if (stats.isNotEmpty || player.activeEffects.isNotEmpty || player.inventory.isNotEmpty) ...[
+            if (stats.isNotEmpty ||
+                player.activeEffects.isNotEmpty ||
+                player.inventory.isNotEmpty) ...[
               const SizedBox(height: 12),
               Wrap(
                 spacing: 8,
@@ -340,9 +342,9 @@ String _titleFor(Player player, List<Player> allPlayers, Origin? origin) {
   }
   if (player.curses.isNotEmpty) return '😈 Магнит проклятий';
 
-  final maxItems = allPlayers.map((p) => p.inventory.length).reduce(
-    (a, b) => a > b ? a : b,
-  );
+  final maxItems = allPlayers
+      .map((p) => p.inventory.length)
+      .reduce((a, b) => a > b ? a : b);
   if (maxItems > 0 && player.inventory.length == maxItems) {
     return '🎒 Коллекционер похода';
   }
@@ -433,7 +435,9 @@ class _StatTile extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value,
-            style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Text(
             label,

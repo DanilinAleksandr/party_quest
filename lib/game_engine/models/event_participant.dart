@@ -21,8 +21,12 @@ sealed class EventParticipant {
       'randomPlayer' => const RandomPlayerParticipant(),
       'twoRandomPlayers' => const TwoRandomPlayersParticipant(),
       'wholeGroup' => const WholeGroupParticipant(),
-      'maxStat' => MaxStatParticipant(stat: StatType.fromJson(json['stat'] as String)),
-      'minStat' => MinStatParticipant(stat: StatType.fromJson(json['stat'] as String)),
+      'maxStat' => MaxStatParticipant(
+        stat: StatType.fromJson(json['stat'] as String),
+      ),
+      'minStat' => MinStatParticipant(
+        stat: StatType.fromJson(json['stat'] as String),
+      ),
       'hasItem' => HasItemParticipant(itemId: json['itemId'] as String),
       'hasOrigin' => HasOriginParticipant(originId: json['originId'] as String),
       'unknownOrigin' => const UnknownOriginParticipant(),

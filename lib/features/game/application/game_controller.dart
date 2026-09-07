@@ -174,7 +174,10 @@ class GameController extends StateNotifier<GameState> {
 
   void _finishJourney(GameContext ctx) {
     ctx = ctx.withState(ctx.state.copyWith(status: GameStatus.finished));
-    ctx = _dispatcher.dispatch(OnJourneyCompleted(player: ctx.currentPlayer), ctx);
+    ctx = _dispatcher.dispatch(
+      OnJourneyCompleted(player: ctx.currentPlayer),
+      ctx,
+    );
     _setContext(ctx);
   }
 
