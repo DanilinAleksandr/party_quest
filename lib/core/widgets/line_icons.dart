@@ -30,6 +30,14 @@ enum LineIconShape {
   trash,
   warning,
   chevronLeft,
+
+  /// The win screen's seal, and the five marks its joke titles wear.
+  trophy,
+  starBurst,
+  lockedChest,
+  mask,
+  backpack,
+  heart,
 }
 
 /// Maps a `Biome.id` to its drawn mark. Ids come from
@@ -371,6 +379,156 @@ class _LineIconPainter extends CustomPainter {
             ..moveTo(15, 4.5)
             ..lineTo(8, 12)
             ..lineTo(15, 19.5),
+          stroke,
+        );
+
+      case LineIconShape.trophy:
+        canvas.drawPath(
+          Path()
+            ..moveTo(7.5, 3.6)
+            ..lineTo(16.5, 3.6)
+            ..lineTo(16.5, 9.4)
+            ..arcToPoint(
+              const Offset(7.5, 9.4),
+              radius: const Radius.circular(4.5),
+            )
+            ..close(),
+          stroke,
+        );
+        // The two handles the cup is held by.
+        canvas.drawPath(
+          Path()
+            ..moveTo(7.5, 5)
+            ..lineTo(4.4, 5)
+            ..lineTo(4.4, 7.4)
+            ..arcToPoint(
+              const Offset(7.5, 10.2),
+              radius: const Radius.circular(3),
+            ),
+          stroke,
+        );
+        canvas.drawPath(
+          Path()
+            ..moveTo(16.5, 5)
+            ..lineTo(19.6, 5)
+            ..lineTo(19.6, 7.4)
+            ..arcToPoint(
+              const Offset(16.5, 10.2),
+              radius: const Radius.circular(3),
+              clockwise: false,
+            ),
+          stroke,
+        );
+        canvas.drawLine(const Offset(12, 13), const Offset(12, 17), stroke);
+        canvas.drawLine(const Offset(8, 20.4), const Offset(16, 20.4), stroke);
+        canvas.drawPath(
+          Path()
+            ..moveTo(9, 20.4)
+            ..lineTo(10, 17)
+            ..lineTo(14, 17)
+            ..lineTo(15, 20.4),
+          stroke,
+        );
+
+      case LineIconShape.starBurst:
+        canvas.drawPath(
+          Path()
+            ..moveTo(12, 3.4)
+            ..lineTo(14.4, 9)
+            ..lineTo(20.4, 9.6)
+            ..lineTo(15.9, 13.6)
+            ..lineTo(17.2, 19.5)
+            ..lineTo(12, 16.4)
+            ..lineTo(6.8, 19.5)
+            ..lineTo(8.1, 13.6)
+            ..lineTo(3.6, 9.6)
+            ..lineTo(9.6, 9)
+            ..close(),
+          stroke,
+        );
+
+      case LineIconShape.lockedChest:
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            const Rect.fromLTWH(3.4, 9.4, 17.2, 11.2),
+            const Radius.circular(2.4),
+          ),
+          stroke,
+        );
+        // The shackle of the padlock, standing above the lid.
+        canvas.drawPath(
+          Path()
+            ..moveTo(8.2, 9.4)
+            ..lineTo(8.2, 6.6)
+            ..arcToPoint(
+              const Offset(15.8, 6.6),
+              radius: const Radius.circular(3.8),
+            )
+            ..lineTo(15.8, 9.4),
+          stroke,
+        );
+        canvas.drawLine(const Offset(12, 13.4), const Offset(12, 16.6), stroke);
+
+      case LineIconShape.mask:
+        canvas.drawPath(
+          Path()
+            ..moveTo(4.6, 6.6)
+            ..lineTo(19.4, 6.6)
+            ..lineTo(19.4, 12.6)
+            ..arcToPoint(
+              const Offset(12, 20.6),
+              radius: const Radius.circular(8),
+            )
+            ..arcToPoint(
+              const Offset(4.6, 12.6),
+              radius: const Radius.circular(8),
+            )
+            ..close(),
+          stroke,
+        );
+        canvas.drawCircle(const Offset(9, 12), 1.3, fill);
+        canvas.drawCircle(const Offset(15, 12), 1.3, fill);
+
+      case LineIconShape.backpack:
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            const Rect.fromLTWH(4.6, 7.6, 14.8, 13),
+            const Radius.circular(4),
+          ),
+          stroke,
+        );
+        // The carry loop over the top.
+        canvas.drawPath(
+          Path()
+            ..moveTo(9, 7.6)
+            ..lineTo(9, 6)
+            ..arcToPoint(const Offset(15, 6), radius: const Radius.circular(3))
+            ..lineTo(15, 7.6),
+          stroke,
+        );
+        canvas.drawLine(const Offset(4.6, 14), const Offset(19.4, 14), stroke);
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            const Rect.fromLTWH(10.2, 15.8, 3.6, 3),
+            const Radius.circular(1),
+          ),
+          stroke,
+        );
+
+      case LineIconShape.heart:
+        canvas.drawPath(
+          Path()
+            ..moveTo(12, 20.4)
+            ..lineTo(4.9, 13.4)
+            ..arcToPoint(
+              const Offset(12, 6.6),
+              radius: const Radius.circular(5),
+            )
+            ..arcToPoint(
+              const Offset(19.1, 13.4),
+              radius: const Radius.circular(5),
+            )
+            ..close(),
           stroke,
         );
     }
