@@ -48,79 +48,111 @@ class OriginRevealScreen extends StatelessWidget {
             _RevealBackground(color: color),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(34, 70, 34, 40),
+                padding: const EdgeInsets.fromLTRB(34, 40, 34, 34),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      playerName.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: textTheme.bodySmall?.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 3.3,
-                        color: SteelPalette.textLow.withValues(alpha: 0.66),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    // A thread running from the player down into the
-                    // medallion: this is *their* thing, not an announcement.
-                    Container(
-                      width: 1,
-                      height: 22,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            SteelPalette.steel.withValues(alpha: 0.15),
-                            color.withValues(alpha: 0.9),
-                          ],
+                    // The block is centred in whatever is left above the
+                    // hint rather than pinned to the top with a free
+                    // `Spacer` under it. A Spacer hands every extra
+                    // millimetre of a taller phone to the gap above the
+                    // hint, which is how the mock's compact composition
+                    // turned into a lonely line in the far corner on a
+                    // real device. Centred, the extra height is split.
+                    Expanded(
+                      child: Center(
+                        // Scrolls rather than overflows if the text is
+                        // long or the system font is scaled up.
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                playerName.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: textTheme.bodySmall?.copyWith(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 3.3,
+                                  color: SteelPalette.textLow.withValues(
+                                    alpha: 0.66,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // A thread running from the player down into the
+                              // medallion: this is *their* thing, not an announcement.
+                              Container(
+                                width: 1,
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      SteelPalette.steel.withValues(
+                                        alpha: 0.15,
+                                      ),
+                                      color.withValues(alpha: 0.9),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 22),
+                              _Medallion(
+                                origin: origin,
+                                color: color,
+                                glow: glow,
+                              ),
+                              const SizedBox(height: 30),
+                              Text(
+                                _displayName(origin.name),
+                                textAlign: TextAlign.center,
+                                style: textTheme.headlineMedium?.copyWith(
+                                  fontSize: 34,
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.02,
+                                  color: SteelPalette.textHigh,
+                                  shadows: [
+                                    const Shadow(
+                                      color: Color(0xB3000000),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 10,
+                                    ),
+                                    Shadow(
+                                      color: color.withValues(alpha: 0.35),
+                                      blurRadius: 24,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              _RarityLine(origin: origin, color: color),
+                              const SizedBox(height: 22),
+                              ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 300,
+                                ),
+                                child: Text(
+                                  origin.description,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    fontSize: 14,
+                                    height: 1.5,
+                                    fontStyle: FontStyle.italic,
+                                    color: SteelPalette.textLow.withValues(
+                                      alpha: 0.82,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 22),
-                    _Medallion(origin: origin, color: color, glow: glow),
-                    const SizedBox(height: 30),
-                    Text(
-                      _displayName(origin.name),
-                      textAlign: TextAlign.center,
-                      style: textTheme.headlineMedium?.copyWith(
-                        fontSize: 34,
-                        height: 1.15,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.02,
-                        color: SteelPalette.textHigh,
-                        shadows: [
-                          const Shadow(
-                            color: Color(0xB3000000),
-                            offset: Offset(0, 2),
-                            blurRadius: 10,
-                          ),
-                          Shadow(
-                            color: color.withValues(alpha: 0.35),
-                            blurRadius: 24,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    _RarityLine(origin: origin, color: color),
-                    const SizedBox(height: 22),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 300),
-                      child: Text(
-                        origin.description,
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontSize: 14,
-                          height: 1.5,
-                          fontStyle: FontStyle.italic,
-                          color: SteelPalette.textLow.withValues(alpha: 0.82),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
+                    const SizedBox(height: 24),
                     Text(
                       'НАЖМИТЕ, ЧТОБЫ ПРОДОЛЖИТЬ',
                       textAlign: TextAlign.center,
@@ -217,6 +249,14 @@ class _RevealBackground extends StatelessWidget {
 
 /// The struck disc holding the origin's mark.
 ///
+/// **Rarity lives in the rings, not in the coin.** The border colour, its
+/// alpha, the strength of the glow and the legendary pulse all scale; the
+/// face and the mark inside stay the same steel at every tier. Tinting the
+/// fill and the icon too made the whole disc one flat colour, which reads
+/// as "this thing is gold" rather than "this thing is *rimmed* in gold" —
+/// and it left common origins looking like a mistake instead of a quieter
+/// version of the same object.
+///
 /// The pulse on the legendary tier is the same one [RarityFrame] runs — a
 /// looping [TweenAnimationBuilder] that flips its target on `onEnd`, driven
 /// off the same [AppColors.glowFor] spec — rather than a second animation
@@ -257,23 +297,34 @@ class _MedallionState extends State<_Medallion> {
     );
   }
 
+  /// Fixed, and deliberately smaller than the 198 the mock specified. The
+  /// mock's frame is wider than a real phone, so the same constant came out
+  /// noticeably heavier on device; these keep the proportion the design
+  /// actually shows. Nothing here reads [MediaQuery] — the disc must not
+  /// grow with the screen.
+  static const double _outer = 176;
+  static const double _inner = 148;
+  static const double _mark = 55;
+
   Widget _disc(double shadowAlpha) {
     final color = widget.color;
     final glow = widget.glow;
     return Container(
-      width: 198,
-      height: 198,
+      width: _outer,
+      height: _outer,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color(0xFF101317),
-        gradient: RadialGradient(
-          center: const Alignment(0, -0.25),
+        // Opaque, and stated as the gradient's own ends rather than as a
+        // `color:` underneath it — a BoxDecoration carrying both ignores
+        // the colour, which left the face translucent and let the
+        // rarity-tinted light behind the screen shine straight through it.
+        // Neutral either way: a hint of light off the top of the metal,
+        // the same on a common origin as on a legendary one.
+        gradient: const RadialGradient(
+          center: Alignment(0, -0.25),
           radius: 0.85,
-          colors: [
-            color.withValues(alpha: 0.18),
-            color.withValues(alpha: 0),
-          ],
+          colors: [Color(0xFF1B2026), Color(0xFF101317)],
         ),
         border: Border.all(color: color.withValues(alpha: glow.borderAlpha)),
         boxShadow: glow.blurRadius == 0
@@ -287,8 +338,8 @@ class _MedallionState extends State<_Medallion> {
               ],
       ),
       child: Container(
-        width: 166,
-        height: 166,
+        width: _inner,
+        height: _inner,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -298,9 +349,12 @@ class _MedallionState extends State<_Medallion> {
         ),
         child: SvgPicture.asset(
           'assets/icons/origins/${widget.origin.id}.svg',
-          width: 62,
-          height: 62,
-          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+          width: _mark,
+          height: _mark,
+          colorFilter: const ColorFilter.mode(
+            SteelPalette.textLow,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );
@@ -353,10 +407,7 @@ class _Rule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = [
-      color.withValues(alpha: 0),
-      color.withValues(alpha: 0.65),
-    ];
+    final colors = [color.withValues(alpha: 0), color.withValues(alpha: 0.65)];
     return Container(
       width: 34,
       height: 1,
