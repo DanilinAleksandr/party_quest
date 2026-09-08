@@ -178,7 +178,9 @@ void main() {
 
         const executor = ActionExecutor();
         final next = executor.execute(
-          const AddChronicleEntryAction(text: '🐉 {player} — Драконорождённый.'),
+          const AddChronicleEntryAction(
+            text: '🐉 {player} — Драконорождённый.',
+          ),
           context,
         );
 
@@ -339,6 +341,90 @@ void main() {
         expect(strengths, {5, -5});
       },
     );
+
+    test('ChanceCheckAction never touches anyone but the current player', () {
+      // The whole reason the action exists: a solo gamble must not be able
+      // to hand a companion the winnings, or the fall.
+      for (final seed in [1, 2, 3, 4, 5, 6, 7, 8]) {
+        final context = _buildContext(
+          players: [
+            const Player(id: 'p1', name: 'A'),
+            const Player(id: 'p2', name: 'B'),
+            const Player(id: 'p3', name: 'C'),
+          ],
+          seed: seed,
+        );
+
+        final next = const ActionExecutor().execute(
+          const ChanceCheckAction(
+            winnerActions: [
+              ModifyStatAction(stat: StatType.strength, amount: 5),
+            ],
+            loserActions: [
+              ModifyStatAction(stat: StatType.strength, amount: -5),
+            ],
+          ),
+          context,
+        );
+
+        final byId = {
+          for (final p in next.players)
+            p.id: p.stats.valueOf(StatType.strength),
+        };
+        expect(byId['p1'], anyOf(5, -5), reason: 'seed $seed');
+        expect(byId['p2'], 0, reason: 'seed $seed');
+        expect(byId['p3'], 0, reason: 'seed $seed');
+      }
+    });
+
+    test('ChanceCheckAction leaves the duel history alone', () {
+      // `previousWinnerId`/`previousLoserId` drive "победителя замечает
+      // торговец" callbacks, which only mean anything after two players
+      // actually faced each other.
+      final context = _buildContext(
+        players: [
+          const Player(id: 'p1', name: 'A'),
+          const Player(id: 'p2', name: 'B'),
+        ],
+        seed: 7,
+      );
+
+      final next = const ActionExecutor().execute(
+        const ChanceCheckAction(),
+        context,
+      );
+
+      expect(next.state.worldState.previousWinnerId, isNull);
+      expect(next.state.worldState.previousLoserId, isNull);
+    });
+
+    test('ChanceCheckAction resolves with a single player at the table', () {
+      // A duel gives up here — there is nobody to face. A gamble does not.
+      final context = _buildContext(
+        players: [const Player(id: 'p1', name: 'A')],
+        seed: 3,
+      );
+
+      final next = const ActionExecutor().execute(
+        const ChanceCheckAction(
+          winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 1)],
+          loserActions: [ModifyStatAction(stat: StatType.luck, amount: -1)],
+        ),
+        context,
+      );
+
+      expect(next.currentPlayer.stats.valueOf(StatType.luck), isNot(0));
+    });
+
+    test('chanceCheck round-trips through JSON', () {
+      const action = ChanceCheckAction(
+        winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 1)],
+      );
+      final decoded = GameAction.fromJson(action.toJson());
+      expect(decoded, isA<ChanceCheckAction>());
+      expect(action.toJson()['action'], 'chanceCheck');
+      expect((decoded as ChanceCheckAction).winnerActions, hasLength(1));
+    });
   });
 
   group('EventDispatcher', () {
@@ -462,6 +548,79 @@ void main() {
       expect(
         controllerA.state.pendingCard?.id,
         controllerB.state.pendingCard?.id,
+      );
+    });
+  });
+
+  group('GameController pre-rolls a chance check for the UI', () {
+    GameController controllerFor(GameCard card) => GameController(
+      playerNames: const ['A', 'B'],
+      cards: [card],
+      itemCatalog: const ItemCatalog({}),
+      effectCatalog: const EffectCatalog({}),
+      adventureCatalog: const AdventureCatalog({}),
+      biomeCatalog: const BiomeCatalog({}),
+      originCatalog: const OriginCatalog({}),
+      seed: 5,
+      skipPrologue: true,
+    );
+
+    final gamble = GameCard(
+      id: 'gamble',
+      title: 't',
+      description: 'd',
+      type: CardType.event,
+      rarity: Rarity.common,
+      weight: 5,
+      choices: const [
+        CardChoice(
+          label: 'Рискнуть',
+          actions: [
+            ChanceCheckAction(
+              winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 3)],
+              loserActions: [ModifyStatAction(stat: StatType.luck, amount: -3)],
+            ),
+          ],
+        ),
+        CardChoice(label: 'Пройти мимо'),
+      ],
+    );
+
+    test('the roll it hands out is the branch it then applies', () {
+      // The contract the animation rests on: what the die shows is what
+      // lands. If these two ever disagreed, half the rolls would be a lie.
+      for (final forced in [true, false]) {
+        final controller = controllerFor(gamble);
+        controller.takeStep();
+        controller.resolveCard(choiceIndex: 0, chanceOutcome: forced);
+
+        final luck = controller.state.players
+            .map((p) => p.stats.valueOf(StatType.luck))
+            .toList();
+        expect(luck.first, forced ? 3 : -3);
+        // And still nobody else: flattening must not widen the target.
+        expect(luck.skip(1), everyElement(0));
+      }
+    });
+
+    test('rolls only for a choice that actually gambles', () {
+      final controller = controllerFor(gamble);
+      controller.takeStep();
+
+      expect(controller.rollChanceCheck(choiceIndex: 0), isNotNull);
+      expect(controller.rollChanceCheck(choiceIndex: 1), isNull);
+    });
+
+    test('without a pre-roll the engine still rolls for itself', () {
+      // Adventures and card-level actions never go past `rollChanceCheck`,
+      // so the executor has to stay a complete implementation on its own.
+      final controller = controllerFor(gamble);
+      controller.takeStep();
+      controller.resolveCard(choiceIndex: 0);
+
+      expect(
+        controller.state.players.first.stats.valueOf(StatType.luck),
+        anyOf(3, -3),
       );
     });
   });

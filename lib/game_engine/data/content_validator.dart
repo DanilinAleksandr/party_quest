@@ -410,6 +410,27 @@ final class ContentValidator {
             originCatalog,
             errors,
           );
+        case ChanceCheckAction a:
+          _validateActions(
+            a.winnerActions,
+            '$source (chance check passed)',
+            itemCatalog,
+            effectCatalog,
+            adventureCatalog,
+            biomeCatalog,
+            originCatalog,
+            errors,
+          );
+          _validateActions(
+            a.loserActions,
+            '$source (chance check failed)',
+            itemCatalog,
+            effectCatalog,
+            adventureCatalog,
+            biomeCatalog,
+            originCatalog,
+            errors,
+          );
         case SetWorldFlagAction _:
         case ModifyGlobalModifierAction _:
           break;

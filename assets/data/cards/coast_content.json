@@ -267,7 +267,7 @@
         "label": "Предложить помощь за долю",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

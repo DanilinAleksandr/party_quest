@@ -289,7 +289,7 @@
         "label": "Попытаться сократить путь",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyGlobalModifier",
@@ -498,7 +498,7 @@
         "label": "Подойти ближе",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -627,7 +627,7 @@
         "label": "Пойти по ним",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -679,7 +679,7 @@
         "label": "Исследовать",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

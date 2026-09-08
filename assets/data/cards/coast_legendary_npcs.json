@@ -184,7 +184,7 @@
         "label": "Подойти ближе",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

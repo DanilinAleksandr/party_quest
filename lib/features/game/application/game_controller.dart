@@ -241,13 +241,51 @@ class GameController extends StateNotifier<GameState> {
   /// adventure to its end. Otherwise (no adventure, or one that resolved
   /// instantly with zero choices) the step finishes immediately, same as
   /// before adventures existed.
-  void resolveCard({int? choiceIndex}) {
+  /// Rolls the die for a choice that gambles, and returns null for one that
+  /// does not.
+  ///
+  /// The roll happens here, before anything is applied, because the UI has
+  /// to show the same result the engine settles on and has to show it
+  /// *first*. Resolving is synchronous and its state change reaches
+  /// `ref.listen` — and therefore the first result card — before an awaited
+  /// animation could get its own route onto the navigator, the same race the
+  /// outcome dialog had to be ordered around. Hand the value back to
+  /// [resolveCard] and the two agree by construction.
+  bool? rollChanceCheck({int? choiceIndex}) {
+    final card = _context.state.pendingCard;
+    if (card == null) return null;
+    final actions = _actionsFor(card, choiceIndex);
+    if (!actions.any((a) => a is ChanceCheckAction)) return null;
+    return _context.random.nextBool();
+  }
+
+  List<GameAction> _actionsFor(GameCard card, int? choiceIndex) =>
+      card.hasChoices ? card.choices[choiceIndex!].actions : card.actions;
+
+  /// [chanceOutcome], when given, is the roll [rollChanceCheck] already made
+  /// and the UI already showed. Every [ChanceCheckAction] in this step is
+  /// flattened to the branch it chose, so the engine applies exactly what
+  /// the player watched land instead of quietly rolling a second time.
+  ///
+  /// Flattening rather than threading a forced value through the executor
+  /// keeps `ActionExecutor` honest: it still owns the roll for every chance
+  /// check nobody pre-rolled — inside an adventure, or on a card's own
+  /// actions — and there is no "usually random except when it isn't" branch
+  /// buried in the engine.
+  void resolveCard({int? choiceIndex, bool? chanceOutcome}) {
     final card = _context.state.pendingCard;
     if (card == null) return;
 
-    final actions = card.hasChoices
-        ? card.choices[choiceIndex!].actions
-        : card.actions;
+    var actions = _actionsFor(card, choiceIndex);
+    if (chanceOutcome != null) {
+      actions = [
+        for (final action in actions)
+          if (action is ChanceCheckAction)
+            ...(chanceOutcome ? action.winnerActions : action.loserActions)
+          else
+            action,
+      ];
+    }
     final ctx = _executor.executeAll(actions, _context);
 
     if (ctx.state.activeAdventureId != null) {

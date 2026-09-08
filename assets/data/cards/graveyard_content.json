@@ -310,7 +310,7 @@
         "label": "Раскопать дальше",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

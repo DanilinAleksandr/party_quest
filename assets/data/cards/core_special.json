@@ -59,7 +59,7 @@
     "conditions": [],
     "actions": [
       {
-        "action": "duel",
+        "action": "chanceCheck",
         "winnerActions": [
           {
             "action": "applyEffect",
@@ -91,7 +91,7 @@
     "conditions": [],
     "actions": [
       {
-        "action": "duel",
+        "action": "chanceCheck",
         "winnerActions": [
           {
             "action": "modifyStat",

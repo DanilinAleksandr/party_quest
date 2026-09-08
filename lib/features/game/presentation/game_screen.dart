@@ -15,6 +15,7 @@ import '../application/result_diff.dart';
 import '../application/result_entry.dart';
 import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
+import 'widgets/chance_check_dialog.dart';
 import 'widgets/choice_outcome_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
 import 'widgets/journey_trail.dart';
@@ -71,12 +72,25 @@ class GameScreen extends ConsumerWidget {
           // route onto the navigator. Resolving first would stack the
           // outcome on top of the ledger of what it did.
           onResolve: (choiceIndex) async {
+            // The die is rolled before anything is applied, and the roll it
+            // shows is the one handed back to `resolveCard` — see
+            // `rollChanceCheck`. The gamble settles first, then the words,
+            // then the plates.
+            final roll = ref
+                .read(provider.notifier)
+                .rollChanceCheck(choiceIndex: choiceIndex);
+            if (roll != null) {
+              await showChanceCheckDialog(context: context, passed: roll);
+              if (!context.mounted) return;
+            }
             await tellChoiceOutcome(
               context,
               choiceIndex == null ? null : card.choices[choiceIndex].outcome,
             );
             if (!context.mounted) return;
-            ref.read(provider.notifier).resolveCard(choiceIndex: choiceIndex);
+            ref
+                .read(provider.notifier)
+                .resolveCard(choiceIndex: choiceIndex, chanceOutcome: roll);
           },
         );
       }

@@ -573,7 +573,7 @@
         "label": "Метнуться прочь",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [],
             "loserActions": [
               {
@@ -741,7 +741,7 @@
         "label": "Отрицать, что это то самое кольцо",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [],
             "loserActions": [
               {
@@ -816,7 +816,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -862,7 +862,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -913,7 +913,7 @@
         "label": "Рискнуть по-крупному",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -1219,7 +1219,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -1306,7 +1306,7 @@
         "label": "Попробовать отгадать",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -1613,7 +1613,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -1636,7 +1636,7 @@
         "label": "Принять вызов",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
