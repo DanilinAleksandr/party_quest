@@ -552,7 +552,7 @@ void main() {
     });
   });
 
-  group('GameController pre-rolls a chance check for the UI', () {
+  group('GameController pre-rolls a gamble for the UI', () {
     GameController controllerFor(GameCard card) => GameController(
       playerNames: const ['A', 'B'],
       cards: [card],
@@ -592,13 +592,13 @@ void main() {
       for (final forced in [true, false]) {
         final controller = controllerFor(gamble);
         controller.takeStep();
-        controller.resolveCard(choiceIndex: 0, chanceOutcome: forced);
+        controller.resolveCard(choiceIndex: 0, gambleWon: forced);
 
         final luck = controller.state.players
             .map((p) => p.stats.valueOf(StatType.luck))
             .toList();
         expect(luck.first, forced ? 3 : -3);
-        // And still nobody else: flattening must not widen the target.
+        // And still nobody else: a chance check has no second player.
         expect(luck.skip(1), everyElement(0));
       }
     });
@@ -607,12 +607,100 @@ void main() {
       final controller = controllerFor(gamble);
       controller.takeStep();
 
-      expect(controller.rollChanceCheck(choiceIndex: 0), isNotNull);
-      expect(controller.rollChanceCheck(choiceIndex: 1), isNull);
+      expect(controller.gambleFor(choiceIndex: 0), isNotNull);
+      expect(controller.gambleFor(choiceIndex: 1), isNull);
+    });
+
+    final wager = GameCard(
+      id: 'wager',
+      title: 't',
+      description: 'd',
+      type: CardType.event,
+      rarity: Rarity.common,
+      weight: 5,
+      choices: const [
+        CardChoice(
+          label: 'Сыграть',
+          actions: [
+            StartDuelAction(
+              winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 2)],
+              loserActions: [ModifyStatAction(stat: StatType.luck, amount: -2)],
+              sides: ['Орёл', 'Решка'],
+              loserOutcome: 'Ты допиваешь.',
+            ),
+          ],
+        ),
+      ],
+    );
+
+    test('a duel is a gamble too, and carries its wager terms', () {
+      // The card that started the whole complaint is a duel, so the throw
+      // has to be visible there as well.
+      final controller = controllerFor(wager);
+      controller.takeStep();
+
+      final found = controller.gambleFor(choiceIndex: 0);
+      expect(found, isNotNull);
+      expect(found!.hasCall, isTrue);
+      expect(found.sides, ['Орёл', 'Решка']);
+      expect(found.outcomeFor(won: false), 'Ты допиваешь.');
+      expect(found.outcomeFor(won: true), isNull);
+    });
+
+    test('a pre-rolled duel settles the way the die showed', () {
+      for (final forced in [true, false]) {
+        final controller = controllerFor(wager);
+        controller.takeStep();
+        controller.resolveCard(choiceIndex: 0, gambleWon: forced);
+
+        final luck = controller.state.players
+            .map((p) => p.stats.valueOf(StatType.luck))
+            .toList();
+        // Unlike a chance check, the other half of a duel lands on somebody.
+        expect(luck.first, forced ? 2 : -2);
+        expect(luck.skip(1).where((v) => v != 0), hasLength(1));
+      }
+    });
+
+    test('no throw is offered for a duel nobody can be found for', () {
+      // `startDuel` gives up at a table of one, so animating a roll there
+      // would promise something that never happens.
+      final solo = GameController(
+        playerNames: const ['A'],
+        cards: [wager],
+        itemCatalog: const ItemCatalog({}),
+        effectCatalog: const EffectCatalog({}),
+        adventureCatalog: const AdventureCatalog({}),
+        biomeCatalog: const BiomeCatalog({}),
+        originCatalog: const OriginCatalog({}),
+        seed: 5,
+        skipPrologue: true,
+      );
+      solo.takeStep();
+
+      expect(solo.gambleFor(choiceIndex: 0), isNull);
+    });
+
+    test('wager terms round-trip through JSON and stay absent when unset', () {
+      const called = ChanceCheckAction(
+        sides: ['Красная', 'Чёрная'],
+        loserOutcome: 'Ты пьёшь.',
+      );
+      final decoded = GameAction.fromJson(called.toJson()) as ChanceCheckAction;
+      expect(decoded.sides, ['Красная', 'Чёрная']);
+      expect(decoded.loserOutcome, 'Ты пьёшь.');
+
+      const bare = ChanceCheckAction();
+      expect(bare.toJson().containsKey('sides'), isFalse);
+      expect(bare.toJson().containsKey('loserOutcome'), isFalse);
+      expect(
+        (GameAction.fromJson(bare.toJson()) as ChanceCheckAction).sides,
+        isEmpty,
+      );
     });
 
     test('without a pre-roll the engine still rolls for itself', () {
-      // Adventures and card-level actions never go past `rollChanceCheck`,
+      // Adventures and effect reactions never go past `gambleFor`,
       // so the executor has to stay a complete implementation on its own.
       final controller = controllerFor(gamble);
       controller.takeStep();

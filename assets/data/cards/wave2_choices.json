@@ -1220,6 +1220,7 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "loserOutcome": "Странник качает головой: он такое слышал сто раз. Пьёшь ты, и уверенности в голосе после этого не прибавляется.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -1307,6 +1308,7 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "loserOutcome": "Отгадка была совсем рядом. Ты пьёшь за проигрыш — так уговаривались.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -1614,6 +1616,7 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "loserOutcome": "Взгляд ты не выдержал. Охотник наливает тебе из своей фляги и с тех пор зовёт тебя только меченым.",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -1637,6 +1640,7 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "loserOutcome": "Стрела уходит мимо. Пьёшь ты — и руки после этого лучше держать при себе.",
             "winnerActions": [
               {
                 "action": "modifyStat",

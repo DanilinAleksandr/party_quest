@@ -25,6 +25,7 @@ import 'widgets/player_profile_sheet.dart';
 import 'widgets/player_status_panel.dart';
 import 'widgets/season_reveal_dialog.dart';
 import 'widgets/take_step_button.dart';
+import 'widgets/wager_call_dialog.dart';
 import 'win_screen.dart';
 
 class GameScreen extends ConsumerWidget {
@@ -72,25 +73,48 @@ class GameScreen extends ConsumerWidget {
           // route onto the navigator. Resolving first would stack the
           // outcome on top of the ledger of what it did.
           onResolve: (choiceIndex) async {
-            // The die is rolled before anything is applied, and the roll it
-            // shows is the one handed back to `resolveCard` — see
-            // `rollChanceCheck`. The gamble settles first, then the words,
-            // then the plates.
-            final roll = ref
-                .read(provider.notifier)
-                .rollChanceCheck(choiceIndex: choiceIndex);
-            if (roll != null) {
-              await showChanceCheckDialog(context: context, passed: roll);
+            // The whole beat, in the order the table reads it: call it,
+            // watch it land, hear what that meant, and only then does
+            // anything change. The throw is made before any of it — see
+            // `GameController.roll` — so the die cannot disagree with what
+            // the engine goes on to apply.
+            final notifier = ref.read(provider.notifier);
+            final gamble = notifier.gambleFor(choiceIndex: choiceIndex);
+            bool? won;
+
+            if (gamble != null) {
+              int? called;
+              if (gamble.hasCall) {
+                called = await showWagerCallDialog(
+                  context: context,
+                  sides: gamble.sides,
+                );
+                if (!context.mounted) return;
+              }
+
+              won = notifier.roll();
+              await showChanceCheckDialog(
+                context: context,
+                passed: won,
+                called: called == null ? null : gamble.sides[called],
+                other: called == null ? null : gamble.sides[1 - called],
+              );
               if (!context.mounted) return;
             }
+
+            // A gamble's own words win over the choice's: the choice was
+            // made before anybody knew how it would go, so it cannot be the
+            // one to say how it went.
+            final choiceOutcome = choiceIndex == null
+                ? null
+                : card.choices[choiceIndex].outcome;
             await tellChoiceOutcome(
               context,
-              choiceIndex == null ? null : card.choices[choiceIndex].outcome,
+              (won == null ? null : gamble?.outcomeFor(won: won)) ??
+                  choiceOutcome,
             );
             if (!context.mounted) return;
-            ref
-                .read(provider.notifier)
-                .resolveCard(choiceIndex: choiceIndex, chanceOutcome: roll);
+            notifier.resolveCard(choiceIndex: choiceIndex, gambleWon: won);
           },
         );
       }

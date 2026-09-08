@@ -24,24 +24,34 @@ import '../../../../core/widgets/line_icons.dart';
 /// The button lives inside the content rather than in the shell's `actions`
 /// because it must not exist until the die has settled: a dialog you can
 /// dismiss before it has told you anything is just a delay.
+///
+/// [called] and [other] name the two sides of a wager, when the player was
+/// given one to call. They change nothing about the throw — the die is the
+/// die — but they let the settled screen say what was bet and what came up,
+/// which is the whole difference between "не повезло" and "не повезло, ты
+/// ставил на красную".
 Future<void> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
+  String? called,
+  String? other,
 }) {
   return showAppDialog<void>(
     context: context,
     icon: Icons.casino_outlined,
     title: 'Бросок',
     barrierDismissible: false,
-    content: _RollBody(passed: passed),
+    content: _RollBody(passed: passed, called: called, other: other),
     actions: const [],
   );
 }
 
 class _RollBody extends StatefulWidget {
   final bool passed;
+  final String? called;
+  final String? other;
 
-  const _RollBody({required this.passed});
+  const _RollBody({required this.passed, this.called, this.other});
 
   @override
   State<_RollBody> createState() => _RollBodyState();
@@ -71,6 +81,19 @@ class _RollBodyState extends State<_RollBody>
   /// result would read as "and?" at a table that has just been told to look
   /// at the die.
   int get _finalPips => widget.passed ? 6 : 1;
+
+  /// The side that came up is the one that was called if the throw came off,
+  /// and the other one if it did not — which is exactly what winning a
+  /// called bet means, and keeps this line from ever contradicting the
+  /// verdict above it.
+  String? get _call {
+    final called = widget.called;
+    final other = widget.other;
+    if (called == null || other == null) return null;
+    return widget.passed
+        ? 'Ставка: $called — она и выпала'
+        : 'Ставка: $called — выпала $other';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +158,22 @@ class _RollBodyState extends State<_RollBody>
                     )
                   : null,
             ),
+            // What was called against what came up, for a wager that had a
+            // side to call. It sits under the verdict rather than replacing
+            // it: the verdict is the news, this is the receipt.
+            if (_call != null)
+              SizedBox(
+                height: 26,
+                child: settled
+                    ? Text(
+                        _call!,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: SteelPalette.textLow.withValues(alpha: 0.72),
+                        ),
+                      )
+                    : null,
+              ),
             const SizedBox(height: 18),
             // Reserved rather than inserted, so the dialog does not jump a
             // button's height at the exact moment the eye is on the die.

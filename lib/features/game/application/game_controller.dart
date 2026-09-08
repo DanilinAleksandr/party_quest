@@ -5,6 +5,28 @@ import '../../../game_engine/data/content_providers.dart';
 import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
 
+/// What the UI needs to know about a gamble a choice is about to take,
+/// without being told which of the two engine actions is behind it.
+///
+/// `chanceCheck` and `duel` differ in who else is involved and in what the
+/// engine records afterwards. From the seat of the player who tapped, they
+/// are the same question — did this come off? — so the screen asks it once,
+/// the same way, and this is the shape of that question.
+final class Gamble {
+  /// The two things the player can call before the throw, or empty when the
+  /// scene has nobody in it to call against — see [ChanceCheckAction.sides].
+  final List<String> sides;
+
+  final String? winnerOutcome;
+  final String? loserOutcome;
+
+  const Gamble({this.sides = const [], this.winnerOutcome, this.loserOutcome});
+
+  bool get hasCall => sides.length == 2;
+
+  String? outcomeFor({required bool won}) => won ? winnerOutcome : loserOutcome;
+}
+
 /// Orchestrates one match's step flow. This is the only place that decides
 /// *when* flow events fire, effects expire, and cards are drawn —
 /// [ActionExecutor] only knows how to apply a single action, not the
@@ -241,52 +263,80 @@ class GameController extends StateNotifier<GameState> {
   /// adventure to its end. Otherwise (no adventure, or one that resolved
   /// instantly with zero choices) the step finishes immediately, same as
   /// before adventures existed.
-  /// Rolls the die for a choice that gambles, and returns null for one that
-  /// does not.
+  /// The gamble a choice is about to take, or null when it takes none.
   ///
-  /// The roll happens here, before anything is applied, because the UI has
+  /// Covers both kinds: a `chanceCheck` against fate and a `duel` against
+  /// another player. From the current player's seat they are the same
+  /// question — did this come off? — and both deserve the same visible
+  /// throw. A duel at a table of one is excluded, because the engine
+  /// declines to hold one and nothing would follow the animation.
+  Gamble? gambleFor({int? choiceIndex}) {
+    final card = _context.state.pendingCard;
+    if (card == null) return null;
+
+    for (final action in _actionsFor(card, choiceIndex)) {
+      switch (action) {
+        case ChanceCheckAction a:
+          return Gamble(
+            sides: a.sides,
+            winnerOutcome: a.winnerOutcome,
+            loserOutcome: a.loserOutcome,
+          );
+        case StartDuelAction a:
+          if (_context.players.length < 2) return null;
+          return Gamble(
+            sides: a.sides,
+            winnerOutcome: a.winnerOutcome,
+            loserOutcome: a.loserOutcome,
+          );
+        default:
+          continue;
+      }
+    }
+    return null;
+  }
+
+  /// Throws for a gamble [gambleFor] found.
+  ///
+  /// The throw happens here, before anything is applied, because the UI has
   /// to show the same result the engine settles on and has to show it
   /// *first*. Resolving is synchronous and its state change reaches
   /// `ref.listen` — and therefore the first result card — before an awaited
   /// animation could get its own route onto the navigator, the same race the
   /// outcome dialog had to be ordered around. Hand the value back to
   /// [resolveCard] and the two agree by construction.
-  bool? rollChanceCheck({int? choiceIndex}) {
-    final card = _context.state.pendingCard;
-    if (card == null) return null;
-    final actions = _actionsFor(card, choiceIndex);
-    if (!actions.any((a) => a is ChanceCheckAction)) return null;
-    return _context.random.nextBool();
-  }
+  bool roll() => _context.random.nextBool();
 
   List<GameAction> _actionsFor(GameCard card, int? choiceIndex) =>
       card.hasChoices ? card.choices[choiceIndex!].actions : card.actions;
 
-  /// [chanceOutcome], when given, is the roll [rollChanceCheck] already made
-  /// and the UI already showed. Every [ChanceCheckAction] in this step is
-  /// flattened to the branch it chose, so the engine applies exactly what
-  /// the player watched land instead of quietly rolling a second time.
+  /// [gambleWon], when given, is the throw [roll] already made and the UI
+  /// already showed, and it settles every gamble in this step — the engine
+  /// is told the answer instead of quietly rolling a second one.
   ///
-  /// Flattening rather than threading a forced value through the executor
-  /// keeps `ActionExecutor` honest: it still owns the roll for every chance
-  /// check nobody pre-rolled — inside an adventure, or on a card's own
-  /// actions — and there is no "usually random except when it isn't" branch
-  /// buried in the engine.
-  void resolveCard({int? choiceIndex, bool? chanceOutcome}) {
+  /// The value is passed to the executor's own duel/chance-check methods
+  /// rather than flattening the action list here, because a duel's two
+  /// branches land on two different players and a flat list cannot say that.
+  /// Either way `ActionExecutor` keeps a complete implementation of its own:
+  /// every gamble nobody pre-rolled — inside an adventure, on an effect's
+  /// reaction — still rolls for itself.
+  void resolveCard({int? choiceIndex, bool? gambleWon}) {
     final card = _context.state.pendingCard;
     if (card == null) return;
 
-    var actions = _actionsFor(card, choiceIndex);
-    if (chanceOutcome != null) {
-      actions = [
-        for (final action in actions)
-          if (action is ChanceCheckAction)
-            ...(chanceOutcome ? action.winnerActions : action.loserActions)
-          else
-            action,
-      ];
+    var ctx = _context;
+    for (final action in _actionsFor(card, choiceIndex)) {
+      ctx = switch (action) {
+        ChanceCheckAction a when gambleWon != null =>
+          _executor.resolveChanceCheck(a, ctx, passed: gambleWon),
+        StartDuelAction a when gambleWon != null => _executor.startDuel(
+          a,
+          ctx,
+          currentPlayerWins: gambleWon,
+        ),
+        _ => _executor.execute(action, ctx),
+      };
     }
-    final ctx = _executor.executeAll(actions, _context);
 
     if (ctx.state.activeAdventureId != null) {
       _setContext(ctx);
