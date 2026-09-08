@@ -32,11 +32,11 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// player called, when the scene offered a call. They change nothing about
 /// the throw, but they decide which face the coin comes to rest on and let
 /// the settled screen say what was bet against what came up — the whole
-/// difference between "не повезло" and "не повезло, ты ставил на Короля".
+/// difference between "платишь" and "платишь, а ставил ты на Короля".
 ///
 /// [challenger] and [opponent] name the two players of a duel, and are
 /// absent for a solo risk. See [_Verdict] for why a duel cannot be reported
-/// in the second person.
+/// in the second person, and why it names the one who pays.
 Future<void> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
@@ -122,7 +122,7 @@ class _RollBodyState extends State<_RollBody>
     final called = widget.calledIndex;
     if (sides == null || called == null || sides.length != 2) return null;
     // Two labelled fields rather than a sentence, for the same reason the
-    // duel says "Победа: X": the sides are named by content and carry their
+    // duel says "Платит: X": the sides are named by content and carry their
     // own gender, so "она и выпала" is wrong the moment the side is a Шут.
     // A label and a name agree with everything.
     final up = widget.passed ? sides[called] : sides[1 - called];
@@ -183,7 +183,7 @@ class _RollBodyState extends State<_RollBody>
             ),
             const SizedBox(height: 4),
             // The verdict is built only once it is true, rather than faded
-            // in from a hidden widget: a "Повезло" sitting at zero opacity
+            // in from a hidden widget: a "Платишь" sitting at zero opacity
             // is still there to be read out by a screen reader, and still
             // there to be found by a test that means to check the table
             // cannot see it yet. The slot keeps its height either way so
@@ -229,14 +229,18 @@ class _RollBodyState extends State<_RollBody>
   }
 }
 
-/// Who won, in the words that fit who was playing.
+/// Who pays, in the words that fit who was playing.
 ///
-/// A solo risk is addressed to the player who took it — "Повезло" is exactly
-/// right when there is nobody else in the sentence. A duel is not: two named
-/// players are in it, the loser's penalty may land on the *other* one, and
-/// "не повезло" leaves the table guessing which of them is being talked
-/// about. So a duel says both names and which way it went, before a single
-/// effect is applied.
+/// Names the *loser*, not the winner. This is a drinking game: the winner
+/// gets to carry on as they were, and the only person who has to do
+/// something about the result is the one who lost. The screen that tells
+/// the table what just happened should say who owes, the same way the
+/// outcome text does.
+///
+/// A duel names them, because two named players are in it, the penalty may
+/// land on the *other* one, and an impersonal line leaves the table guessing
+/// which. A solo risk stays in the second person — there is nobody else in
+/// the sentence — and says what it costs rather than what it won.
 class _Verdict extends StatelessWidget {
   final bool settled;
   final bool passed;
@@ -257,9 +261,11 @@ class _Verdict extends StatelessWidget {
     final opponent = this.opponent;
     final isDuel = challenger != null && opponent != null;
 
+    // `passed` is "the challenger's throw came off", so the one who pays is
+    // whichever of the two it was not.
     final headline = isDuel
-        ? (passed ? challenger : opponent)
-        : (passed ? 'Повезло' : 'Не повезло');
+        ? (passed ? opponent : challenger)
+        : (passed ? 'Обошлось' : 'Платишь');
 
     return SizedBox(
       height: isDuel ? 62 : 34,
@@ -281,13 +287,18 @@ class _Verdict extends StatelessWidget {
                       ),
                     ),
                   Text(
-                    // "Победа: X" rather than "выиграл X" or "X против Y":
+                    // "Платит: X" rather than "платит X" or "X проиграл":
                     // player names are typed by the table and arrive in no
-                    // known gender or case. A verb would have to agree with
-                    // them and "против" would have to decline them, and both
-                    // get it wrong half the time. A label and a name in the
-                    // nominative are right for every name anyone types.
-                    isDuel ? 'Победа: $headline' : headline,
+                    // known gender or case, so a past-tense verb would have
+                    // to agree with them and get it wrong half the time. A
+                    // label and a name in the nominative are right for every
+                    // name anyone types — the same rule the outcome text and
+                    // the wager receipt follow.
+                    //
+                    // The solo lines are already gender-free for the same
+                    // reason: "Платишь" is second person, "Обошлось" is
+                    // impersonal, and neither has to know who is playing.
+                    isDuel ? 'Платит: $headline' : headline,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: SteelPalette.textHigh,

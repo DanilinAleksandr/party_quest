@@ -51,7 +51,7 @@ void main() {
       await _roll(tester, true, log);
 
       expect(find.byKey(appDialogContentKey), findsOneWidget);
-      expect(find.text('Повезло'), findsNothing);
+      expect(find.text('Обошлось'), findsNothing);
       expect(find.text('Дальше'), findsNothing);
       expect(log, isEmpty);
     });
@@ -63,7 +63,7 @@ void main() {
       await _roll(tester, true, log);
       await tester.pumpAndSettle();
 
-      expect(find.text('Повезло'), findsOneWidget);
+      expect(find.text('Обошлось'), findsOneWidget);
       expect(find.text('Дальше'), findsOneWidget);
       // The effects must not be applied behind a dialog still on screen.
       expect(log, isEmpty);
@@ -75,13 +75,13 @@ void main() {
       expect(log, ['resolved']);
     });
 
-    testWidgets('a failed check says so', (tester) async {
+    testWidgets('a failed check names the cost, not the miss', (tester) async {
       final log = <String>[];
       await _roll(tester, false, log);
       await tester.pumpAndSettle();
 
-      expect(find.text('Не повезло'), findsOneWidget);
-      expect(find.text('Повезло'), findsNothing);
+      expect(find.text('Платишь'), findsOneWidget);
+      expect(find.text('Обошлось'), findsNothing);
     });
   });
 
@@ -202,16 +202,18 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Артём и София'), findsOneWidget);
-      expect(find.text('Победа: Артём'), findsOneWidget);
-      expect(find.text('Повезло'), findsNothing);
+      // Артём's throw came off, so София is the one who pays.
+      expect(find.text('Платит: София'), findsOneWidget);
+      expect(find.text('Платишь'), findsNothing);
     });
 
-    testWidgets('names the companion when the companion won', (tester) async {
+    testWidgets('names the challenger when the challenger lost', (
+      tester,
+    ) async {
       await _roll(tester, false, [], challenger: 'Артём', opponent: 'София');
       await tester.pumpAndSettle();
 
-      expect(find.text('Победа: София'), findsOneWidget);
-      expect(find.text('Не повезло'), findsNothing);
+      expect(find.text('Платит: Артём'), findsOneWidget);
     });
 
     testWidgets('a solo risk still speaks to the one who took it', (
@@ -220,8 +222,8 @@ void main() {
       await _roll(tester, true, []);
       await tester.pumpAndSettle();
 
-      expect(find.text('Повезло'), findsOneWidget);
-      expect(find.textContaining('Победа'), findsNothing);
+      expect(find.text('Обошлось'), findsOneWidget);
+      expect(find.textContaining('Платит:'), findsNothing);
     });
   });
 
