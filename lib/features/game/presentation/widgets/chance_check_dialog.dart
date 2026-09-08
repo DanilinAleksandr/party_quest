@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/app_dialog_shell.dart';
@@ -27,10 +28,11 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// because it must not exist until the coin has settled: a dialog you can
 /// dismiss before it has told you anything is just a delay.
 ///
-/// [called] and [other] name the two sides of a wager, when the player was
-/// given one to call. They change nothing about the throw, but they let the
-/// settled screen say what was bet and what came up — the whole difference
-/// between "не повезло" and "не повезло, ты ставил на красную".
+/// [sides] and [calledIndex] are the wager's two faces and the one the
+/// player called, when the scene offered a call. They change nothing about
+/// the throw, but they decide which face the coin comes to rest on and let
+/// the settled screen say what was bet against what came up — the whole
+/// difference between "не повезло" and "не повезло, ты ставил на Короля".
 ///
 /// [challenger] and [opponent] name the two players of a duel, and are
 /// absent for a solo risk. See [_Verdict] for why a duel cannot be reported
@@ -38,8 +40,8 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 Future<void> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
-  String? called,
-  String? other,
+  List<String>? sides,
+  int? calledIndex,
   String? challenger,
   String? opponent,
 }) {
@@ -50,8 +52,8 @@ Future<void> showChanceCheckDialog({
     barrierDismissible: false,
     content: _RollBody(
       passed: passed,
-      called: called,
-      other: other,
+      sides: sides,
+      calledIndex: calledIndex,
       challenger: challenger,
       opponent: opponent,
     ),
@@ -61,15 +63,15 @@ Future<void> showChanceCheckDialog({
 
 class _RollBody extends StatefulWidget {
   final bool passed;
-  final String? called;
-  final String? other;
+  final List<String>? sides;
+  final int? calledIndex;
   final String? challenger;
   final String? opponent;
 
   const _RollBody({
     required this.passed,
-    this.called,
-    this.other,
+    this.sides,
+    this.calledIndex,
     this.challenger,
     this.opponent,
   });
@@ -99,17 +101,32 @@ class _RollBodyState extends State<_RollBody>
     super.dispose();
   }
 
-  /// The side that came up is the one that was called if the throw came off,
-  /// and the other one if it did not — which is exactly what winning a
-  /// called bet means, and keeps this line from ever contradicting the
-  /// verdict above it.
+  /// Which face the coin is showing once it stops.
+  ///
+  /// With a call, it is the side that was called if the throw came off and
+  /// the other one if it did not — which is exactly what winning a called
+  /// bet means, and is what keeps the coin from contradicting the line
+  /// underneath it.
+  ///
+  /// With no call there is no side to be right about, so the coin falls back
+  /// to the plain reading of its two faces: the King when the attempt held,
+  /// the Jester when it did not.
+  bool get _restingFace {
+    final called = widget.calledIndex;
+    if (called == null) return !widget.passed;
+    return widget.passed ? called == 1 : called == 0;
+  }
+
   String? get _call {
-    final called = widget.called;
-    final other = widget.other;
-    if (called == null || other == null) return null;
-    return widget.passed
-        ? 'Ставка: $called — она и выпала'
-        : 'Ставка: $called — выпала $other';
+    final sides = widget.sides;
+    final called = widget.calledIndex;
+    if (sides == null || called == null || sides.length != 2) return null;
+    // Two labelled fields rather than a sentence, for the same reason the
+    // duel says "Победа: X": the sides are named by content and carry their
+    // own gender, so "она и выпала" is wrong the moment the side is a Шут.
+    // A label and a name agree with everything.
+    final up = widget.passed ? sides[called] : sides[1 - called];
+    return 'Ставка: ${sides[called]}  ·  Выпало: $up';
   }
 
   @override
@@ -153,9 +170,9 @@ class _RollBodyState extends State<_RollBody>
                       ),
                     child: _Coin(
                       // The spin ends on an even half-turn, so at rest this
-                      // is exactly `passed` — which is the point: the coin
-                      // is started on whichever side it has to finish on.
-                      face: showingBack != widget.passed,
+                      // is exactly `_restingFace` — which is the point: the
+                      // coin is started on whichever side it must finish on.
+                      face: showingBack != _restingFace,
                       color: settled
                           ? SteelPalette.textHigh
                           : SteelPalette.steel,
@@ -285,10 +302,22 @@ class _Verdict extends StatelessWidget {
   }
 }
 
+/// The lot-casting coin, struck with a King on one side and a Jester on the
+/// other.
+///
+/// Not a generic heads/tails: the two faces are a proposition about the
+/// world. The King is order and control, the Jester is chance and mischief,
+/// and calling a side is calling which of them holds this time. It is an
+/// object anybody on the road carries — a tavern keeper, a pedlar — not an
+/// inventory item anybody has to find first.
+///
+/// The marks come from the same game-icons.net library the 35 origins use,
+/// tinted the same way, and neither collides with a shape an origin already
+/// owns: a chess king is not the crown of the Наследник древних королей, and
+/// a jester's hat is not the pointed hat of the Наследник ведьм.
 class _Coin extends StatelessWidget {
-  /// True is the face that is up when the throw came off — see
-  /// `_RollBodyState.build`. Which of the two that is carries no meaning of
-  /// its own; it only has to be the same one every time.
+  /// True is the Jester's side, false the King's — the two entries of a
+  /// card's `sides` in order.
   final bool face;
   final Color color;
 
@@ -298,24 +327,36 @@ class _Coin extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.square(
       dimension: 84,
-      child: CustomPaint(
-        painter: _CoinPainter(face: face, color: color),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // The blank the mark is struck on, drawn rather than imported so
+          // the rim keeps the same hairline weight as the rest of the
+          // chrome at every size.
+          CustomPaint(
+            size: const Size.square(84),
+            painter: _BlankPainter(color),
+          ),
+          SvgPicture.asset(
+            face
+                ? 'assets/icons/coin/coin_jester.svg'
+                : 'assets/icons/coin/coin_king.svg',
+            width: 40,
+            height: 40,
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+          ),
+        ],
       ),
     );
   }
 }
 
-/// Two faces struck on the same blank, on the same 24-unit grid every drawn
-/// mark in this app uses.
-///
-/// They differ enough to be told apart at a glance mid-spin — a filled
-/// centre against a hollow ring — without either one meaning "good" or
-/// "bad". The coin is not the verdict; the words under it are.
-class _CoinPainter extends CustomPainter {
-  final bool face;
+/// The rim and the inner ring, on the same 24-unit grid every drawn mark in
+/// this app uses.
+class _BlankPainter extends CustomPainter {
   final Color color;
 
-  const _CoinPainter({required this.face, required this.color});
+  const _BlankPainter(this.color);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -323,53 +364,28 @@ class _CoinPainter extends CustomPainter {
     canvas.save();
     canvas.scale(unit);
 
-    final stroke = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5 / unit
-      ..strokeCap = StrokeCap.round;
-    final hairline = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.9 / unit
-      ..strokeCap = StrokeCap.round;
-    final fill = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
     const centre = Offset(12, 12);
-    canvas.drawCircle(centre, 10, stroke);
-    canvas.drawCircle(centre, 7.6, hairline);
-
-    if (face) {
-      // Reverse: a hollow ring inside the rim, with four small notches at
-      // the quarters — a milled edge seen face-on.
-      canvas.drawCircle(centre, 3.4, stroke);
-      for (var i = 0; i < 4; i++) {
-        final angle = math.pi / 4 + i * math.pi / 2;
-        canvas.drawLine(
-          centre + Offset(math.cos(angle), math.sin(angle)) * 5.2,
-          centre + Offset(math.cos(angle), math.sin(angle)) * 6.6,
-          stroke,
-        );
-      }
-    } else {
-      // Obverse: a struck boss with rays, the side a mint puts a head on.
-      canvas.drawCircle(centre, 2.6, fill);
-      for (var i = 0; i < 6; i++) {
-        final angle = i * math.pi / 3;
-        canvas.drawLine(
-          centre + Offset(math.cos(angle), math.sin(angle)) * 4.3,
-          centre + Offset(math.cos(angle), math.sin(angle)) * 6.3,
-          stroke,
-        );
-      }
-    }
+    canvas.drawCircle(
+      centre,
+      11,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5 / unit,
+    );
+    canvas.drawCircle(
+      centre,
+      9.4,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.9 / unit,
+    );
 
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(covariant _CoinPainter oldDelegate) =>
-      oldDelegate.face != face || oldDelegate.color != color;
+  bool shouldRepaint(covariant _BlankPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

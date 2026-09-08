@@ -83,6 +83,11 @@ flutter:
     # by `Origin.id`, so a new origin ships as a JSON entry plus a file
     # here, with no code change.
     - assets/icons/origins/
+    # The two faces of the lot-casting coin, from the same library and under
+    # the same attribution. Deliberately not shapes any origin already owns:
+    # a chess king is not the crown the Наследник древних королей wears, and
+    # a jester's hat is not the Наследник ведьм' pointed one.
+    - assets/icons/coin/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

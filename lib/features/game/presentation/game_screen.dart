@@ -96,8 +96,8 @@ class GameScreen extends ConsumerWidget {
               await showChanceCheckDialog(
                 context: context,
                 passed: won,
-                called: called == null ? null : gamble.sides[called],
-                other: called == null ? null : gamble.sides[1 - called],
+                sides: gamble.hasCall ? gamble.sides : null,
+                calledIndex: called,
                 challenger: gamble.challenger,
                 opponent: gamble.opponent,
               );

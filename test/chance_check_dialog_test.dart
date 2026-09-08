@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:drinking_quest/core/widgets/app_dialog_shell.dart';
 import 'package:drinking_quest/features/game/presentation/widgets/chance_check_dialog.dart';
@@ -10,8 +11,8 @@ Future<void> _roll(
   WidgetTester tester,
   bool passed,
   List<String> log, {
-  String? called,
-  String? other,
+  List<String>? sides,
+  int? calledIndex,
   String? challenger,
   String? opponent,
 }) async {
@@ -23,8 +24,8 @@ Future<void> _roll(
             await showChanceCheckDialog(
               context: context,
               passed: passed,
-              called: called,
-              other: other,
+              sides: sides,
+              calledIndex: calledIndex,
               challenger: challenger,
               opponent: opponent,
             );
@@ -40,6 +41,8 @@ Future<void> _roll(
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 400));
 }
+
+const _coin = ['Король', 'Шут'];
 
 void main() {
   group('the roll', () {
@@ -84,19 +87,19 @@ void main() {
 
   group('a called wager', () {
     testWidgets('a won call is the side that came up', (tester) async {
-      await _roll(tester, true, [], called: 'Красная', other: 'Чёрная');
+      await _roll(tester, true, [], sides: _coin, calledIndex: 0);
       await tester.pumpAndSettle();
 
-      expect(find.text('Ставка: Красная — она и выпала'), findsOneWidget);
+      expect(find.text('Ставка: Король  ·  Выпало: Король'), findsOneWidget);
     });
 
     testWidgets('a lost call names the side that beat it', (tester) async {
       // The line can never contradict the verdict above it: losing means
       // the other side came up, by definition of having called one.
-      await _roll(tester, false, [], called: 'Красная', other: 'Чёрная');
+      await _roll(tester, false, [], sides: _coin, calledIndex: 0);
       await tester.pumpAndSettle();
 
-      expect(find.text('Ставка: Красная — выпала Чёрная'), findsOneWidget);
+      expect(find.text('Ставка: Король  ·  Выпало: Шут'), findsOneWidget);
     });
 
     testWidgets('an uncalled throw says nothing about sides', (tester) async {
@@ -117,7 +120,7 @@ void main() {
               onPressed: () async {
                 picked = await showWagerCallDialog(
                   context: context,
-                  sides: const ['Орёл', 'Решка'],
+                  sides: _coin,
                 );
               },
               child: const Text('bet'),
@@ -128,13 +131,66 @@ void main() {
       await tester.tap(find.text('bet'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Орёл'), findsOneWidget);
-      expect(find.text('Решка'), findsOneWidget);
+      expect(find.text('Король'), findsOneWidget);
+      expect(find.text('Шут'), findsOneWidget);
 
-      await tester.tap(find.text('Решка'));
+      await tester.tap(find.text('Шут'));
       await tester.pumpAndSettle();
 
       expect(picked, 1);
+    });
+  });
+
+  group('the face the coin lands on', () {
+    String faceOf(WidgetTester tester) {
+      final svg = tester.widget<SvgPicture>(find.byType(SvgPicture));
+      return (svg.bytesLoader as SvgAssetLoader).assetName;
+    }
+
+    testWidgets('is the side that was called, when the call won', (
+      tester,
+    ) async {
+      // Now that the faces have names, showing the Jester over a receipt
+      // that reads "Ставка: Король — она и выпала" would be a plain
+      // contradiction on screen.
+      await _roll(tester, true, [], sides: _coin, calledIndex: 0);
+      await tester.pumpAndSettle();
+
+      expect(faceOf(tester), contains('coin_king'));
+    });
+
+    testWidgets('is the other side, when the call lost', (tester) async {
+      await _roll(tester, false, [], sides: _coin, calledIndex: 0);
+      await tester.pumpAndSettle();
+
+      expect(faceOf(tester), contains('coin_jester'));
+    });
+
+    testWidgets('follows the call, not the outcome, either way', (
+      tester,
+    ) async {
+      // Calling the Jester and winning has to show the Jester — the coin
+      // reports the throw, not whether the player is pleased about it.
+      await _roll(tester, true, [], sides: _coin, calledIndex: 1);
+      await tester.pumpAndSettle();
+
+      expect(faceOf(tester), contains('coin_jester'));
+    });
+
+    testWidgets('reads King for a solo risk that held', (tester) async {
+      // No call means no side to be right about, so the coin falls back to
+      // the plain reading of its faces: order held, or chance took it.
+      await _roll(tester, true, []);
+      await tester.pumpAndSettle();
+
+      expect(faceOf(tester), contains('coin_king'));
+    });
+
+    testWidgets('reads Jester for a solo risk that did not', (tester) async {
+      await _roll(tester, false, []);
+      await tester.pumpAndSettle();
+
+      expect(faceOf(tester), contains('coin_jester'));
     });
   });
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/widgets/app_dialog_shell.dart';
 
-/// Asks the player to call it before the throw — "Красная или Чёрная?",
-/// "Орёл или решка?".
+/// Asks the player to call it before the throw — "Король или Шут?".
+///
+/// The two sides are the coin's own faces — the King for order, the Jester
+/// for chance — so each button carries the mark the coin will land on.
 ///
 /// Only for the gambles a person in the scene actually offered. A ledge does
 /// not let you pick a side, and pretending it does would make every risk in
@@ -30,9 +33,23 @@ Future<int?> showWagerCallDialog({
     ),
     actions: [
       for (var i = 0; i < sides.length; i++)
-        OutlinedButton(
+        OutlinedButton.icon(
           onPressed: () => Navigator.of(context).pop(i),
-          child: Text(sides[i]),
+          // The mark the coin will land on, beside the name of it — so the
+          // player recognises the face when it comes up rather than reading
+          // the receipt to find out what they were looking at.
+          icon: SvgPicture.asset(
+            i == 0
+                ? 'assets/icons/coin/coin_king.svg'
+                : 'assets/icons/coin/coin_jester.svg',
+            width: 20,
+            height: 20,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.primary,
+              BlendMode.srcIn,
+            ),
+          ),
+          label: Text(sides[i]),
         ),
     ],
   );
