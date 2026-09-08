@@ -736,7 +736,7 @@
         "label": "Попытаться достать монету со дна",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -1008,7 +1008,7 @@
         "label": "Заговорить",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

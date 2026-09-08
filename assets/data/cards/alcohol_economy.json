@@ -172,7 +172,7 @@
         "label": "Подслушать самому, не платя",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "applyEffect",
@@ -565,7 +565,7 @@
         "label": "Пройти испытание жаром костра",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

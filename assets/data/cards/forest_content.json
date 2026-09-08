@@ -61,7 +61,7 @@
         "label": "Рискнуть попробовать",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -200,7 +200,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -228,7 +228,7 @@
         "label": "Отбиваться",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -390,7 +390,7 @@
         "label": "Попросить благословения леса",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -509,7 +509,7 @@
         "label": "Загадать желание",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "applyEffect",
@@ -874,7 +874,7 @@
         "label": "Присоединиться к представлению",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",

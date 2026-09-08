@@ -279,7 +279,7 @@
         "label": "Попросить научить выживанию",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

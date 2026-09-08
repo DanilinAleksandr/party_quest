@@ -31,6 +31,7 @@ final class ActionExecutor {
       RemoveEffectAction a => _removeEffect(a, context),
       ModifyStatAction a => _modifyStat(a, context),
       StartDuelAction a => _startDuel(a, context),
+      ChanceCheckAction a => _resolveChanceCheck(a, context),
       SetWorldFlagAction a => _setWorldFlag(a, context),
       ModifyGlobalModifierAction a => _modifyGlobalModifier(a, context),
       StartAdventureAction a => _startAdventure(a, context),
@@ -253,6 +254,24 @@ final class ActionExecutor {
       previousLoserId: loser.id,
     );
     return next.withState(next.state.copyWith(worldState: worldState));
+  }
+
+  /// One coin, one player. No opponent is picked, and no winner or loser is
+  /// recorded in [WorldState] — see [ChanceCheckAction] for why a gamble
+  /// against fate must not leave the party's duel history behind it.
+  ///
+  /// Unlike [_startDuel] this still resolves with a single player at the
+  /// table: there is nobody to be short of.
+  GameContext _resolveChanceCheck(
+    ChanceCheckAction action,
+    GameContext context,
+  ) {
+    final succeeded = context.random.nextBool();
+    return executeAsPlayer(
+      succeeded ? action.winnerActions : action.loserActions,
+      context.currentPlayer.id,
+      context,
+    );
   }
 
   /// Also stamps `WorldState.flagSetAtStep` when [action] sets the flag

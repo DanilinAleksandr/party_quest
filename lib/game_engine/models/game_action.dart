@@ -28,6 +28,7 @@ sealed class GameAction {
       'removeEffect' => RemoveEffectAction.fromJson(json),
       'modifyStat' => ModifyStatAction.fromJson(json),
       'duel' => StartDuelAction.fromJson(json),
+      'chanceCheck' => ChanceCheckAction.fromJson(json),
       'setWorldFlag' => SetWorldFlagAction.fromJson(json),
       'modifyGlobalModifier' => ModifyGlobalModifierAction.fromJson(json),
       'startAdventure' => StartAdventureAction.fromJson(json),
@@ -198,6 +199,11 @@ final class ModifyStatAction extends GameAction {
 /// picks a winner and applies [winnerActions] to them and [loserActions] to
 /// the loser — the physical challenge (arm wrestling, a dare, a quiz) is
 /// played out by the group at the table, the app only settles the stakes.
+///
+/// Only for cards that genuinely name a second player ("вызови любого
+/// игрока", "выбери соперника"). A solo risk against fate, an NPC or the
+/// weather is a [ChanceCheckAction] — see there for why the difference
+/// matters.
 final class StartDuelAction extends GameAction {
   final List<GameAction> winnerActions;
   final List<GameAction> loserActions;
@@ -220,6 +226,50 @@ final class StartDuelAction extends GameAction {
   @override
   Map<String, dynamic> toJson() => {
     'action': 'duel',
+    'winnerActions': GameAction.listToJson(winnerActions),
+    'loserActions': GameAction.listToJson(loserActions),
+  };
+}
+
+/// A coin flip against nobody: the engine decides whether the current
+/// player's gamble came off and applies [winnerActions] or [loserActions] to
+/// them alone.
+///
+/// Shaped exactly like [StartDuelAction] on purpose — a card that already
+/// wrote its two outcome lists changes one word to move here — but with no
+/// notion of an opponent at all. Almost everything the content calls a
+/// "duel" is one person against fate: digging up a grave, crossing a ledge,
+/// eating the bright mushrooms, playing dice with a cardsharp. Routing those
+/// through a duel meant a random party member could be drafted as the
+/// "opponent" and walk off with the winnings, or take the fall, for a risk
+/// they had nothing to do with.
+///
+/// Nothing here touches `WorldState.previousWinnerId`/`previousLoserId`. A
+/// coin flip has no winner in the sense those fields mean — they exist so a
+/// later card can say "победителя замечает торговец", which is only
+/// meaningful when two players actually faced each other.
+final class ChanceCheckAction extends GameAction {
+  final List<GameAction> winnerActions;
+  final List<GameAction> loserActions;
+
+  const ChanceCheckAction({
+    this.winnerActions = const [],
+    this.loserActions = const [],
+  });
+
+  factory ChanceCheckAction.fromJson(Map<String, dynamic> json) =>
+      ChanceCheckAction(
+        winnerActions: GameAction.listFromJson(
+          json['winnerActions'] as List<dynamic>?,
+        ),
+        loserActions: GameAction.listFromJson(
+          json['loserActions'] as List<dynamic>?,
+        ),
+      );
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'action': 'chanceCheck',
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
   };

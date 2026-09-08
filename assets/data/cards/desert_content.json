@@ -177,7 +177,7 @@
         "label": "Пойти проверить",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -250,7 +250,7 @@
     ],
     "actions": [
       {
-        "action": "duel",
+        "action": "chanceCheck",
         "winnerActions": [
           {
             "action": "giveItem",
@@ -633,7 +633,7 @@
         "label": "Умчаться прочь на верблюде",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [],
             "loserActions": [
               {
@@ -745,7 +745,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [],
             "loserActions": [
               {
@@ -767,7 +767,7 @@
         ],
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [],
             "loserActions": [
               {
@@ -814,7 +814,7 @@
         "label": "Сражаться",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",

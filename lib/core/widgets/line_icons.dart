@@ -54,6 +54,43 @@ LineIconShape biomeLineIcon(String biomeId) => switch (biomeId) {
   _ => LineIconShape.waypoint,
 };
 
+/// Draws one face of the die on the same 24×24 grid every shape in this file
+/// is authored on, with [pips] between 1 and 6.
+///
+/// Public because the die is the game's one symbol for chance — the launcher
+/// icon, the "Сделать шаг" button and the roll a `chanceCheck` animates are
+/// all the same object seen at different moments. A second copy of this
+/// geometry somewhere else would drift from this one within two changes.
+void paintDieFace(
+  Canvas canvas, {
+  required int pips,
+  required Paint stroke,
+  required Paint fill,
+}) {
+  canvas.drawRRect(
+    RRect.fromRectAndRadius(
+      const Rect.fromLTWH(3.5, 3.5, 17, 17),
+      const Radius.circular(4),
+    ),
+    stroke,
+  );
+
+  const left = 8.2;
+  const mid = 12.0;
+  const right = 15.8;
+  // Column pairs first, then the centre pip for the odd faces — the layout
+  // every real die uses.
+  final spots = <Offset>[
+    if (pips > 1) ...[const Offset(left, left), const Offset(right, right)],
+    if (pips > 3) ...[const Offset(right, left), const Offset(left, right)],
+    if (pips == 6) ...[const Offset(left, mid), const Offset(right, mid)],
+    if (pips.isOdd) const Offset(mid, mid),
+  ];
+  for (final spot in spots) {
+    canvas.drawCircle(spot, 1.35, fill);
+  }
+}
+
 class LineIcon extends StatelessWidget {
   final LineIconShape shape;
   final double size;
@@ -307,22 +344,7 @@ class _LineIconPainter extends CustomPainter {
 
       case LineIconShape.die:
         // The same five-pip face the launcher icon is struck with.
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            const Rect.fromLTWH(3.5, 3.5, 17, 17),
-            const Radius.circular(4),
-          ),
-          stroke,
-        );
-        for (final pip in const [
-          Offset(8.2, 8.2),
-          Offset(15.8, 8.2),
-          Offset(12, 12),
-          Offset(8.2, 15.8),
-          Offset(15.8, 15.8),
-        ]) {
-          canvas.drawCircle(pip, 1.35, fill);
-        }
+        paintDieFace(canvas, pips: 5, stroke: stroke, fill: fill);
 
       case LineIconShape.trash:
         canvas.drawLine(const Offset(4, 7), const Offset(20, 7), stroke);

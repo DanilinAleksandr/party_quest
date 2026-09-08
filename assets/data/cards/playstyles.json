@@ -355,7 +355,7 @@
         "label": "Спуститься",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "giveItem",

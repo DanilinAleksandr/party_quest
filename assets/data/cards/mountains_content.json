@@ -19,7 +19,7 @@
     ],
     "actions": [
       {
-        "action": "duel",
+        "action": "chanceCheck",
         "winnerActions": [
           {
             "action": "modifyStat",
@@ -186,7 +186,7 @@
         "label": "Пройти по карнизу",
         "actions": [
           {
-            "action": "duel",
+            "action": "chanceCheck",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -274,7 +274,7 @@
     ],
     "actions": [
       {
-        "action": "duel",
+        "action": "chanceCheck",
         "winnerActions": [
           {
             "action": "modifyStat",
