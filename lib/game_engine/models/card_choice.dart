@@ -13,17 +13,31 @@ import 'game_condition.dart';
 /// the UI, the same way `AdventureEngine` does for a node's choices.
 final class CardChoice {
   final String label;
+
+  /// What the table is told happened once this option was taken — the other
+  /// half of the sentence [label] starts. [label] is what a player *decides*
+  /// to do; [outcome] is what comes of it.
+  ///
+  /// Null on most choices, and deliberately so: the field is meant to be
+  /// filled in gradually, and a mandatory extra screen after every pick
+  /// would cost more than the handful of empty ones it saves. A choice
+  /// without it resolves exactly as it always has — the dialog closes and
+  /// the effects speak for themselves.
+  final String? outcome;
+
   final List<GameCondition> conditions;
   final List<GameAction> actions;
 
   const CardChoice({
     required this.label,
+    this.outcome,
     this.conditions = const [],
     this.actions = const [],
   });
 
   factory CardChoice.fromJson(Map<String, dynamic> json) => CardChoice(
     label: json['label'] as String,
+    outcome: json['outcome'] as String?,
     conditions: GameCondition.listFromJson(
       json['conditions'] as List<dynamic>?,
     ),
@@ -32,6 +46,7 @@ final class CardChoice {
 
   Map<String, dynamic> toJson() => {
     'label': label,
+    if (outcome != null) 'outcome': outcome,
     'conditions': GameCondition.listToJson(conditions),
     'actions': GameAction.listToJson(actions),
   };
