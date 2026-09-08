@@ -98,23 +98,34 @@ class GameScreen extends ConsumerWidget {
                 passed: won,
                 called: called == null ? null : gamble.sides[called],
                 other: called == null ? null : gamble.sides[1 - called],
+                challenger: gamble.challenger,
+                opponent: gamble.opponent,
+              );
+              if (!context.mounted) return;
+
+              // A gamble's own words win over the choice's, and are told as
+              // part of the scene: the choice was made before anybody knew
+              // how it would go, so it cannot be the one to say how it went.
+              await tellGambleOutcome(
+                context,
+                gamble.outcomeFor(won: won),
+                cardTitle: card.title,
               );
               if (!context.mounted) return;
             }
 
-            // A gamble's own words win over the choice's: the choice was
-            // made before anybody knew how it would go, so it cannot be the
-            // one to say how it went.
-            final choiceOutcome = choiceIndex == null
-                ? null
-                : card.choices[choiceIndex].outcome;
-            await tellChoiceOutcome(
-              context,
-              (won == null ? null : gamble?.outcomeFor(won: won)) ??
-                  choiceOutcome,
+            if (won == null) {
+              await tellChoiceOutcome(
+                context,
+                choiceIndex == null ? null : card.choices[choiceIndex].outcome,
+              );
+              if (!context.mounted) return;
+            }
+            notifier.resolveCard(
+              choiceIndex: choiceIndex,
+              gambleWon: won,
+              opponentId: gamble?.opponentId,
             );
-            if (!context.mounted) return;
-            notifier.resolveCard(choiceIndex: choiceIndex, gambleWon: won);
           },
         );
       }

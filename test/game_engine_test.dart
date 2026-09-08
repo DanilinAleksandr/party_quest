@@ -626,7 +626,8 @@ void main() {
               winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 2)],
               loserActions: [ModifyStatAction(stat: StatType.luck, amount: -2)],
               sides: ['Орёл', 'Решка'],
-              loserOutcome: 'Ты допиваешь.',
+              winnerOutcome: 'Пьёт {loser}, наливает {winner}.',
+              loserOutcome: 'Пьёт {loser}, наливает {winner}.',
             ),
           ],
         ),
@@ -643,8 +644,76 @@ void main() {
       expect(found, isNotNull);
       expect(found!.hasCall, isTrue);
       expect(found.sides, ['Орёл', 'Решка']);
-      expect(found.outcomeFor(won: false), 'Ты допиваешь.');
-      expect(found.outcomeFor(won: true), isNull);
+      expect(found.outcomeFor(won: false), isNotNull);
+    });
+
+    test('a duel names both players before anything is applied', () {
+      final controller = controllerFor(wager);
+      controller.takeStep();
+
+      final found = controller.gambleFor(choiceIndex: 0)!;
+      expect(found.isDuel, isTrue);
+      expect(found.challenger, controller.state.currentPlayer.name);
+      expect(found.opponent, isNotNull);
+      expect(found.opponent, isNot(found.challenger));
+    });
+
+    test('the duel it faces is the one it named', () {
+      // The screen says "A против B" before the effects land; facing anyone
+      // else afterwards would make that line a lie. Checked against a table
+      // big enough that a second draw would usually pick somebody different.
+      final controller = GameController(
+        playerNames: const ['A', 'B', 'C', 'D', 'E'],
+        cards: [wager],
+        itemCatalog: const ItemCatalog({}),
+        effectCatalog: const EffectCatalog({}),
+        adventureCatalog: const AdventureCatalog({}),
+        biomeCatalog: const BiomeCatalog({}),
+        originCatalog: const OriginCatalog({}),
+        seed: 11,
+        skipPrologue: true,
+      );
+      controller.takeStep();
+
+      final found = controller.gambleFor(choiceIndex: 0)!;
+      controller.resolveCard(
+        choiceIndex: 0,
+        gambleWon: false,
+        opponentId: found.opponentId,
+      );
+
+      // The challenger lost, so the winner's +2 must sit on the named
+      // opponent and on nobody else.
+      final winners = controller.state.players
+          .where((p) => p.stats.valueOf(StatType.luck) == 2)
+          .toList();
+      expect(winners, hasLength(1));
+      expect(winners.single.name, found.opponent);
+    });
+
+    test('a duel fills both names into its outcome text', () {
+      final controller = controllerFor(wager);
+      controller.takeStep();
+      final found = controller.gambleFor(choiceIndex: 0)!;
+
+      // Written once in the third person, correct whichever way it fell.
+      expect(
+        found.outcomeFor(won: false),
+        'Пьёт ${found.challenger}, наливает ${found.opponent}.',
+      );
+      expect(
+        found.outcomeFor(won: true),
+        'Пьёт ${found.opponent}, наливает ${found.challenger}.',
+      );
+    });
+
+    test('a solo risk leaves its text in the second person', () {
+      final controller = controllerFor(gamble);
+      controller.takeStep();
+
+      final found = controller.gambleFor(choiceIndex: 0)!;
+      expect(found.isDuel, isFalse);
+      expect(found.challenger, isNull);
     });
 
     test('a pre-rolled duel settles the way the die showed', () {
