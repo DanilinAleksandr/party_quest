@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/theme/steel_palette.dart';
+
 /// Central Material 3 theme. All screens pull colors/typography from here
 /// rather than hardcoding them, so the visual identity can change in one
 /// place later.
@@ -31,6 +33,13 @@ import 'package:google_fonts/google_fonts.dart';
 /// heading — which is exactly what Cinzel, the previous choice, did.
 abstract final class AppTheme {
   static const Color _seedColor = Color(0xFF6B7280);
+
+  /// The same cold hue as `SteelPalette.steel`, taken far enough down the
+  /// ramp to carry white text and to stay readable *as* text on a pale
+  /// surface. It lives here rather than in `SteelPalette` because that table
+  /// describes the dark screens that are drawn by hand, and nothing there is
+  /// ever painted on white.
+  static const Color _lightAccent = Color(0xFF505A63);
 
   static final TextTheme _displayFont = GoogleFonts.alegreyaTextTheme();
   static final TextTheme _bodyFont = GoogleFonts.nunitoTextTheme();
@@ -65,11 +74,44 @@ abstract final class AppTheme {
         ),
       );
 
-  static ThemeData _themeFor(Brightness brightness) {
-    final colorScheme = ColorScheme.fromSeed(
+  /// The seed alone does not get the accent grey, so `primary` is set by
+  /// hand.
+  ///
+  /// `ColorScheme.fromSeed` reads a seed as a *hue* and rebuilds its chroma
+  /// from Material's own tonal palettes — a muted grey goes in and a tone
+  /// with enough saturation to work as a Material accent comes out, which
+  /// against these near-black surfaces reads plainly blue. That is one
+  /// colour, but it is the colour of every filled dialog button, every
+  /// outlined choice label, the dialog shell's default accent and the
+  /// journal icon, so it was the only blue left in the game.
+  ///
+  /// Overriding `primary` rather than `filledButtonTheme` is what makes this
+  /// a single edit: the outlined choices in a card dialog take their label
+  /// colour from `primary` too, and a filled-button-only fix would have left
+  /// them blue beside newly grey buttons.
+  ///
+  /// The two brightnesses need different greys, because the accent is both
+  /// filled behind text and drawn as text. [SteelPalette.steel] is pale
+  /// enough to carry a dark label and to read against a near-black dialog;
+  /// on a light scheme it would have to survive white on top of it *and*
+  /// stay legible on a pale surface, which no single tone that light can do
+  /// — hence [_lightAccent]. Dark is the look the game is designed around;
+  /// light exists for `ThemeMode.system` and only has to stay legible.
+  static ColorScheme _colorSchemeFor(Brightness brightness) {
+    final seeded = ColorScheme.fromSeed(
       seedColor: _seedColor,
       brightness: brightness,
     );
+    return brightness == Brightness.dark
+        ? seeded.copyWith(
+            primary: SteelPalette.steel,
+            onPrimary: SteelPalette.background,
+          )
+        : seeded.copyWith(primary: _lightAccent, onPrimary: Colors.white);
+  }
+
+  static ThemeData _themeFor(Brightness brightness) {
+    final colorScheme = _colorSchemeFor(brightness);
     final base = ThemeData(useMaterial3: true, colorScheme: colorScheme);
 
     return base.copyWith(
