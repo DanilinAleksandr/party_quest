@@ -15,6 +15,7 @@ import '../application/result_diff.dart';
 import '../application/result_entry.dart';
 import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
+import 'widgets/choice_outcome_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
 import 'widgets/journey_trail.dart';
 import 'widgets/origin_reveal_screen.dart';
@@ -56,13 +57,27 @@ class GameScreen extends ConsumerWidget {
       final cardJustDrawn =
           next.pendingCard != null && previous?.pendingCard != next.pendingCard;
       if (cardJustDrawn) {
+        final card = next.pendingCard!;
         showCardResolutionDialog(
           context: context,
-          card: next.pendingCard!,
-          participants: _participantsFor(next, next.pendingCard!.participant),
+          card: card,
+          participants: _participantsFor(next, card.participant),
           origins: origins,
-          onResolve: (choiceIndex) =>
-              ref.read(provider.notifier).resolveCard(choiceIndex: choiceIndex),
+          // The outcome is told *before* the choice reaches the controller,
+          // not after, and that is what keeps the two screens in the order
+          // the player reads them. Resolving is synchronous, and the state
+          // change it makes reaches this very listener — and therefore the
+          // first result card — before an `await`ed dialog could get its own
+          // route onto the navigator. Resolving first would stack the
+          // outcome on top of the ledger of what it did.
+          onResolve: (choiceIndex) async {
+            await tellChoiceOutcome(
+              context,
+              choiceIndex == null ? null : card.choices[choiceIndex].outcome,
+            );
+            if (!context.mounted) return;
+            ref.read(provider.notifier).resolveCard(choiceIndex: choiceIndex);
+          },
         );
       }
 
@@ -70,15 +85,19 @@ class GameScreen extends ConsumerWidget {
           next.pendingAdventureNode != null &&
           previous?.pendingAdventureNode != next.pendingAdventureNode;
       if (adventureNodeChanged) {
+        final node = next.pendingAdventureNode!;
         showAdventureNodeDialog(
           context: context,
-          node: next.pendingAdventureNode!,
+          node: node,
           participants: next.secondaryPlayer == null
               ? [next.currentPlayer]
               : [next.currentPlayer, next.secondaryPlayer!],
           origins: origins,
-          onChoice: (choiceIndex) =>
-              ref.read(provider.notifier).resolveAdventureChoice(choiceIndex),
+          onChoice: (choiceIndex) async {
+            await tellChoiceOutcome(context, node.choices[choiceIndex].outcome);
+            if (!context.mounted) return;
+            ref.read(provider.notifier).resolveAdventureChoice(choiceIndex);
+          },
         );
       }
 

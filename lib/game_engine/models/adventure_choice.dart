@@ -12,6 +12,15 @@ import 'node_transition.dart';
 final class AdventureChoice {
   final String label;
 
+  /// What the table is told happened once this option was taken — see
+  /// [CardChoice.outcome], same field, same "null means no extra step" rule.
+  ///
+  /// A node's own text already narrates where the choice led, so this is the
+  /// rarer case here than on a card; it exists so that a branch whose
+  /// consequence is a stat or an item rather than a new node can still say so
+  /// in words.
+  final String? outcome;
+
   /// Every condition must hold for this choice to even be offered — reuses
   /// the same [GameCondition] system cards use, so "only show this option if
   /// the player already has a torch" needs no adventure-specific machinery.
@@ -27,6 +36,7 @@ final class AdventureChoice {
 
   const AdventureChoice({
     required this.label,
+    this.outcome,
     this.conditions = const [],
     this.successChance,
     required this.onSuccess,
@@ -36,6 +46,7 @@ final class AdventureChoice {
   factory AdventureChoice.fromJson(Map<String, dynamic> json) =>
       AdventureChoice(
         label: json['label'] as String,
+        outcome: json['outcome'] as String?,
         conditions: GameCondition.listFromJson(
           json['conditions'] as List<dynamic>?,
         ),
@@ -52,6 +63,7 @@ final class AdventureChoice {
 
   Map<String, dynamic> toJson() => {
     'label': label,
+    if (outcome != null) 'outcome': outcome,
     'conditions': GameCondition.listToJson(conditions),
     if (successChance != null) 'successChance': successChance,
     'onSuccess': onSuccess.toJson(),
