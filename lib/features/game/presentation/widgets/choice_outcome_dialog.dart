@@ -14,6 +14,72 @@ Future<void> tellChoiceOutcome(BuildContext context, String? outcome) async {
   await showChoiceOutcomeDialog(context: context, outcome: outcome);
 }
 
+/// The same beat for a gamble, told as part of the scene rather than as a
+/// notice from the app.
+///
+/// A wager's aftermath is not a generic "Последствие" — it is the second
+/// half of *this* card. It keeps the card's own title, and its text is
+/// introduced by "В результате:", so the screen reads as the story
+/// continuing rather than as the system reporting. The plain dialog above
+/// stays exactly as it was for every ordinary choice, where there is no
+/// scene to continue and a neutral heading is the honest one.
+Future<void> tellGambleOutcome(
+  BuildContext context,
+  String? outcome, {
+  required String cardTitle,
+}) async {
+  if (outcome == null) return;
+  await showAppDialog<void>(
+    context: context,
+    icon: Icons.subdirectory_arrow_right_rounded,
+    title: cardTitle,
+    barrierDismissible: false,
+    content: _GambleOutcomeBody(outcome: outcome),
+    actions: [
+      FilledButton(
+        onPressed: () => Navigator.of(context).pop(),
+        child: const Text('Понятно'),
+      ),
+    ],
+  );
+}
+
+class _GambleOutcomeBody extends StatelessWidget {
+  final String outcome;
+
+  const _GambleOutcomeBody({required this.outcome});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'В РЕЗУЛЬТАТЕ',
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 9.5,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.52,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            outcome,
+            textAlign: TextAlign.start,
+            style: theme.textTheme.bodyLarge,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// The beat between picking an option and the table finding out what it cost.
 ///
 /// Until this existed, a choice with no visible effect — and most of them

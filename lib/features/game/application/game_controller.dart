@@ -20,11 +20,47 @@ final class Gamble {
   final String? winnerOutcome;
   final String? loserOutcome;
 
-  const Gamble({this.sides = const [], this.winnerOutcome, this.loserOutcome});
+  /// The two players a duel is between, or null for a solo risk.
+  ///
+  /// [challenger] is whoever tapped; [opponent] is the companion the engine
+  /// drew to face them, picked here rather than inside the executor so the
+  /// screen can name them both before a single effect lands. Without this
+  /// the result read as an impersonal "не повезло" while the penalty
+  /// quietly went to somebody else at the table.
+  final String? challenger;
+  final String? opponent;
+  final String? opponentId;
+
+  const Gamble({
+    this.sides = const [],
+    this.winnerOutcome,
+    this.loserOutcome,
+    this.challenger,
+    this.opponent,
+    this.opponentId,
+  });
 
   bool get hasCall => sides.length == 2;
 
-  String? outcomeFor({required bool won}) => won ? winnerOutcome : loserOutcome;
+  bool get isDuel => opponentId != null;
+
+  /// The text for the branch that happened, with the two players' names
+  /// filled in.
+  ///
+  /// `{winner}`/`{loser}` follow the same convention `AddChronicleEntryAction`
+  /// uses for `{player}`: content is written once and reads correctly
+  /// whichever way the coin fell, which is the only way a duel's words can
+  /// name the person the penalty actually landed on.
+  String? outcomeFor({required bool won}) {
+    final text = won ? winnerOutcome : loserOutcome;
+    if (text == null) return null;
+    final challenger = this.challenger;
+    final opponent = this.opponent;
+    if (challenger == null || opponent == null) return text;
+    return text
+        .replaceAll('{winner}', won ? challenger : opponent)
+        .replaceAll('{loser}', won ? opponent : challenger);
+  }
 }
 
 /// Orchestrates one match's step flow. This is the only place that decides
@@ -283,11 +319,18 @@ class GameController extends StateNotifier<GameState> {
             loserOutcome: a.loserOutcome,
           );
         case StartDuelAction a:
-          if (_context.players.length < 2) return null;
+          final opponents = _context.players
+              .where((p) => p.id != _context.currentPlayer.id)
+              .toList();
+          if (opponents.isEmpty) return null;
+          final opponent = opponents[_context.random.nextInt(opponents.length)];
           return Gamble(
             sides: a.sides,
             winnerOutcome: a.winnerOutcome,
             loserOutcome: a.loserOutcome,
+            challenger: _context.currentPlayer.name,
+            opponent: opponent.name,
+            opponentId: opponent.id,
           );
         default:
           continue;
@@ -320,7 +363,7 @@ class GameController extends StateNotifier<GameState> {
   /// Either way `ActionExecutor` keeps a complete implementation of its own:
   /// every gamble nobody pre-rolled — inside an adventure, on an effect's
   /// reaction — still rolls for itself.
-  void resolveCard({int? choiceIndex, bool? gambleWon}) {
+  void resolveCard({int? choiceIndex, bool? gambleWon, String? opponentId}) {
     final card = _context.state.pendingCard;
     if (card == null) return;
 
@@ -333,6 +376,7 @@ class GameController extends StateNotifier<GameState> {
           a,
           ctx,
           currentPlayerWins: gambleWon,
+          opponentId: opponentId,
         ),
         _ => _executor.execute(action, ctx),
       };

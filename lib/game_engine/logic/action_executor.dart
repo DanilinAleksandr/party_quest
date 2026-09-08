@@ -240,17 +240,26 @@ final class ActionExecutor {
   /// keeps the die honest. Left null, the duel rolls for itself as it always
   /// has, which is what every caller that is not the card-resolution path
   /// does.
+  ///
+  /// [opponentId] is likewise a companion already drawn — the screen named
+  /// them before the throw, so the engine must face that same person rather
+  /// than draw a second one. Unknown ids fall back to a fresh draw instead
+  /// of throwing: a stale id is a UI bug, not a reason to lose the step.
   GameContext startDuel(
     StartDuelAction action,
     GameContext context, {
     bool? currentPlayerWins,
+    String? opponentId,
   }) {
     final opponents = context.players
         .where((p) => p.id != context.currentPlayer.id)
         .toList();
     if (opponents.isEmpty) return context;
 
-    final opponent = opponents[context.random.nextInt(opponents.length)];
+    final named = opponents.where((p) => p.id == opponentId);
+    final opponent = named.isNotEmpty
+        ? named.first
+        : opponents[context.random.nextInt(opponents.length)];
     final wins = currentPlayerWins ?? context.random.nextBool();
     final winner = wins ? context.currentPlayer : opponent;
     final loser = wins ? opponent : context.currentPlayer;

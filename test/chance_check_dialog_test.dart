@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/core/widgets/app_dialog_shell.dart';
 import 'package:drinking_quest/features/game/presentation/widgets/chance_check_dialog.dart';
+import 'package:drinking_quest/features/game/presentation/widgets/choice_outcome_dialog.dart';
 import 'package:drinking_quest/features/game/presentation/widgets/wager_call_dialog.dart';
 
 Future<void> _roll(
@@ -11,6 +12,8 @@ Future<void> _roll(
   List<String> log, {
   String? called,
   String? other,
+  String? challenger,
+  String? opponent,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -22,6 +25,8 @@ Future<void> _roll(
               passed: passed,
               called: called,
               other: other,
+              challenger: challenger,
+              opponent: opponent,
             );
             log.add('resolved');
           },
@@ -38,7 +43,7 @@ Future<void> _roll(
 
 void main() {
   group('the roll', () {
-    testWidgets('says nothing until the die has settled', (tester) async {
+    testWidgets('says nothing until the coin has settled', (tester) async {
       final log = <String>[];
       await _roll(tester, true, log);
 
@@ -130,6 +135,84 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(picked, 1);
+    });
+  });
+
+  group('a duel', () {
+    testWidgets('names both players and which way it went', (tester) async {
+      // Second person is wrong here: the penalty may land on the companion,
+      // and "не повезло" would leave the table guessing who is meant.
+      await _roll(tester, true, [], challenger: 'Артём', opponent: 'София');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Артём и София'), findsOneWidget);
+      expect(find.text('Победа: Артём'), findsOneWidget);
+      expect(find.text('Повезло'), findsNothing);
+    });
+
+    testWidgets('names the companion when the companion won', (tester) async {
+      await _roll(tester, false, [], challenger: 'Артём', opponent: 'София');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Победа: София'), findsOneWidget);
+      expect(find.text('Не повезло'), findsNothing);
+    });
+
+    testWidgets('a solo risk still speaks to the one who took it', (
+      tester,
+    ) async {
+      await _roll(tester, true, []);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Повезло'), findsOneWidget);
+      expect(find.textContaining('Победа'), findsNothing);
+    });
+  });
+
+  group('the gamble outcome', () {
+    testWidgets('keeps the card name and labels its text', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => ElevatedButton(
+              onPressed: () => tellGambleOutcome(
+                context,
+                'Пьёт София.',
+                cardTitle: 'Пари между спутниками',
+              ),
+              child: const Text('go'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('go'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Пари между спутниками'), findsOneWidget);
+      expect(find.text('В РЕЗУЛЬТАТЕ'), findsOneWidget);
+      expect(find.text('Пьёт София.'), findsOneWidget);
+      // The generic heading belongs to the ordinary, non-random choices.
+      expect(find.text('Последствие'), findsNothing);
+    });
+
+    testWidgets('is skipped entirely when the gamble has no words', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => ElevatedButton(
+              onPressed: () =>
+                  tellGambleOutcome(context, null, cardTitle: 'Ва-банк'),
+              child: const Text('go'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('go'));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(appDialogContentKey), findsNothing);
     });
   });
 }
