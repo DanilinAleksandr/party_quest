@@ -221,7 +221,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
@@ -234,6 +234,11 @@
           }
         ],
         "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
           {
             "action": "setWorldFlag",
             "flag": "helped_peddler",
@@ -295,7 +300,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           },
           {
             "action": "modifyStat",
@@ -311,7 +316,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
@@ -327,7 +332,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
@@ -343,7 +348,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           },
           {
             "action": "modifyStat",
@@ -373,7 +378,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
@@ -394,7 +399,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
@@ -415,7 +420,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_healing_potion"
+            "itemId": "item_ward_amulet"
           }
         ]
       },
