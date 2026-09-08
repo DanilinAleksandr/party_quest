@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/theme/steel_palette.dart';
@@ -82,23 +83,73 @@ class _RollBody extends StatefulWidget {
 
 class _RollBodyState extends State<_RollBody>
     with SingleTickerProviderStateMixin {
-  static const _spin = Duration(milliseconds: 1150);
+  static const _throw = Duration(milliseconds: 2000);
 
   /// Whole half-turns before it lands. Even, so the coin finishes showing
   /// the same face it started on, which lets the starting face be chosen
   /// from the outcome instead of the turn count having to be tuned per
-  /// result.
+  /// result. The simulation below is built to travel exactly this far.
   static const _halfTurns = 8;
+
+  /// How long the coin is off the table, and how high it gets, in seconds
+  /// and logical pixels. Everything else about the arc follows from these
+  /// two: a toss that peaks at [_peak] and lands after [_flight] needs
+  /// `g = 8·peak/flight²` and a launch speed of `g·flight/2`.
+  static const _flight = 1.35;
+  static const _peak = 34.0;
+  static const _gravity = 8 * _peak / (_flight * _flight);
+
+  /// The hop it makes on landing, as a fraction of the launch speed. Real
+  /// enough to see it settle rather than stick, small enough not to read as
+  /// a second toss.
+  static const _rebound = 0.34;
+
+  /// Both arcs measure downward from the table, which is where
+  /// [GravitySimulation] puts its origin: the coin starts at 0 moving up,
+  /// gravity brings it back.
+  static final _toss = GravitySimulation(
+    _gravity,
+    0,
+    0,
+    -_gravity * _flight / 2,
+  );
+  static final _hop = GravitySimulation(
+    _gravity,
+    0,
+    0,
+    -_gravity * _flight / 2 * _rebound,
+  );
+
+  /// Angular speed with drag on it, rather than a curve pretending to be
+  /// one. A [FrictionSimulation] loses a fixed fraction of its speed per
+  /// second, so the total distance it will ever cover is `-v/ln(drag)` —
+  /// run that backwards to launch it at exactly the speed that spends
+  /// [_halfTurns] and no more.
+  static const _drag = 0.1;
+  static final _spin = FrictionSimulation(
+    _drag,
+    0,
+    -_halfTurns * math.log(_drag),
+  );
 
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: _spin,
+    duration: _throw,
   )..forward();
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  /// Height above the table at [seconds]: the toss, then the hop, then
+  /// still.
+  double _height(double seconds) {
+    if (seconds < _flight) return -_toss.x(seconds);
+    final since = seconds - _flight;
+    if (since < _flight * _rebound) return -_hop.x(since);
+    return 0;
   }
 
   /// Which face the coin is showing once it stops.
@@ -136,14 +187,18 @@ class _RollBodyState extends State<_RollBody>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
-        final t = Curves.easeOutCubic.transform(_controller.value);
+        // The controller is only a clock here — the motion comes from the
+        // two simulations, read at the elapsed time in seconds.
+        final seconds = _controller.value * _throw.inMilliseconds / 1000;
         final settled = _controller.isCompleted;
 
         // The flip itself: the coin's width collapses to nothing and opens
-        // out again, once per half-turn. `cos` gives that for free, and its
-        // sign says which face is pointing at the table.
-        final turn = t * math.pi * _halfTurns;
-        final squash = math.cos(turn);
+        // out again, once per half-turn. `cos` of the spin's position gives
+        // that for free, and its sign says which face is pointing at the
+        // table. Friction leaves the last fraction of a degree unspent, so
+        // the settled frame is squared up by hand rather than left to land
+        // on exactly even by luck.
+        final squash = settled ? 1.0 : math.cos(math.pi * _spin.x(seconds));
         final showingBack = squash < 0;
 
         return Column(
@@ -153,9 +208,9 @@ class _RollBodyState extends State<_RollBody>
               height: 132,
               child: Center(
                 child: Transform.translate(
-                  // Tossed and caught: up through the first half of the
-                  // flight, back down onto the table.
-                  offset: Offset(0, -26 * math.sin(t * math.pi)),
+                  // Thrown, not eased: a parabola under gravity, and a small
+                  // second one when it lands.
+                  offset: Offset(0, -_height(seconds)),
                   child: Transform(
                     alignment: Alignment.center,
                     // A hair of perspective so the collapse reads as a coin
