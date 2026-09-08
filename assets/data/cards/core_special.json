@@ -258,6 +258,11 @@
         "actions": [
           {
             "action": "duel",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "Ты допиваешь свою кружку под общий смех. С такой тучей над головой остаётся только вздыхать.",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -303,6 +308,11 @@
         "actions": [
           {
             "action": "duel",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "Кости судьбы решили не в твою пользу. Проигравший пьёт — пей.",
             "winnerActions": [
               {
                 "action": "modifyStat",
@@ -337,6 +347,11 @@
         "actions": [
           {
             "action": "duel",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "По рукам ударили, а пьёшь ты. Удача уходит вместе с этой кружкой.",
             "winnerActions": [
               {
                 "action": "modifyStat",

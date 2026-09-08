@@ -208,9 +208,20 @@ final class StartDuelAction extends GameAction {
   final List<GameAction> winnerActions;
   final List<GameAction> loserActions;
 
+  /// See [ChanceCheckAction.sides] — a duel can be a wager too, and
+  /// `luck_risky_bet` is one.
+  final List<String> sides;
+
+  /// See [ChanceCheckAction.winnerOutcome].
+  final String? winnerOutcome;
+  final String? loserOutcome;
+
   const StartDuelAction({
     this.winnerActions = const [],
     this.loserActions = const [],
+    this.sides = const [],
+    this.winnerOutcome,
+    this.loserOutcome,
   });
 
   factory StartDuelAction.fromJson(Map<String, dynamic> json) =>
@@ -221,6 +232,9 @@ final class StartDuelAction extends GameAction {
         loserActions: GameAction.listFromJson(
           json['loserActions'] as List<dynamic>?,
         ),
+        sides: _sidesFromJson(json['sides']),
+        winnerOutcome: json['winnerOutcome'] as String?,
+        loserOutcome: json['loserOutcome'] as String?,
       );
 
   @override
@@ -228,8 +242,14 @@ final class StartDuelAction extends GameAction {
     'action': 'duel',
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
+    if (sides.isNotEmpty) 'sides': sides,
+    if (winnerOutcome != null) 'winnerOutcome': winnerOutcome,
+    if (loserOutcome != null) 'loserOutcome': loserOutcome,
   };
 }
+
+List<String> _sidesFromJson(dynamic json) =>
+    (json as List<dynamic>? ?? const []).cast<String>().toList(growable: false);
 
 /// A coin flip against nobody: the engine decides whether the current
 /// player's gamble came off and applies [winnerActions] or [loserActions] to
@@ -252,9 +272,37 @@ final class ChanceCheckAction extends GameAction {
   final List<GameAction> winnerActions;
   final List<GameAction> loserActions;
 
+  /// The two things a player can call before the throw, when the scene has
+  /// somebody in it offering the wager — "Красная"/"Чёрная" at the
+  /// cardsharp's table, "Орёл"/"Решка" against the next table's bet.
+  ///
+  /// Empty for the majority, and that is the distinction it draws: a ledge,
+  /// a grave or a bright mushroom has no side to call. Nothing about the
+  /// mechanic changes — the throw is the same fifty-fifty either way — but a
+  /// gamble a person offered you is one you answer, and a gamble the world
+  /// offers is one you simply take.
+  ///
+  /// Two entries or none. The UI names the losing side by taking the other
+  /// one, which needs exactly two.
+  final List<String> sides;
+
+  /// What the table is told happened, per branch — the same idea as
+  /// `CardChoice.outcome`, split in two because a gamble has two endings and
+  /// the choice that started it cannot know which one it got.
+  ///
+  /// Where a wager is lost, this is where the drinking lives: the engine has
+  /// no counter for how much anyone has drunk and is not getting one, so
+  /// "ты пьёшь" is said in words around whatever penalty the card already
+  /// carried.
+  final String? winnerOutcome;
+  final String? loserOutcome;
+
   const ChanceCheckAction({
     this.winnerActions = const [],
     this.loserActions = const [],
+    this.sides = const [],
+    this.winnerOutcome,
+    this.loserOutcome,
   });
 
   factory ChanceCheckAction.fromJson(Map<String, dynamic> json) =>
@@ -265,6 +313,9 @@ final class ChanceCheckAction extends GameAction {
         loserActions: GameAction.listFromJson(
           json['loserActions'] as List<dynamic>?,
         ),
+        sides: _sidesFromJson(json['sides']),
+        winnerOutcome: json['winnerOutcome'] as String?,
+        loserOutcome: json['loserOutcome'] as String?,
       );
 
   @override
@@ -272,6 +323,9 @@ final class ChanceCheckAction extends GameAction {
     'action': 'chanceCheck',
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
+    if (sides.isNotEmpty) 'sides': sides,
+    if (winnerOutcome != null) 'winnerOutcome': winnerOutcome,
+    if (loserOutcome != null) 'loserOutcome': loserOutcome,
   };
 }
 

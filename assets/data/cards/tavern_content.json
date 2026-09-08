@@ -122,6 +122,11 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "Ставка не зашла. За соседним столом тебе наливают и смотрят, как ты допиваешь до дна.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -154,6 +159,11 @@
           },
           {
             "action": "chanceCheck",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "Бочонок тебе великодушно оставляют — но пьёшь ты, и прямо сейчас.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -214,6 +224,11 @@
           },
           {
             "action": "chanceCheck",
+            "sides": [
+              "Орёл",
+              "Решка"
+            ],
+            "loserOutcome": "Кости остаются при тебе. За наглость с тебя причитается: пьёшь.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -261,6 +276,7 @@
     "actions": [
       {
         "action": "chanceCheck",
+        "loserOutcome": "Рыцарь ставит кубок дном вверх раньше тебя. Ты допиваешь свой — и дальше уже ни в чём не уверен.",
         "winnerActions": [
           {
             "action": "modifyStat",
@@ -433,6 +449,11 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "sides": [
+              "Красная",
+              "Чёрная"
+            ],
+            "loserOutcome": "Его кости ложатся, как ему нужно. Ты пьёшь за науку.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -461,6 +482,11 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "sides": [
+              "Красная",
+              "Чёрная"
+            ],
+            "loserOutcome": "Кольцо уезжает к нему через стол. Он наливает тебе — за счёт заведения, говорит. Пей.",
             "winnerActions": [
               {
                 "action": "giveItem",
@@ -510,6 +536,11 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "sides": [
+              "Красная",
+              "Чёрная"
+            ],
+            "loserOutcome": "По маленькой играл, по маленькой и проиграл. Пьёшь, и удача уходит с этим глотком.",
             "winnerActions": [
               {
                 "action": "giveItem",

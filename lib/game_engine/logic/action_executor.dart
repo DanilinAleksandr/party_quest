@@ -30,8 +30,8 @@ final class ActionExecutor {
       ApplyEffectAction a => _applyEffect(a, context),
       RemoveEffectAction a => _removeEffect(a, context),
       ModifyStatAction a => _modifyStat(a, context),
-      StartDuelAction a => _startDuel(a, context),
-      ChanceCheckAction a => _resolveChanceCheck(a, context),
+      StartDuelAction a => startDuel(a, context),
+      ChanceCheckAction a => resolveChanceCheck(a, context),
       SetWorldFlagAction a => _setWorldFlag(a, context),
       ModifyGlobalModifierAction a => _modifyGlobalModifier(a, context),
       StartAdventureAction a => _startAdventure(a, context),
@@ -235,16 +235,25 @@ final class ActionExecutor {
   /// Also records [WorldState.previousWinnerId]/[previousLoserId] once the
   /// duel resolves — the mechanism behind `PreviousWinner`/`PreviousLoser`
   /// event participants ("победителя замечает торговец").
-  GameContext _startDuel(StartDuelAction action, GameContext context) {
+  /// [currentPlayerWins], when given, is a throw that already happened —
+  /// the UI showed it before any of this ran, and passing it back is what
+  /// keeps the die honest. Left null, the duel rolls for itself as it always
+  /// has, which is what every caller that is not the card-resolution path
+  /// does.
+  GameContext startDuel(
+    StartDuelAction action,
+    GameContext context, {
+    bool? currentPlayerWins,
+  }) {
     final opponents = context.players
         .where((p) => p.id != context.currentPlayer.id)
         .toList();
     if (opponents.isEmpty) return context;
 
     final opponent = opponents[context.random.nextInt(opponents.length)];
-    final currentPlayerWins = context.random.nextBool();
-    final winner = currentPlayerWins ? context.currentPlayer : opponent;
-    final loser = currentPlayerWins ? opponent : context.currentPlayer;
+    final wins = currentPlayerWins ?? context.random.nextBool();
+    final winner = wins ? context.currentPlayer : opponent;
+    final loser = wins ? opponent : context.currentPlayer;
 
     var next = executeAsPlayer(action.winnerActions, winner.id, context);
     next = executeAsPlayer(action.loserActions, loser.id, next);
@@ -260,13 +269,17 @@ final class ActionExecutor {
   /// recorded in [WorldState] — see [ChanceCheckAction] for why a gamble
   /// against fate must not leave the party's duel history behind it.
   ///
-  /// Unlike [_startDuel] this still resolves with a single player at the
+  /// Unlike [startDuel] this still resolves with a single player at the
   /// table: there is nobody to be short of.
-  GameContext _resolveChanceCheck(
+  ///
+  /// [passed] is the same pre-rolled throw [startDuel] takes, for the same
+  /// reason.
+  GameContext resolveChanceCheck(
     ChanceCheckAction action,
-    GameContext context,
-  ) {
-    final succeeded = context.random.nextBool();
+    GameContext context, {
+    bool? passed,
+  }) {
+    final succeeded = passed ?? context.random.nextBool();
     return executeAsPlayer(
       succeeded ? action.winnerActions : action.loserActions,
       context.currentPlayer.id,
