@@ -304,12 +304,38 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": 1
+        "label": "Сургуч корабельный — такой ставят на судовые бумаги",
+        "outcome": "Записка не письмо, а выписка из журнала. Кто-то отчитывался, и не успел.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Выловить и прочитать",
+        "outcome": "Чернила расплылись почти начисто. Кто-то писал это долго — а прочесть можно два слова.",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1,
+            "chance": 0.02
+          }
+        ]
       }
     ]
   },

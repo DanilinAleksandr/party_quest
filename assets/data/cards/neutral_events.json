@@ -274,12 +274,14 @@
       },
       {
         "label": "Напиться",
+        "outcome": "Вода холодная до ломоты в зубах. Идти после неё легче.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },

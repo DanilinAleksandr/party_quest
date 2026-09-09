@@ -37,12 +37,14 @@
     "choices": [
       {
         "label": "Положить свой камень",
+        "outcome": "Камень ложится сверху и остаётся лежать свободно. Осядет он уже без тебя.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },

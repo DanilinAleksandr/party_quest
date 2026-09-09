@@ -266,7 +266,8 @@
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           },
           {
             "action": "setWorldFlag",

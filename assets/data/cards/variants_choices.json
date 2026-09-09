@@ -160,12 +160,14 @@
       },
       {
         "label": "Оставить свою и попросить дороги полегче",
+        "outcome": "Монету вбивают ребром, как все до тебя. Кора сомкнётся над ней уже без тебя.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -336,12 +338,14 @@
       },
       {
         "label": "Оставить свою и попросить дороги полегче",
+        "outcome": "Монета ложится к остальным. Просьбу никто не слышит — на то и просьба.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -512,12 +516,14 @@
       },
       {
         "label": "Оставить свою и попросить дороги полегче",
+        "outcome": "Ты кладёшь свою и не считаешь чужие. Считать тут не принято.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -688,12 +694,14 @@
       },
       {
         "label": "Оставить свою и попросить дороги полегче",
+        "outcome": "Монета остаётся лежать на виду. Следующий проходящий решит сам, брать или добавить.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -2371,12 +2379,14 @@
       },
       {
         "label": "Напиться",
+        "outcome": "Вода отдаёт мхом и железом. Ко второму глотку это даже нравится.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -2540,12 +2550,14 @@
       },
       {
         "label": "Напиться",
+        "outcome": "Пить приходится с ладони, по глотку. Времени уходит больше, чем стоило бы.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -2709,12 +2721,14 @@
       },
       {
         "label": "Напиться",
+        "outcome": "Вода стоячая на вид и живая на вкус. Капель считает секунды над головой.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
