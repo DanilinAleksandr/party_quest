@@ -1,6 +1,13 @@
 import '../context/game_context.dart';
 import '../models/models.dart';
 
+/// How often the party stops to rest, in `GameState.partySteps`.
+///
+/// The halt is derived from the step count rather than stored: every tenth
+/// step *is* a rest, so there is nothing to keep in sync and nothing that
+/// can drift out of it.
+const int kRestInterval = 10;
+
 /// The full pool of cards a match can draw from, plus condition-aware,
 /// weighted selection.
 ///
@@ -41,23 +48,53 @@ final class CardCatalog {
   /// `CardTag.tavern`-tagged content is eligible — road events, the
   /// traveling merchant, and real biome-transition cards are excluded for
   /// free, without needing an exclusion condition added to any of them.
+  ///
+  /// The rest halt is the same shape once more, keyed off the step count:
+  /// every `kRestInterval`th step the party sits down, and only
+  /// `CardTag.rest` content is eligible. It differs from the other two in
+  /// running *both* ways — a rest card is also excluded from every ordinary
+  /// step, because a campfire is not something that befalls a party on the
+  /// road. That symmetry is what lets the halt be scheduled without a
+  /// condition on either side of it.
+  ///
+  /// The prologue and the tavern take precedence over it. A campfire on the
+  /// road is the wrong picture inside a tavern, and the halt is not
+  /// something the player was ever promised — a missed one is invisible,
+  /// where a rest card in the wrong place is not.
+  ///
+  /// And the halt only happens when there is something to halt for: if no
+  /// rest card comes through the filter, the step falls back to the
+  /// ordinary pool. Otherwise any card set without rest content — a test
+  /// fixture, a themed pack, a mode whose rarity pool happens to exclude
+  /// them — would hit an empty pool on its tenth step and take the step
+  /// down with it. A scheduled event that can empty the deck is worse than
+  /// no scheduled event.
   List<GameCard> eligibleCards(
     GameContext context, {
     bool Function(GameCard card)? extraFilter,
   }) {
     final inPrologue = context.state.phase == JourneyPhase.prologue;
     final inTavern = context.state.worldState.flag('in_tavern');
-    return allCards
+    final steps = context.state.partySteps;
+    final atHalt =
+        !inPrologue && !inTavern && steps > 0 && steps % kRestInterval == 0;
+
+    List<GameCard> pool({required bool resting}) => allCards
         .where((card) {
           if (!context.mode.allowedRarities.contains(card.rarity)) return false;
           if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
           if (inTavern && !card.hasTag(CardTag.tavern)) return false;
+          if (resting != card.hasTag(CardTag.rest)) return false;
           final conditionsMet = card.conditions.every(
             (condition) => condition.isSatisfied(context),
           );
           return conditionsMet && (extraFilter?.call(card) ?? true);
         })
         .toList(growable: false);
+
+    if (!atHalt) return pool(resting: false);
+    final resting = pool(resting: true);
+    return resting.isEmpty ? pool(resting: false) : resting;
   }
 
   /// Draws one eligible card, weighted by [GameCard.weight].

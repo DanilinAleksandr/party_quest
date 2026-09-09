@@ -1,0 +1,379 @@
+[
+  {
+    "id": "rest_dying_fire",
+    "title": "Догорающий костёр",
+    "description": "Разговоры стихли сами собой. Кто-то подбрасывает последнюю ветку — просто чтобы не сидеть в темноте.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "choices": [
+      {
+        "label": "Подбросить веток так, чтобы хватило до утра",
+        "outcome": "Костёр держится всю ночь. Утром угли ещё тёплые.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Смотреть на угли",
+        "outcome": "Никто не торопит следующий день.",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "rest_fireside_dispute",
+    "title": "Спор у костра",
+    "description": "Кто-то из спутников уверенно бьёт по рукам: рассказ есть, но не про себя — про того, кто сейчас проиграет спор.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "duel",
+      "social"
+    ],
+    "choices": [
+      {
+        "label": "Спорить с бардом — гиблое дело, и все это знают",
+        "outcome": "Никто не бьёт по рукам. Байку ты рассказываешь сам, и на своих условиях.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поспорить на удачу",
+        "actions": [
+          {
+            "action": "duel",
+            "sides": [
+              "Король",
+              "Шут"
+            ],
+            "winnerOutcome": "{loser} со вздохом травит байку о своём самом позорном провале — компания хохочет громче, чем следовало бы.",
+            "loserOutcome": "{loser} со вздохом травит байку о своём самом позорном провале — компания хохочет громче, чем следовало бы.",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_arm_wrestle",
+    "title": "Армрестлинг",
+    "description": "Ставки на стол — руки на стол. Проигравший разносит остаток фляг по кругу до конца привала, больше ничего не должен.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "duel",
+      "party"
+    ],
+    "choices": [
+      {
+        "label": "Наёмнику такие ставки предлагают только раз",
+        "outcome": "Руку кладут на стол и убирают почти сразу. Фляги идут по кругу без тебя.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Принять вызов",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerOutcome": "{loser} разносит остатки фляг по кругу — щёки красные то ли от натуги, то ли от смущения.",
+            "loserOutcome": "{loser} разносит остатки фляг по кругу — щёки красные то ли от натуги, то ли от смущения.",
+            "winnerActions": [],
+            "loserActions": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_campfire_tale",
+    "title": "Байки у костра",
+    "description": "Ты берёшься рассказать историю получше — но врать красиво сложнее, чем кажется.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "social",
+      "solo"
+    ],
+    "choices": [
+      {
+        "label": "Рассказать ту, за которую тебя однажды и посадили",
+        "outcome": "История правдива от первого слова до последнего. Именно поэтому в неё никто не верит.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Рискнуть впечатлить компанию",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "История удалась — даже те, кто слышал её раньше, делают вид, что нет.",
+            "loserOutcome": "На середине ты путаешься, кто кого предал — компания великодушно делает вид, что не заметила.",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_night_watch",
+    "title": "Дежурство",
+    "description": "Кто-то остаётся смотреть в темноту, пока остальные проваливаются в сон. Ничего не происходит — и это тоже хорошо.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "choices": [
+      {
+        "label": "Ты и так не спишь по ночам — пусть отдыхают остальные",
+        "outcome": "К утру ты знаешь про этот лес больше, чем хотел бы.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Отстоять своё дежурство",
+        "outcome": "Ночь проходит спокойно. Не каждая тишина — угроза.",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "rest_supply_split",
+    "title": "Делёж припасов",
+    "description": "Мешки перебирают заново — что-то лишнее, что-то забытое на дне с самого начала пути.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "item",
+      "solo"
+    ],
+    "choices": [
+      {
+        "label": "Разложить всё на телеге — так видно, чего не хватает",
+        "outcome": "На телеге видно каждую мелочь. Кое-чего в мешках не досчитались ещё на прошлом привале.",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Проверить свой мешок",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "На дне мешка находится то, что ты и забыл, что брал.",
+            "loserOutcome": "Ничего лишнего — всё, что нужно, и так при тебе.",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_healing_potion"
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_stars_omen",
+    "title": "Приметы по звёздам",
+    "description": "Кто-то по привычке поднимает взгляд к небу — просто чтобы привычно понять, каким будет завтра.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "choices": [
+      {
+        "label": "Сверить небо с картой — одно уточняет другое",
+        "outcome": "Звёзды и карта сходятся. Завтрашний поворот теперь не догадка.",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "read_the_stars",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Прочитать небо",
+        "outcome": "Небо не говорит ничего определённого. Может, это и есть ответ.",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "read_the_stars",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_plan_dispute",
+    "title": "Спор о завтрашнем пути",
+    "description": "Двое уверены, что знают дорогу лучше остальных — и оба не готовы уступить.",
+    "type": "duel",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "duel",
+      "strategy"
+    ],
+    "choices": [
+      {
+        "label": "Следопыт не спорит — следопыт показывает",
+        "outcome": "Ты чертишь прутом по земле, и спор заканчивается сам собой.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "lean_mountains",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Пусть спорят",
+        "actions": [
+          {
+            "action": "duel",
+            "winnerOutcome": "{winner} оказывается прав — или просто увереннее остальных, что почти то же самое.",
+            "loserOutcome": "{loser} машет рукой — ладно, в этот раз не мой путь.",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "attentiveness",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      }
+    ]
+  }
+]
