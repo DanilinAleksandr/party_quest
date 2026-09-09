@@ -1403,12 +1403,38 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": 1
+        "label": "Весло делали не на верфи — рука домашняя, и метка тоже",
+        "outcome": "Такое весло режут под себя, одно на всю жизнь. Его не бросают.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Осмотреть метку",
+        "outcome": "Такую метку ставят в трёх бухтах разом. Чья именно — не разобрать.",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1,
+            "chance": 0.02
+          }
+        ]
       }
     ]
   },
@@ -1429,12 +1455,38 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": 1
+        "label": "Узел не морской, но вязали по морскому образцу",
+        "outcome": "Кто-то учился по чужим рукам и торопился. Верёвку он потерял не в первый раз.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Развязать и посмотреть",
+        "outcome": "Узел поддаётся легко — вязали в спешке. Верёвка обрывается на ладонь ниже.",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1,
+            "chance": 0.02
+          }
+        ]
       }
     ]
   },
@@ -1455,12 +1507,38 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": 1
+        "label": "Чеканку видно и через соль — она не здешняя",
+        "outcome": "Металл мягкий, край стёрт по кругу. Такие ходят южнее и стоят дороже, чем весят.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "cunning",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Достать и разглядеть",
+        "outcome": "Что-то плоское, обточенное морем. При таком свете не понять, монета или стекло.",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1,
+            "chance": 0.02
+          }
+        ]
       }
     ]
   },
@@ -1481,12 +1559,38 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": 1
+        "label": "Птица не роняла — она отдала",
+        "outcome": "Так делают, когда за ними гонятся. Ты оглядываешься на небо, но там уже пусто.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Поднять",
+        "outcome": "Мелкое, тёплое от птицы и совершенно непонятное. Ты кладёшь это в карман.",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": 1,
+            "chance": 0.02
+          }
+        ]
       }
     ]
   }

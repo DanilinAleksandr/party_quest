@@ -127,12 +127,14 @@
     "choices": [
       {
         "label": "Пойти по ней и посмотреть, куда она ведёт",
+        "outcome": "Тропа выводит к воде и там теряется. Кто её натоптал, так и не показывается.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },

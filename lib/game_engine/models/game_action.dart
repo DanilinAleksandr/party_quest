@@ -19,6 +19,23 @@ import 'weather.dart';
 sealed class GameAction {
   const GameAction();
 
+  /// The odds this action does anything at all, 0..1, or null for "always" —
+  /// which is what every action was before this existed and what all but a
+  /// handful still are.
+  ///
+  /// Rolled by [ActionExecutor.execute] and applied to *this action only*:
+  /// a miss skips it and leaves the rest of the list, the choice and the
+  /// card untouched. That is the whole point — it is for the small extra on
+  /// top of a branch that already does something, not for making a branch
+  /// itself a coin flip. A branch that gambles is a `chanceCheck`, which
+  /// has two outcome texts because a player who is gambling has to be told
+  /// which way it went.
+  ///
+  /// Only [ModifyStatAction] declares one today; the getter lives here so
+  /// the roll happens in one place rather than inside each action that
+  /// eventually wants it.
+  double? get chance => null;
+
   factory GameAction.fromJson(Map<String, dynamic> json) {
     final kind = json['action'] as String;
     return switch (kind) {
@@ -166,15 +183,24 @@ final class RemoveEffectAction extends GameAction {
 }
 
 /// Adds [amount] (may be negative) to the target's [stat].
+///
+/// [chance], where a card sets one, is what keeps luck scarce: a stat that
+/// 78 cards hand out and almost nothing takes away stops being a stat and
+/// becomes a counter of how long the evening has run. See [GameAction.chance]
+/// for what a miss does and does not skip.
 final class ModifyStatAction extends GameAction {
   final StatType stat;
   final int amount;
   final ActionTarget target;
 
+  @override
+  final double? chance;
+
   const ModifyStatAction({
     required this.stat,
     required this.amount,
     this.target = ActionTarget.currentPlayer,
+    this.chance,
   });
 
   factory ModifyStatAction.fromJson(Map<String, dynamic> json) =>
@@ -184,6 +210,7 @@ final class ModifyStatAction extends GameAction {
         target: ActionTarget.fromJson(
           json['target'] as String? ?? 'currentPlayer',
         ),
+        chance: (json['chance'] as num?)?.toDouble(),
       );
 
   @override
@@ -192,6 +219,7 @@ final class ModifyStatAction extends GameAction {
     'stat': stat.toJson(),
     'amount': amount,
     'target': target.toJson(),
+    if (chance != null) 'chance': chance,
   };
 }
 

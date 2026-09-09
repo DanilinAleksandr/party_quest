@@ -60,7 +60,8 @@
         "action": "modifyStat",
         "target": "currentPlayer",
         "stat": "luck",
-        "amount": 3
+        "amount": 3,
+        "chance": 0.02
       }
     ]
   },

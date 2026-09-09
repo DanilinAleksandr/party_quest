@@ -37,12 +37,14 @@
     "choices": [
       {
         "label": "Пройти по полосе и посмотреть, что осталось после детей",
+        "outcome": "Дети выбрали всё мелкое и блестящее. Остальное лежит как лежало.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },

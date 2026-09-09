@@ -286,7 +286,8 @@
     "choices": [
       {
         "label": "Пойти следом, шаг в шаг",
-        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }]
+        "outcome": "Гать держит. Один раз нога уходит в сторону — и находит опору сама.",
+        "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1, "chance": 0.02 }]
       },
       {
         "label": "Прочитать гать по ряби — она выдаёт себя",

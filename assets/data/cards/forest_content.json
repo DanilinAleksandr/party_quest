@@ -675,13 +675,15 @@
         ]
       },
       {
-        "label": "Собрать цветы на удачу",
+        "label": "Набрать цветов, раз уж они тут",
+        "outcome": "Букет завянет через час, и все это знают. Собирают всё равно.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
@@ -895,12 +897,14 @@
       },
       {
         "label": "Просто посмотреть со стороны",
+        "outcome": "Жонглёр роняет один шар — и делает вид, что так и было задумано.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       }

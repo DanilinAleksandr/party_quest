@@ -24,6 +24,15 @@ final class ActionExecutor {
   }
 
   GameContext execute(GameAction action, GameContext context) {
+    // An action that declares odds is rolled for before anything else looks
+    // at it, and a miss returns the context untouched — see
+    // [GameAction.chance]. One roll in one place, so an action type that
+    // wants odds later only has to override the getter.
+    final chance = action.chance;
+    if (chance != null && context.random.nextDouble() >= chance) {
+      return context;
+    }
+
     return switch (action) {
       GiveItemAction a => _giveItem(a, context),
       TakeItemAction a => _takeItem(a, context),

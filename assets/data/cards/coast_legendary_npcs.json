@@ -204,12 +204,14 @@
       },
       {
         "label": "Слушать издалека",
+        "outcome": "Слов не разобрать, а мотив остаётся с тобой до самого вечера.",
         "actions": [
           {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "luck",
-            "amount": 1
+            "amount": 1,
+            "chance": 0.02
           }
         ]
       },
