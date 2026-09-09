@@ -33,7 +33,13 @@ enum CardTag {
   /// whatever real biome the party is already in (not a rotation biome of
   /// its own), so this restricts the draw the same way `prologue` does,
   /// keyed off a `WorldState` flag instead of `JourneyPhase`.
-  tavern;
+  tavern,
+
+  /// Marks content for the halt the party makes every `kRestInterval`
+  /// steps — see `CardCatalog.eligibleCards`. Unlike the two above, this
+  /// tag also keeps a card *out* of every other step: a campfire is not
+  /// something that happens by chance on the road.
+  rest;
 
   static CardTag fromJson(String value) => CardTag.values.byName(value);
 
