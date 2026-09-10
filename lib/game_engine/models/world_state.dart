@@ -86,6 +86,12 @@ import 'weather.dart';
 /// satisfy a "steps since" check. `GameController` derives this purely
 /// from current flag state each turn: incrementing while `in_tavern` is
 /// set, snapping back to 0 the instant it isn't.
+///
+/// [turnsInRest] is the same counter for the same reason, keyed off
+/// `in_rest`. A halt at a campfire is the tavern's shape exactly: a detour
+/// inside whatever biome the party is already in, its own content pool, its
+/// own way out, and `partySteps` frozen throughout — an evening at the fire
+/// no more shortens the road than an evening at the bar does.
 final class WorldState {
   final Map<String, bool> flags;
   final Set<String> completedAdventures;
@@ -96,6 +102,7 @@ final class WorldState {
   final int turnsInCurrentWeather;
   final Season currentSeason;
   final int turnsInTavern;
+  final int turnsInRest;
   final String? previousParticipantId;
   final String? previousWinnerId;
   final String? previousLoserId;
@@ -112,6 +119,7 @@ final class WorldState {
     this.turnsInCurrentWeather = 0,
     this.currentSeason = Season.summer,
     this.turnsInTavern = 0,
+    this.turnsInRest = 0,
     this.previousParticipantId,
     this.previousWinnerId,
     this.previousLoserId,
@@ -142,6 +150,7 @@ final class WorldState {
     int? turnsInCurrentWeather,
     Season? currentSeason,
     int? turnsInTavern,
+    int? turnsInRest,
     String? previousParticipantId,
     String? previousWinnerId,
     String? previousLoserId,
@@ -159,6 +168,7 @@ final class WorldState {
           turnsInCurrentWeather ?? this.turnsInCurrentWeather,
       currentSeason: currentSeason ?? this.currentSeason,
       turnsInTavern: turnsInTavern ?? this.turnsInTavern,
+      turnsInRest: turnsInRest ?? this.turnsInRest,
       previousParticipantId:
           previousParticipantId ?? this.previousParticipantId,
       previousWinnerId: previousWinnerId ?? this.previousWinnerId,
@@ -189,6 +199,7 @@ final class WorldState {
         ? Season.summer
         : Season.fromJson(json['currentSeason'] as String),
     turnsInTavern: json['turnsInTavern'] as int? ?? 0,
+    turnsInRest: json['turnsInRest'] as int? ?? 0,
     previousParticipantId: json['previousParticipantId'] as String?,
     previousWinnerId: json['previousWinnerId'] as String?,
     previousLoserId: json['previousLoserId'] as String?,
@@ -207,6 +218,7 @@ final class WorldState {
     'turnsInCurrentWeather': turnsInCurrentWeather,
     'currentSeason': currentSeason.toJson(),
     'turnsInTavern': turnsInTavern,
+    'turnsInRest': turnsInRest,
     'previousParticipantId': previousParticipantId,
     'previousWinnerId': previousWinnerId,
     'previousLoserId': previousLoserId,

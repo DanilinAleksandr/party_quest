@@ -3,9 +3,11 @@ import '../models/models.dart';
 
 /// How often the party stops to rest, in `GameState.partySteps`.
 ///
-/// The halt is derived from the step count rather than stored: every tenth
-/// step *is* a rest, so there is nothing to keep in sync and nothing that
-/// can drift out of it.
+/// The schedule is derived from the step count rather than stored: every
+/// tenth step the party sits down, so there is nothing to keep in sync and
+/// nothing that can drift out of it. How long the halt then lasts is not
+/// scheduled at all — that is the `in_rest` flag's business, exactly as the
+/// tavern's length is `in_tavern`'s.
 const int kRestInterval = 10;
 
 /// The full pool of cards a match can draw from, plus condition-aware,
@@ -49,42 +51,62 @@ final class CardCatalog {
   /// traveling merchant, and real biome-transition cards are excluded for
   /// free, without needing an exclusion condition added to any of them.
   ///
-  /// The rest halt is the same shape once more, keyed off the step count:
-  /// every `kRestInterval`th step the party sits down, and only
-  /// `CardTag.rest` content is eligible. It differs from the other two in
-  /// running *both* ways — a rest card is also excluded from every ordinary
-  /// step, because a campfire is not something that befalls a party on the
-  /// road. That symmetry is what lets the halt be scheduled without a
-  /// condition on either side of it.
+  /// The rest halt is the tavern's pattern again, `in_rest` for `in_tavern`
+  /// — while the flag is set only `CardTag.rest` content is eligible, the
+  /// party's `partySteps` is frozen, and a departure card carrying the
+  /// `in_rest = false` action is what ends it. The one difference is how it
+  /// *starts*: the tavern is entered by chance, on a weighted card that
+  /// merely becomes eligible after seven turns in a biome, while the halt
+  /// is due on a fixed schedule and has to actually happen.
   ///
-  /// The prologue and the tavern take precedence over it. A campfire on the
-  /// road is the wrong picture inside a tavern, and the halt is not
-  /// something the player was ever promised — a missed one is invisible,
-  /// where a rest card in the wrong place is not.
+  /// So on a due step the pool narrows to the cards that begin a halt —
+  /// identified by the action they carry rather than by id or a tag of
+  /// their own, so a second arrival variant (the tavern has two) drops into
+  /// the content with no engine change. That test runs both ways as well:
+  /// an arrival card is *only* drawable on a due step. Being forced when due
+  /// and carrying no conditions of its own, it would otherwise be eligible
+  /// on every ordinary step too, and the party would pitch camp whenever the
+  /// weighting felt like it.
   ///
-  /// And the halt only happens when there is something to halt for: if no
-  /// rest card comes through the filter, the step falls back to the
-  /// ordinary pool. Otherwise any card set without rest content — a test
-  /// fixture, a themed pack, a mode whose rarity pool happens to exclude
-  /// them — would hit an empty pool on its tenth step and take the step
-  /// down with it. A scheduled event that can empty the deck is worse than
-  /// no scheduled event.
+  /// The rest tag runs both ways, unlike the tavern's: rest content is also
+  /// kept off every ordinary step. The tavern does not need that because
+  /// each of its 84 cards carries a `worldFlagSet: in_tavern` condition of
+  /// its own; doing it here in one line keeps eight campfire cards from
+  /// needing eight copies of the same condition.
+  ///
+  /// The prologue and the tavern take precedence, and the schedule waits.
+  /// A halt cannot begin inside another detour, and a due step that lands
+  /// there simply passes — the player is never told the halt comes every
+  /// tenth step, so a late one is invisible, where a campfire pitched in a
+  /// tavern is not.
+  ///
+  /// And the halt only happens when there is something to halt with: with
+  /// no arrival card through the filter, the step falls back to the ordinary
+  /// pool. Any card set without rest content — a test fixture, a themed
+  /// pack, a mode whose rarity pool excludes them — would otherwise hit an
+  /// empty pool on its tenth step and take the step down with it.
   List<GameCard> eligibleCards(
     GameContext context, {
     bool Function(GameCard card)? extraFilter,
   }) {
     final inPrologue = context.state.phase == JourneyPhase.prologue;
     final inTavern = context.state.worldState.flag('in_tavern');
+    final inRest = context.state.worldState.flag('in_rest');
     final steps = context.state.partySteps;
-    final atHalt =
-        !inPrologue && !inTavern && steps > 0 && steps % kRestInterval == 0;
+    final restDue =
+        !inPrologue &&
+        !inTavern &&
+        !inRest &&
+        steps > 0 &&
+        steps % kRestInterval == 0;
 
-    List<GameCard> pool({required bool resting}) => allCards
+    List<GameCard> pool({required bool arrivals}) => allCards
         .where((card) {
           if (!context.mode.allowedRarities.contains(card.rarity)) return false;
           if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
           if (inTavern && !card.hasTag(CardTag.tavern)) return false;
-          if (resting != card.hasTag(CardTag.rest)) return false;
+          if (inRest != card.hasTag(CardTag.rest)) return false;
+          if (arrivals != card.beginsRest) return false;
           final conditionsMet = card.conditions.every(
             (condition) => condition.isSatisfied(context),
           );
@@ -92,9 +114,9 @@ final class CardCatalog {
         })
         .toList(growable: false);
 
-    if (!atHalt) return pool(resting: false);
-    final resting = pool(resting: true);
-    return resting.isEmpty ? pool(resting: false) : resting;
+    if (!restDue) return pool(arrivals: false);
+    final due = pool(arrivals: true);
+    return due.isEmpty ? pool(arrivals: false) : due;
   }
 
   /// Draws one eligible card, weighted by [GameCard.weight].

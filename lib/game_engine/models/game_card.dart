@@ -64,6 +64,21 @@ final class GameCard {
 
   bool hasTag(CardTag tag) => tags.contains(tag);
 
+  /// Whether drawing this card puts the party at a halt — see
+  /// `CardCatalog.eligibleCards`, which forces the draw to one of these on
+  /// a rest-due step.
+  ///
+  /// Read off the action rather than an id or a tag of its own, so an
+  /// arrival is simply *a card that sets `in_rest`*: a second variant of it
+  /// ships as content, the way the tavern already has two ways in, without
+  /// the engine learning its name.
+  bool get beginsRest => actions.any(
+    (action) =>
+        action is SetWorldFlagAction &&
+        action.flag == 'in_rest' &&
+        action.value,
+  );
+
   /// Used by `GameController` to cache, in `GameState`, the same card with
   /// only the choices the player is currently eligible to see — mirrors
   /// `AdventureNode.withChoices` so the index the UI shows always lines up

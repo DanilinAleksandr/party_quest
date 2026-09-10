@@ -127,6 +127,7 @@ List<InfluenceTag> influenceTagsOf(
       case MinimumTurnsInBiomeCondition _:
       case MinimumTurnsInWeatherCondition _:
       case MinimumTurnsInTavernCondition _:
+      case MinimumTurnsInRestCondition _:
       case MinimumPlayersCondition _:
       case MaximumPlayersCondition _:
       case MinimumStepCondition _:

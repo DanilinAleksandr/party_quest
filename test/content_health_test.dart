@@ -41,8 +41,7 @@ void main() {
     CurrentPlayerHasEffectCondition _ ||
     AnyPlayerHasEffectCondition _ ||
     CurrentPlayerMissingEffectCondition _ => 'effect',
-    WorldFlagSetCondition c =>
-      allyFlags.containsKey(c.flag) ? 'ally' : 'world',
+    WorldFlagSetCondition c => allyFlags.containsKey(c.flag) ? 'ally' : 'world',
     WorldFlagUnsetCondition _ ||
     MinimumStepsSinceFlagCondition _ ||
     AdventureCompletedCondition _ ||
@@ -59,6 +58,7 @@ void main() {
     NotInBiomeCondition _ ||
     MinimumTurnsInBiomeCondition _ ||
     MinimumTurnsInTavernCondition _ ||
+    MinimumTurnsInRestCondition _ ||
     MinimumPlayersCondition _ ||
     MaximumPlayersCondition _ ||
     MinimumStepCondition _ ||
@@ -127,8 +127,15 @@ void main() {
     // A system that falls out of the content entirely is a design
     // regression, not a style choice — the report warns about thin ones,
     // this fails on empty ones.
-    for (final system in ['origin', 'item', 'effect', 'world', 'ally', 'stat',
-      'ambient']) {
+    for (final system in [
+      'origin',
+      'item',
+      'effect',
+      'world',
+      'ally',
+      'stat',
+      'ambient',
+    ]) {
       expect(
         usage[system] ?? 0,
         greaterThan(0),
