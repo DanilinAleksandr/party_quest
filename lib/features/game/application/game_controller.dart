@@ -179,6 +179,7 @@ class GameController extends StateNotifier<GameState> {
     ctx = _incrementTurnsInBiome(ctx);
     ctx = _incrementTurnsInWeather(ctx);
     ctx = _incrementTurnsInTavern(ctx);
+    ctx = _incrementTurnsInRest(ctx);
 
     if (stepsToWin != null && ctx.state.partySteps >= stepsToWin!) {
       _finishJourney(ctx);
@@ -453,7 +454,8 @@ class GameController extends StateNotifier<GameState> {
   /// changes while inside one — see `turnsInTavern`/`_incrementTurnsInTavern`
   /// for the tavern's own local dwell counter.
   GameContext _incrementPartySteps(GameContext ctx) {
-    if (ctx.state.worldState.flag('in_tavern')) {
+    final world = ctx.state.worldState;
+    if (world.flag('in_tavern') || world.flag('in_rest')) {
       return ctx;
     }
     return ctx.withState(
@@ -491,6 +493,19 @@ class GameController extends StateNotifier<GameState> {
     final inTavern = ctx.state.worldState.flag('in_tavern');
     final worldState = ctx.state.worldState.copyWith(
       turnsInTavern: inTavern ? ctx.state.worldState.turnsInTavern + 1 : 0,
+    );
+    return ctx.withState(ctx.state.copyWith(worldState: worldState));
+  }
+
+  /// The same counter for a halt at the fire — see `WorldState.turnsInRest`.
+  /// Kept beside its twin rather than folded into one method taking a flag
+  /// name: they are two separate detours that happen to have the same shape,
+  /// and a shared helper would only make the next one that *doesn't* share
+  /// it harder to add.
+  GameContext _incrementTurnsInRest(GameContext ctx) {
+    final inRest = ctx.state.worldState.flag('in_rest');
+    final worldState = ctx.state.worldState.copyWith(
+      turnsInRest: inRest ? ctx.state.worldState.turnsInRest + 1 : 0,
     );
     return ctx.withState(ctx.state.copyWith(worldState: worldState));
   }

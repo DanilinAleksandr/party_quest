@@ -97,6 +97,9 @@ sealed class GameCondition {
       'minimumTurnsInTavern' => MinimumTurnsInTavernCondition(
         turns: json['turns'] as int,
       ),
+      'minimumTurnsInRest' => MinimumTurnsInRestCondition(
+        turns: json['turns'] as int,
+      ),
       'inWeather' => InWeatherCondition(
         weather: Weather.fromJson(json['weather'] as String),
       ),
@@ -767,6 +770,25 @@ final class MinimumTurnsInTavernCondition extends GameCondition {
   @override
   Map<String, dynamic> toJson() => {
     'condition': 'minimumTurnsInTavern',
+    'turns': turns,
+  };
+}
+
+/// The same gate for a halt at the fire — see `WorldState.turnsInRest`.
+/// Used by the rest's own departure card so the party sits down for at
+/// least one card before anyone suggests packing up.
+final class MinimumTurnsInRestCondition extends GameCondition {
+  final int turns;
+
+  const MinimumTurnsInRestCondition({required this.turns});
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.state.worldState.turnsInRest >= turns;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'minimumTurnsInRest',
     'turns': turns,
   };
 }

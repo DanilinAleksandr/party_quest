@@ -1,0 +1,50 @@
+[
+  {
+    "id": "rest_arrival",
+    "title": "Привал",
+    "description": "Компания останавливается на ночь. Костёр, немного тишины — завтрашний путь подождёт.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 5,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_rest",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "rest_departure",
+    "title": "Сборы",
+    "description": "Костёр гаснет сам собой. Пора собираться — дорога никуда не делась.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 40,
+    "tags": [
+      "solo",
+      "rest"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "minimumTurnsInRest",
+        "turns": 2
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_rest",
+        "value": false
+      }
+    ]
+  }
+]
