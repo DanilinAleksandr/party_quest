@@ -25,6 +25,9 @@ enum LineIconShape {
   /// The prologue: the party has not left yet.
   home,
 
+  /// The halt: a fire and two crossed logs.
+  campfire,
+
   flask,
   die,
   trash,
@@ -302,6 +305,31 @@ class _LineIconPainter extends CustomPainter {
         canvas.drawLine(
           const Offset(6.4, 14.6),
           const Offset(17.6, 14.6),
+          stroke,
+        );
+
+      case LineIconShape.campfire:
+        // One flame with a notch bitten out of its left side, so it reads as
+        // fire and not as a drop of water.
+        canvas.drawPath(
+          Path()
+            ..moveTo(12, 3.6)
+            ..cubicTo(15.8, 7.6, 17, 11.2, 15.1, 14.4)
+            ..quadraticBezierTo(13.9, 16.2, 12, 16.2)
+            ..quadraticBezierTo(10.1, 16.2, 8.9, 14.4)
+            ..cubicTo(7.3, 11.8, 8.4, 9.2, 10.4, 7.4)
+            ..quadraticBezierTo(10.6, 9.6, 11.9, 10.6)
+            ..quadraticBezierTo(12.9, 7.4, 12, 3.6),
+          stroke,
+        );
+        canvas.drawLine(
+          const Offset(4.5, 20.8),
+          const Offset(19.5, 17.6),
+          stroke,
+        );
+        canvas.drawLine(
+          const Offset(4.5, 17.6),
+          const Offset(19.5, 20.8),
           stroke,
         );
 

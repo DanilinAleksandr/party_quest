@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Nearly empty for the MVP — the screen and route exist so future settings
-/// (sound, house rules, win condition) have a home without a routing
-/// change.
+import '../application/walk_settings.dart';
+
+/// How the party walks, and the icon attribution.
 ///
-/// The one thing on it that is not a placeholder is the icon attribution.
-/// The origin icons are CC BY 3.0, and naming the authors is a condition of
-/// using them, not a courtesy — so it ships with the icons rather than
-/// waiting for an "About" screen that does not exist yet.
-class SettingsScreen extends StatelessWidget {
+/// The attribution is not a placeholder. The origin icons are CC BY 3.0,
+/// and naming the authors is a condition of using them, not a courtesy — so
+/// it ships with the icons rather than waiting for an "About" screen that
+/// does not exist yet.
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final walk = ref.watch(walkSettingsProvider);
+    final notifier = ref.read(walkSettingsProvider.notifier);
+    final auto = walk.mode == WalkMode.auto;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Настройки')),
       body: SafeArea(
@@ -22,12 +27,40 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Spacer(),
-              Text(
-                'Настройки появятся в одном из следующих обновлений.',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium,
+              SwitchListTile(
+                key: const Key('walk_mode_switch'),
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Идти самостоятельно'),
+                subtitle: const Text(
+                  'Карточки появляются сами, пока герои идут',
+                ),
+                value: auto,
+                onChanged: (on) =>
+                    notifier.setMode(on ? WalkMode.auto : WalkMode.manual),
               ),
+              // Nothing to tune when the party only moves when pressed.
+              if (auto) ...[
+                const SizedBox(height: 12),
+                Text(
+                  'Карточка через, сек: от ${walk.minDelay} до ${walk.maxDelay}',
+                  style: theme.textTheme.bodyMedium,
+                ),
+                RangeSlider(
+                  key: const Key('walk_delay_slider'),
+                  min: kMinWalkDelay.toDouble(),
+                  max: kMaxWalkDelay.toDouble(),
+                  divisions: kMaxWalkDelay - kMinWalkDelay,
+                  values: RangeValues(
+                    walk.minDelay.toDouble(),
+                    walk.maxDelay.toDouble(),
+                  ),
+                  labels: RangeLabels('${walk.minDelay}', '${walk.maxDelay}'),
+                  onChanged: (range) => notifier.setDelay(
+                    min: range.start.round(),
+                    max: range.end.round(),
+                  ),
+                ),
+              ],
               const Spacer(),
               Divider(color: theme.colorScheme.outlineVariant),
               const SizedBox(height: 16),

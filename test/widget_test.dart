@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:drinking_quest/app/app.dart';
 import 'package:drinking_quest/core/widgets/app_dialog_shell.dart';
 import 'package:drinking_quest/core/widgets/game_result_card.dart';
+import 'package:drinking_quest/features/settings/application/walk_settings.dart';
 import 'package:drinking_quest/game_engine/data/content_providers.dart';
 
 /// Loads every content pack *before* the app is pumped, and hands the warmed
@@ -22,7 +23,17 @@ import 'package:drinking_quest/game_engine/data/content_providers.dart';
 /// own switch for exactly this, and must be set before the app builds a theme.
 Future<ProviderContainer> _warmedContainer(WidgetTester tester) async {
   GoogleFonts.config.allowRuntimeFetching = false;
-  final container = ProviderContainer();
+  // Walking by hand: this test presses for its step, and a party left to
+  // walk on its own would also keep `pumpAndSettle` from ever settling.
+  final container = ProviderContainer(
+    overrides: [
+      walkSettingsProvider.overrideWith(
+        (ref) => WalkSettingsNotifier(
+          initial: const WalkSettings(mode: WalkMode.manual),
+        ),
+      ),
+    ],
+  );
   await tester.runAsync(() async {
     await container.read(cardsProvider.future);
     await container.read(itemCatalogProvider.future);
@@ -87,7 +98,7 @@ void main() {
     // participant-selection dialog first — resolve that too if it shows).
     // The button plays its press through before firing, so this has to
     // settle rather than pump a fixed number of frames.
-    await tester.tap(find.text('СДЕЛАТЬ ШАГ'));
+    await tester.tap(find.text('ПРОДОЛЖИТЬ ПОХОД'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
