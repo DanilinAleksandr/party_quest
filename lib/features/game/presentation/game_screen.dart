@@ -6,16 +6,21 @@ import '../../../core/widgets/biome_banner.dart';
 import '../../../core/widgets/game_result_card.dart';
 import '../../../core/widgets/item_chip.dart';
 import '../../../core/widgets/prologue_banner.dart';
+import '../../../core/widgets/rest_banner.dart';
 import '../../../core/widgets/tavern_banner.dart';
+import '../../../core/widgets/walking_party.dart';
 import '../../../game_engine/data/content_providers.dart';
 import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
+import '../../settings/application/walk_settings.dart';
+import '../application/auto_walk_timer.dart';
 import '../application/game_controller.dart';
 import '../application/result_diff.dart';
 import '../application/result_entry.dart';
 import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
 import 'widgets/chance_check_dialog.dart';
+import 'widgets/continue_journey_button.dart';
 import 'widgets/choice_outcome_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
 import 'widgets/journey_trail.dart';
@@ -24,17 +29,71 @@ import 'widgets/participant_selection_dialog.dart';
 import 'widgets/player_profile_sheet.dart';
 import 'widgets/player_status_panel.dart';
 import 'widgets/season_reveal_dialog.dart';
-import 'widgets/take_step_button.dart';
 import 'widgets/wager_call_dialog.dart';
 import 'win_screen.dart';
 
-class GameScreen extends ConsumerWidget {
+class GameScreen extends ConsumerStatefulWidget {
   final GameSetupArgs setupArgs;
 
   const GameScreen({super.key, required this.setupArgs});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends ConsumerState<GameScreen> {
+  late final AutoWalkTimer _autoWalk = AutoWalkTimer(onStep: _walkOn);
+
+  GameSetupArgs get setupArgs => widget.setupArgs;
+
+  /// Whether the party should be walking on its own right now.
+  ///
+  /// [GameState] alone cannot answer this. A card stops being pending the
+  /// moment it is resolved, while its result cards are still being read;
+  /// an adventure's nodes, the season reveal and the journey log all sit
+  /// over this screen without being a pending card at all. So the one
+  /// question that covers every one of them is asked of the navigator:
+  /// is anything on top of the game? `ModalRoute.of` rebuilds this screen
+  /// whenever that answer changes, which is what restarts the countdown
+  /// after the last result card is dismissed.
+  bool _canWalk(GameState state, WalkSettings walk, {required bool onTop}) =>
+      walk.mode == WalkMode.auto &&
+      onTop &&
+      state.status == GameStatus.inProgress &&
+      state.pendingCard == null &&
+      state.pendingParticipantSelection == null &&
+      !_inDetour(state);
+
+  /// The tavern and the halt are left when the table decides to, in either
+  /// mode — the timer never reaches in there.
+  static bool _inDetour(GameState state) =>
+      state.worldState.flag('in_tavern') || state.worldState.flag('in_rest');
+
+  /// The countdown ran out. Everything is checked once more rather than
+  /// trusted from the last rebuild: a dialog pushed in the same frame would
+  /// not have told this screen yet.
+  void _walkOn() {
+    if (!mounted) return;
+    final provider = gameControllerProvider(setupArgs);
+    final onTop = ModalRoute.isCurrentOf(context) ?? true;
+    if (!_canWalk(
+      ref.read(provider),
+      ref.read(walkSettingsProvider),
+      onTop: onTop,
+    )) {
+      return;
+    }
+    ref.read(provider.notifier).takeStep();
+  }
+
+  @override
+  void dispose() {
+    _autoWalk.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final provider = gameControllerProvider(setupArgs);
     final gameState = ref.watch(provider);
     final stepsToWin = ref.watch(provider.notifier).stepsToWin;
@@ -210,6 +269,23 @@ class GameScreen extends ConsumerWidget {
         gameState.pendingCard == null &&
         gameState.pendingParticipantSelection == null &&
         gameState.status == GameStatus.inProgress;
+    final walk = ref.watch(walkSettingsProvider);
+    final inDetour = _inDetour(gameState);
+    final inRest = gameState.worldState.flag('in_rest');
+    final walking = _canWalk(
+      gameState,
+      walk,
+      onTop: ModalRoute.of(context)?.isCurrent ?? true,
+    );
+    // Idempotent: a countdown already running is left to finish, and one
+    // that should not be running is dropped. Doing it here rather than in a
+    // listener is what lets a route change — not only a state change —
+    // start and stop it.
+    _autoWalk.update(
+      canWalk: walking,
+      minDelaySeconds: walk.minDelay,
+      maxDelaySeconds: walk.maxDelay,
+    );
     final currentBiome = biomes?.byId(gameState.worldState.currentBiomeId);
 
     final textTheme = Theme.of(context).textTheme;
@@ -264,7 +340,13 @@ class GameScreen extends ConsumerWidget {
                   const SizedBox(height: 8),
                   const TavernBanner(),
                 ],
+                if (inRest) ...[const SizedBox(height: 8), const RestBanner()],
                 const SizedBox(height: 18),
+              ],
+              // The campfire stands in for the walkers while the party sits.
+              if (!inRest) ...[
+                WalkingParty(walking: walking),
+                const SizedBox(height: 14),
               ],
               if (stepsToWin != null)
                 JourneyTrail(
@@ -362,12 +444,16 @@ class GameScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
-              TakeStepButton(
-                onPressed: canTakeStep
-                    ? () => ref.read(provider.notifier).takeStep()
-                    : null,
-              ),
+              // Walking on its own, the party has nothing to be pressed on;
+              // stopped at a tavern or a fire, it waits to be told to go.
+              if (walk.mode == WalkMode.manual || inDetour) ...[
+                const SizedBox(height: 4),
+                ContinueJourneyButton(
+                  onPressed: canTakeStep
+                      ? () => ref.read(provider.notifier).takeStep()
+                      : null,
+                ),
+              ],
             ],
           ),
         ),

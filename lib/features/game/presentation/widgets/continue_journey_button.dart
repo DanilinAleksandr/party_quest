@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/line_icons.dart';
 
-/// The one thing a player touches every turn.
+/// Sends the party back on the road.
+///
+/// Every turn when the party walks by hand (`WalkMode.manual`); otherwise
+/// only to get up from a halt or out of a tavern, which the party leaves when
+/// the table decides to and never on a timer.
 ///
 /// Drawn as a button that is already slightly recessed before anyone
 /// touches it — dark at the top edge, a hairline of light along the bottom
@@ -14,23 +18,23 @@ import '../../../../core/widgets/line_icons.dart';
 /// Deliberately *not* `TactilePressButton`. That widget holds the action
 /// back until its press finishes playing, which is right for the two words
 /// on the title screen — pressed once, at the start of an evening. This
-/// button is pressed twenty times a match, and the same delay stops reading
+/// button can be pressed twenty times a match, and the same delay stops reading
 /// as weight and starts reading as lag. Here the plate answers the finger
 /// on contact and the step fires on release.
 ///
 /// [onPressed] is null while a card is open or the match is over; the whole
 /// plate dims and stops responding, which is the same statement the old
 /// disabled `FilledButton` made, without the Material chrome.
-class TakeStepButton extends StatefulWidget {
+class ContinueJourneyButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
-  const TakeStepButton({super.key, required this.onPressed});
+  const ContinueJourneyButton({super.key, required this.onPressed});
 
   @override
-  State<TakeStepButton> createState() => _TakeStepButtonState();
+  State<ContinueJourneyButton> createState() => _ContinueJourneyButtonState();
 }
 
-class _TakeStepButtonState extends State<TakeStepButton> {
+class _ContinueJourneyButtonState extends State<ContinueJourneyButton> {
   bool _held = false;
 
   void _setHeld(bool held) {
@@ -123,15 +127,22 @@ class _TakeStepButtonState extends State<TakeStepButton> {
                           strokeWidth: 1.3,
                         ),
                         const SizedBox(width: 13),
-                        Text(
-                          'СДЕЛАТЬ ШАГ',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontSize: 17,
-                            height: 1,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 3.06,
-                            color: SteelPalette.textLow.withValues(
-                              alpha: 0.8 * dim,
+                        // Longer than the label it replaced; on the
+                        // narrowest phones it shrinks rather than clips.
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'ПРОДОЛЖИТЬ ПОХОД',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 17,
+                                height: 1,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 3.06,
+                                color: SteelPalette.textLow.withValues(
+                                  alpha: 0.8 * dim,
+                                ),
+                              ),
                             ),
                           ),
                         ),
