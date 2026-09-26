@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/routes.dart';
 import '../../../core/constants/game_constants.dart';
@@ -6,6 +7,7 @@ import '../../../core/constants/journey_length_config.dart';
 import '../../../core/theme/steel_palette.dart';
 import '../../../core/widgets/line_icons.dart';
 import '../../../core/widgets/tactile_press_button.dart';
+import '../../settings/application/walk_settings.dart';
 import 'widgets/journey_length_picker.dart';
 
 /// Ephemeral form state — this screen only builds the player list that gets
@@ -16,14 +18,14 @@ import 'widgets/journey_length_picker.dart';
 /// the game and only surface through rare in-game events — see `Origin`/
 /// `RevealOriginAction`. Every player starts without one, and the roster
 /// row says so in as many words.
-class GameSetupScreen extends StatefulWidget {
+class GameSetupScreen extends ConsumerStatefulWidget {
   const GameSetupScreen({super.key});
 
   @override
-  State<GameSetupScreen> createState() => _GameSetupScreenState();
+  ConsumerState<GameSetupScreen> createState() => _GameSetupScreenState();
 }
 
-class _GameSetupScreenState extends State<GameSetupScreen> {
+class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
   final List<String> _playerNames = [];
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nameFocusNode = FocusNode();
@@ -60,12 +62,18 @@ class _GameSetupScreenState extends State<GameSetupScreen> {
       arguments: (
         playerNames: List<String>.of(_playerNames),
         journeySteps: _journeySteps,
+        // Read from the settings as the match begins and fixed for it, the
+        // way the journey length is fixed once it is chosen.
+        restInterval: ref.read(walkSettingsProvider).restInterval,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Watched, not only read at the start: keeps the stored settings loaded
+    // while the table is gathering, whatever route led here.
+    ref.watch(walkSettingsProvider);
     return Scaffold(
       backgroundColor: SteelPalette.background,
       body: Stack(

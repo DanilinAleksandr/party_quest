@@ -1,7 +1,9 @@
 import '../context/game_context.dart';
 import '../models/models.dart';
 
-/// How often the party stops to rest, in `GameState.partySteps`.
+/// How often the party stops to rest, in `GameState.partySteps`, unless the
+/// table chose otherwise — this is the default for
+/// `GameContext.restInterval`, which is what the catalog actually reads.
 ///
 /// The schedule is derived from the step count rather than stored: every
 /// tenth step the party sits down, so there is nothing to keep in sync and
@@ -98,7 +100,7 @@ final class CardCatalog {
         !inTavern &&
         !inRest &&
         steps > 0 &&
-        steps % kRestInterval == 0;
+        steps % context.restInterval == 0;
 
     List<GameCard> pool({required bool arrivals}) => allCards
         .where((card) {

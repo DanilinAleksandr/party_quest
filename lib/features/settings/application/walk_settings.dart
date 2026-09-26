@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../game_engine/logic/card_catalog.dart';
+
 /// Who moves the party along the road between cards.
 enum WalkMode {
   /// The heroes walk on their own, and a card turns up after a random pause.
@@ -15,39 +17,59 @@ enum WalkMode {
 ///
 /// The delay is a range of whole seconds, not one value: a card that arrives
 /// on a metronome stops feeling like something that happened on the road.
+///
+/// [restInterval] is how many steps apart the halts fall. It is read once,
+/// when a match is set up, and handed to the engine with the rest of the
+/// match's setup — changing it mid-match would move a halt the party was
+/// already walking towards.
 final class WalkSettings {
   final WalkMode mode;
   final int minDelay;
   final int maxDelay;
+  final int restInterval;
 
   const WalkSettings({
     this.mode = WalkMode.auto,
     this.minDelay = 4,
     this.maxDelay = 10,
+    this.restInterval = kRestInterval,
   }) : assert(minDelay >= kMinWalkDelay && minDelay <= maxDelay),
-       assert(maxDelay <= kMaxWalkDelay);
+       assert(maxDelay <= kMaxWalkDelay),
+       assert(
+         restInterval >= kMinRestInterval && restInterval <= kMaxRestInterval,
+       );
 
-  WalkSettings copyWith({WalkMode? mode, int? minDelay, int? maxDelay}) =>
-      WalkSettings(
-        mode: mode ?? this.mode,
-        minDelay: minDelay ?? this.minDelay,
-        maxDelay: maxDelay ?? this.maxDelay,
-      );
+  WalkSettings copyWith({
+    WalkMode? mode,
+    int? minDelay,
+    int? maxDelay,
+    int? restInterval,
+  }) => WalkSettings(
+    mode: mode ?? this.mode,
+    minDelay: minDelay ?? this.minDelay,
+    maxDelay: maxDelay ?? this.maxDelay,
+    restInterval: restInterval ?? this.restInterval,
+  );
 
   @override
   bool operator ==(Object other) =>
       other is WalkSettings &&
       other.mode == mode &&
       other.minDelay == minDelay &&
-      other.maxDelay == maxDelay;
+      other.maxDelay == maxDelay &&
+      other.restInterval == restInterval;
 
   @override
-  int get hashCode => Object.hash(mode, minDelay, maxDelay);
+  int get hashCode => Object.hash(mode, minDelay, maxDelay, restInterval);
 }
 
 /// The bounds the settings screen offers for the delay, in seconds.
 const int kMinWalkDelay = 1;
 const int kMaxWalkDelay = 30;
+
+/// The bounds the settings screen offers for the halt, in steps.
+const int kMinRestInterval = 5;
+const int kMaxRestInterval = 20;
 
 /// Holds [WalkSettings] and keeps them across launches.
 ///
@@ -68,6 +90,7 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
   static const _modeKey = 'walk_mode';
   static const _minKey = 'walk_min_delay';
   static const _maxKey = 'walk_max_delay';
+  static const _restKey = 'rest_interval';
 
   /// Set once somebody changes a setting, so a slow first read cannot land
   /// afterwards and quietly undo them.
@@ -86,10 +109,14 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
           min >= kMinWalkDelay &&
           min <= max &&
           max <= kMaxWalkDelay;
+      final rest = prefs.getInt(_restKey);
+      final restValid =
+          rest != null && rest >= kMinRestInterval && rest <= kMaxRestInterval;
       state = WalkSettings(
         mode: mode ?? state.mode,
         minDelay: delaysValid ? min : state.minDelay,
         maxDelay: delaysValid ? max : state.maxDelay,
+        restInterval: restValid ? rest : state.restInterval,
       );
     } catch (_) {
       // No store to read from: the defaults are a perfectly good answer.
@@ -109,6 +136,12 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
       await prefs.setInt(_minKey, min);
       await prefs.setInt(_maxKey, max);
     });
+  }
+
+  void setRestInterval(int steps) {
+    _touched = true;
+    state = state.copyWith(restInterval: steps);
+    _save((prefs) => prefs.setInt(_restKey, steps));
   }
 
   Future<void> _save(

@@ -105,6 +105,7 @@ class GameController extends StateNotifier<GameState> {
     int? seed,
     GameMode mode = GameMode.classic,
     int? journeySteps = 20,
+    int restInterval = kRestInterval,
     // Every real match starts in JourneyPhase.prologue — see GameState
     // .newGame. This flag exists so tests that aren't about the prologue
     // itself (the vast majority) can start a controller already in
@@ -126,6 +127,7 @@ class GameController extends StateNotifier<GameState> {
       originCatalog: originCatalog,
       eventBus: GameEventBus(),
       mode: mode,
+      restInterval: restInterval,
     );
     // Rolled once, here, using the match's own seeded random provider — same
     // seed always reproduces the same season, same as every other draw this
@@ -534,7 +536,11 @@ class GameController extends StateNotifier<GameState> {
 /// What `GameSetupScreen` collects before a match starts — bundled into one
 /// record so the route arguments and the provider's family key stay a
 /// single value instead of drifting apart as setup grows more options.
-typedef GameSetupArgs = ({List<String> playerNames, int? journeySteps});
+typedef GameSetupArgs = ({
+  List<String> playerNames,
+  int? journeySteps,
+  int restInterval,
+});
 
 /// Keyed by the setup args record from game setup. Riverpod caches one
 /// controller per distinct record value, which is exactly one per match
@@ -559,5 +565,6 @@ final gameControllerProvider =
         biomeCatalog: biomeCatalog,
         originCatalog: originCatalog,
         journeySteps: args.journeySteps,
+        restInterval: args.restInterval,
       );
     });

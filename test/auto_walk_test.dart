@@ -48,7 +48,11 @@ final _cards = [
   ),
 ];
 
-const GameSetupArgs _args = (playerNames: ['A', 'B'], journeySteps: 200);
+const GameSetupArgs _args = (
+  playerNames: ['A', 'B'],
+  journeySteps: 200,
+  restInterval: kRestInterval,
+);
 
 GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
     GameController(

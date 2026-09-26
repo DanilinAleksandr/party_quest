@@ -37,6 +37,11 @@ final class GameContext {
   final GameEventBus eventBus;
   final GameMode mode;
 
+  /// How many party steps apart the halts fall — see [CardCatalog]. Fixed
+  /// for the match, like [mode]: the table chose it in the settings before
+  /// it began.
+  final int restInterval;
+
   const GameContext({
     required this.state,
     required this.random,
@@ -48,6 +53,7 @@ final class GameContext {
     required this.originCatalog,
     required this.eventBus,
     required this.mode,
+    this.restInterval = kRestInterval,
   });
 
   List<Player> get players => state.players;
@@ -65,5 +71,6 @@ final class GameContext {
     originCatalog: originCatalog,
     eventBus: eventBus,
     mode: mode,
+    restInterval: restInterval,
   );
 }
