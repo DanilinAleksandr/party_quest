@@ -336,4 +336,64 @@ void main() {
       expect(controller.state.pendingCard?.id, 'gift');
     });
   });
+
+  testWidgets('a hidden check says what came of it, with no coin', (
+    tester,
+  ) async {
+    final controller = _controller(
+      cards: [
+        GameCard(
+          id: 'bag',
+          title: 'Мешок',
+          description: 'd',
+          type: CardType.event,
+          rarity: Rarity.common,
+          weight: 1,
+          choices: const [
+            CardChoice(
+              label: 'Проверить мешок',
+              actions: [
+                ChanceCheckAction(
+                  open: false,
+                  winnerOutcome: 'Нашлось.',
+                  loserOutcome: 'Пусто.',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+    await _pumpGame(
+      tester,
+      controller,
+      const WalkSettings(mode: WalkMode.manual),
+    );
+
+    await tester.tap(find.text(_start));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.tap(find.text('Проверить мешок'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+
+    // The roll screen's body is private to its file; its name is the one
+    // handle a test from outside has on it.
+    expect(
+      find.byWidgetPredicate((w) => w.runtimeType.toString() == '_RollBody'),
+      findsNothing,
+    );
+    expect(find.text('Последствие'), findsOneWidget);
+    final told = find.text('Нашлось.').evaluate().isNotEmpty
+        ? 'Нашлось.'
+        : 'Пусто.';
+    expect(find.text(told), findsOneWidget);
+
+    // What it said is what it did: nothing has been applied until the
+    // player has read it, and then exactly that branch is.
+    expect(controller.state.pendingCard, isNotNull);
+    await tester.tap(find.text('Понятно'));
+    await tester.pump();
+    expect(controller.state.pendingCard, isNull);
+  });
 }

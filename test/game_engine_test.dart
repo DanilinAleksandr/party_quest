@@ -611,6 +611,67 @@ void main() {
       expect(controller.gambleFor(choiceIndex: 1), isNull);
     });
 
+    final search = GameCard(
+      id: 'search',
+      title: 't',
+      description: 'd',
+      type: CardType.event,
+      rarity: Rarity.common,
+      weight: 5,
+      choices: const [
+        CardChoice(
+          label: 'Проверить мешок',
+          actions: [
+            ChanceCheckAction(
+              open: false,
+              winnerActions: [ModifyStatAction(stat: StatType.luck, amount: 3)],
+              winnerOutcome: 'Нашлось.',
+              loserOutcome: 'Пусто.',
+            ),
+          ],
+        ),
+      ],
+    );
+
+    test('a hidden check brings no coin, yet is thrown and applied', () {
+      for (final forced in [true, false]) {
+        final controller = controllerFor(search);
+        controller.takeStep();
+
+        // No gamble: the coin, the call and the verdict are all skipped.
+        expect(controller.gambleFor(choiceIndex: 0), isNull);
+        final hidden = controller.hiddenCheckFor(choiceIndex: 0);
+        expect(hidden, isNotNull);
+        expect(hidden!.winnerOutcome, 'Нашлось.');
+
+        final player = controller.state.currentPlayer.id;
+        controller.resolveCard(choiceIndex: 0, gambleWon: forced);
+        final luck = controller.state.players
+            .firstWhere((p) => p.id == player)
+            .stats
+            .valueOf(StatType.luck);
+        expect(luck, forced ? 3 : 0);
+      }
+    });
+
+    test('an open check has no hidden twin', () {
+      final controller = controllerFor(gamble);
+      controller.takeStep();
+      expect(controller.hiddenCheckFor(choiceIndex: 0), isNull);
+    });
+
+    test('"open" survives JSON, and is left out when it is the default', () {
+      const hidden = ChanceCheckAction(open: false);
+      expect(hidden.toJson()['open'], false);
+      final back = GameAction.fromJson(hidden.toJson()) as ChanceCheckAction;
+      expect(back.open, isFalse);
+
+      expect(const ChanceCheckAction().toJson().containsKey('open'), isFalse);
+      final legacy =
+          GameAction.fromJson({'action': 'chanceCheck'}) as ChanceCheckAction;
+      expect(legacy.open, isTrue);
+    });
+
     final wager = GameCard(
       id: 'wager',
       title: 't',

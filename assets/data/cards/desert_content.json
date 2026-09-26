@@ -178,6 +178,7 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "open": false,
             "winnerActions": [
               {
                 "action": "giveItem",
