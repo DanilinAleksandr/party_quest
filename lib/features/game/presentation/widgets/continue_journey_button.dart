@@ -5,9 +5,8 @@ import '../../../../core/widgets/line_icons.dart';
 
 /// Sends the party back on the road.
 ///
-/// Every turn when the party walks by hand (`WalkMode.manual`); otherwise
-/// only to get up from a halt or out of a tavern, which the party leaves when
-/// the table decides to and never on a timer.
+/// Every turn when the party walks by hand (`WalkMode.manual`); walking on
+/// its own, only once, to begin.
 ///
 /// Drawn as a button that is already slightly recessed before anyone
 /// touches it — dark at the top edge, a hairline of light along the bottom
@@ -28,7 +27,14 @@ import '../../../../core/widgets/line_icons.dart';
 class ContinueJourneyButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
-  const ContinueJourneyButton({super.key, required this.onPressed});
+  /// «НАЧАТЬ», «ДАЛЬШЕ» or «ПРОДОЛЖИТЬ ПОХОД» — see `GameScreen`.
+  final String label;
+
+  const ContinueJourneyButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
 
   @override
   State<ContinueJourneyButton> createState() => _ContinueJourneyButtonState();
@@ -127,13 +133,13 @@ class _ContinueJourneyButtonState extends State<ContinueJourneyButton> {
                           strokeWidth: 1.3,
                         ),
                         const SizedBox(width: 13),
-                        // Longer than the label it replaced; on the
-                        // narrowest phones it shrinks rather than clips.
+                        // The longest label shrinks on the narrowest phones
+                        // rather than clipping.
                         Flexible(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'ПРОДОЛЖИТЬ ПОХОД',
+                              widget.label,
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontSize: 17,
                                 height: 1,

@@ -56,26 +56,28 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   /// is anything on top of the game? `ModalRoute.of` rebuilds this screen
   /// whenever that answer changes, which is what restarts the countdown
   /// after the last result card is dismissed.
+  ///
+  /// Everywhere once the match has begun — the prologue, the tavern and the
+  /// halt included. The one press walking on its own asks for is the first,
+  /// «НАЧАТЬ»: the table says when the evening starts, and from then on the
+  /// road runs by itself. A playtest had somebody press «Продолжить поход»
+  /// through a whole prologue on auto, wondering why nobody was walking.
   bool _canWalk(GameState state, WalkSettings walk, {required bool onTop}) =>
       walk.mode == WalkMode.auto &&
       onTop &&
+      _hasStarted(state) &&
       state.status == GameStatus.inProgress &&
       state.pendingCard == null &&
-      state.pendingParticipantSelection == null &&
-      !_tableSetsThePace(state);
+      state.pendingParticipantSelection == null;
 
-  /// The stretches the table moves through by hand, in either mode — the
-  /// timer never reaches in there.
-  ///
-  /// The tavern and the halt are left when the table decides to. The
-  /// prologue is where the origins come out, the moment of the match most
-  /// worth everybody's attention, and it is not to be paged through on its
-  /// own while half the table is looking the other way. So walking on its
-  /// own starts with the journey proper.
-  static bool _tableSetsThePace(GameState state) =>
-      state.phase == JourneyPhase.prologue ||
-      state.worldState.flag('in_tavern') ||
-      state.worldState.flag('in_rest');
+  /// `partySteps` counts the prologue too and only stands still inside a
+  /// tavern or a halt, neither of which can be the first step — so zero
+  /// means nobody has pressed anything yet.
+  static bool _hasStarted(GameState state) => state.partySteps > 0;
+
+  /// Stopped somewhere rather than on the road.
+  static bool _inDetour(GameState state) =>
+      state.worldState.flag('in_tavern') || state.worldState.flag('in_rest');
 
   /// The countdown ran out. Everything is checked once more rather than
   /// trusted from the last rebuild: a dialog pushed in the same frame would
@@ -278,10 +280,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         gameState.pendingParticipantSelection == null &&
         gameState.status == GameStatus.inProgress;
     final walk = ref.watch(walkSettingsProvider);
-    final byHand = _tableSetsThePace(gameState);
-    final inPrologue = gameState.phase == JourneyPhase.prologue;
+    final started = _hasStarted(gameState);
+    final inDetour = _inDetour(gameState);
     final inRest = gameState.worldState.flag('in_rest');
-    final walking = _canWalk(
+    final timerRuns = _canWalk(
       gameState,
       walk,
       onTop: ModalRoute.of(context)?.isCurrent ?? true,
@@ -291,7 +293,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     // listener is what lets a route change — not only a state change —
     // start and stop it.
     _autoWalk.update(
-      canWalk: walking,
+      canWalk: timerRuns,
       minDelaySeconds: walk.minDelay,
       maxDelaySeconds: walk.maxDelay,
     );
@@ -352,12 +354,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 if (inRest) ...[const SizedBox(height: 8), const RestBanner()],
                 const SizedBox(height: 18),
               ],
-              // Nobody is on the road yet in the prologue, and at a halt the
-              // campfire stands in for the walkers while the party sits.
-              if (!inPrologue && !inRest) ...[
-                WalkingParty(walking: walking),
-                const SizedBox(height: 14),
-              ],
+              // The cards keep coming at a tavern or a halt, but nobody is
+              // walking there: the party is stopped, and says so.
+              if (inDetour)
+                const PartyCamp()
+              else
+                WalkingParty(walking: timerRuns),
+              const SizedBox(height: 14),
               if (stepsToWin != null)
                 JourneyTrail(
                   partySteps: gameState.partySteps,
@@ -454,11 +457,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   ),
                 ),
               ),
-              // Walking on its own, the party has nothing to be pressed on;
-              // in the prologue, a tavern or at a fire, it waits to be told.
-              if (walk.mode == WalkMode.manual || byHand) ...[
+              // Walking on its own, the button is there once, to begin;
+              // walking by hand, it is there every turn, and says what the
+              // press will do from where the party is standing.
+              if (walk.mode == WalkMode.manual || !started) ...[
                 const SizedBox(height: 4),
                 ContinueJourneyButton(
+                  label: !started
+                      ? 'НАЧАТЬ'
+                      // Nobody "continues the journey" from a campfire.
+                      : inDetour
+                      ? 'ДАЛЬШЕ'
+                      : 'ПРОДОЛЖИТЬ ПОХОД',
                   onPressed: canTakeStep
                       ? () => ref.read(provider.notifier).takeStep()
                       : null,

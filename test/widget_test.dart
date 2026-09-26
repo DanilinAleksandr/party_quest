@@ -98,7 +98,7 @@ void main() {
     // participant-selection dialog first — resolve that too if it shows).
     // The button plays its press through before firing, so this has to
     // settle rather than pump a fixed number of frames.
-    await tester.tap(find.text('ПРОДОЛЖИТЬ ПОХОД'));
+    await tester.tap(find.text('НАЧАТЬ'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
