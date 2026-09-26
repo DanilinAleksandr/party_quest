@@ -126,6 +126,10 @@ List<InfluenceTag> influenceTagsOf(
         if (placeFlags.contains(c.flag)) break;
         add(InfluenceSource.world);
 
+      case MaximumStepsSinceFlagCondition c:
+        if (placeFlags.contains(c.flag)) break;
+        add(InfluenceSource.world);
+
       case GlobalModifierAtLeastCondition _:
         add(InfluenceSource.world);
 

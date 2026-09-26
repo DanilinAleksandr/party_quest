@@ -23,6 +23,7 @@ ModifierKind? _kindOf(GameCondition condition) => switch (condition) {
       : ModifierKind.world,
   WorldFlagUnsetCondition _ ||
   MinimumStepsSinceFlagCondition _ ||
+  MaximumStepsSinceFlagCondition _ ||
   AdventureCompletedCondition _ ||
   AdventureNotCompletedCondition _ => ModifierKind.world,
   CurrentPlayerHasEffectCondition _ ||

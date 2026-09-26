@@ -519,6 +519,7 @@ final class ContentValidator {
       case MinimumTurnsInTavernCondition _:
       case MinimumTurnsInRestCondition _:
       case MinimumStepsSinceFlagCondition _:
+      case MaximumStepsSinceFlagCondition _:
       case AnyPlayerMissingOriginCondition _:
       case CurrentPlayerOriginUnknownCondition _:
       case CurrentPlayerStatAtLeastCondition _:

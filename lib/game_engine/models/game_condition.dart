@@ -121,6 +121,10 @@ sealed class GameCondition {
         flag: json['flag'] as String,
         steps: json['steps'] as int,
       ),
+      'maximumStepsSinceFlag' => MaximumStepsSinceFlagCondition(
+        flag: json['flag'] as String,
+        steps: json['steps'] as int,
+      ),
       _ => throw FormatException('Unknown game condition kind: $kind'),
     };
   }
@@ -820,6 +824,41 @@ final class MinimumStepsSinceFlagCondition extends GameCondition {
   @override
   Map<String, dynamic> toJson() => {
     'condition': 'minimumStepsSinceFlag',
+    'flag': flag,
+    'steps': steps,
+  };
+}
+
+/// The other end of [MinimumStepsSinceFlagCondition]: no more than [steps]
+/// party steps since [flag] was last set true. False if the flag was never
+/// set, or is currently false — "shortly after" something that never
+/// happened is not a window that is open.
+///
+/// Together the two make a window, and alone this one makes an echo: a card
+/// that can only come while something is still fresh — a voice gone hoarse
+/// in the first steps after the shouting at the fire, and not before the
+/// party has ever sat at one.
+final class MaximumStepsSinceFlagCondition extends GameCondition {
+  final String flag;
+  final int steps;
+
+  const MaximumStepsSinceFlagCondition({
+    required this.flag,
+    required this.steps,
+  });
+
+  @override
+  bool isSatisfied(GameContext context) {
+    final worldState = context.state.worldState;
+    if (!worldState.flag(flag)) return false;
+    final setAtStep = worldState.flagSetAtStep[flag];
+    if (setAtStep == null) return false;
+    return context.state.partySteps - setAtStep <= steps;
+  }
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'maximumStepsSinceFlag',
     'flag': flag,
     'steps': steps,
   };
