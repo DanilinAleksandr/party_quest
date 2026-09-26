@@ -103,12 +103,14 @@ void main() {
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
 
-    // Resolve whichever dialog appeared by tapping its first action button
-    // — if that was a participant pick, resolve the card dialog it opens
-    // next the same way.
+    // Resolve whichever dialog appeared by tapping its first action button,
+    // and every dialog it leads to the same way: a participant pick opens the
+    // card, and a card can go on to a wager, a coin and what it meant. The
+    // match is unseeded, so which of those turn up differs from run to run —
+    // the old limit of two passed or failed on the draw.
     for (
       var i = 0;
-      i < 2 && find.byKey(appDialogContentKey).evaluate().isNotEmpty;
+      i < 8 && find.byKey(appDialogContentKey).evaluate().isNotEmpty;
       i++
     ) {
       final dialogButton = find
