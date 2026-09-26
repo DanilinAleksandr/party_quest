@@ -62,12 +62,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       state.status == GameStatus.inProgress &&
       state.pendingCard == null &&
       state.pendingParticipantSelection == null &&
-      !_inDetour(state);
+      !_tableSetsThePace(state);
 
-  /// The tavern and the halt are left when the table decides to, in either
-  /// mode — the timer never reaches in there.
-  static bool _inDetour(GameState state) =>
-      state.worldState.flag('in_tavern') || state.worldState.flag('in_rest');
+  /// The stretches the table moves through by hand, in either mode — the
+  /// timer never reaches in there.
+  ///
+  /// The tavern and the halt are left when the table decides to. The
+  /// prologue is where the origins come out, the moment of the match most
+  /// worth everybody's attention, and it is not to be paged through on its
+  /// own while half the table is looking the other way. So walking on its
+  /// own starts with the journey proper.
+  static bool _tableSetsThePace(GameState state) =>
+      state.phase == JourneyPhase.prologue ||
+      state.worldState.flag('in_tavern') ||
+      state.worldState.flag('in_rest');
 
   /// The countdown ran out. Everything is checked once more rather than
   /// trusted from the last rebuild: a dialog pushed in the same frame would
@@ -270,7 +278,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         gameState.pendingParticipantSelection == null &&
         gameState.status == GameStatus.inProgress;
     final walk = ref.watch(walkSettingsProvider);
-    final inDetour = _inDetour(gameState);
+    final byHand = _tableSetsThePace(gameState);
+    final inPrologue = gameState.phase == JourneyPhase.prologue;
     final inRest = gameState.worldState.flag('in_rest');
     final walking = _canWalk(
       gameState,
@@ -343,8 +352,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 if (inRest) ...[const SizedBox(height: 8), const RestBanner()],
                 const SizedBox(height: 18),
               ],
-              // The campfire stands in for the walkers while the party sits.
-              if (!inRest) ...[
+              // Nobody is on the road yet in the prologue, and at a halt the
+              // campfire stands in for the walkers while the party sits.
+              if (!inPrologue && !inRest) ...[
                 WalkingParty(walking: walking),
                 const SizedBox(height: 14),
               ],
@@ -445,8 +455,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 ),
               ),
               // Walking on its own, the party has nothing to be pressed on;
-              // stopped at a tavern or a fire, it waits to be told to go.
-              if (walk.mode == WalkMode.manual || inDetour) ...[
+              // in the prologue, a tavern or at a fire, it waits to be told.
+              if (walk.mode == WalkMode.manual || byHand) ...[
                 const SizedBox(height: 4),
                 ContinueJourneyButton(
                   onPressed: canTakeStep

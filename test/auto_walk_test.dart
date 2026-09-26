@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:drinking_quest/core/widgets/game_result_card.dart';
 import 'package:drinking_quest/features/game/application/auto_walk_timer.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/game_screen.dart';
@@ -48,18 +49,19 @@ final _cards = [
 
 const GameSetupArgs _args = (playerNames: ['A', 'B'], journeySteps: 200);
 
-GameController _controller() => GameController(
-  playerNames: _args.playerNames,
-  cards: _cards,
-  itemCatalog: const ItemCatalog({}),
-  effectCatalog: const EffectCatalog({}),
-  adventureCatalog: const AdventureCatalog({}),
-  biomeCatalog: const BiomeCatalog({}),
-  originCatalog: const OriginCatalog({}),
-  seed: 3,
-  journeySteps: 200,
-  skipPrologue: true,
-);
+GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
+    GameController(
+      playerNames: _args.playerNames,
+      cards: cards ?? _cards,
+      itemCatalog: const ItemCatalog({}),
+      effectCatalog: const EffectCatalog({}),
+      adventureCatalog: const AdventureCatalog({}),
+      biomeCatalog: const BiomeCatalog({}),
+      originCatalog: const OriginCatalog({}),
+      seed: 3,
+      journeySteps: 200,
+      skipPrologue: skipPrologue,
+    );
 
 /// Pumps the game screen over [controller], with the walking settings
 /// pinned. The biome catalog holds just the one biome the party is in, so
@@ -221,6 +223,77 @@ void main() {
       await tester.tap(find.text(_button));
       await tester.pump();
       expect(controller.state.pendingCard?.id, 'rest_departure');
+    });
+
+    testWidgets('in the prologue the table walks by hand, even on auto', (
+      tester,
+    ) async {
+      final controller = _controller(
+        cards: [
+          ..._cards,
+          _card('prologue_road', tags: const [CardTag.prologue]),
+        ],
+        skipPrologue: false,
+      );
+      expect(controller.state.phase, JourneyPhase.prologue);
+      await _pumpGame(
+        tester,
+        controller,
+        const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
+      );
+
+      expect(find.text(_button), findsOneWidget);
+      await tester.pump(const Duration(seconds: 30));
+      expect(controller.state.pendingCard, isNull);
+
+      await tester.tap(find.text(_button));
+      await tester.pump();
+      expect(controller.state.pendingCard?.id, 'prologue_road');
+    });
+
+    testWidgets('the countdown waits out the result cards, not just the card', (
+      tester,
+    ) async {
+      // A card that changes something, so resolving it leaves a result card
+      // on screen after `pendingCard` has already gone back to null.
+      final controller = _controller(
+        cards: [
+          _card(
+            'gift',
+            actions: const [ModifyStatAction(stat: StatType.luck, amount: 1)],
+          ),
+        ],
+      );
+      await _pumpGame(
+        tester,
+        controller,
+        const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
+      );
+
+      await tester.pump(const Duration(milliseconds: 1100));
+      expect(controller.state.pendingCard?.id, 'gift');
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Понятно'));
+      await tester.pumpAndSettle();
+      expect(controller.state.pendingCard, isNull);
+      expect(find.byKey(gameResultCardKey), findsOneWidget);
+
+      // The step is free to take by the state's account, and yet nothing
+      // comes while the table is still reading what the last card did.
+      await tester.pump(const Duration(minutes: 1));
+      expect(controller.state.pendingCard, isNull);
+      expect(controller.state.partySteps, 1);
+
+      // Closed, and the countdown starts over from the full delay, counted
+      // from the moment the card is dismissed.
+      await tester.tap(find.text('Продолжить'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(find.byKey(gameResultCardKey), findsNothing);
+      expect(controller.state.pendingCard, isNull);
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(controller.state.pendingCard?.id, 'gift');
     });
   });
 }
