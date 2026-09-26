@@ -5,6 +5,37 @@
     "description": "Долгая дорога и крики на привале берут своё — голос садится почти до шёпота.",
     "type": "curse",
     "rarity": "common",
+    "weight": 200,
+    "tags": [
+      "curse",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "left_rest",
+        "steps": 3
+      }
+    ],
+    "actions": [
+      {
+        "action": "applyEffect",
+        "target": "currentPlayer",
+        "effectId": "effect_whisper"
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "left_rest",
+        "value": false
+      }
+    ]
+  },
+  {
+    "id": "curse_whisper_road",
+    "title": "Потеря голоса",
+    "description": "Долгая дорога берёт своё — голос садится почти до шёпота.",
+    "type": "curse",
+    "rarity": "common",
     "weight": 2,
     "tags": [
       "curse",

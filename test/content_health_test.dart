@@ -44,6 +44,7 @@ void main() {
     WorldFlagSetCondition c => allyFlags.containsKey(c.flag) ? 'ally' : 'world',
     WorldFlagUnsetCondition _ ||
     MinimumStepsSinceFlagCondition _ ||
+    MaximumStepsSinceFlagCondition _ ||
     AdventureCompletedCondition _ ||
     AdventureNotCompletedCondition _ ||
     GlobalModifierAtLeastCondition _ => 'world',

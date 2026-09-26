@@ -20,13 +20,26 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// regression guard against gross imbalance, not a precise tuning target —
 /// hand-tuning exact percentages belongs in a design review, not a unit
 /// test assertion.
+///
+/// Cards gated to a short window after something happened
+/// (`maximumStepsSinceFlag`) are left out of the mix. Their weight is sized
+/// to compete for the two or three steps the window is open — the rest
+/// echo carries 200 so that it actually turns up after a halt — and a sum
+/// that counts it as if it were on the road every step reports a share it
+/// never has. Every other card, however gated, is still counted.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test(
     'draw-weight distribution stays within the target content mix',
     () async {
-      final cards = await const CardRepository().loadCards();
+      final cards = (await const CardRepository().loadCards())
+          .where(
+            (c) => !c.conditions.any(
+              (condition) => condition is MaximumStepsSinceFlagCondition,
+            ),
+          )
+          .toList();
       final totalWeight = cards.fold<int>(0, (sum, c) => sum + c.weight);
 
       int weightWhere(bool Function(GameCard) test) =>

@@ -11,4 +11,8 @@
 /// Sits next to `allyFlags` for the same reason that map exists: one place
 /// that says what kind of thing a flag is. A new detour built on the
 /// tavern's pattern adds its flag here and nowhere else.
-const Set<String> placeFlags = {'in_tavern', 'in_rest'};
+///
+/// `left_rest` is the same bookkeeping one step later: it is stamped as the
+/// party gets up from a halt, so a card can know the fire is fresh behind
+/// them. It says when, not what the world remembers.
+const Set<String> placeFlags = {'in_tavern', 'in_rest', 'left_rest'};
