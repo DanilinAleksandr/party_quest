@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/core/widgets/game_result_card.dart';
+import 'package:drinking_quest/core/widgets/walking_party.dart';
 import 'package:drinking_quest/features/game/application/auto_walk_timer.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/game_screen.dart';
@@ -99,7 +100,19 @@ Future<void> _pumpGame(
   await tester.pump();
 }
 
-const _button = 'ПРОДОЛЖИТЬ ПОХОД';
+const _start = 'НАЧАТЬ';
+const _onward = 'ПРОДОЛЖИТЬ ПОХОД';
+const _next = 'ДАЛЬШЕ';
+
+/// Closes the card dialog that is up. Settles by the clock rather than with
+/// `pumpAndSettle`, which the walkers — a looping animation — never allow.
+Future<void> _dismissCard(WidgetTester tester) async {
+  await tester.pump(const Duration(milliseconds: 500));
+  await tester.tap(find.text('Понятно'));
+  for (var i = 0; i < 3; i++) {
+    await tester.pump(const Duration(milliseconds: 400));
+  }
+}
 
 void main() {
   group('AutoWalkTimer', () {
@@ -151,7 +164,7 @@ void main() {
   });
 
   group('the game screen', () {
-    testWidgets('by hand: the button is there and takes the step', (
+    testWidgets('by hand: the button is always there, saying what it does', (
       tester,
     ) async {
       final controller = _controller();
@@ -161,17 +174,28 @@ void main() {
         const WalkSettings(mode: WalkMode.manual),
       );
 
-      expect(find.text(_button), findsOneWidget);
+      expect(find.text(_start), findsOneWidget);
       // No timer is walking the party behind the button's back.
       await tester.pump(const Duration(seconds: 30));
       expect(controller.state.pendingCard, isNull);
 
-      await tester.tap(find.text(_button));
+      await tester.tap(find.text(_start));
       await tester.pump();
       expect(controller.state.pendingCard, isNotNull);
+      await _dismissCard(tester);
+      expect(find.text(_onward), findsOneWidget);
+
+      // Up to the halt, where nobody "continues the journey".
+      while (!controller.state.worldState.flag('in_rest')) {
+        await tester.tap(find.text(_onward));
+        await tester.pump();
+        await _dismissCard(tester);
+      }
+      expect(find.text(_next), findsOneWidget);
+      expect(find.text(_onward), findsNothing);
     });
 
-    testWidgets('on its own: no button, and a card turns up by itself', (
+    testWidgets('on its own: one press to begin, and never another', (
       tester,
     ) async {
       final controller = _controller();
@@ -181,11 +205,23 @@ void main() {
         const WalkSettings(mode: WalkMode.auto, minDelay: 2, maxDelay: 3),
       );
 
-      expect(find.text(_button), findsNothing);
-
-      await tester.pump(const Duration(milliseconds: 1900));
+      // Nothing moves until the table says so.
+      expect(find.text(_start), findsOneWidget);
+      await tester.pump(const Duration(seconds: 30));
       expect(controller.state.pendingCard, isNull);
-      await tester.pump(const Duration(milliseconds: 1200));
+
+      await tester.tap(find.text(_start));
+      await tester.pump();
+      expect(controller.state.pendingCard, isNotNull);
+      await _dismissCard(tester);
+      expect(find.text(_start), findsNothing);
+      expect(find.text(_onward), findsNothing);
+
+      // The countdown started as the card closed, early in `_dismissCard`'s
+      // 1.2 s; 2 to 3 s from then.
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(controller.state.pendingCard, isNull);
+      await tester.pump(const Duration(milliseconds: 1500));
       expect(controller.state.pendingCard, isNotNull);
 
       // The card is on screen now, and the countdown is gone with it: a
@@ -193,10 +229,10 @@ void main() {
       final card = controller.state.pendingCard;
       await tester.pump(const Duration(minutes: 1));
       expect(controller.state.pendingCard, same(card));
-      expect(controller.state.partySteps, 1);
+      expect(controller.state.partySteps, 2);
     });
 
-    testWidgets('at a halt the button is back, even walking on its own', (
+    testWidgets('at a halt the cards keep coming on their own, no button', (
       tester,
     ) async {
       final controller = _controller();
@@ -214,18 +250,17 @@ void main() {
       );
 
       expect(find.text('Остановка: Привал'), findsOneWidget);
-      expect(find.text(_button), findsOneWidget);
+      expect(find.byType(PartyCamp), findsOneWidget);
+      expect(find.byType(WalkingParty), findsNothing);
+      for (final label in [_start, _onward, _next]) {
+        expect(find.text(label), findsNothing);
+      }
 
-      // The timer does not reach in here.
-      await tester.pump(const Duration(seconds: 30));
-      expect(controller.state.pendingCard, isNull);
-
-      await tester.tap(find.text(_button));
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1100));
       expect(controller.state.pendingCard?.id, 'rest_departure');
     });
 
-    testWidgets('in the prologue the table walks by hand, even on auto', (
+    testWidgets('in the prologue the party walks on its own too', (
       tester,
     ) async {
       final controller = _controller(
@@ -235,27 +270,30 @@ void main() {
         ],
         skipPrologue: false,
       );
-      expect(controller.state.phase, JourneyPhase.prologue);
       await _pumpGame(
         tester,
         controller,
         const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
       );
 
-      expect(find.text(_button), findsOneWidget);
-      await tester.pump(const Duration(seconds: 30));
-      expect(controller.state.pendingCard, isNull);
-
-      await tester.tap(find.text(_button));
+      await tester.tap(find.text(_start));
       await tester.pump();
+      await _dismissCard(tester);
+      expect(controller.state.phase, JourneyPhase.prologue);
+      expect(find.byType(WalkingParty), findsOneWidget);
+      expect(find.text(_onward), findsNothing);
+
+      await tester.pump(const Duration(milliseconds: 1100));
       expect(controller.state.pendingCard?.id, 'prologue_road');
+      expect(controller.state.partySteps, 2);
     });
 
     testWidgets('the countdown waits out the result cards, not just the card', (
       tester,
     ) async {
       // A card that changes something, so resolving it leaves a result card
-      // on screen after `pendingCard` has already gone back to null.
+      // on screen after `pendingCard` has already gone back to null. One
+      // step is taken before the screen is built, so the match has begun.
       final controller = _controller(
         cards: [
           _card(
@@ -264,6 +302,8 @@ void main() {
           ),
         ],
       );
+      controller.takeStep();
+      controller.resolveCard();
       await _pumpGame(
         tester,
         controller,
@@ -283,7 +323,7 @@ void main() {
       // comes while the table is still reading what the last card did.
       await tester.pump(const Duration(minutes: 1));
       expect(controller.state.pendingCard, isNull);
-      expect(controller.state.partySteps, 1);
+      expect(controller.state.partySteps, 2);
 
       // Closed, and the countdown starts over from the full delay, counted
       // from the moment the card is dismissed.

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/steel_palette.dart';
+import 'line_icons.dart';
 
 /// Two figures walking along a dashed road, drawn in the same hairline as
 /// `LineIcon` — the party on its way between cards.
@@ -69,10 +70,57 @@ class _WalkingPartyState extends State<WalkingParty>
   }
 }
 
+/// What stands in [WalkingParty]'s place while the party is stopped at a
+/// tavern or a halt: a campfire at the roadside, and the road going on
+/// without anybody on it.
+///
+/// A placeholder, deliberately plain — the camp's real look is its own
+/// piece of work, drawn from a mockup.
+class PartyCamp extends StatelessWidget {
+  const PartyCamp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Компания на стоянке',
+      child: SizedBox(
+        height: 30,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _WalkingPainter(
+                  const AlwaysStoppedAnimation(0),
+                  figures: false,
+                ),
+              ),
+            ),
+            // The campfire's logs sit 20.8 units down its 24-unit grid; this
+            // puts them on the road line.
+            const Positioned(
+              left: 14,
+              top: 30 - _WalkingPainter._roadInset - 20.8,
+              child: LineIcon(
+                shape: LineIconShape.campfire,
+                size: 24,
+                color: SteelPalette.steel,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _WalkingPainter extends CustomPainter {
   final Animation<double> stride;
+  final bool figures;
 
-  _WalkingPainter(this.stride) : super(repaint: stride);
+  _WalkingPainter(this.stride, {this.figures = true}) : super(repaint: stride);
+
+  static const _roadInset = 2.5;
 
   // The road's dash, in logical pixels. The road slides two dashes per
   // stride, so the loop wraps without a jump.
@@ -85,7 +133,7 @@ class _WalkingPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final t = stride.value;
-    final ground = size.height - 2.5;
+    final ground = size.height - _roadInset;
 
     final road = Paint()
       ..strokeWidth = 1.1
@@ -107,6 +155,8 @@ class _WalkingPainter extends CustomPainter {
         road,
       );
     }
+
+    if (!figures) return;
 
     // The leader and one a step behind, out of phase so they do not march.
     _figure(canvas, x: 30, ground: ground - 2, t: t, alpha: 1);
@@ -152,5 +202,5 @@ class _WalkingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _WalkingPainter oldDelegate) =>
-      oldDelegate.stride != stride;
+      oldDelegate.stride != stride || oldDelegate.figures != figures;
 }
