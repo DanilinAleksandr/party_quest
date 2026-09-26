@@ -253,24 +253,31 @@ final class DrinkAction extends GameAction {
   };
 }
 
-/// Takes [amount] off the target's scale and lifts the hangover — what a
-/// healer's draught is for.
+/// Takes [amount] off the target's scale.
 ///
-/// It also forgets that the character had got as far as drunk: sobering up
-/// on a potion is not the slow way down, and the hangover that the slow way
-/// brings does not follow it.
+/// As a cure — what a healer's draught is for, and the default — it also
+/// lifts the hangover and forgets that the character had got as far as
+/// drunk: sobering up on a potion is not the slow way down, and the hangover
+/// the slow way brings does not follow it.
+///
+/// With [cure] off it only takes the edge off: a plunge into a cold stream
+/// sobers a little and cures nothing, and the hangover still comes when it
+/// was going to.
 final class SoberAction extends GameAction {
   final double amount;
   final ActionTarget target;
+  final bool cure;
 
   const SoberAction({
     this.amount = 2,
     this.target = ActionTarget.currentPlayer,
+    this.cure = true,
   });
 
   factory SoberAction.fromJson(Map<String, dynamic> json) => SoberAction(
     amount: (json['amount'] as num?)?.toDouble() ?? 2,
     target: ActionTarget.fromJson(json['target'] as String? ?? 'currentPlayer'),
+    cure: json['cure'] as bool? ?? true,
   );
 
   @override
@@ -278,6 +285,7 @@ final class SoberAction extends GameAction {
     'action': 'sober',
     if (amount != 2) 'amount': amount,
     'target': target.toJson(),
+    if (!cure) 'cure': false,
   };
 }
 

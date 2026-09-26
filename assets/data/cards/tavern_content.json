@@ -666,6 +666,30 @@
     ],
     "choices": [
       {
+        "label": "Обнять вышибалу — он просто не понял, какой ты хороший",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Вышибала замирает, потом неловко хлопает тебя по спине. Сегодня тебя не выкинут.",
+            "loserOutcome": "Вышибала обнимает в ответ. Крепко. И выносит тебя на улицу, не разжимая объятий.",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_kicked_out"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "label": "Вышибала смотрит тебе в лицо и молча убирает руку",
         "conditions": [
           {

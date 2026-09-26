@@ -269,9 +269,11 @@ final class ActionExecutor {
   GameContext _sober(SoberAction action, GameContext context) {
     final targets = _resolveTargets(action.target, context);
     return _updateTargets(context, targets, (p) {
-      final intoxication = p.intoxication - action.amount;
+      final raw = p.intoxication - action.amount;
+      final intoxication = raw < 0 ? 0.0 : raw;
+      if (!action.cure) return p.copyWith(intoxication: intoxication);
       return p.copyWith(
-        intoxication: intoxication < 0 ? 0 : intoxication,
+        intoxication: intoxication,
         activeEffects: p.activeEffects
             .where((e) => e.id != kHangoverEffectId)
             .toList(),

@@ -347,6 +347,43 @@ void main() {
     });
   });
 
+  test('a cold plunge sobers without curing', () {
+    const hungover = Player(
+      id: 'p',
+      name: 'A',
+      intoxication: 5,
+      wasDrunk: true,
+      activeEffects: [_hangover],
+    );
+    final context = GameContext(
+      state: const GameState(
+        players: [hungover],
+        currentPlayerIndex: 0,
+        status: GameStatus.inProgress,
+      ),
+      random: RandomProvider(seed: 1),
+      cardCatalog: const CardCatalog([]),
+      itemCatalog: const ItemCatalog({}),
+      effectCatalog: const EffectCatalog({}),
+      adventureCatalog: const AdventureCatalog({}),
+      biomeCatalog: const BiomeCatalog({}),
+      originCatalog: const OriginCatalog({}),
+      eventBus: GameEventBus(),
+      mode: GameMode.classic,
+    );
+    const executor = ActionExecutor();
+    final plunged = executor
+        .execute(const SoberAction(amount: 1, cure: false), context)
+        .currentPlayer;
+    expect(plunged.intoxication, 4);
+    expect(plunged.isHungover, isTrue);
+    expect(plunged.wasDrunk, isTrue);
+
+    final cured = executor.execute(const SoberAction(), context).currentPlayer;
+    expect(cured.isHungover, isFalse);
+    expect(cured.wasDrunk, isFalse);
+  });
+
   group('passing out', () {
     test(
       'at seven: out for three cards, left out of the draw, then hungover',
@@ -448,6 +485,7 @@ void main() {
       DrinkAction(),
       DrinkAction(amount: 2, target: ActionTarget.allPlayers),
       SoberAction(),
+      SoberAction(amount: 1, cure: false),
     ]) {
       expect(GameAction.fromJson(action.toJson()).toJson(), action.toJson());
     }
@@ -486,7 +524,17 @@ void main() {
             if (choice.conditions.any((x) => x is IntoxicationAtLeastCondition))
               choice.label,
       ];
-      expect(forTheDrunk, hasLength(4));
+      expect(forTheDrunk, hasLength(9));
+
+      final forTheHungover = [
+        for (final card in cards)
+          for (final choice in card.choices)
+            if (choice.conditions.any(
+              (x) => x is CurrentPlayerHungoverCondition,
+            ))
+              choice.label,
+      ];
+      expect(forTheHungover, ['Попросить всех говорить потише']);
     },
   );
 }

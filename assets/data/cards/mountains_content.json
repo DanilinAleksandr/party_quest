@@ -58,6 +58,31 @@
     ],
     "choices": [
       {
+        "label": "Пройти по карнизу, не глядя вниз — и вообще не глядя",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Ты проходишь карниз, ни разу не посмотрев вниз. И вообще никуда. Оглядываешься уже на той стороне — и становится плохо задним числом.",
+            "loserOutcome": "На середине ты всё-таки смотришь вниз. Остаток пути — на четвереньках, под молчание компании.",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "endurance",
+                "amount": -1
+              }
+            ]
+          }
+        ]
+      },
+      {
         "label": "Верёвка и твёрдая рука горца — карниз проходят все",
         "conditions": [
           {

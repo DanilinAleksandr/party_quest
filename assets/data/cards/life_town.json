@@ -36,6 +36,24 @@
     ],
     "choices": [
       {
+        "label": "Объяснить стражнику, что вы с ним старые друзья",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Стражник так и не вспомнил, откуда вас знает, но пропустил без очереди — на всякий случай.",
+            "loserOutcome": "Стражник внимательно выслушивает и отправляет вас в конец очереди. Друзей, говорит, у него здесь много.",
+            "winnerActions": [],
+            "loserActions": []
+          }
+        ]
+      },
+      {
         "label": "Отстоять как все",
         "actions": [
           {
