@@ -33,7 +33,23 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Попросить всех говорить потише",
+        "outcome": "Все послушно переходят на шёпот. Громкий шёпот. Прямо над ухом.",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_after_feast",

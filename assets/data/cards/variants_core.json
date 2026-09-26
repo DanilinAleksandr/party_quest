@@ -11,7 +11,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_toast_v3",
@@ -25,7 +30,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_toast_v4",
@@ -39,7 +49,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_toast_v5",
@@ -53,7 +68,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_toast_v6",
@@ -67,7 +87,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_confession_v2",
@@ -1161,6 +1186,10 @@
     "conditions": [],
     "actions": [
       {
+        "action": "drink",
+        "target": "allPlayers"
+      },
+      {
         "action": "modifyStat",
         "target": "allPlayers",
         "stat": "charisma",
@@ -1182,6 +1211,10 @@
     ],
     "conditions": [],
     "actions": [
+      {
+        "action": "drink",
+        "target": "allPlayers"
+      },
       {
         "action": "modifyStat",
         "target": "allPlayers",
@@ -1205,6 +1238,10 @@
     "conditions": [],
     "actions": [
       {
+        "action": "drink",
+        "target": "allPlayers"
+      },
+      {
         "action": "modifyStat",
         "target": "allPlayers",
         "stat": "charisma",
@@ -1226,6 +1263,10 @@
     ],
     "conditions": [],
     "actions": [
+      {
+        "action": "drink",
+        "target": "allPlayers"
+      },
       {
         "action": "modifyStat",
         "target": "allPlayers",

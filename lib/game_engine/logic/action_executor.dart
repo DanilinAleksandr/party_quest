@@ -39,6 +39,8 @@ final class ActionExecutor {
       ApplyEffectAction a => _applyEffect(a, context),
       RemoveEffectAction a => _removeEffect(a, context),
       ModifyStatAction a => _modifyStat(a, context),
+      DrinkAction a => _drink(a, context),
+      SoberAction a => _sober(a, context),
       StartDuelAction a => startDuel(a, context),
       ChanceCheckAction a => resolveChanceCheck(a, context),
       SetWorldFlagAction a => _setWorldFlag(a, context),
@@ -241,6 +243,45 @@ final class ActionExecutor {
     );
   }
 
+  GameContext _drink(DrinkAction action, GameContext context) {
+    final targets = _resolveTargets(action.target, context);
+    final alone = context.players.length == 1;
+    return _updateTargets(context, targets, (p) {
+      var intoxication = p.intoxication + action.amount;
+      // Nobody is left to carry a party of one while it sleeps.
+      if (alone && intoxication > kSoloCap) intoxication = kSoloCap;
+      final level = IntoxicationLevel.of(intoxication);
+      return p.copyWith(
+        intoxication: intoxication,
+        // The hair of the dog: whatever else it does, it ends the hangover.
+        activeEffects: p.activeEffects
+            .where((e) => e.id != kHangoverEffectId)
+            .toList(),
+        wasDrunk: p.wasDrunk || level.index >= IntoxicationLevel.drunk.index,
+        passedOutCards:
+            !alone && intoxication >= kPassOutAt && p.passedOutCards == 0
+            ? kPassOutCards
+            : p.passedOutCards,
+      );
+    });
+  }
+
+  GameContext _sober(SoberAction action, GameContext context) {
+    final targets = _resolveTargets(action.target, context);
+    return _updateTargets(context, targets, (p) {
+      final raw = p.intoxication - action.amount;
+      final intoxication = raw < 0 ? 0.0 : raw;
+      if (!action.cure) return p.copyWith(intoxication: intoxication);
+      return p.copyWith(
+        intoxication: intoxication,
+        activeEffects: p.activeEffects
+            .where((e) => e.id != kHangoverEffectId)
+            .toList(),
+        wasDrunk: false,
+      );
+    });
+  }
+
   /// Also records [WorldState.previousWinnerId]/[previousLoserId] once the
   /// duel resolves — the mechanism behind `PreviousWinner`/`PreviousLoser`
   /// event participants ("победителя замечает торговец").
@@ -406,11 +447,15 @@ final class ActionExecutor {
   ) {
     final player = _resolveTargets(action.target, context).first;
     final text = action.text.replaceAll('{player}', player.name);
+    final wasted = player.intoxicationLevel == IntoxicationLevel.wasted;
     return context.withState(
       context.state.copyWith(
         chronicle: [
           ...context.state.chronicle,
-          ChronicleEntry(text: text),
+          ChronicleEntry(
+            text: text,
+            aside: wasted ? kWastedChronicleAside : null,
+          ),
         ],
       ),
     );

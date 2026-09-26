@@ -7,5 +7,14 @@
     "duration": 1,
     "autoExpire": true,
     "reactions": {}
+  },
+  {
+    "id": "effect_hangover",
+    "name": "Похмелье",
+    "description": "Голова гудит, свет режет глаза, и всё вокруг слишком громкое. Внимательность, харизма и выносливость проседают, пока не отпустит — или пока не опохмелишься.",
+    "polarity": "negative",
+    "duration": 6,
+    "autoExpire": true,
+    "reactions": {}
   }
 ]

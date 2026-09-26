@@ -6,7 +6,9 @@
     "rarity": "uncommon",
     "usageType": "manual",
     "isConsumable": true,
-    "useActions": []
+    "useActions": [
+      { "action": "sober", "amount": 2 }
+    ]
   },
   {
     "id": "item_spellbook",

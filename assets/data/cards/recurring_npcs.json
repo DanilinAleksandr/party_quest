@@ -792,6 +792,10 @@
         "label": "Просто выпить с ним и ни о чём не спрашивать",
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "applyEffect",
             "target": "currentPlayer",
             "effectId": "effect_lucky_echo"
@@ -1166,7 +1170,12 @@
       },
       {
         "label": "Взять кружку и сесть у окна",
-        "actions": []
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ]
       }
     ]
   },

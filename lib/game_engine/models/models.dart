@@ -17,6 +17,7 @@ export 'game_event.dart';
 export 'game_mode.dart';
 export 'game_state.dart';
 export 'game_status.dart';
+export 'intoxication.dart';
 export 'inventory_item.dart';
 export 'item_ownership.dart';
 export 'item_usage_type.dart';

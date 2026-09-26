@@ -41,6 +41,11 @@
             "onSuccess": {
               "actions": [
                 {
+                  "action": "drink",
+                  "amount": 2,
+                  "target": "currentPlayer"
+                },
+                {
                   "action": "applyEffect",
                   "target": "currentPlayer",
                   "effectId": "effect_generous_host"

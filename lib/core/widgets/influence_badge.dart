@@ -133,6 +133,15 @@ List<InfluenceTag> influenceTagsOf(
       case GlobalModifierAtLeastCondition _:
         add(InfluenceSource.world);
 
+      case IntoxicationAtLeastCondition _:
+      case CurrentPlayerHungoverCondition _:
+        add(InfluenceSource.drink);
+
+      // "Not yet this drunk" is a guard, like the other absences: it is why
+      // an option is still offered, not something the drink opened.
+      case IntoxicationBelowCondition _:
+        break;
+
       // --- deliberately unbadged, see the doc comment above ---
       case PartyMissingItemCondition _:
       case CurrentPlayerMissingItemCondition _:

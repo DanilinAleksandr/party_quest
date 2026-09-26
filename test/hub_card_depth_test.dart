@@ -27,6 +27,9 @@ ModifierKind? _kindOf(GameCondition condition) => switch (condition) {
   AdventureCompletedCondition _ ||
   AdventureNotCompletedCondition _ => ModifierKind.world,
   CurrentPlayerHasEffectCondition _ ||
+  IntoxicationAtLeastCondition _ ||
+  IntoxicationBelowCondition _ ||
+  CurrentPlayerHungoverCondition _ ||
   AnyPlayerHasEffectCondition _ ||
   CurrentPlayerMissingEffectCondition _ => ModifierKind.effect,
   CurrentPlayerStatAtLeastCondition _ ||

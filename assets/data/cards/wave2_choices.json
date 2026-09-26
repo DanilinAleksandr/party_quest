@@ -1061,6 +1061,10 @@
         "label": "Отхлебнуть залпом, не раздумывая",
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_bravery_flask"
@@ -1076,6 +1080,10 @@
       {
         "label": "Дождаться хозяина и выпить с ним за знакомство",
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "modifyStat",
             "target": "currentPlayer",
@@ -1230,6 +1238,10 @@
             ],
             "loserActions": [
               {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
                 "action": "applyEffect",
                 "target": "currentPlayer",
                 "effectId": "effect_hedge_word"
@@ -1317,6 +1329,10 @@
               }
             ],
             "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
               {
                 "action": "modifyStat",
                 "target": "currentPlayer",
@@ -1627,6 +1643,10 @@
             ],
             "loserActions": [
               {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
                 "action": "applyEffect",
                 "target": "currentPlayer",
                 "effectId": "effect_marked"
@@ -1650,6 +1670,10 @@
               }
             ],
             "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
               {
                 "action": "applyEffect",
                 "target": "currentPlayer",

@@ -137,6 +137,29 @@
     ],
     "choices": [
       {
+        "label": "Искупаться прямо в одежде — вода же зовёт",
+        "outcome": "Вода зовёт ровно до того момента, как ты в неё входишь. Вылезаешь заметно трезвее, мокрый насквозь и стуча зубами.",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "wasted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "sober",
+            "amount": 1,
+            "cure": false,
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ]
+      },
+      {
         "label": "С даром алтаря перейти вброд там, где остальные ищут мост",
         "conditions": [
           {

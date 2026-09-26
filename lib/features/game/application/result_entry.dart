@@ -15,6 +15,10 @@ enum ResultKind {
   partyItemGained,
   partyItemLost,
   allyGained,
+
+  /// A player's drinking moved to another level, or they passed out —
+  /// headline is the whole short phrase, "уже пьян".
+  intoxicationChanged,
 }
 
 /// One real change from a resolved card/adventure — shown as its own

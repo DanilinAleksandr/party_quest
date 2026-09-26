@@ -364,13 +364,30 @@ class _ChronicleSection extends StatelessWidget {
                           ),
                           const SizedBox(width: 9),
                           Expanded(
-                            child: Text(
-                              entry.text,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontSize: 13.5,
-                                height: 1.45,
-                                color: SteelPalette.textLow,
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  entry.text,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontSize: 13.5,
+                                    height: 1.45,
+                                    color: SteelPalette.textLow,
+                                  ),
+                                ),
+                                if (entry.aside != null)
+                                  Text(
+                                    entry.aside!,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      fontSize: 12.5,
+                                      height: 1.4,
+                                      fontStyle: FontStyle.italic,
+                                      color: SteelPalette.textLow.withValues(
+                                        alpha: 0.66,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ],

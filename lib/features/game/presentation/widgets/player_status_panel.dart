@@ -110,6 +110,22 @@ class PlayerStatusPanel extends StatelessWidget {
                   color: SteelPalette.textHigh,
                 ),
               ),
+              // One word under the name, never a number: «навеселе», «пьян»,
+              // «в стельку», «похмелье», «спит». A sober player gets nothing.
+              if (player.conditionWord case final word?)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    word,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      fontSize: 11,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
+                      color: InfluenceSource.drink.color,
+                    ),
+                  ),
+                ),
               const SizedBox(height: 8),
               OriginRevealFlash(origin: origin),
               if (stats.isNotEmpty) ...[

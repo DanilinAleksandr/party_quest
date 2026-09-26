@@ -17,6 +17,12 @@ import 'player_stats.dart';
 /// content (`AnyPlayerHasOriginCondition`/`HasOriginParticipant`) simply
 /// never applies to them, the same way a player who never picked up an item
 /// just never satisfies an item condition.
+///
+/// [intoxication] is how much the character has had, in drinks — see
+/// `IntoxicationLevel` for what the table is told about it, which is never
+/// the number. [wasDrunk] remembers the character got as far as drunk, so
+/// coming back down below it brings the hangover; [passedOutCards] counts
+/// down the cards a character sleeps through.
 final class Player {
   final String id;
   final String name;
@@ -24,6 +30,9 @@ final class Player {
   final List<InventoryItem> inventory;
   final PlayerStats stats;
   final List<GameEffect> activeEffects;
+  final double intoxication;
+  final bool wasDrunk;
+  final int passedOutCards;
 
   const Player({
     required this.id,
@@ -32,6 +41,9 @@ final class Player {
     this.inventory = const [],
     this.stats = PlayerStats.initial,
     this.activeEffects = const [],
+    this.intoxication = 0,
+    this.wasDrunk = false,
+    this.passedOutCards = 0,
   });
 
   List<GameEffect> get blessings => activeEffects
@@ -49,6 +61,9 @@ final class Player {
     List<InventoryItem>? inventory,
     PlayerStats? stats,
     List<GameEffect>? activeEffects,
+    double? intoxication,
+    bool? wasDrunk,
+    int? passedOutCards,
   }) {
     return Player(
       id: id ?? this.id,
@@ -57,6 +72,9 @@ final class Player {
       inventory: inventory ?? this.inventory,
       stats: stats ?? this.stats,
       activeEffects: activeEffects ?? this.activeEffects,
+      intoxication: intoxication ?? this.intoxication,
+      wasDrunk: wasDrunk ?? this.wasDrunk,
+      passedOutCards: passedOutCards ?? this.passedOutCards,
     );
   }
 
@@ -73,6 +91,9 @@ final class Player {
     activeEffects: (json['activeEffects'] as List<dynamic>? ?? const [])
         .map((e) => GameEffect.fromJson(e as Map<String, dynamic>))
         .toList(),
+    intoxication: (json['intoxication'] as num?)?.toDouble() ?? 0,
+    wasDrunk: json['wasDrunk'] as bool? ?? false,
+    passedOutCards: json['passedOutCards'] as int? ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -82,5 +103,8 @@ final class Player {
     'inventory': inventory.map((i) => i.toJson()).toList(),
     'stats': stats.toJson(),
     'activeEffects': activeEffects.map((e) => e.toJson()).toList(),
+    'intoxication': intoxication,
+    'wasDrunk': wasDrunk,
+    'passedOutCards': passedOutCards,
   };
 }

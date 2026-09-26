@@ -86,6 +86,10 @@ class _PlayerProfile extends StatelessWidget {
             _OriginSection(origin: origin),
             const SizedBox(height: 24),
             _StatsSection(stats: player.stats),
+            if (player.conditionWord != null) ...[
+              const SizedBox(height: 24),
+              _DrinkSection(player: player),
+            ],
             if (player.activeEffects.isNotEmpty) ...[
               const SizedBox(height: 24),
               _EffectsSection(player: player),
@@ -649,6 +653,51 @@ class _EffectsSection extends StatelessWidget {
             ],
           ),
         ],
+      ],
+    );
+  }
+}
+
+/// What the drink is doing to this player: the one word the roster shows,
+/// and the shifts it puts on the stats a check reads — worded like the
+/// effects above, and like them never showing the scale itself.
+class _DrinkSection extends StatelessWidget {
+  final Player player;
+
+  const _DrinkSection({required this.player});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = InfluenceSource.drink.color;
+    final word = player.conditionWord!;
+    final shifts = player.intoxicationShifts.entries
+        .map((e) {
+          final sign = e.value > 0 ? '+' : '−';
+          return '${StatChip.labelFor(e.key)} $sign${e.value.abs()}';
+        })
+        .join(' · ');
+    final description = player.isPassedOut
+        ? 'Отключился прямо на ходу. Проснётся через пару карточек — '
+              'и уже с похмельем.'
+        : shifts;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SectionTitle(
+          icon: InfluenceSource.drink.icon,
+          title: 'ХМЕЛЬ',
+          color: color,
+        ),
+        _Timeline(
+          children: [
+            _TimelineEntry(
+              color: color,
+              name: word[0].toUpperCase() + word.substring(1),
+              description: description,
+            ),
+          ],
+        ),
       ],
     );
   }

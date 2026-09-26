@@ -82,16 +82,35 @@ final class ParticipantResolver {
     return _setPrimary(context, index);
   }
 
-  GameContext _pickRandom(GameContext context) =>
-      _setPrimary(context, context.random.nextInt(context.players.length));
+  /// Players who are awake to be picked. Somebody who passed out is not
+  /// drawn into an event until they come round — unless nobody is awake at
+  /// all, which the solo cap on the scale keeps from happening in a party of
+  /// one and a party of several would have to drink very hard to reach.
+  List<int> _awake(GameContext context) {
+    final players = context.players;
+    final awake = [
+      for (var i = 0; i < players.length; i++)
+        if (!players[i].isPassedOut) i,
+    ];
+    return awake.isEmpty ? [for (var i = 0; i < players.length; i++) i] : awake;
+  }
+
+  // With nobody asleep these make exactly the draws they always made, so a
+  // seed replays the same match it did before anybody could pass out.
+  GameContext _pickRandom(GameContext context) {
+    final awake = _awake(context);
+    return _setPrimary(context, awake[context.random.nextInt(awake.length)]);
+  }
 
   GameContext _pickTwoRandom(GameContext context) {
-    final players = context.players;
-    if (players.length < 2) return _setPrimary(context, 0);
+    final awake = _awake(context);
+    if (awake.length < 2) return _setPrimary(context, awake.first);
 
-    final firstIndex = context.random.nextInt(players.length);
-    var secondIndex = context.random.nextInt(players.length - 1);
-    if (secondIndex >= firstIndex) secondIndex += 1;
+    final firstPick = context.random.nextInt(awake.length);
+    var secondPick = context.random.nextInt(awake.length - 1);
+    if (secondPick >= firstPick) secondPick += 1;
+    final firstIndex = awake[firstPick];
+    final secondIndex = awake[secondPick];
 
     return context.withState(
       context.state.copyWith(
@@ -107,7 +126,7 @@ final class ParticipantResolver {
     required bool highest,
   }) {
     final players = context.players;
-    final values = players.map((p) => p.stats.valueOf(stat)).toList();
+    final values = players.map((p) => p.effectiveStat(stat)).toList();
     final best = highest
         ? values.reduce((a, b) => a > b ? a : b)
         : values.reduce((a, b) => a < b ? a : b);

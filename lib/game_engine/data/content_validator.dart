@@ -439,6 +439,14 @@ final class ContentValidator {
             originCatalog,
             errors,
           );
+        case DrinkAction a:
+          if (a.amount <= 0) {
+            errors.add('$source: a drink must be a positive amount');
+          }
+        case SoberAction a:
+          if (a.amount <= 0) {
+            errors.add('$source: sobering up must be a positive amount');
+          }
         case SetWorldFlagAction _:
         case ModifyGlobalModifierAction _:
           break;
@@ -520,6 +528,9 @@ final class ContentValidator {
       case MinimumTurnsInRestCondition _:
       case MinimumStepsSinceFlagCondition _:
       case MaximumStepsSinceFlagCondition _:
+      case IntoxicationAtLeastCondition _:
+      case IntoxicationBelowCondition _:
+      case CurrentPlayerHungoverCondition _:
       case AnyPlayerMissingOriginCondition _:
       case CurrentPlayerOriginUnknownCondition _:
       case CurrentPlayerStatAtLeastCondition _:

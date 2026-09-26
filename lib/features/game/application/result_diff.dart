@@ -130,6 +130,26 @@ List<ResultEntry> computeResultEntries({
     }
   }
 
+  // Everyone, not only whoever the card was about: the scale wears down for
+  // the whole table after every card, and a level passed on the way down
+  // is as much news as one reached on the way up.
+  for (final after in next.players) {
+    final before = previous.players.where((p) => p.id == after.id).firstOrNull;
+    if (before == null) continue;
+    final phrase = _intoxicationPhrase(before, after);
+    if (phrase == null) continue;
+    entries.add(
+      ResultEntry(
+        kind: ResultKind.intoxicationChanged,
+        playerName: after.name,
+        headline: phrase,
+        isNegative:
+            after.isPassedOut ||
+            after.intoxicationLevel.index > before.intoxicationLevel.index,
+      ),
+    );
+  }
+
   final previousLeaderId = previous.worldState.leaderId;
   final nextLeaderId = next.worldState.leaderId;
   if (nextLeaderId != null && nextLeaderId != previousLeaderId) {
@@ -159,6 +179,20 @@ List<ResultEntry> computeResultEntries({
   }
 
   return entries;
+}
+
+/// "уже пьян", "хмель выветрился", "спит" — or null when nothing the table
+/// is told has changed. Worded to hold for any name: the verbs a Russian
+/// past tense would put here ("протрезвел", "отключился") carry a gender
+/// that a typed-in name cannot be trusted to agree with.
+String? _intoxicationPhrase(Player before, Player after) {
+  if (!before.isPassedOut && after.isPassedOut) return 'Спит';
+  if (before.isPassedOut && !after.isPassedOut) return 'Снова на ногах';
+  final from = before.intoxicationLevel;
+  final to = after.intoxicationLevel;
+  if (from == to) return null;
+  if (to == IntoxicationLevel.sober) return 'Хмель выветрился';
+  return to.index > from.index ? 'Уже ${to.word}' : 'Теперь только ${to.word}';
 }
 
 /// Removes the first occurrence of [id] from [ids] and reports whether it

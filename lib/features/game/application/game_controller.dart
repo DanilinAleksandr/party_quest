@@ -252,7 +252,91 @@ class GameController extends StateNotifier<GameState> {
     _showCard(card, ctx);
   }
 
+  /// The drawn card as it was before [_filterCardChoices] narrowed it. A
+  /// personal action can change what the player qualifies for, so the
+  /// choices are narrowed again from here — not from what is on screen,
+  /// which would never bring back a choice that was hidden before the drink.
+  GameCard? _drawnCard;
+
+  /// One personal action per card: a drink for courage or an item used.
+  bool _personalActionTaken = false;
+
+  /// Everyone's scale as the current card was drawn — see [_afterCard].
+  Map<String, double> _intoxicationAtDraw = const {};
+
+  bool get personalActionTaken => _personalActionTaken;
+
+  /// Whether «Для храбрости» can be offered right now. Not on a card without
+  /// choices — there is nothing for a drink to change there — and not to a
+  /// player who is already wasted.
+  bool get canDrinkForCourage {
+    final card = _drawnCard;
+    return card != null &&
+        state.pendingCard != null &&
+        state.activeAdventureId == null &&
+        card.hasChoices &&
+        !_personalActionTaken &&
+        _context.currentPlayer.intoxicationLevel != IntoxicationLevel.wasted;
+  }
+
+  /// The current player's items that can be used by hand from a card, one
+  /// of each kind.
+  List<InventoryItem> get usableItems {
+    if (state.pendingCard == null ||
+        state.activeAdventureId != null ||
+        _personalActionTaken) {
+      return const [];
+    }
+    final seen = <String>{};
+    return [
+      for (final item in _context.currentPlayer.inventory)
+        if (item.usageType == ItemUsageType.manual &&
+            item.useActions.isNotEmpty &&
+            seen.add(item.id))
+          item,
+    ];
+  }
+
+  /// «Для храбрости»: the current player drinks one, and the card's choices
+  /// are narrowed again from the card as drawn.
+  void drinkForCourage() {
+    if (!canDrinkForCourage) return;
+    _takePersonalAction(_executor.execute(const DrinkAction(), _context));
+  }
+
+  /// Uses [itemId] from the current player's inventory: its actions run for
+  /// them, a consumable is spent, and the choices are narrowed again.
+  void useItem(String itemId) {
+    final item = usableItems.where((i) => i.id == itemId).firstOrNull;
+    if (item == null) return;
+    final player = _context.currentPlayer;
+    var ctx = _executor.executeAsPlayer(item.useActions, player.id, _context);
+    if (item.isConsumable) {
+      ctx = _executor.executeAsPlayer(
+        [TakeItemAction(itemId: item.id)],
+        player.id,
+        ctx,
+      );
+    }
+    _takePersonalAction(ctx);
+  }
+
+  void _takePersonalAction(GameContext ctx) {
+    _personalActionTaken = true;
+    final drawn = _drawnCard!;
+    _setContext(
+      ctx.withState(
+        ctx.state.copyWith(pendingCard: _filterCardChoices(drawn, ctx)),
+      ),
+    );
+  }
+
   void _showCard(GameCard drawnCard, GameContext context) {
+    _drawnCard = drawnCard;
+    _personalActionTaken = false;
+    _intoxicationAtDraw = {
+      for (final p in context.players) p.id: p.intoxication,
+    };
     final card = _filterCardChoices(drawnCard, context);
     final worldState = context.state.worldState.copyWith(
       previousParticipantId: context.currentPlayer.id,
@@ -466,7 +550,88 @@ class GameController extends StateNotifier<GameState> {
       ),
     );
     ctx = _dispatcher.dispatch(OnTurnFinished(player: resolvedFor), ctx);
+    ctx = _afterCard(ctx);
+    _drawnCard = null;
     _setContext(ctx);
+  }
+
+  /// What one played card does to everybody's drinking: the scale wears
+  /// down, a sleeper counts down towards waking, and whoever came back down
+  /// from drunk gets the hangover for it.
+  ///
+  /// Counted per card rather than per step. Inside a tavern or at a halt
+  /// `partySteps` stands still, and that is exactly where people need to
+  /// sober up; at the fire they sleep it off three times as fast, and the
+  /// halt lifts a hangover outright.
+  GameContext _afterCard(GameContext ctx) {
+    final resting = ctx.state.worldState.flag('in_rest');
+    final wearsOff = kSoberingPerCard * (resting ? kRestSoberingFactor : 1);
+    final hangovers = <String>[];
+
+    Player wearOff(Player player) {
+      // Whoever drank on this card does not sober on it too. With the
+      // thresholds where they are, one drink is exactly "навеселе", and a
+      // tenth off on the same card would make it vanish before anybody saw
+      // it.
+      final atDraw = _intoxicationAtDraw[player.id];
+      if (atDraw != null && player.intoxication > atDraw) {
+        if (player.wasDrunk && player.intoxication < kDrunkAt) {
+          if (!resting) hangovers.add(player.id);
+          return player.copyWith(wasDrunk: false);
+        }
+        return player;
+      }
+      if (player.isPassedOut) {
+        final left = player.passedOutCards - 1;
+        if (left > 0) return player.copyWith(passedOutCards: left);
+        // Slept it off — and woke up to pay for it.
+        hangovers.add(player.id);
+        return player.copyWith(
+          passedOutCards: 0,
+          intoxication: 0,
+          wasDrunk: false,
+        );
+      }
+      // Tenths, kept as tenths: float drift must never turn ten cards of
+      // sobering into nine and a bit.
+      final raw = player.intoxication - wearsOff;
+      final intoxication = raw <= 0 ? 0.0 : (raw * 10).round() / 10;
+      if (player.wasDrunk && intoxication < kDrunkAt) {
+        if (!resting) hangovers.add(player.id);
+        return player.copyWith(intoxication: intoxication, wasDrunk: false);
+      }
+      return player.copyWith(intoxication: intoxication);
+    }
+
+    final players = [for (final p in ctx.players) wearOff(p)];
+    ctx = ctx.withState(ctx.state.copyWith(players: players));
+
+    if (ctx.effectCatalog.contains(kHangoverEffectId)) {
+      for (final id in hangovers) {
+        ctx = _executor.executeAsPlayer(
+          const [ApplyEffectAction(effectId: kHangoverEffectId)],
+          id,
+          ctx,
+        );
+      }
+    }
+    if (resting) {
+      ctx = ctx.withState(
+        ctx.state.copyWith(
+          players: [
+            for (final p in ctx.players)
+              p.isHungover
+                  ? p.copyWith(
+                      activeEffects: p.activeEffects
+                          .where((e) => e.id != kHangoverEffectId)
+                          .toList(),
+                    )
+                  : p,
+          ],
+        ),
+      );
+    }
+    return ctx;
   }
 
   /// Skipped while the party is inside the tavern (`WorldState.flag(
