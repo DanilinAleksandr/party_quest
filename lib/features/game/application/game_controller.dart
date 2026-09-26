@@ -313,6 +313,9 @@ class GameController extends StateNotifier<GameState> {
 
     for (final action in _actionsFor(card, choiceIndex)) {
       switch (action) {
+        // Thrown out of sight — see [hiddenCheckFor].
+        case ChanceCheckAction a when !a.open:
+          continue;
         case ChanceCheckAction a:
           return Gamble(
             sides: a.sides,
@@ -340,7 +343,24 @@ class GameController extends StateNotifier<GameState> {
     return null;
   }
 
-  /// Throws for a gamble [gambleFor] found.
+  /// The chance check a choice is about to make out of sight — one with
+  /// `open: false` — or null when it makes none.
+  ///
+  /// No coin and no call: the UI throws with [roll] exactly as for a gamble,
+  /// so it can tell the player what came of it *before* resolving, and then
+  /// hands the same answer to [resolveCard]. Only the throw's being watched
+  /// is left out.
+  ChanceCheckAction? hiddenCheckFor({int? choiceIndex}) {
+    final card = _context.state.pendingCard;
+    if (card == null) return null;
+    for (final action in _actionsFor(card, choiceIndex)) {
+      if (action is ChanceCheckAction && !action.open) return action;
+    }
+    return null;
+  }
+
+  /// Throws for a gamble [gambleFor] found, or a check [hiddenCheckFor]
+  /// found.
   ///
   /// The throw happens here, before anything is applied, because the UI has
   /// to show the same result the engine settles on and has to show it

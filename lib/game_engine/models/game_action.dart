@@ -325,12 +325,25 @@ final class ChanceCheckAction extends GameAction {
   final String? winnerOutcome;
   final String? loserOutcome;
 
+  /// Whether the table watches the throw. True for the coin: a ledge, the
+  /// wolves, a wager, the bright mushrooms — the moments the table would
+  /// call "повезёт — не повезёт" out loud of its own accord.
+  ///
+  /// False where there is nothing to call: something turned up in a bag or
+  /// it did not, the stone had something under it or it did not. The odds
+  /// are the same fifty-fifty, thrown the same way; what changes is that no
+  /// coin is shown, since a coin landing King over a found flask announces
+  /// «Обошлось» about a risk nobody took. The player is simply told what
+  /// was found, as an ordinary «Последствие».
+  final bool open;
+
   const ChanceCheckAction({
     this.winnerActions = const [],
     this.loserActions = const [],
     this.sides = const [],
     this.winnerOutcome,
     this.loserOutcome,
+    this.open = true,
   });
 
   factory ChanceCheckAction.fromJson(Map<String, dynamic> json) =>
@@ -344,6 +357,7 @@ final class ChanceCheckAction extends GameAction {
         sides: _sidesFromJson(json['sides']),
         winnerOutcome: json['winnerOutcome'] as String?,
         loserOutcome: json['loserOutcome'] as String?,
+        open: json['open'] as bool? ?? true,
       );
 
   @override
@@ -354,6 +368,7 @@ final class ChanceCheckAction extends GameAction {
     if (sides.isNotEmpty) 'sides': sides,
     if (winnerOutcome != null) 'winnerOutcome': winnerOutcome,
     if (loserOutcome != null) 'loserOutcome': loserOutcome,
+    if (!open) 'open': false,
   };
 }
 

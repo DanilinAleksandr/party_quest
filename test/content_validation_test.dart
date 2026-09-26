@@ -121,6 +121,34 @@ void main() {
       expect(errors, [contains('itm_does_not_exist')]);
     });
 
+    test('flags a hidden chance check that offers sides to call', () {
+      final card = GameCard(
+        id: 'c1',
+        title: 't',
+        description: 'd',
+        type: CardType.event,
+        rarity: Rarity.common,
+        weight: 1,
+        actions: const [
+          ChanceCheckAction(open: false, sides: ['Король', 'Шут']),
+        ],
+      );
+
+      const validator = ContentValidator();
+      final errors = validator.validate(
+        cards: [card],
+        itemCatalog: const ItemCatalog({'itm_ok': item}),
+        effectCatalog: const EffectCatalog({'eff_ok': effect}),
+        adventureCatalog: const AdventureCatalog({}),
+        biomeCatalog: const BiomeCatalog({
+          'forest': Biome(id: 'forest', name: 'Forest', description: 'd'),
+        }),
+        originCatalog: const OriginCatalog({}),
+      );
+
+      expect(errors, [contains('hidden chance check')]);
+    });
+
     test('flags a card condition referencing an unknown effect id', () {
       final card = GameCard(
         id: 'c1',

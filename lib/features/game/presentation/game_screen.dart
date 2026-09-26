@@ -183,11 +183,26 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               if (!context.mounted) return;
             }
 
-            if (won == null) {
+            final choiceOutcome = choiceIndex == null
+                ? null
+                : card.choices[choiceIndex].outcome;
+
+            // A check nobody watches: thrown all the same, and told as a
+            // plain consequence — what was in the bag, not whether a coin
+            // came down King.
+            final hidden = gamble == null
+                ? notifier.hiddenCheckFor(choiceIndex: choiceIndex)
+                : null;
+            if (hidden != null) {
+              won = notifier.roll();
               await tellChoiceOutcome(
                 context,
-                choiceIndex == null ? null : card.choices[choiceIndex].outcome,
+                (won ? hidden.winnerOutcome : hidden.loserOutcome) ??
+                    choiceOutcome,
               );
+              if (!context.mounted) return;
+            } else if (won == null) {
+              await tellChoiceOutcome(context, choiceOutcome);
               if (!context.mounted) return;
             }
             notifier.resolveCard(

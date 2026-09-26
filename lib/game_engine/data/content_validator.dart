@@ -411,6 +411,14 @@ final class ContentValidator {
             errors,
           );
         case ChanceCheckAction a:
+          // Sides are something to call before a throw everybody watches;
+          // a hidden check has no throw to watch.
+          if (!a.open && a.sides.isNotEmpty) {
+            errors.add(
+              '$source: a hidden chance check ("open": false) cannot offer '
+              'sides to call',
+            );
+          }
           _validateActions(
             a.winnerActions,
             '$source (chance check passed)',
