@@ -13,6 +13,7 @@ import '../../../game_engine/data/content_providers.dart';
 import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
 import '../../settings/application/walk_settings.dart';
+import '../application/adventure_names.dart';
 import '../application/auto_walk_timer.dart';
 import '../application/game_controller.dart';
 import '../application/result_diff.dart';
@@ -134,6 +135,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           card: card,
           participants: _participantsFor(next, card.participant),
           origins: origins,
+          adventureNames: rememberedAdventureNames(
+            ref.read(adventureEntryTitlesProvider),
+            next.journeyLog,
+          ),
           // The outcome is told *before* the choice reaches the controller,
           // not after, and that is what keeps the two screens in the order
           // the player reads them. Resolving is synchronous, and the state
@@ -226,6 +231,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               ? [next.currentPlayer]
               : [next.currentPlayer, next.secondaryPlayer!],
           origins: origins,
+          adventureNames: rememberedAdventureNames(
+            ref.read(adventureEntryTitlesProvider),
+            next.journeyLog,
+          ),
           onChoice: (choiceIndex) async {
             await tellChoiceOutcome(context, node.choices[choiceIndex].outcome);
             if (!context.mounted) return;
