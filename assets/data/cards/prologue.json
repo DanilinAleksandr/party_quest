@@ -10,6 +10,12 @@
       "solo",
       "prologue"
     ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      }
+    ],
     "choices": [
       {
         "label": "Под дождём прощаться легче — никто не видит лиц",
@@ -103,6 +109,12 @@
       "prologue",
       "group"
     ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      }
+    ],
     "actions": []
   },
   {
@@ -115,6 +127,12 @@
     "tags": [
       "solo",
       "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      }
     ],
     "choices": [
       {
@@ -185,6 +203,12 @@
       "solo",
       "prologue"
     ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      }
+    ],
     "actions": []
   },
   {
@@ -197,6 +221,12 @@
     "tags": [
       "solo",
       "prologue"
+    ],
+    "conditions": [
+      {
+        "condition": "inPhase",
+        "phase": "prologue"
+      }
     ],
     "choices": [
       {
