@@ -603,6 +603,8 @@
           {
             "action": "chanceCheck",
             "open": false,
+            "winnerOutcome": "Ты вытаскиваешь его из-под обломков. Он шепчет одно слово — куда улетел дракон.",
+            "loserOutcome": "Ты опаздываешь на минуту. Выживший успевает только показать рукой на перевал.",
             "winnerActions": [
               {
                 "action": "setWorldFlag",
