@@ -61,6 +61,21 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ),
               ],
+              const SizedBox(height: 20),
+              // Applies in either mode: halts happen whoever is walking.
+              Text(
+                'Привал — каждые ${walk.restInterval} карточек',
+                style: theme.textTheme.bodyMedium,
+              ),
+              Slider(
+                key: const Key('rest_interval_slider'),
+                min: kMinRestInterval.toDouble(),
+                max: kMaxRestInterval.toDouble(),
+                divisions: kMaxRestInterval - kMinRestInterval,
+                value: walk.restInterval.toDouble(),
+                label: '${walk.restInterval}',
+                onChanged: (value) => notifier.setRestInterval(value.round()),
+              ),
               const Spacer(),
               Divider(color: theme.colorScheme.outlineVariant),
               const SizedBox(height: 16),

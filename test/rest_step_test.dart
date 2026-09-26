@@ -49,6 +49,7 @@ GameContext _at({
   bool inTavern = false,
   bool inRest = false,
   int turnsInRest = 0,
+  int restInterval = kRestInterval,
 }) => GameContext(
   state: GameState(
     players: const [
@@ -73,9 +74,13 @@ GameContext _at({
   originCatalog: const OriginCatalog({}),
   eventBus: GameEventBus(),
   mode: GameMode.classic,
+  restInterval: restInterval,
 );
 
-GameController _controller(List<GameCard> cards) => GameController(
+GameController _controller(
+  List<GameCard> cards, {
+  int restInterval = kRestInterval,
+}) => GameController(
   playerNames: const ['A', 'B'],
   cards: cards,
   itemCatalog: const ItemCatalog({}),
@@ -84,6 +89,7 @@ GameController _controller(List<GameCard> cards) => GameController(
   biomeCatalog: const BiomeCatalog({}),
   originCatalog: const OriginCatalog({}),
   seed: 3,
+  restInterval: restInterval,
   // Infinite, so ten steps cannot end the journey out from under the test.
   journeySteps: null,
   skipPrologue: true,
@@ -193,6 +199,35 @@ void main() {
         all,
       ).eligibleCards(_at(steps: 11, cards: all, inRest: true));
       expect(pool.map((c) => c.id), ['rest_content']);
+    });
+  });
+
+  group('the interval the table chose', () {
+    test('moves the halt, and the default step is then ordinary', () {
+      for (final step in [7, 14, 21]) {
+        final ids = CardCatalog(all)
+            .eligibleCards(_at(steps: step, cards: all, restInterval: 7))
+            .map((c) => c.id);
+        expect(ids, ['rest_arrival'], reason: 'step $step');
+      }
+      final atTen = CardCatalog(all)
+          .eligibleCards(_at(steps: 10, cards: all, restInterval: 7))
+          .map((c) => c.id);
+      expect(atTen, contains('road'));
+      expect(atTen, isNot(contains('rest_arrival')));
+    });
+
+    test('reaches the engine through the controller', () {
+      final controller = _controller([
+        _road,
+        _arrival,
+        _departure,
+      ], restInterval: 5);
+      for (var i = 0; i < 5; i++) {
+        _step(controller);
+      }
+      expect(controller.state.partySteps, 5);
+      expect(controller.state.worldState.flag('in_rest'), isTrue);
     });
   });
 
