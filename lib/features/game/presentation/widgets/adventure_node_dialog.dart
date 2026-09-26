@@ -30,6 +30,7 @@ Future<void> showAdventureNodeDialog({
   required List<Player>? participants,
   required void Function(int choiceIndex) onChoice,
   OriginCatalog? origins,
+  Map<String, String>? adventureNames,
 }) {
   return showAppDialog<void>(
     context: context,
@@ -52,7 +53,11 @@ Future<void> showAdventureNodeDialog({
       for (var i = 0; i < node.choices.length; i++)
         InfluenceGatedAction(
           label: node.choices[i].label,
-          tags: influenceTagsOf(node.choices[i].conditions, origins: origins),
+          tags: influenceTagsOf(
+            node.choices[i].conditions,
+            origins: origins,
+            adventureNames: adventureNames,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
             onChoice(i);

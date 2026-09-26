@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../game_engine/logic/logic.dart';
 import '../../game_engine/models/models.dart';
 import '../constants/ally_flags.dart';
+import '../constants/place_flags.dart';
 import '../theme/influence_source.dart';
 
 /// One badge to render: which system, and what to write on it.
@@ -39,6 +40,13 @@ typedef InfluenceTag = ({InfluenceSource source, String text});
 ///   says "Волчья кровь"). An item, by contrast, is usually named right in
 ///   the label ("Протянуть флягу"), so "Предмет" loses nothing.
 ///
+/// [AdventureCompletedCondition] names the adventure being remembered, for
+/// the second of those reasons: a callback is written in-fiction ("вы были
+/// на этих похоронах") and twenty cards on nobody recalls the funeral. The
+/// name is the one the journey log already has it under — the title of the
+/// card that began it — passed in as [adventureNames], so the badge and the
+/// log say the same words. An adventure with no known name stays «Мир».
+///
 /// [AnyPlayerHasOriginCondition] deliberately stays generic: it means
 /// *somebody at the table* is that origin, which may well not be the player
 /// this option belongs to — naming it there would misattribute.
@@ -58,7 +66,8 @@ typedef InfluenceTag = ({InfluenceSource source, String text});
 ///    would put a 🌍 pill on almost everything and teach the player to
 ///    ignore pills.
 /// 3. *Table and pacing plumbing* — player counts, step thresholds, journey
-///    phase, game mode.
+///    phase, game mode, and the [placeFlags] that say which detour the
+///    party is in.
 ///
 /// Effects (`currentPlayerHasEffect`) are a genuine influence and are left
 /// unbadged only because they'd need a sixth category that hasn't been
@@ -66,12 +75,18 @@ typedef InfluenceTag = ({InfluenceSource source, String text});
 List<InfluenceTag> influenceTagsOf(
   List<GameCondition> conditions, {
   OriginCatalog? origins,
+  Map<String, String>? adventureNames,
 }) {
   // Keyed by source so one option never shows the same pill twice; the
-  // first specific name found for a source wins.
+  // first specific name found for a source wins, over the category word
+  // too, whichever condition came first.
   final found = <InfluenceSource, String>{};
-  void add(InfluenceSource source, [String? text]) =>
-      found.putIfAbsent(source, () => text ?? source.label);
+  void add(InfluenceSource source, [String? text]) {
+    final current = found[source];
+    if (current == null || (current == source.label && text != null)) {
+      found[source] = text ?? source.label;
+    }
+  }
 
   for (final condition in conditions) {
     switch (condition) {
@@ -97,14 +112,20 @@ List<InfluenceTag> influenceTagsOf(
       // text already ("капитан узнаёт вас издалека"), so the naming rule
       // above doesn't apply.
       case WorldFlagSetCondition c:
+        if (placeFlags.contains(c.flag)) break;
         add(
           allyFlags.containsKey(c.flag)
               ? InfluenceSource.ally
               : InfluenceSource.world,
         );
 
-      case AdventureCompletedCondition _:
-      case MinimumStepsSinceFlagCondition _:
+      case AdventureCompletedCondition c:
+        add(InfluenceSource.world, adventureNames?[c.adventureId]);
+
+      case MinimumStepsSinceFlagCondition c:
+        if (placeFlags.contains(c.flag)) break;
+        add(InfluenceSource.world);
+
       case GlobalModifierAtLeastCondition _:
         add(InfluenceSource.world);
 

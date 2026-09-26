@@ -27,14 +27,21 @@ import '../../../../game_engine/models/models.dart';
 /// [origins] lets an origin badge name the origin itself ("✦ Волчья кровь")
 /// instead of the category word. Optional: without it the badges still
 /// appear, just generically — the catalog is flavor, never a gate.
+/// [adventureNames] does the same for a remembered adventure — see
+/// `rememberedAdventureNames`.
 Future<void> showCardResolutionDialog({
   required BuildContext context,
   required GameCard card,
   required List<Player>? participants,
   required void Function(int? choiceIndex) onResolve,
   OriginCatalog? origins,
+  Map<String, String>? adventureNames,
 }) {
-  final cardTags = influenceTagsOf(card.conditions, origins: origins);
+  final cardTags = influenceTagsOf(
+    card.conditions,
+    origins: origins,
+    adventureNames: adventureNames,
+  );
 
   return showAppDialog<void>(
     context: context,
@@ -78,6 +85,7 @@ Future<void> showCardResolutionDialog({
                 tags: influenceTagsOf(
                   card.choices[i].conditions,
                   origins: origins,
+                  adventureNames: adventureNames,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
