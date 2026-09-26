@@ -140,7 +140,12 @@
                 "amount": 1
               }
             ],
-            "loserActions": []
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              }
+            ]
           }
         ]
       },
@@ -177,7 +182,12 @@
                 "amount": 1
               }
             ],
-            "loserActions": []
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              }
+            ]
           }
         ]
       },
@@ -241,7 +251,12 @@
                 "effectId": "effect_mystery"
               }
             ],
-            "loserActions": []
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              }
+            ]
           }
         ]
       },
@@ -279,6 +294,10 @@
         "loserOutcome": "Рыцарь ставит кубок дном вверх раньше тебя. Ты допиваешь свой — и дальше уже ни в чём не уверен.",
         "winnerActions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "modifyStat",
             "target": "currentPlayer",
             "stat": "strength",
@@ -286,6 +305,11 @@
           }
         ],
         "loserActions": [
+          {
+            "action": "drink",
+            "amount": 2,
+            "target": "currentPlayer"
+          },
           {
             "action": "applyEffect",
             "target": "currentPlayer",
@@ -467,7 +491,12 @@
                 "amount": 1
               }
             ],
-            "loserActions": []
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              }
+            ]
           }
         ]
       },
@@ -495,6 +524,10 @@
               }
             ],
             "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
               {
                 "action": "takeItem",
                 "target": "currentPlayer",
@@ -549,6 +582,10 @@
               }
             ],
             "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
               {
                 "action": "modifyStat",
                 "target": "currentPlayer",

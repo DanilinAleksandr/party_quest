@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -29,6 +30,22 @@ import '../../../../game_engine/models/models.dart';
 /// appear, just generically — the catalog is flavor, never a gate.
 /// [adventureNames] does the same for a remembered adventure — see
 /// `rememberedAdventureNames`.
+/// What the current player can do for themselves on this card, without
+/// answering it — see `GameController.drinkForCourage`/`useItem`.
+///
+/// [tooDrunk] replaces the drink with a short "Тебе хватит" rather than
+/// hiding it, so the player learns why it is gone.
+typedef PersonalActionsView = ({
+  bool canDrink,
+  bool tooDrunk,
+  List<InventoryItem> items,
+});
+
+/// The dialog's live state: the card as it currently stands — its choices
+/// narrowed again after a personal action — and what the player may still
+/// do for themselves.
+typedef CardDialogView = ({GameCard card, PersonalActionsView? personal});
+
 Future<void> showCardResolutionDialog({
   required BuildContext context,
   required GameCard card,
@@ -36,12 +53,16 @@ Future<void> showCardResolutionDialog({
   required void Function(int? choiceIndex) onResolve,
   OriginCatalog? origins,
   Map<String, String>? adventureNames,
+  ValueListenable<CardDialogView>? live,
+  VoidCallback? onDrinkForCourage,
+  void Function(String itemId)? onUseItem,
 }) {
   final cardTags = influenceTagsOf(
     card.conditions,
     origins: origins,
     adventureNames: adventureNames,
   );
+  final view = live ?? ValueNotifier((card: card, personal: null));
 
   return showAppDialog<void>(
     context: context,
@@ -77,32 +98,142 @@ Future<void> showCardResolutionDialog({
         ),
       ],
     ),
-    actions: card.hasChoices
-        ? [
-            for (var i = 0; i < card.choices.length; i++)
-              InfluenceGatedAction(
-                label: card.choices[i].label,
-                tags: influenceTagsOf(
-                  card.choices[i].conditions,
-                  origins: origins,
-                  adventureNames: adventureNames,
+    // One live block rather than a fixed list: a drink for courage can open
+    // a choice that was not there a moment ago, and the buttons have to
+    // show it without the dialog closing and reopening.
+    actions: [
+      ValueListenableBuilder<CardDialogView>(
+        valueListenable: view,
+        builder: (context, view, _) {
+          final current = view.card;
+          final buttons = current.hasChoices
+              ? [
+                  for (var i = 0; i < current.choices.length; i++)
+                    InfluenceGatedAction(
+                      label: current.choices[i].label,
+                      tags: influenceTagsOf(
+                        current.choices[i].conditions,
+                        origins: origins,
+                        adventureNames: adventureNames,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        onResolve(i);
+                      },
+                    ),
+                ]
+              : [
+                  FilledButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      onResolve(null);
+                    },
+                    child: const Text('Понятно'),
+                  ),
+                ];
+          final personal = view.personal;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (personal != null)
+                _PersonalActionsRow(
+                  view: personal,
+                  onDrink: onDrinkForCourage,
+                  onUseItem: onUseItem,
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onResolve(i);
-                },
-              ),
-          ]
-        : [
-            FilledButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onResolve(null);
-              },
-              child: const Text('Понятно'),
-            ),
-          ],
+              for (final button in buttons) ...[
+                button,
+                if (button != buttons.last) const SizedBox(height: 8),
+              ],
+            ],
+          );
+        },
+      ),
+    ],
   );
+}
+
+/// The player's own moves on a card, above its choices and set apart from
+/// them: small, outlined, and worded as things the character does rather
+/// than answers to the scene.
+class _PersonalActionsRow extends StatelessWidget {
+  final PersonalActionsView view;
+  final VoidCallback? onDrink;
+  final void Function(String itemId)? onUseItem;
+
+  const _PersonalActionsRow({
+    required this.view,
+    required this.onDrink,
+    required this.onUseItem,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final chips = <Widget>[
+      if (view.canDrink)
+        _PersonalChip(
+          icon: Icons.sports_bar_outlined,
+          label: 'Для храбрости',
+          onPressed: onDrink,
+        )
+      else if (view.tooDrunk)
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          child: Text(
+            'Тебе хватит',
+            style: theme.textTheme.labelMedium?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+      for (final item in view.items)
+        _PersonalChip(
+          icon: Icons.science_outlined,
+          label: item.name,
+          onPressed: onUseItem == null ? null : () => onUseItem!(item.id),
+        ),
+    ];
+    if (chips.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 6,
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: chips,
+      ),
+    );
+  }
+}
+
+class _PersonalChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+
+  const _PersonalChip({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 16),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        textStyle: Theme.of(context).textTheme.labelMedium,
+      ),
+    );
+  }
 }
 
 /// Rarity dominates the accent for the tiers that are meant to feel like a

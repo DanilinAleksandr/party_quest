@@ -11,7 +11,12 @@
       "party"
     ],
     "conditions": [],
-    "actions": []
+    "actions": [
+      {
+        "action": "drink",
+        "target": "currentPlayer"
+      }
+    ]
   },
   {
     "id": "event_confession",
@@ -99,6 +104,10 @@
     ],
     "conditions": [],
     "actions": [
+      {
+        "action": "drink",
+        "target": "allPlayers"
+      },
       {
         "action": "modifyStat",
         "target": "allPlayers",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/game/application/result_entry.dart';
 import '../theme/app_colors.dart';
+import '../theme/influence_source.dart';
 
 /// Identifies the result card's content container — lets tests find "is a
 /// result card open" the same way `appDialogContentKey` does for the
@@ -194,6 +195,11 @@ _ResultStyle _styleFor(ResultKind kind, bool isNegative) {
       icon: Icons.handshake_outlined,
       title: '🤝 Новый союзник',
       color: AppColors.positiveEffectColor,
+    ),
+    ResultKind.intoxicationChanged => _ResultStyle(
+      icon: InfluenceSource.drink.icon,
+      title: 'Хмель',
+      color: InfluenceSource.drink.color,
     ),
   };
 }

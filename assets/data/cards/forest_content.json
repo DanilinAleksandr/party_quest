@@ -106,6 +106,37 @@
     ],
     "choices": [
       {
+        "label": "Пойти на них с голыми руками — сейчас ты это можешь",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "wasted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Стая не ждала такого. Звери пятятся, скалятся — и уходят в чащу. Утром ты не поверишь, что это был ты.",
+            "loserOutcome": "Храбрости хватило на первый шаг. Остальное доделали волки — хорошо, что компания рядом.",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "strength",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_defeated"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "label": "Стая уходит, не завыв ни разу. Так уходят от того, что старше волков",
         "conditions": [
           {

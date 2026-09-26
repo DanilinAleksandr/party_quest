@@ -39,6 +39,10 @@ void main() {
     CurrentPlayerMissingItemCondition _ ||
     PartyMissingItemCondition _ => 'item',
     CurrentPlayerHasEffectCondition _ ||
+    // The drink is a state the character is in, the way an effect is.
+    IntoxicationAtLeastCondition _ ||
+    IntoxicationBelowCondition _ ||
+    CurrentPlayerHungoverCondition _ ||
     AnyPlayerHasEffectCondition _ ||
     CurrentPlayerMissingEffectCondition _ => 'effect',
     WorldFlagSetCondition c => allyFlags.containsKey(c.flag) ? 'ally' : 'world',

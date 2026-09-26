@@ -449,6 +449,10 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
             "action": "takeItem",
             "target": "currentPlayer",
             "itemId": "item_bravery_flask"

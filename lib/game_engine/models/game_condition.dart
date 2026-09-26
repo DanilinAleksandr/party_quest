@@ -1,4 +1,5 @@
 import '../context/game_context.dart';
+import 'intoxication.dart';
 import 'journey_phase.dart';
 import 'season.dart';
 import 'stat_type.dart';
@@ -121,6 +122,13 @@ sealed class GameCondition {
         flag: json['flag'] as String,
         steps: json['steps'] as int,
       ),
+      'intoxicationAtLeast' => IntoxicationAtLeastCondition(
+        level: IntoxicationLevel.fromJson(json['level'] as String),
+      ),
+      'intoxicationBelow' => IntoxicationBelowCondition(
+        level: IntoxicationLevel.fromJson(json['level'] as String),
+      ),
+      'currentPlayerHungover' => const CurrentPlayerHungoverCondition(),
       'maximumStepsSinceFlag' => MaximumStepsSinceFlagCondition(
         flag: json['flag'] as String,
         steps: json['steps'] as int,
@@ -328,7 +336,8 @@ final class CurrentPlayerStatAtLeastCondition extends GameCondition {
 
   @override
   bool isSatisfied(GameContext context) =>
-      context.currentPlayer.stats.valueOf(stat) >= value;
+      // The stat as it stands tonight — drink and hangover included.
+      context.currentPlayer.effectiveStat(stat) >= value;
 
   @override
   Map<String, dynamic> toJson() => {
@@ -352,7 +361,7 @@ final class AnyPlayerStatAtLeastCondition extends GameCondition {
 
   @override
   bool isSatisfied(GameContext context) =>
-      context.players.any((p) => p.stats.valueOf(stat) >= value);
+      context.players.any((p) => p.effectiveStat(stat) >= value);
 
   @override
   Map<String, dynamic> toJson() => {
@@ -827,6 +836,53 @@ final class MinimumStepsSinceFlagCondition extends GameCondition {
     'flag': flag,
     'steps': steps,
   };
+}
+
+/// The current player is at least this drunk — by level, never by number,
+/// so content reads "пьян и выше" the way the table does.
+final class IntoxicationAtLeastCondition extends GameCondition {
+  final IntoxicationLevel level;
+
+  const IntoxicationAtLeastCondition({required this.level});
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.intoxicationLevel.index >= level.index;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'intoxicationAtLeast',
+    'level': level.toJson(),
+  };
+}
+
+/// The current player is not yet this drunk — the answer that needs a
+/// steady hand.
+final class IntoxicationBelowCondition extends GameCondition {
+  final IntoxicationLevel level;
+
+  const IntoxicationBelowCondition({required this.level});
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.intoxicationLevel.index < level.index;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'intoxicationBelow',
+    'level': level.toJson(),
+  };
+}
+
+/// The current player is carrying last night's hangover.
+final class CurrentPlayerHungoverCondition extends GameCondition {
+  const CurrentPlayerHungoverCondition();
+
+  @override
+  bool isSatisfied(GameContext context) => context.currentPlayer.isHungover;
+
+  @override
+  Map<String, dynamic> toJson() => {'condition': 'currentPlayerHungover'};
 }
 
 /// The other end of [MinimumStepsSinceFlagCondition]: no more than [steps]

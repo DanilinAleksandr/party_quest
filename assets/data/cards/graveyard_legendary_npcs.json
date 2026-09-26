@@ -136,6 +136,10 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "takeItem",
             "target": "currentPlayer",
             "itemId": "item_flask"

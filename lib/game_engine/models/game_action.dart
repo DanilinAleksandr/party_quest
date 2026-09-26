@@ -44,6 +44,8 @@ sealed class GameAction {
       'applyEffect' => ApplyEffectAction.fromJson(json),
       'removeEffect' => RemoveEffectAction.fromJson(json),
       'modifyStat' => ModifyStatAction.fromJson(json),
+      'drink' => DrinkAction.fromJson(json),
+      'sober' => SoberAction.fromJson(json),
       'duel' => StartDuelAction.fromJson(json),
       'chanceCheck' => ChanceCheckAction.fromJson(json),
       'setWorldFlag' => SetWorldFlagAction.fromJson(json),
@@ -220,6 +222,62 @@ final class ModifyStatAction extends GameAction {
     'amount': amount,
     'target': target.toJson(),
     if (chance != null) 'chance': chance,
+  };
+}
+
+/// The target drinks [amount] — see `IntoxicationLevel` for what that does.
+///
+/// Until this existed, drinking was only words: "ты пьёшь" at the end of a
+/// lost wager, with nothing in the engine to count it. A drink taken while
+/// hungover is the hair of the dog: it lifts the hangover and adds to the
+/// scale all the same.
+final class DrinkAction extends GameAction {
+  final double amount;
+  final ActionTarget target;
+
+  const DrinkAction({
+    this.amount = 1,
+    this.target = ActionTarget.currentPlayer,
+  });
+
+  factory DrinkAction.fromJson(Map<String, dynamic> json) => DrinkAction(
+    amount: (json['amount'] as num?)?.toDouble() ?? 1,
+    target: ActionTarget.fromJson(json['target'] as String? ?? 'currentPlayer'),
+  );
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'action': 'drink',
+    if (amount != 1) 'amount': amount,
+    'target': target.toJson(),
+  };
+}
+
+/// Takes [amount] off the target's scale and lifts the hangover — what a
+/// healer's draught is for.
+///
+/// It also forgets that the character had got as far as drunk: sobering up
+/// on a potion is not the slow way down, and the hangover that the slow way
+/// brings does not follow it.
+final class SoberAction extends GameAction {
+  final double amount;
+  final ActionTarget target;
+
+  const SoberAction({
+    this.amount = 2,
+    this.target = ActionTarget.currentPlayer,
+  });
+
+  factory SoberAction.fromJson(Map<String, dynamic> json) => SoberAction(
+    amount: (json['amount'] as num?)?.toDouble() ?? 2,
+    target: ActionTarget.fromJson(json['target'] as String? ?? 'currentPlayer'),
+  );
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'action': 'sober',
+    if (amount != 2) 'amount': amount,
+    'target': target.toJson(),
   };
 }
 

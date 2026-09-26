@@ -45,7 +45,15 @@ enum InfluenceSource {
   /// 🌍 The state of the world: a past decision remembered, a finished
   /// adventure, a faction's attitude, a consequence that has had time to
   /// ripen.
-  world(label: 'Мир', icon: Icons.public, color: Color(0xFF7FA8A0));
+  world(label: 'Мир', icon: Icons.public, color: Color(0xFF7FA8A0)),
+
+  /// 🍺 What the drink has done to the one choosing: an answer only the
+  /// tipsy would give, or one the hungover no longer can.
+  drink(
+    label: 'Хмель',
+    icon: Icons.sports_bar_outlined,
+    color: Color(0xFFC4A23E),
+  );
 
   const InfluenceSource({
     required this.label,

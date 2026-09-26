@@ -47,6 +47,30 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   GameSetupArgs get setupArgs => widget.setupArgs;
 
+  /// What the open card dialog shows — see [CardDialogView].
+  ValueNotifier<CardDialogView>? _cardView;
+
+  /// The state as the current card was drawn — the baseline its results
+  /// are measured from.
+  GameState? _stateAtDraw;
+
+  CardDialogView _viewOf(GameState state) {
+    final notifier = ref.read(gameControllerProvider(setupArgs).notifier);
+    final card = state.pendingCard!;
+    final wasted =
+        state.currentPlayer.intoxicationLevel == IntoxicationLevel.wasted;
+    final taken = notifier.personalActionTaken;
+    return (
+      card: card,
+      personal: (
+        canDrink: notifier.canDrinkForCourage,
+        // Said only where the drink would otherwise have been offered.
+        tooDrunk: wasted && !taken && card.hasChoices,
+        items: notifier.usableItems,
+      ),
+    );
+  }
+
   /// Whether the party should be walking on its own right now.
   ///
   /// [GameState] alone cannot answer this. A card stops being pending the
@@ -100,6 +124,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   @override
   void dispose() {
     _autoWalk.dispose();
+    _cardView?.dispose();
     super.dispose();
   }
 
@@ -126,13 +151,31 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         );
       }
 
+      // A card is drawn when there was none. The pending card can also
+      // change *while* its dialog is open — a drink for courage narrows its
+      // choices again — and that is the same draw, told to the open dialog
+      // rather than opening a second one.
       final cardJustDrawn =
-          next.pendingCard != null && previous?.pendingCard != next.pendingCard;
+          next.pendingCard != null && previous?.pendingCard == null;
+      final sameCardChanged =
+          !cardJustDrawn &&
+          next.pendingCard != null &&
+          previous?.pendingCard != next.pendingCard;
+      if (sameCardChanged) {
+        _cardView?.value = _viewOf(next);
+      }
       if (cardJustDrawn) {
         final card = next.pendingCard!;
+        _stateAtDraw = next;
+        _cardView?.dispose();
+        final view = _cardView = ValueNotifier(_viewOf(next));
         showCardResolutionDialog(
           context: context,
           card: card,
+          live: view,
+          onDrinkForCourage: () =>
+              ref.read(provider.notifier).drinkForCourage(),
+          onUseItem: (itemId) => ref.read(provider.notifier).useItem(itemId),
           participants: _participantsFor(next, card.participant),
           origins: origins,
           adventureNames: rememberedAdventureNames(
@@ -153,6 +196,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             // `GameController.roll` — so the die cannot disagree with what
             // the engine goes on to apply.
             final notifier = ref.read(provider.notifier);
+            // The card as it stands now, not as it was drawn: a drink for
+            // courage may have changed which choice sits at [choiceIndex].
+            final current = ref.read(provider).pendingCard ?? card;
             final gamble = notifier.gambleFor(choiceIndex: choiceIndex);
             bool? won;
 
@@ -190,7 +236,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
             final choiceOutcome = choiceIndex == null
                 ? null
-                : card.choices[choiceIndex].outcome;
+                : current.choices[choiceIndex].outcome;
 
             // A check nobody watches: thrown all the same, and told as a
             // plain consequence — what was in the bag, not whether a coin
@@ -256,13 +302,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           next.pendingCard == null &&
           next.activeAdventureId == null;
       if (cardResolvedWithoutAdventure) {
+        // Measured from when the card was drawn, not from just before the
+        // choice: a drink for courage or a draught taken on the card is part
+        // of what happened on it, and the table should hear about it.
+        final before = _stateAtDraw ?? previous!;
         final entries = computeResultEntries(
-          previous: previous!,
+          previous: before,
           next: next,
           targets: _diffTargets(
-            previous,
+            before,
             next,
-            previous.pendingCard!.participant,
+            previous!.pendingCard!.participant,
           ),
           originCatalog: origins ?? const OriginCatalog({}),
         );

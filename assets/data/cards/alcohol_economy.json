@@ -20,6 +20,36 @@
     ],
     "choices": [
       {
+        "label": "Спеть трактирщику — он точно оценит",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Трактирщик дослушивает до конца и молча кивает. Потом ещё раз. Кажется, эту песню здесь запомнят.",
+            "loserOutcome": "Трактирщик оценил. Молча. И выставил счёт за испуг посетителей",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "tavern_song_liked",
+                "value": true
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
         "label": "Хозяин узнал в вас того, кому его предшественник передал своё",
         "conditions": [
           {
@@ -85,6 +115,10 @@
       {
         "label": "Выпить за услышанное",
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "applyEffect",
             "target": "currentPlayer",
@@ -298,6 +332,10 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_ward_amulet"
@@ -313,6 +351,10 @@
       {
         "label": "Выпить за сделку",
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "giveItem",
             "target": "currentPlayer",
@@ -475,6 +517,11 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "amount": 2,
+            "target": "currentPlayer"
+          },
+          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_ward_amulet"
@@ -554,6 +601,10 @@
       {
         "label": "Выпить не морщась",
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "giveItem",
             "target": "currentPlayer",

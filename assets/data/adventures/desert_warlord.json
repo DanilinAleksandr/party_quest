@@ -61,6 +61,7 @@
             ],
             "onSuccess": {
               "actions": [
+                { "action": "drink", "target": "currentPlayer" },
                 { "action": "takeItem", "target": "currentPlayer", "itemId": "item_flask" },
                 { "action": "setWorldFlag", "flag": "warlord_ally", "value": true },
                 { "action": "addChronicleEntry", "text": "🤝 Компания заключила союз с военачальником пустыни." }

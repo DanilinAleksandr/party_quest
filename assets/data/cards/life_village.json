@@ -170,6 +170,10 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "takeItem",
             "target": "currentPlayer",
             "itemId": "item_beer_keg"
@@ -582,6 +586,17 @@
       }
     ],
     "choices": [
+      {
+        "label": "Постучать ещё раз. Громче. И ещё раз",
+        "outcome": "Никто не открыл. Зато дым из трубы стал гуще — внутри кто-то точно есть и очень старается не шуметь.",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": []
+      },
       {
         "label": "Постучать",
         "actions": []
