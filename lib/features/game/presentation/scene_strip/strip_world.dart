@@ -50,6 +50,15 @@ final class StripStream {
   /// once its last one has left the strip.
   bool done = false;
 
+  /// Set on the new far and second-plane streams of a biome change: they
+  /// are laid out across the strip at once and fade in with the tone.
+  bool fadingIn = false;
+
+  /// How far past the left edge an item is kept before it is dropped. A
+  /// stream driving off for good lets its items go as soon as they are out
+  /// of sight.
+  double leaveMargin = 80;
+
   StripStream({
     required this.layer,
     required this.ratio,
@@ -69,10 +78,21 @@ final class StripStream {
       items.add(StripItem(x, shape));
     }
     while (items.isNotEmpty &&
-        items.first.x + items.first.shape.w - off < -80) {
+        items.first.x + items.first.shape.w - off < -leaveMargin) {
       items.removeAt(0).dispose();
     }
   }
+
+  /// Drops every item that has not yet come onto a strip [width] wide at
+  /// scroll offset [off] — for a stream the party will never walk past.
+  void dropUnseen(double off, double width) {
+    while (items.isNotEmpty && items.last.x - off > width) {
+      items.removeLast().dispose();
+    }
+  }
+
+  /// The far and second planes: in fog, they read as the backdrop.
+  bool get backdrop => layer == StripLayer.far || layer == StripLayer.midfar;
 }
 
 /// A placed item. Its drawing is recorded once, when it appears; after that
@@ -586,11 +606,30 @@ final class StripTone {
 }
 
 /// The strip's world: its streams, its clock, and the biome it is walking
-/// through, including a biome change in progress (17b).
+/// through, including a biome change in progress.
+///
+/// A change is 17b with the backdrop and the pace adjusted for play, where
+/// the strip only moves between cards:
+/// - the far and second planes are fog, and read as the backdrop: the old
+///   ones fade out with the sky over [kToneFade] while the new ones, laid
+///   across the whole strip at once, fade in;
+/// - the middle plane, the ground and the near plane drive off as in 17b,
+///   but only what the table can already see — anything still waiting past
+///   the right edge is dropped on the spot;
+/// - and while they drive off the party hurries: the road runs at [kHurry]
+///   times its pace, the steps quicken, and it eases back once the last of
+///   the old biome is gone. See [changing].
 final class StripWorld {
   final StripGeo geo;
   double width;
+
+  /// Seconds the strip has been moving, and how far the road has gone —
+  /// separate, since the road runs faster during a change.
   double time = 0;
+  double distance = 0;
+
+  /// Where the party is in its stride, in strides; quickens with the road.
+  double stride = 0;
   StripBiome biome;
   int _currentSeed;
   final List<StripStream> streams = [];
@@ -601,6 +640,13 @@ final class StripWorld {
   double changedAt = 0;
 
   static const double kToneFade = 2.5;
+  static const double kHurry = 4;
+  static const double kHurryIn = 0.6;
+  static const double kHurryOut = 1.2;
+
+  double _pace = 1;
+  double? _slowingSince;
+  double _slowingFrom = 1;
 
   StripWorld({
     required this.geo,
@@ -614,34 +660,97 @@ final class StripWorld {
     }
   }
 
-  double offsetOf(StripStream s) => time * kRoadSpeed * s.ratio;
+  double offsetOf(StripStream s) => distance * s.ratio;
+
+  /// How many times its usual pace the road is running.
+  double get pace => _pace;
+
+  /// Whether a biome change is still playing out: the backdrop still
+  /// fading, the old foreground not yet gone, or the party not yet back to
+  /// its pace. The walk waits for it — a card drawn in the middle would land
+  /// on a half-changed road.
+  bool get changing =>
+      fromBiome != null || _oldForegroundLeft || _pace > 1 + 1e-6;
+
+  bool get _oldForegroundLeft => streams.any((s) => s.done && !s.backdrop);
 
   /// Moves the world on by [dt] seconds.
   void advance(double dt) {
     time += dt;
+    _pace = _paceNow();
+    distance += dt * kRoadSpeed * _pace;
+    stride += dt / 1.1 * _pace;
     for (var i = streams.length - 1; i >= 0; i--) {
       final s = streams[i];
       s.fill(offsetOf(s), width + 80);
       if (s.done && s.items.isEmpty) streams.removeAt(i);
     }
-    if (fromBiome != null && time - changedAt >= kToneFade) fromBiome = null;
+    if (fromBiome != null && time - changedAt >= kToneFade) {
+      fromBiome = null;
+      // The old backdrop has faded out completely; let it go.
+      for (var i = streams.length - 1; i >= 0; i--) {
+        final s = streams[i];
+        if (s.done && s.backdrop) {
+          for (final item in s.items) {
+            item.dispose();
+          }
+          streams.removeAt(i);
+        } else {
+          s.fadingIn = false;
+        }
+      }
+    }
   }
 
-  /// A new biome: the old streams stop placing and drive off, the new ones
-  /// come in from the right, each at its own speed, so the far layer changes
-  /// last. A new seed each time, so no forest repeats.
+  double _paceNow() {
+    if (_oldForegroundLeft) {
+      _slowingSince = null;
+      final up = ((time - changedAt) / kHurryIn).clamp(0.0, 1.0);
+      return 1 + (kHurry - 1) * _ease(up);
+    }
+    if (_pace <= 1 && _slowingSince == null) return 1;
+    // The old foreground is gone: ease back from wherever the pace got to.
+    if (_slowingSince == null) {
+      _slowingSince = time;
+      _slowingFrom = _pace;
+    }
+    final down = ((time - _slowingSince!) / kHurryOut).clamp(0.0, 1.0);
+    if (down >= 1) {
+      _slowingSince = null;
+      return 1;
+    }
+    return 1 + (_slowingFrom - 1) * (1 - _ease(down));
+  }
+
+  static double _ease(double t) =>
+      t < 0.5 ? 2 * t * t : 1 - math.pow(-2 * t + 2, 2) / 2;
+
+  /// A new biome. See the class comment for how the change plays out. A new
+  /// seed each time, so no forest repeats.
   void setBiome(StripBiome next) {
     if (next == biome) return;
     fromBiome = biome;
     changedAt = time;
     biome = next;
     for (final s in streams) {
+      if (s.done) continue;
       s.done = true;
+      if (!s.backdrop) {
+        s.dropUnseen(offsetOf(s), width);
+        s.leaveMargin = 0;
+      }
     }
     _currentSeed = _currentSeed * 31 + 7;
     final fresh = buildStreams(geo, _currentSeed, next);
     for (final s in fresh) {
-      s.edge = offsetOf(s) + width + 8 + s.r() * 40;
+      if (s.backdrop) {
+        // Laid across the strip now, as the stream's first fill would be.
+        s.edge = offsetOf(s) - 80 - s.r() * 60;
+        s.fadingIn = true;
+        s.fill(offsetOf(s), width + 80);
+      } else {
+        s.edge = offsetOf(s) + width + 8 + s.r() * 40;
+      }
     }
     streams.addAll(fresh);
   }
@@ -649,8 +758,7 @@ final class StripWorld {
   /// How far the tone change has got, 0..1, eased in and out.
   double get toneProgress {
     if (fromBiome == null) return 1;
-    final t = ((time - changedAt) / kToneFade).clamp(0.0, 1.0);
-    return t < 0.5 ? 2 * t * t : 1 - math.pow(-2 * t + 2, 2) / 2;
+    return _ease(((time - changedAt) / kToneFade).clamp(0.0, 1.0));
   }
 
   void dispose() {

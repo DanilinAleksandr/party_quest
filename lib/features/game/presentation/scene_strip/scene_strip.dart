@@ -32,6 +32,10 @@ class SceneStrip extends StatefulWidget {
   /// Fixed for tests; left null, every match grows its own forest.
   final int? seed;
 
+  /// Told when a biome change starts playing out and when it is over — the
+  /// walk holds the next card until then.
+  final ValueChanged<bool>? onChanging;
+
   static const double height = 56;
 
   const SceneStrip({
@@ -40,6 +44,7 @@ class SceneStrip extends StatefulWidget {
     required this.moving,
     this.stop = StripStop.none,
     this.seed,
+    this.onChanging,
   });
 
   @override
@@ -73,6 +78,7 @@ class SceneStripState extends State<SceneStrip>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.biomeId != widget.biomeId) {
       _world?.setBiome(StripBiome.fromId(widget.biomeId));
+      _reportChanging();
       _repaint.value++;
     }
     if (oldWidget.stop != widget.stop) _enterStop();
@@ -110,6 +116,15 @@ class SceneStripState extends State<SceneStrip>
     _repaint.value++;
   }
 
+  bool _wasChanging = false;
+
+  void _reportChanging() {
+    final now = _world?.changing ?? false;
+    if (now == _wasChanging) return;
+    _wasChanging = now;
+    widget.onChanging?.call(now);
+  }
+
   void _syncTicker() {
     if (widget.moving && _world != null && !_ticker.isActive) {
       _last = Duration.zero;
@@ -128,6 +143,7 @@ class SceneStripState extends State<SceneStrip>
       _stopTime += dt;
     } else {
       _world!.advance(dt);
+      _reportChanging();
     }
     _repaint.value++;
   }
@@ -269,8 +285,25 @@ class SceneStripPainter extends CustomPainter {
   }
 
   void _layer(Canvas canvas, StripLayer layer) {
+    final p = world.toneProgress;
     for (final s in world.streams) {
       if (s.layer != layer) continue;
+      // The backdrop of a biome change crossfades with the sky: the old far
+      // planes out, the new ones in.
+      final opacity = world.fromBiome == null
+          ? 1.0
+          : s.backdrop && s.done
+          ? 1 - p
+          : s.fadingIn
+          ? p
+          : 1.0;
+      if (opacity <= 0) continue;
+      if (opacity < 1) {
+        canvas.saveLayer(
+          Rect.fromLTWH(0, 0, world.width, world.geo.h),
+          Paint()..color = Color.fromRGBO(0, 0, 0, opacity),
+        );
+      }
       final off = world.offsetOf(s);
       for (final item in s.items) {
         canvas.save();
@@ -278,6 +311,7 @@ class SceneStripPainter extends CustomPainter {
         canvas.drawPicture(item.picture);
         canvas.restore();
       }
+      if (opacity < 1) canvas.restore();
     }
   }
 
@@ -477,7 +511,7 @@ class SceneStripPainter extends CustomPainter {
     final dx = w / 2 - 206, foot = world.geo.gy - 1;
     for (final (x0, alpha, phase) in _group) {
       final colour = StripColors.figure.withValues(alpha: alpha);
-      final t = world.time / 1.1 + phase;
+      final t = world.stride + phase;
       final a = math.sin(t * 2 * math.pi) * 0.42;
       const leg = 8.0;
       final x = x0 + dx;

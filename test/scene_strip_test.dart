@@ -92,26 +92,85 @@ void main() {
       expect(w.streams.where(old.contains), isEmpty);
     });
 
-    test('the new things come from the new set, in from the right', () {
+    test(
+      'the new foreground comes in from the right, the new backdrop is there at once',
+      () {
+        final w = _world(StripBiome.forest);
+        w.advance(1);
+        final old = List.of(w.streams);
+        w.setBiome(StripBiome.coast);
+        final fresh = w.streams.where((s) => !old.contains(s)).toList();
+        for (final s in fresh) {
+          if (s.backdrop) {
+            // Laid across the strip, and fading in with the sky.
+            expect(s.fadingIn, isTrue);
+            expect(s.items.any((i) => i.x - w.offsetOf(s) < 412), isTrue);
+          } else {
+            for (final item in s.items) {
+              expect(item.x - w.offsetOf(s), greaterThan(412));
+            }
+          }
+        }
+        for (var i = 0; i < 1200; i++) {
+          w.advance(0.05);
+        }
+        expect(
+          _farOf[StripBiome.coast]!.containsAll(
+            _types(w, StripLayer.far, where: fresh.contains),
+          ),
+          isTrue,
+        );
+      },
+    );
+
+    test('the old backdrop fades out with the sky and is gone', () {
       final w = _world(StripBiome.forest);
       w.advance(1);
-      final old = List.of(w.streams);
-      w.setBiome(StripBiome.coast);
-      final fresh = w.streams.where((s) => !old.contains(s)).toList();
-      for (final s in fresh) {
+      final oldBackdrop = w.streams.where((s) => s.backdrop).toList();
+      w.setBiome(StripBiome.mountains);
+      w.advance(1.2);
+      expect(w.streams.where(oldBackdrop.contains), isNotEmpty);
+      w.advance(1.4);
+      expect(w.streams.where(oldBackdrop.contains), isEmpty);
+    });
+
+    test('only what is already on screen drives off', () {
+      final w = _world(StripBiome.forest);
+      w.advance(1);
+      final old = w.streams.where((s) => !s.backdrop).toList();
+      w.setBiome(StripBiome.desert);
+      for (final s in old) {
         for (final item in s.items) {
-          expect(item.x - w.offsetOf(s), greaterThan(412));
+          expect(item.x - w.offsetOf(s), lessThanOrEqualTo(412));
         }
       }
-      for (var i = 0; i < 1200; i++) {
-        w.advance(0.05);
-      }
-      expect(
-        _farOf[StripBiome.coast]!.containsAll(
-          _types(w, StripLayer.far, where: fresh.contains),
-        ),
-        isTrue,
+    });
+
+    test('the party hurries while the old road leaves, then slows back', () {
+      final w = StripWorld(
+        geo: StripGeo(56),
+        width: 344,
+        biome: StripBiome.forest,
+        seed: 3,
       );
+      w.advance(1);
+      expect(w.pace, 1);
+      w.setBiome(StripBiome.graveyard);
+      expect(w.changing, isTrue);
+      var peak = 1.0, seconds = 0.0;
+      while (w.changing && seconds < 60) {
+        w.advance(1 / 60);
+        seconds += 1 / 60;
+        peak = peak > w.pace ? peak : w.pace;
+      }
+      expect(peak, closeTo(StripWorld.kHurry, 0.01));
+      expect(w.pace, 1);
+      // From the banner to an all-new road in about one gap between cards;
+      // the middle plane, at 0.6 of the road, is what takes longest. The
+      // walk holds the next card until it is done.
+      expect(seconds, lessThan(12));
+      // ignore: avoid_print
+      print('biome change took ${seconds.toStringAsFixed(1)} s of walking');
     });
 
     test('the sky and fog cross over in 2.5 s', () {
@@ -120,6 +179,8 @@ void main() {
       expect(w.fromBiome, StripBiome.forest);
       w.advance(1.25);
       expect(w.toneProgress, closeTo(0.5, 0.01));
+      // The time is walking time; the road runs faster meanwhile.
+      expect(w.distance, greaterThan(1.25 * kRoadSpeed));
       w.advance(1.3);
       expect(w.fromBiome, isNull);
       expect(w.toneProgress, 1);

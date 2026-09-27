@@ -54,6 +54,11 @@ const GameSetupArgs _args = (
   restInterval: kRestInterval,
 );
 
+const _biomes = BiomeCatalog({
+  'forest': Biome(id: 'forest', name: 'Лес', description: ''),
+  'mountains': Biome(id: 'mountains', name: 'Горы', description: ''),
+});
+
 GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
     GameController(
       playerNames: _args.playerNames,
@@ -61,7 +66,7 @@ GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
       itemCatalog: const ItemCatalog({}),
       effectCatalog: const EffectCatalog({}),
       adventureCatalog: const AdventureCatalog({}),
-      biomeCatalog: const BiomeCatalog({}),
+      biomeCatalog: _biomes,
       originCatalog: const OriginCatalog({}),
       seed: 3,
       journeySteps: 200,
@@ -69,9 +74,9 @@ GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
     );
 
 /// Pumps the game screen over [controller], with the walking settings
-/// pinned. The biome catalog holds just the one biome the party is in, so
-/// the banners have something to stack under; the origin catalog is left
-/// loading for good, which the screen copes with.
+/// pinned. The biome catalog holds the forest and the mountains, so the
+/// banners have something to stack under and a card can move the party;
+/// the origin catalog is left loading for good, which the screen copes with.
 Future<void> _pumpGame(
   WidgetTester tester,
   GameController controller,
@@ -88,12 +93,7 @@ Future<void> _pumpGame(
         walkSettingsProvider.overrideWith(
           (ref) => WalkSettingsNotifier(initial: walk),
         ),
-        biomeCatalogProvider.overrideWith((ref) async {
-          final id = controller.state.worldState.currentBiomeId;
-          return BiomeCatalog({
-            id: Biome(id: id, name: 'Лес', description: ''),
-          });
-        }),
+        biomeCatalogProvider.overrideWith((ref) async => _biomes),
         originCatalogProvider.overrideWith(
           (ref) => Completer<OriginCatalog>().future,
         ),
@@ -342,6 +342,47 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
       expect(controller.state.pendingCard?.id, 'gift');
     });
+
+    testWidgets(
+      'after a change of biome the next card waits for the new road',
+      (tester) async {
+        final controller = _controller(
+          cards: [
+            _card(
+              'move',
+              conditions: const [MaximumStepCondition(steps: 1)],
+              actions: const [SetBiomeAction(biomeId: 'mountains')],
+            ),
+            _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
+          ],
+        );
+        await _pumpGame(
+          tester,
+          controller,
+          const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
+        );
+        await tester.tap(find.text(_start));
+        await tester.pump();
+        await _dismissCard(tester);
+        expect(controller.state.worldState.currentBiomeId, 'mountains');
+        expect(controller.state.pendingCard, isNull);
+
+        // The countdown is a second; the change on the strip takes longer,
+        // and the card holds until it is done.
+        await tester.pump(const Duration(seconds: 3));
+        expect(controller.state.pendingCard, isNull);
+        for (
+          var i = 0;
+          i < 12 * 20 && controller.state.pendingCard == null;
+          i++
+        ) {
+          await tester.pump(const Duration(milliseconds: 50));
+        }
+        expect(controller.state.pendingCard?.id, 'road');
+        final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+        expect(strip.world!.changing, isFalse);
+      },
+    );
   });
 
   testWidgets('a hidden check says what came of it, with no coin', (

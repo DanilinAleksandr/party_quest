@@ -118,7 +118,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     )) {
       return;
     }
+    // A biome change still playing out on the strip: the card waits for the
+    // new road to be all there, then comes at once.
+    if (_stripChanging) {
+      _stepWaiting = true;
+      return;
+    }
     ref.read(provider.notifier).takeStep();
+  }
+
+  bool _stripChanging = false;
+  bool _stepWaiting = false;
+
+  void _onStripChanging(bool changing) {
+    _stripChanging = changing;
+    if (!changing && _stepWaiting) {
+      _stepWaiting = false;
+      _walkOn();
+    }
   }
 
   @override
@@ -433,6 +450,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               SceneStrip(
                 biomeId: gameState.worldState.currentBiomeId,
                 moving: timerRuns,
+                onChanging: _onStripChanging,
                 stop: inRest
                     ? StripStop.rest
                     : gameState.worldState.flag('in_tavern')
