@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/core/widgets/game_result_card.dart';
-import 'package:drinking_quest/core/widgets/walking_party.dart';
+import 'package:drinking_quest/features/game/presentation/scene_strip/scene_strip.dart';
 import 'package:drinking_quest/features/game/application/auto_walk_timer.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/game_screen.dart';
@@ -254,8 +254,11 @@ void main() {
       );
 
       expect(find.text('Остановка: Привал'), findsOneWidget);
-      expect(find.byType(PartyCamp), findsOneWidget);
-      expect(find.byType(WalkingParty), findsNothing);
+      // The strip shows the halt now, not the road.
+      expect(
+        tester.widget<SceneStrip>(find.byType(SceneStrip)).stop,
+        StripStop.rest,
+      );
       for (final label in [_start, _onward, _next]) {
         expect(find.text(label), findsNothing);
       }
@@ -284,7 +287,7 @@ void main() {
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.phase, JourneyPhase.prologue);
-      expect(find.byType(WalkingParty), findsOneWidget);
+      expect(find.byType(SceneStrip), findsOneWidget);
       expect(find.text(_onward), findsNothing);
 
       await tester.pump(const Duration(milliseconds: 1100));
