@@ -196,7 +196,14 @@ class GameController extends StateNotifier<GameState> {
       return;
     }
 
-    ctx = _effectLifecycle.expireForAllPlayers(ctx);
+    // Only what was already on at the last draw counts down: an effect put
+    // on during that card has not had a card of its own yet. So a duration
+    // is exactly the number of cards drawn while the effect is on.
+    ctx = _effectLifecycle.expireForAllPlayers(
+      ctx,
+      ticks: (player, effect) =>
+          _effectsAtDraw[player.id]?.contains(effect.id) ?? false,
+    );
 
     // A random player stands in as `currentPlayer` for eligibility checks
     // (e.g. `currentPlayerHasItem` on the card itself) before the card that
@@ -272,6 +279,10 @@ class GameController extends StateNotifier<GameState> {
   /// Everyone's scale as the current card was drawn — see [_afterCard].
   Map<String, double> _intoxicationAtDraw = const {};
 
+  /// Which effects each player had on when the current card was drawn — the
+  /// ones that count down at the next step.
+  Map<String, Set<String>> _effectsAtDraw = const {};
+
   bool get personalActionTaken => _personalActionTaken;
 
   /// Whether «Для храбрости» can be offered right now. Not on a card without
@@ -344,6 +355,10 @@ class GameController extends StateNotifier<GameState> {
     _personalActionTaken = false;
     _intoxicationAtDraw = {
       for (final p in context.players) p.id: p.intoxication,
+    };
+    _effectsAtDraw = {
+      for (final p in context.players)
+        p.id: {for (final e in p.activeEffects) e.id},
     };
     final card = _filterCardChoices(drawnCard, context);
     final worldState = context.state.worldState.copyWith(

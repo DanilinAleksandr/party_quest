@@ -154,6 +154,24 @@
         ]
       },
       {
+        "label": "Показать узел, которому учил тебя твой дед",
+        "outcome": "Старик узнаёт узел с первого захода и молча кивает. Внук теперь путается в двух узлах сразу, но смотрит на вас обоих с уважением.",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "elder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
         "label": "Не мешать",
         "actions": []
       }

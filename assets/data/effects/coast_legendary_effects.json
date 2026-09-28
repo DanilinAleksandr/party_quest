@@ -2,9 +2,9 @@
   {
     "id": "effect_sea_call",
     "name": "Зов моря",
-    "description": "Следующие 2 хода отвечай на любой вопрос только пением.",
+    "description": "Пока действует эффект, отвечай на любой вопрос только пением.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {}
   }

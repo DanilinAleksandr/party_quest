@@ -48,6 +48,24 @@
         ]
       },
       {
+        "label": "Сесть к старику — вам есть о чём помолчать",
+        "outcome": "Старик пододвигает тебе кружку. Новичок, посмотрев на вас двоих, сам собирает вещи и пересаживается.",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "elder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
         "label": "Досмотреть до конца",
         "outcome": "Старик садится напротив. Новичок бледнеет, но не двигается. Зал молча делает ставки.",
         "actions": []

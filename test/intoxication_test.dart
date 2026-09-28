@@ -635,9 +635,10 @@ void main() {
           ]),
           age: age,
         );
+        // Counted as cards drawn with the hangover on.
         var hungover = 0;
         for (var i = 0; i < 60; i++) {
-          _play(c);
+          c.takeStep();
           final p = _only(c);
           if (p.isHungover) {
             hungover++;
@@ -650,6 +651,7 @@ void main() {
           } else if (hungover > 0) {
             break;
           }
+          c.resolveCard();
         }
         expect(hungover, cards, reason: '$age');
       }
@@ -715,6 +717,23 @@ void main() {
             reason: '$age $bracket',
           );
         }
+      }
+    });
+
+    test('content answers differently at every age', () async {
+      final cards = await const CardRepository().loadCards();
+      final byBracket = <AgeBracket, List<String>>{};
+      for (final card in cards) {
+        for (final choice in card.choices) {
+          for (final c in choice.conditions) {
+            if (c is CurrentPlayerAgeBracketCondition) {
+              byBracket.putIfAbsent(c.bracket, () => []).add(card.id);
+            }
+          }
+        }
+      }
+      for (final bracket in AgeBracket.values) {
+        expect(byBracket[bracket], hasLength(greaterThanOrEqualTo(2)));
       }
     });
 
