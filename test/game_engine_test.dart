@@ -510,6 +510,65 @@ void main() {
     });
   });
 
+  group('effect durations in play', () {
+    test('an effect lasts exactly its duration in cards drawn', () {
+      const effect = GameEffect(
+        id: 'eff_two',
+        name: 'n',
+        description: 'd',
+        polarity: EffectPolarity.negative,
+        duration: 2,
+        remainingTurns: 2,
+      );
+      GameCard card(
+        String id,
+        List<GameCondition> conditions, [
+        List<GameAction> actions = const [],
+      ]) => GameCard(
+        id: id,
+        title: id,
+        description: 'd',
+        type: CardType.event,
+        rarity: Rarity.common,
+        weight: 1,
+        conditions: conditions,
+        actions: actions,
+      );
+      final c = GameController(
+        playerNames: const ['A'],
+        cards: [
+          card(
+            'put_on',
+            const [MaximumStepCondition(steps: 1)],
+            const [ApplyEffectAction(effectId: 'eff_two')],
+          ),
+          card('road', const [MinimumStepCondition(steps: 2)]),
+        ],
+        itemCatalog: const ItemCatalog({}),
+        effectCatalog: const EffectCatalog({'eff_two': effect}),
+        adventureCatalog: const AdventureCatalog({}),
+        biomeCatalog: const BiomeCatalog({}),
+        originCatalog: const OriginCatalog({}),
+        seed: 1,
+        journeySteps: null,
+        skipPrologue: true,
+      );
+      bool drawnWithIt() {
+        c.takeStep();
+        final on = c.state.players.single.activeEffects.any(
+          (e) => e.id == 'eff_two',
+        );
+        c.resolveCard();
+        return on;
+      }
+
+      expect(drawnWithIt(), isFalse); // the card that puts it on
+      expect(drawnWithIt(), isTrue);
+      expect(drawnWithIt(), isTrue);
+      expect(drawnWithIt(), isFalse);
+    });
+  });
+
   group('GameController determinism', () {
     test('the same seed draws the same first card', () {
       final cards = [

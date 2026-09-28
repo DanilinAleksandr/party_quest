@@ -2,9 +2,9 @@
   {
     "id": "effect_at_home",
     "name": "Как дома",
-    "description": "Что-то в этом месте до странности знакомо. Следующие 2 события — +1 к удаче.",
+    "description": "Что-то в этом месте до странности знакомо. Пока действует эффект, каждый ход — +1 к удаче.",
     "polarity": "positive",
-    "duration": 2,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {
       "turnStarted": [
@@ -15,9 +15,9 @@
   {
     "id": "effect_out_of_place",
     "name": "Не в своей тарелке",
-    "description": "Здесь всё как-то не так, как должно быть. Следующие 2 события — -1 к удаче.",
+    "description": "Здесь всё как-то не так, как должно быть. Пока действует эффект, каждый ход — -1 к удаче.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {
       "turnStarted": [

@@ -4,7 +4,7 @@
     "name": "Не по себе",
     "description": "Пока действует эффект, оборачивайся через плечо перед тем как заговорить — кажется, что кто-то стоит за спиной.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {}
   }

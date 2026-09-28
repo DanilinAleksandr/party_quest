@@ -13,7 +13,14 @@ import '../models/models.dart';
 final class EffectLifecycle {
   const EffectLifecycle();
 
-  GameContext expireForAllPlayers(GameContext context) {
+  /// [ticks], when given, says which effects count this step; the rest are
+  /// carried over untouched. The controller uses it so an effect put on
+  /// during a card is not counted down before the next card has even seen
+  /// it — a duration is the number of cards drawn while it is on.
+  GameContext expireForAllPlayers(
+    GameContext context, {
+    bool Function(Player player, GameEffect effect)? ticks,
+  }) {
     var next = context;
 
     for (final player in context.players) {
@@ -21,6 +28,10 @@ final class EffectLifecycle {
       final expired = <GameEffect>[];
 
       for (final effect in player.activeEffects) {
+        if (ticks != null && !ticks(player, effect)) {
+          kept.add(effect);
+          continue;
+        }
         final ticked = effect.tick();
         if (ticked.isExpired) {
           expired.add(ticked);

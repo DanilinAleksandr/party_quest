@@ -197,6 +197,24 @@
         "actions": []
       },
       {
+        "label": "Рассказать, как сам спорил с соседом и чем кончилось",
+        "outcome": "Оба дослушивают до конца. Помолчав, один говорит: «Ну, пусть стоит где стоит». Второй не спорит.",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "mature"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
         "label": "Уйти, пока не позвали в свидетели",
         "actions": []
       }
@@ -317,6 +335,17 @@
             "amount": 1
           }
         ]
+      },
+      {
+        "label": "Сбегать с ним наперегонки до лавки",
+        "outcome": "Он прибегает первым и, не отдышавшись, кричит лавочнику: «Соль!» Вспомнил на бегу.",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "young"
+          }
+        ],
+        "actions": []
       },
       {
         "label": "Не мешать: вспомнит сам",

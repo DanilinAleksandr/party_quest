@@ -382,6 +382,17 @@
         ]
       },
       {
+        "label": "Решить за обоих — кто-то же должен вести",
+        "outcome": "Оба недовольны и оба идут за тобой. К полудню ясно, что дорога была не хуже любой другой.",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "mature"
+          }
+        ],
+        "actions": []
+      },
+      {
         "label": "Пусть спорят",
         "actions": [
           {

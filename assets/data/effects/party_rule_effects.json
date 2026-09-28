@@ -2,9 +2,9 @@
   {
     "id": "effect_whisper",
     "name": "Шёпот",
-    "description": "Следующие 2 хода ты можешь говорить только шёпотом.",
+    "description": "Следующие 3 хода ты можешь говорить только шёпотом.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
@@ -13,52 +13,52 @@
     "name": "Запретное слово",
     "description": "До конца эффекта тебе нельзя говорить слово «да» — заменяй его на «истинно так».",
     "polarity": "negative",
-    "duration": 3,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
   {
     "id": "effect_royal_address",
     "name": "Придворный этикет",
-    "description": "Следующие 2 хода обращайся к любому игроку только «уважаемый(ая)» плюс имя — никаких имён без титула.",
+    "description": "Следующие 3 хода обращайся к любому игроку только «уважаемый(ая)» плюс имя — никаких имён без титула.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
   {
     "id": "effect_steady_hand",
     "name": "Твёрдая рука",
-    "description": "Весь следующий ход держи свой стакан только в одной руке и не перекладывай его.",
+    "description": "Пока действует эффект, держи свой стакан только в одной руке и не перекладывай его.",
     "polarity": "negative",
-    "duration": 1,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {}
   },
   {
     "id": "effect_no_gestures",
     "name": "Без рук",
-    "description": "Следующие 2 хода тебе нельзя ничего показывать руками — объясняйся только словами.",
+    "description": "Следующие 3 хода тебе нельзя ничего показывать руками — объясняйся только словами.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
   {
     "id": "effect_freeze_statue",
     "name": "Морская фигура",
-    "description": "Следующие 2 хода: как только кто-то произносит твоё имя, ты замираешь на месте на 5 секунд.",
+    "description": "Следующие 3 хода: как только кто-то произносит твоё имя, ты замираешь на месте на 5 секунд.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
   {
     "id": "effect_hedge_word",
     "name": "Неуверенность",
-    "description": "Следующие 2 хода заканчивай каждую фразу словом «наверное».",
+    "description": "Следующие 3 хода заканчивай каждую фразу словом «наверное».",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 4,
     "autoExpire": true,
     "reactions": {}
   },
@@ -67,7 +67,7 @@
     "name": "Гостеприимный хозяин",
     "description": "Пока действует эффект, в начале каждого твоего хода все остальные игроки получают +1 к удаче — ты делишься везением стола.",
     "polarity": "positive",
-    "duration": 3,
+    "duration": 15,
     "autoExpire": true,
     "reactions": {
       "turnStarted": [
@@ -80,7 +80,7 @@
     "name": "Дурное предзнаменование",
     "description": "Пока действует эффект, с каждым твоим ходом мир становится чуть опаснее (+1 к общему «уровню опасности» партии).",
     "polarity": "negative",
-    "duration": 3,
+    "duration": 15,
     "autoExpire": true,
     "reactions": {
       "turnStarted": [
@@ -93,7 +93,7 @@
     "name": "Отмеченный",
     "description": "Пока действует эффект, все за столом обращаются к тебе только «меченый».",
     "polarity": "negative",
-    "duration": 3,
+    "duration": 15,
     "autoExpire": true,
     "reactions": {}
   },
@@ -102,7 +102,7 @@
     "name": "Счастливое эхо",
     "description": "Пока действует эффект, каждый раз, когда ты разрешаешь выпавшую карточку, ты получаешь +1 к удаче.",
     "polarity": "positive",
-    "duration": 2,
+    "duration": 15,
     "autoExpire": true,
     "reactions": {
       "cardResolved": [

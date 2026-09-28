@@ -21,9 +21,9 @@
   {
     "id": "effect_lost_in_woods",
     "name": "Заплутавший",
-    "description": "Следующие 2 хода делай вид, что не понимаешь, куда идти — дух леса запутал твой путь.",
+    "description": "Пока действует эффект, делай вид, что не понимаешь, куда идти — дух леса запутал твой путь.",
     "polarity": "negative",
-    "duration": 2,
+    "duration": 8,
     "autoExpire": true,
     "reactions": {}
   },
