@@ -8,7 +8,7 @@ import '../../../core/widgets/item_chip.dart';
 import '../../../core/widgets/prologue_banner.dart';
 import '../../../core/widgets/rest_banner.dart';
 import '../../../core/widgets/tavern_banner.dart';
-import '../../../core/widgets/walking_party.dart';
+import 'scene_strip/scene_strip.dart';
 import '../../../game_engine/data/content_providers.dart';
 import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
@@ -357,11 +357,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final started = _hasStarted(gameState);
     final inDetour = _inDetour(gameState);
     final inRest = gameState.worldState.flag('in_rest');
-    final timerRuns = _canWalk(
-      gameState,
-      walk,
-      onTop: ModalRoute.of(context)?.isCurrent ?? true,
-    );
+    final onTop = ModalRoute.of(context)?.isCurrent ?? true;
+    final timerRuns = _canWalk(gameState, walk, onTop: onTop);
     // Idempotent: a countdown already running is left to finish, and one
     // that should not be running is dropped. Doing it here rather than in a
     // listener is what lets a route change — not only a state change —
@@ -428,12 +425,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 if (inRest) ...[const SizedBox(height: 8), const RestBanner()],
                 const SizedBox(height: 18),
               ],
-              // The cards keep coming at a tavern or a halt, but nobody is
-              // walking there: the party is stopped, and says so.
-              if (inDetour)
-                const PartyCamp()
-              else
-                WalkingParty(walking: timerRuns),
+              // One strip for the whole journey: the road in the current
+              // biome, or the stop the party is at. It moves exactly while
+              // the party walks on its own, and stands on its current frame
+              // for everything that stops the timer: a dialog, a match not
+              // yet begun or over, walking by hand.
+              SceneStrip(
+                biomeId: gameState.worldState.currentBiomeId,
+                moving: timerRuns,
+                stop: inRest
+                    ? StripStop.rest
+                    : gameState.worldState.flag('in_tavern')
+                    ? StripStop.tavern
+                    : StripStop.none,
+              ),
               const SizedBox(height: 14),
               if (stepsToWin != null)
                 JourneyTrail(

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/core/widgets/game_result_card.dart';
-import 'package:drinking_quest/core/widgets/walking_party.dart';
+import 'package:drinking_quest/features/game/presentation/scene_strip/scene_strip.dart';
 import 'package:drinking_quest/features/game/application/auto_walk_timer.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/game_screen.dart';
@@ -54,6 +54,11 @@ const GameSetupArgs _args = (
   restInterval: kRestInterval,
 );
 
+const _biomes = BiomeCatalog({
+  'forest': Biome(id: 'forest', name: 'Лес', description: ''),
+  'mountains': Biome(id: 'mountains', name: 'Горы', description: ''),
+});
+
 GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
     GameController(
       playerNames: _args.playerNames,
@@ -61,7 +66,7 @@ GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
       itemCatalog: const ItemCatalog({}),
       effectCatalog: const EffectCatalog({}),
       adventureCatalog: const AdventureCatalog({}),
-      biomeCatalog: const BiomeCatalog({}),
+      biomeCatalog: _biomes,
       originCatalog: const OriginCatalog({}),
       seed: 3,
       journeySteps: 200,
@@ -69,9 +74,9 @@ GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
     );
 
 /// Pumps the game screen over [controller], with the walking settings
-/// pinned. The biome catalog holds just the one biome the party is in, so
-/// the banners have something to stack under; the origin catalog is left
-/// loading for good, which the screen copes with.
+/// pinned. The biome catalog holds the forest and the mountains, so the
+/// banners have something to stack under and a card can move the party;
+/// the origin catalog is left loading for good, which the screen copes with.
 Future<void> _pumpGame(
   WidgetTester tester,
   GameController controller,
@@ -88,12 +93,7 @@ Future<void> _pumpGame(
         walkSettingsProvider.overrideWith(
           (ref) => WalkSettingsNotifier(initial: walk),
         ),
-        biomeCatalogProvider.overrideWith((ref) async {
-          final id = controller.state.worldState.currentBiomeId;
-          return BiomeCatalog({
-            id: Biome(id: id, name: 'Лес', description: ''),
-          });
-        }),
+        biomeCatalogProvider.overrideWith((ref) async => _biomes),
         originCatalogProvider.overrideWith(
           (ref) => Completer<OriginCatalog>().future,
         ),
@@ -254,8 +254,11 @@ void main() {
       );
 
       expect(find.text('Остановка: Привал'), findsOneWidget);
-      expect(find.byType(PartyCamp), findsOneWidget);
-      expect(find.byType(WalkingParty), findsNothing);
+      // The strip shows the halt now, not the road.
+      expect(
+        tester.widget<SceneStrip>(find.byType(SceneStrip)).stop,
+        StripStop.rest,
+      );
       for (final label in [_start, _onward, _next]) {
         expect(find.text(label), findsNothing);
       }
@@ -284,7 +287,7 @@ void main() {
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.phase, JourneyPhase.prologue);
-      expect(find.byType(WalkingParty), findsOneWidget);
+      expect(find.byType(SceneStrip), findsOneWidget);
       expect(find.text(_onward), findsNothing);
 
       await tester.pump(const Duration(milliseconds: 1100));
@@ -338,6 +341,40 @@ void main() {
       expect(controller.state.pendingCard, isNull);
       await tester.pump(const Duration(milliseconds: 200));
       expect(controller.state.pendingCard?.id, 'gift');
+    });
+
+    testWidgets('a change of biome does not hold the next card', (
+      tester,
+    ) async {
+      final controller = _controller(
+        cards: [
+          _card(
+            'move',
+            conditions: const [MaximumStepCondition(steps: 1)],
+            actions: const [SetBiomeAction(biomeId: 'mountains')],
+          ),
+          _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
+        ],
+      );
+      await _pumpGame(
+        tester,
+        controller,
+        const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
+      );
+      await tester.tap(find.text(_start));
+      await tester.pump();
+      await _dismissCard(tester);
+      expect(controller.state.worldState.currentBiomeId, 'mountains');
+      expect(controller.state.pendingCard, isNull);
+
+      // The countdown is a second, and the card comes on it — the old road
+      // still driving off, to finish after.
+      for (var i = 0; i < 30 && controller.state.pendingCard == null; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(controller.state.pendingCard?.id, 'road');
+      final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+      expect(strip.world!.streams.any((s) => s.done), isTrue);
     });
   });
 
