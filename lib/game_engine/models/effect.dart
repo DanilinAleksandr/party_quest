@@ -1,6 +1,7 @@
 import 'effect_polarity.dart';
 import 'game_action.dart';
 import 'game_event.dart';
+import 'stat_type.dart';
 
 /// A blessing or curse definition (a template) that gets attached to a
 /// player. Definitions live once in `assets/data/effects/` and are
@@ -38,6 +39,15 @@ final class GameEffect {
   /// specific item — checked by `ActionExecutor._applyEffect`.
   final bool blocksNextNegativeEffect;
 
+  /// How this effect shifts the stats a check reads, for as long as it is
+  /// on — derived, like the drink's shifts, and never written into the base
+  /// stats, so nothing has to be given back when it ends.
+  final Map<StatType, int> statShifts;
+
+  /// The same, for everybody else at the table while this effect is on its
+  /// holder — a host sharing the table's luck.
+  final Map<StatType, int> partyStatShifts;
+
   const GameEffect({
     required this.id,
     required this.name,
@@ -48,6 +58,8 @@ final class GameEffect {
     this.autoExpire = true,
     this.reactions = const {},
     this.blocksNextNegativeEffect = false,
+    this.statShifts = const {},
+    this.partyStatShifts = const {},
   });
 
   bool get isIndefinite => duration < 0;
@@ -72,6 +84,8 @@ final class GameEffect {
     bool? autoExpire,
     Map<GameEventKind, List<GameAction>>? reactions,
     bool? blocksNextNegativeEffect,
+    Map<StatType, int>? statShifts,
+    Map<StatType, int>? partyStatShifts,
   }) {
     return GameEffect(
       id: id ?? this.id,
@@ -84,6 +98,8 @@ final class GameEffect {
       reactions: reactions ?? this.reactions,
       blocksNextNegativeEffect:
           blocksNextNegativeEffect ?? this.blocksNextNegativeEffect,
+      statShifts: statShifts ?? this.statShifts,
+      partyStatShifts: partyStatShifts ?? this.partyStatShifts,
     );
   }
 
@@ -108,8 +124,20 @@ final class GameEffect {
       ),
       blocksNextNegativeEffect:
           json['blocksNextNegativeEffect'] as bool? ?? false,
+      statShifts: _shiftsFromJson(json['statShifts']),
+      partyStatShifts: _shiftsFromJson(json['partyStatShifts']),
     );
   }
+
+  static Map<StatType, int> _shiftsFromJson(Object? json) => {
+    for (final MapEntry(:key, :value)
+        in (json as Map<String, dynamic>? ?? const {}).entries)
+      StatType.fromJson(key): value as int,
+  };
+
+  static Map<String, int> _shiftsToJson(Map<StatType, int> shifts) => {
+    for (final MapEntry(:key, :value) in shifts.entries) key.toJson(): value,
+  };
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -123,5 +151,8 @@ final class GameEffect {
       (key, value) => MapEntry(key.toJson(), GameAction.listToJson(value)),
     ),
     'blocksNextNegativeEffect': blocksNextNegativeEffect,
+    if (statShifts.isNotEmpty) 'statShifts': _shiftsToJson(statShifts),
+    if (partyStatShifts.isNotEmpty)
+      'partyStatShifts': _shiftsToJson(partyStatShifts),
   };
 }

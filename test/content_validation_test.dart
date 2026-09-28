@@ -414,4 +414,14 @@ void main() {
       expect(map, {'a': 'a', 'b': 'b', 'c': 'c'});
     });
   });
+
+  test('no effect changes a stat for good: its shifts end with it', () async {
+    final effects = await const EffectRepository().loadCatalog();
+    final offenders = [
+      for (final e in effects.all)
+        for (final actions in e.reactions.values)
+          if (actions.any((a) => a is ModifyStatAction)) e.id,
+    ];
+    expect(offenders, isEmpty);
+  });
 }

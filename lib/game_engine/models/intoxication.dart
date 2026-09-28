@@ -188,8 +188,25 @@ extension IntoxicationOf on Player {
     return shifts;
   }
 
-  int effectiveStat(StatType stat) =>
-      stats.valueOf(stat) + (intoxicationShifts[stat] ?? 0);
+  /// What this character's own effects shift, for as long as they are on.
+  Map<StatType, int> get effectStatShifts =>
+      _sum([for (final e in activeEffects) e.statShifts]);
+
+  /// What the others at the table put on this character — [party] is the
+  /// whole table; this character's own effects in it are skipped.
+  Map<StatType, int> partyShiftsFrom(Iterable<Player> party) => _sum([
+    for (final p in party)
+      if (p.id != id)
+        for (final e in p.activeEffects) e.partyStatShifts,
+  ]);
+
+  /// The stat a check reads: the base, the drink, this character's effects,
+  /// and — given the [party] — what the others' effects share with them.
+  int effectiveStat(StatType stat, {Iterable<Player> party = const []}) =>
+      stats.valueOf(stat) +
+      (intoxicationShifts[stat] ?? 0) +
+      (effectStatShifts[stat] ?? 0) +
+      (partyShiftsFrom(party)[stat] ?? 0);
 
   /// The one word for the roster card: asleep, then drunk, then hungover.
   String? get conditionWord {
@@ -199,4 +216,15 @@ extension IntoxicationOf on Player {
     if (isHungover) return 'похмелье';
     return null;
   }
+}
+
+Map<StatType, int> _sum(Iterable<Map<StatType, int>> all) {
+  final total = <StatType, int>{};
+  for (final shifts in all) {
+    for (final MapEntry(key: stat, value: delta) in shifts.entries) {
+      total[stat] = (total[stat] ?? 0) + delta;
+    }
+  }
+  total.removeWhere((_, delta) => delta == 0);
+  return total;
 }

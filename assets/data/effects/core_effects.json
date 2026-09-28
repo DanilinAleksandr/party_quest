@@ -11,28 +11,22 @@
   {
     "id": "effect_silence",
     "name": "Обет молчания",
-    "description": "Общайся только жестами. Каждый ход под этим эффектом ты теряешь очко харизмы за болтливость.",
+    "description": "Общайся только жестами. Пока действует эффект — −1 к харизме: за болтливость.",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
-    "reactions": {
-      "turnStarted": [
-        { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": -1 }
-      ]
-    }
+    "reactions": {},
+    "statShifts": {"charisma": -1}
   },
   {
     "id": "effect_lucky_streak",
     "name": "Полоса удачи",
-    "description": "Удача сама тебя находит. Каждый ход под этим эффектом ты получаешь +1 к удаче.",
+    "description": "Удача сама тебя находит. Пока действует эффект — +1 к удаче.",
     "polarity": "positive",
     "duration": 15,
     "autoExpire": true,
-    "reactions": {
-      "turnStarted": [
-        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
-      ]
-    }
+    "reactions": {},
+    "statShifts": {"luck": 1}
   },
   {
     "id": "effect_defeated",
@@ -46,9 +40,9 @@
   {
     "id": "effect_cloud",
     "name": "Вздох неудачи",
-    "description": "Следующие 3 хода начинай каждую фразу со слова «увы».",
+    "description": "Неудача ходит за тобой по пятам и вздыхает за плечом — слышишь только ты.",
     "polarity": "negative",
-    "duration": 4,
+    "duration": 15,
     "autoExpire": true,
     "reactions": {}
   },
@@ -65,14 +59,11 @@
   {
     "id": "effect_party_king",
     "name": "Ваше Величество",
-    "description": "Ближайшие 3 хода все за столом обращаются к тебе только «Ваше Величество».",
+    "description": "Ближайшие 4 хода все за столом обращаются к тебе только «Ваше Величество». Пока действует — +1 к харизме.",
     "polarity": "positive",
     "duration": 4,
     "autoExpire": true,
-    "reactions": {
-      "turnStarted": [
-        { "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }
-      ]
-    }
+    "reactions": {},
+    "statShifts": {"charisma": 1}
   }
 ]

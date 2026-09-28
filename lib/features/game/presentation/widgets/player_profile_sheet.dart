@@ -319,11 +319,16 @@ class _TimelineEntry extends StatelessWidget {
   final String? qualifier;
   final String description;
 
+  /// What the entry shifts on the stats a check reads, in the same words
+  /// the drink uses — «Удача +1 · Харизма −1».
+  final String? shifts;
+
   const _TimelineEntry({
     required this.color,
     required this.name,
     required this.description,
     this.qualifier,
+    this.shifts,
   });
 
   @override
@@ -379,6 +384,16 @@ class _TimelineEntry extends StatelessWidget {
                       ),
                   ],
                 ),
+                if (shifts != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    shifts!,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: color,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 3),
                 Text(
                   description,
@@ -641,6 +656,7 @@ class _EffectsSection extends StatelessWidget {
                   color: AppColors.positiveEffectColor,
                   name: effect.name,
                   qualifier: _durationLabel(effect),
+                  shifts: _effectShiftsLabel(effect),
                   description: effect.description,
                 ),
             ],
@@ -660,6 +676,7 @@ class _EffectsSection extends StatelessWidget {
                   color: AppColors.negativeEffectColor,
                   name: effect.name,
                   qualifier: _durationLabel(effect),
+                  shifts: _effectShiftsLabel(effect),
                   description: effect.description,
                 ),
             ],
@@ -682,12 +699,7 @@ class _DrinkSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = InfluenceSource.drink.color;
     final word = player.conditionWord!;
-    final shifts = player.intoxicationShifts.entries
-        .map((e) {
-          final sign = e.value > 0 ? '+' : '−';
-          return '${StatChip.labelFor(e.key)} $sign${e.value.abs()}';
-        })
-        .join(' · ');
+    final shifts = _shiftsLabel(player.intoxicationShifts);
     final description = player.isPassedOut
         ? 'Отключился прямо на ходу. Проснётся через пару карточек — '
               'и уже с похмельем.'
@@ -713,6 +725,25 @@ class _DrinkSection extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Stat shifts as the table reads them: «Удача +1 · Харизма −1».
+String _shiftsLabel(Map<StatType, int> shifts) => shifts.entries
+    .map((e) {
+      final sign = e.value > 0 ? '+' : '−';
+      return '${StatChip.labelFor(e.key)} $sign${e.value.abs()}';
+    })
+    .join(' · ');
+
+/// An effect's shifts for its entry: its own, and what it shares with the
+/// others at the table. Null for an effect that shifts nothing.
+String? _effectShiftsLabel(GameEffect effect) {
+  final parts = [
+    if (effect.statShifts.isNotEmpty) _shiftsLabel(effect.statShifts),
+    if (effect.partyStatShifts.isNotEmpty)
+      'остальным: ${_shiftsLabel(effect.partyStatShifts)}',
+  ];
+  return parts.isEmpty ? null : parts.join(' · ');
 }
 
 /// "Сколько ещё это на мне висит" is the single most common question about

@@ -2,14 +2,11 @@
   {
     "id": "effect_witch_curse",
     "name": "Проклятие ведьмы",
-    "description": "Она заметила пропажу. Пока действует проклятие, удача отворачивается от тебя каждый ход.",
+    "description": "Она заметила пропажу. Пока действует проклятие — −1 к удаче.",
     "polarity": "negative",
     "duration": 15,
     "autoExpire": true,
-    "reactions": {
-      "turnStarted": [
-        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": -1 }
-      ]
-    }
+    "reactions": {},
+    "statShifts": {"luck": -1}
   }
 ]
