@@ -32,10 +32,6 @@ class SceneStrip extends StatefulWidget {
   /// Fixed for tests; left null, every match grows its own forest.
   final int? seed;
 
-  /// Told when a biome change starts playing out and when it is over — the
-  /// walk holds the next card until then.
-  final ValueChanged<bool>? onChanging;
-
   static const double height = 56;
 
   const SceneStrip({
@@ -44,7 +40,6 @@ class SceneStrip extends StatefulWidget {
     required this.moving,
     this.stop = StripStop.none,
     this.seed,
-    this.onChanging,
   });
 
   @override
@@ -78,7 +73,6 @@ class SceneStripState extends State<SceneStrip>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.biomeId != widget.biomeId) {
       _world?.setBiome(StripBiome.fromId(widget.biomeId));
-      _reportChanging();
       _repaint.value++;
     }
     if (oldWidget.stop != widget.stop) _enterStop();
@@ -116,15 +110,6 @@ class SceneStripState extends State<SceneStrip>
     _repaint.value++;
   }
 
-  bool _wasChanging = false;
-
-  void _reportChanging() {
-    final now = _world?.changing ?? false;
-    if (now == _wasChanging) return;
-    _wasChanging = now;
-    widget.onChanging?.call(now);
-  }
-
   void _syncTicker() {
     if (widget.moving && _world != null && !_ticker.isActive) {
       _last = Duration.zero;
@@ -143,7 +128,6 @@ class SceneStripState extends State<SceneStrip>
       _stopTime += dt;
     } else {
       _world!.advance(dt);
-      _reportChanging();
     }
     _repaint.value++;
   }

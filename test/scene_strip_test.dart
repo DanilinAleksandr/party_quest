@@ -146,107 +146,28 @@ void main() {
       }
     });
 
-    test('the party hurries into the new biome, then slows back', () {
-      for (final (from, to, seed) in const [
-        (StripBiome.forest, StripBiome.graveyard, 3),
-        (StripBiome.mountains, StripBiome.coast, 8),
-        (StripBiome.desert, StripBiome.floodlands, 21),
-        (StripBiome.graveyard, StripBiome.forest, 40),
-      ]) {
-        final w = StripWorld(
-          geo: StripGeo(56),
-          width: 344,
-          biome: from,
-          seed: seed,
-        );
-        w.advance(1);
-        expect(w.pace, 1);
-        final old = List.of(w.streams);
-        w.setBiome(to);
-        expect(w.changing, isTrue);
-        final lead = 344 / 2 + StripWorld.kPartyLead;
-        // How far behind the lead figure the first new middle or near item
-        // is, by its centre; negative while it is still ahead.
-        double? into() {
-          double? best;
-          for (final s in w.streams) {
-            if (old.contains(s) || s.items.isEmpty) continue;
-            if (s.layer != StripLayer.mid && s.layer != StripLayer.near) {
-              continue;
-            }
-            final f = s.items.first;
-            final d = lead - (f.x + f.shape.w / 2 - w.offsetOf(s));
-            if (best == null || d > best) best = d;
-          }
-          return best;
-        }
-
-        var peak = 1.0, seconds = 0.0;
-        double? enteredAt, slowingAt, intoAtSlowing;
-        while (w.changing && seconds < 60) {
-          final before = w.pace;
-          w.advance(1 / 60);
-          seconds += 1 / 60;
-          peak = peak > w.pace ? peak : w.pace;
-          if (enteredAt == null && (into() ?? -1) >= 0) {
-            enteredAt = seconds;
-            // Across the border, still at full hurry.
-            expect(w.pace, closeTo(StripWorld.kHurry, 1e-6));
-          }
-          if (slowingAt == null && w.pace < before - 1e-9) {
-            slowingAt = seconds;
-            intoAtSlowing = into();
-          }
-        }
-        expect(peak, closeTo(StripWorld.kHurry, 0.01));
-        expect(w.pace, 1);
-        // The slowing starts a third of the strip into the new biome, and
-        // takes about a second.
-        expect(intoAtSlowing, closeTo(344 / 3, 8));
-        expect(seconds - slowingAt!, closeTo(StripWorld.kHurryOut, 0.05));
-        // Well within one gap between cards; the walk holds the next card
-        // until the slowing is over.
-        expect(seconds, lessThan(6));
-        // ignore: avoid_print
-        print(
-          '$from -> $to: entered at ${enteredAt!.toStringAsFixed(1)} s, '
-          'slowing at ${slowingAt.toStringAsFixed(1)} s, '
-          'change over at ${seconds.toStringAsFixed(1)} s',
-        );
-      }
+    test('the party walks 30% brisker than 17b, feet still on the road', () {
+      final w = _world(StripBiome.forest);
+      final d = w.distance, s = w.stride;
+      w.advance(1);
+      expect(w.distance - d, closeTo(18 / 1.1 * 1.3, 1e-9));
+      // Two dash periods, 18 dp, a stride, as before.
+      expect((w.distance - d) / (w.stride - s), closeTo(18, 1e-9));
     });
 
-    test(
-      'the party walks a fifth brisker than 17b, feet still on the road',
-      () {
-        final w = _world(StripBiome.forest);
-        final d = w.distance, s = w.stride;
-        w.advance(1);
-        expect(w.distance - d, closeTo(18 / 1.1 * 1.2, 1e-9));
-        // Two dash periods, 18 dp, a stride, as before.
-        expect((w.distance - d) / (w.stride - s), closeTo(18, 1e-9));
-      },
-    );
-
-    test('the old road behind the party is not waited for', () {
-      final w = StripWorld(
-        geo: StripGeo(56),
-        width: 344,
-        biome: StripBiome.forest,
-        seed: 3,
-      );
+    test('a change keeps the pace; the old road drives off at it', () {
+      final w = _world(StripBiome.forest);
       w.advance(1);
       final old = w.streams.where((s) => !s.backdrop).toList();
       w.setBiome(StripBiome.coast);
-      while (w.changing) {
+      for (var i = 0; i < 5 * 60; i++) {
+        final d = w.distance, s = w.stride;
         w.advance(1 / 60);
+        expect(w.distance - d, closeTo(kRoadSpeed / 60, 1e-9));
+        expect(w.stride - s, closeTo(1 / kStride / 60, 1e-9));
       }
-      // The change is over while the old middle plane is still on its way
-      // off — at the usual pace from here.
+      // The middle plane, at 0.6 of the road, is still on its way off.
       expect(w.streams.where(old.contains), isNotEmpty);
-      final d = w.distance;
-      w.advance(1);
-      expect(w.distance - d, closeTo(kRoadSpeed, 1e-6));
     });
 
     test('the sky and fog cross over in 2.5 s', () {
@@ -255,8 +176,8 @@ void main() {
       expect(w.fromBiome, StripBiome.forest);
       w.advance(1.25);
       expect(w.toneProgress, closeTo(0.5, 0.01));
-      // The time is walking time; the road runs faster meanwhile.
-      expect(w.distance, greaterThan(1.25 * kRoadSpeed));
+      // The time is walking time, at the usual pace.
+      expect(w.distance, closeTo(1.25 * kRoadSpeed, 1e-9));
       w.advance(1.3);
       expect(w.fromBiome, isNull);
       expect(w.toneProgress, 1);

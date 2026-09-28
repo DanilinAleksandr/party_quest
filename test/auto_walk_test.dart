@@ -343,47 +343,39 @@ void main() {
       expect(controller.state.pendingCard?.id, 'gift');
     });
 
-    testWidgets(
-      'after a change of biome the next card waits for the new road',
-      (tester) async {
-        final controller = _controller(
-          cards: [
-            _card(
-              'move',
-              conditions: const [MaximumStepCondition(steps: 1)],
-              actions: const [SetBiomeAction(biomeId: 'mountains')],
-            ),
-            _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
-          ],
-        );
-        await _pumpGame(
-          tester,
-          controller,
-          const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
-        );
-        await tester.tap(find.text(_start));
-        await tester.pump();
-        await _dismissCard(tester);
-        expect(controller.state.worldState.currentBiomeId, 'mountains');
-        expect(controller.state.pendingCard, isNull);
+    testWidgets('a change of biome does not hold the next card', (
+      tester,
+    ) async {
+      final controller = _controller(
+        cards: [
+          _card(
+            'move',
+            conditions: const [MaximumStepCondition(steps: 1)],
+            actions: const [SetBiomeAction(biomeId: 'mountains')],
+          ),
+          _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
+        ],
+      );
+      await _pumpGame(
+        tester,
+        controller,
+        const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
+      );
+      await tester.tap(find.text(_start));
+      await tester.pump();
+      await _dismissCard(tester);
+      expect(controller.state.worldState.currentBiomeId, 'mountains');
+      expect(controller.state.pendingCard, isNull);
 
-        // The countdown is a second; the change on the strip takes longer,
-        // and the card holds until it is done.
-        await tester.pump(const Duration(milliseconds: 1500));
-        expect(controller.state.pendingCard, isNull);
-        final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
-        expect(strip.world!.changing, isTrue);
-        for (
-          var i = 0;
-          i < 8 * 20 && controller.state.pendingCard == null;
-          i++
-        ) {
-          await tester.pump(const Duration(milliseconds: 50));
-        }
-        expect(controller.state.pendingCard?.id, 'road');
-        expect(strip.world!.changing, isFalse);
-      },
-    );
+      // The countdown is a second, and the card comes on it — the old road
+      // still driving off, to finish after.
+      for (var i = 0; i < 30 && controller.state.pendingCard == null; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(controller.state.pendingCard?.id, 'road');
+      final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+      expect(strip.world!.streams.any((s) => s.done), isTrue);
+    });
   });
 
   testWidgets('a hidden check says what came of it, with no coin', (
