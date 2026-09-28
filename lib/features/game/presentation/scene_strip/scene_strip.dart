@@ -498,8 +498,8 @@ class SceneStripPainter extends CustomPainter {
     );
   }
 
-  /// The walking party: four figures, the same proportions and 1100 ms
-  /// stride as before, a step apart in phase so they do not march.
+  /// The walking party: four figures, the same proportions as before, a
+  /// [kStride] stride, a step apart in phase so they do not march.
   static const _group = [
     (186.0, 0.55, 0.0),
     (199.0, 0.7, 0.3),

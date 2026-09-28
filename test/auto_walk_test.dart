@@ -369,17 +369,18 @@ void main() {
 
         // The countdown is a second; the change on the strip takes longer,
         // and the card holds until it is done.
-        await tester.pump(const Duration(seconds: 3));
+        await tester.pump(const Duration(milliseconds: 1500));
         expect(controller.state.pendingCard, isNull);
+        final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+        expect(strip.world!.changing, isTrue);
         for (
           var i = 0;
-          i < 12 * 20 && controller.state.pendingCard == null;
+          i < 8 * 20 && controller.state.pendingCard == null;
           i++
         ) {
           await tester.pump(const Duration(milliseconds: 50));
         }
         expect(controller.state.pendingCard?.id, 'road');
-        final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
         expect(strip.world!.changing, isFalse);
       },
     );

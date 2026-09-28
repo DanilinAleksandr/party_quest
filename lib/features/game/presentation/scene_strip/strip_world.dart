@@ -30,9 +30,16 @@ enum StripBiome {
 /// tone (sky, fog, ground band) or the walking party.
 enum StripLayer { far, midfar, mid, ground, near }
 
-/// dp per second the party walks: two dash periods per 1100 ms stride, so
-/// the feet do not slide.
-const double kRoadSpeed = 18 / 1.1;
+/// How much brisker than 17b the party walks: the road, every layer with
+/// it, and the steps.
+const double kBasePace = 1.2;
+
+/// Seconds a stride takes: 17b's 1100 ms, quickened by [kBasePace].
+const double kStride = 1.1 / kBasePace;
+
+/// dp per second the party walks: two dash periods per stride, so the feet
+/// do not slide.
+const double kRoadSpeed = 18 / kStride;
 
 /// One stream of items on a layer, drawn from its own generator so the same
 /// seed grows the same forest however far it has been filled.
@@ -616,9 +623,12 @@ final class StripTone {
 /// - the middle plane, the ground and the near plane drive off as in 17b,
 ///   but only what the table can already see — anything still waiting past
 ///   the right edge is dropped on the spot;
-/// - and while they drive off the party hurries: the road runs at [kHurry]
-///   times its pace, the steps quicken, and it eases back once the last of
-///   the old biome is gone. See [changing].
+/// - and the party hurries into the new biome: the road runs at [kHurry]
+///   times its pace and the steps quicken until it is [kIntoBiome] of the
+///   way into the new biome — the first new middle or near item that far
+///   behind the lead figure — then it eases back over
+///   [kHurryOut]; what is left of the old road behind the party drives off
+///   at the usual pace. See [changing].
 final class StripWorld {
   final StripGeo geo;
   double width;
@@ -640,11 +650,23 @@ final class StripWorld {
   double changedAt = 0;
 
   static const double kToneFade = 2.5;
-  static const double kHurry = 4;
+  static const double kHurry = 2.5;
   static const double kHurryIn = 0.6;
-  static const double kHurryOut = 1.2;
+  static const double kHurryOut = 1;
+
+  /// A hurry that has not got into the new biome by now eases back anyway —
+  /// a biome whose first middle and near items happen to come late.
+  static const double kHurryMax = 8;
+
+  /// How far right of the strip's centre the lead figure walks.
+  static const double kPartyLead = 20;
+
+  /// How far into the new biome, as a share of the strip's width, the party
+  /// hurries before it eases back.
+  static const double kIntoBiome = 1 / 3;
 
   double _pace = 1;
+  bool _hurrying = false;
   double? _slowingSince;
   double _slowingFrom = 1;
 
@@ -665,21 +687,33 @@ final class StripWorld {
   /// How many times its usual pace the road is running.
   double get pace => _pace;
 
-  /// Whether a biome change is still playing out: the backdrop still
-  /// fading, the old foreground not yet gone, or the party not yet back to
-  /// its pace. The walk waits for it — a card drawn in the middle would land
-  /// on a half-changed road.
-  bool get changing =>
-      fromBiome != null || _oldForegroundLeft || _pace > 1 + 1e-6;
+  /// Whether a biome change is still playing out: the party not yet into
+  /// the new biome, or not yet back to its pace. The walk waits for it — a
+  /// card drawn in the middle would land on a half-changed road. The old
+  /// items behind the party are not waited for; they drive off at the
+  /// usual pace.
+  bool get changing => _hurrying || _pace > 1 + 1e-6;
 
-  bool get _oldForegroundLeft => streams.any((s) => s.done && !s.backdrop);
+  /// Whether the party is [kIntoBiome] of the strip's width into the new
+  /// biome: the first middle or near item of it that far behind the lead
+  /// figure, by its centre.
+  bool get _deepInNewBiome {
+    final mark = width / 2 + kPartyLead - width * kIntoBiome;
+    for (final s in streams) {
+      if (s.done || s.items.isEmpty) continue;
+      if (s.layer != StripLayer.mid && s.layer != StripLayer.near) continue;
+      final first = s.items.first;
+      if (first.x + first.shape.w / 2 - offsetOf(s) <= mark) return true;
+    }
+    return false;
+  }
 
   /// Moves the world on by [dt] seconds.
   void advance(double dt) {
     time += dt;
     _pace = _paceNow();
     distance += dt * kRoadSpeed * _pace;
-    stride += dt / 1.1 * _pace;
+    stride += dt / kStride * _pace;
     for (var i = streams.length - 1; i >= 0; i--) {
       final s = streams[i];
       s.fill(offsetOf(s), width + 80);
@@ -703,13 +737,16 @@ final class StripWorld {
   }
 
   double _paceNow() {
-    if (_oldForegroundLeft) {
+    if (_hurrying && (_deepInNewBiome || time - changedAt >= kHurryMax)) {
+      _hurrying = false;
+    }
+    if (_hurrying) {
       _slowingSince = null;
       final up = ((time - changedAt) / kHurryIn).clamp(0.0, 1.0);
       return 1 + (kHurry - 1) * _ease(up);
     }
     if (_pace <= 1 && _slowingSince == null) return 1;
-    // The old foreground is gone: ease back from wherever the pace got to.
+    // Into the new biome: ease back from wherever the pace got to.
     if (_slowingSince == null) {
       _slowingSince = time;
       _slowingFrom = _pace;
@@ -732,6 +769,7 @@ final class StripWorld {
     fromBiome = biome;
     changedAt = time;
     biome = next;
+    _hurrying = true;
     for (final s in streams) {
       if (s.done) continue;
       s.done = true;
