@@ -166,7 +166,7 @@ class GameController extends StateNotifier<GameState> {
     state = context.state;
   }
 
-  /// Runs one full party step: fires [OnTurnStarted], advances the party's
+  /// Runs one full party step: advances the party's
   /// shared progress, checks for a cooperative finish, expires every
   /// player's effects by one, draws a card, and resolves who it's about.
   ///
@@ -181,11 +181,7 @@ class GameController extends StateNotifier<GameState> {
       return;
     }
 
-    var ctx = _dispatcher.dispatch(
-      OnTurnStarted(player: _context.currentPlayer),
-      _context,
-    );
-    ctx = _incrementPartySteps(ctx);
+    var ctx = _incrementPartySteps(_context);
     ctx = _incrementTurnsInBiome(ctx);
     ctx = _incrementTurnsInWeather(ctx);
     ctx = _incrementTurnsInTavern(ctx);
@@ -351,6 +347,12 @@ class GameController extends StateNotifier<GameState> {
   }
 
   void _showCard(GameCard drawnCard, GameContext context) {
+    // The turn is the card's: whoever it is about has their turn start now,
+    // before the card is shown or anything on it is measured.
+    context = _dispatcher.dispatch(
+      OnTurnStarted(player: context.currentPlayer),
+      context,
+    );
     _drawnCard = drawnCard;
     _personalActionTaken = false;
     _intoxicationAtDraw = {

@@ -1181,11 +1181,6 @@
           {
             "condition": "currentPlayerHasEffect",
             "effectId": "effect_lucky_echo"
-          },
-          {
-            "condition": "currentPlayerStatAtLeast",
-            "stat": "attentiveness",
-            "value": 2
           }
         ],
         "actions": [

@@ -126,7 +126,9 @@ final class ParticipantResolver {
     required bool highest,
   }) {
     final players = context.players;
-    final values = players.map((p) => p.effectiveStat(stat)).toList();
+    final values = players
+        .map((p) => p.effectiveStat(stat, party: players))
+        .toList();
     final best = highest
         ? values.reduce((a, b) => a > b ? a : b)
         : values.reduce((a, b) => a < b ? a : b);

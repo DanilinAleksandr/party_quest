@@ -2,7 +2,7 @@
   {
     "id": "effect_whisper",
     "name": "Шёпот",
-    "description": "Следующие 3 хода ты можешь говорить только шёпотом.",
+    "description": "Следующие 4 хода ты можешь говорить только шёпотом.",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
@@ -20,7 +20,7 @@
   {
     "id": "effect_royal_address",
     "name": "Придворный этикет",
-    "description": "Следующие 3 хода обращайся к любому игроку только «уважаемый(ая)» плюс имя — никаких имён без титула.",
+    "description": "Следующие 4 хода обращайся к любому игроку только «уважаемый(ая)» плюс имя — никаких имён без титула.",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
@@ -38,7 +38,7 @@
   {
     "id": "effect_no_gestures",
     "name": "Без рук",
-    "description": "Следующие 3 хода тебе нельзя ничего показывать руками — объясняйся только словами.",
+    "description": "Следующие 4 хода тебе нельзя ничего показывать руками — объясняйся только словами.",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
@@ -47,7 +47,7 @@
   {
     "id": "effect_freeze_statue",
     "name": "Морская фигура",
-    "description": "Следующие 3 хода: как только кто-то произносит твоё имя, ты замираешь на месте на 5 секунд.",
+    "description": "Следующие 4 хода: как только кто-то произносит твоё имя, ты замираешь на месте на 5 секунд.",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
@@ -56,7 +56,7 @@
   {
     "id": "effect_hedge_word",
     "name": "Неуверенность",
-    "description": "Следующие 3 хода заканчивай каждую фразу словом «наверное».",
+    "description": "Следующие 4 хода заканчивай каждую фразу словом «наверное».",
     "polarity": "negative",
     "duration": 4,
     "autoExpire": true,
@@ -65,15 +65,12 @@
   {
     "id": "effect_generous_host",
     "name": "Гостеприимный хозяин",
-    "description": "Пока действует эффект, в начале каждого твоего хода все остальные игроки получают +1 к удаче — ты делишься везением стола.",
+    "description": "Пока действует эффект, у всех остальных за столом +1 к удаче — ты делишься везением стола.",
     "polarity": "positive",
     "duration": 15,
     "autoExpire": true,
-    "reactions": {
-      "turnStarted": [
-        { "action": "modifyStat", "target": "allOtherPlayers", "stat": "luck", "amount": 1 }
-      ]
-    }
+    "reactions": {},
+    "partyStatShifts": {"luck": 1}
   },
   {
     "id": "effect_omen",
@@ -100,14 +97,11 @@
   {
     "id": "effect_lucky_echo",
     "name": "Счастливое эхо",
-    "description": "Пока действует эффект, каждый раз, когда ты разрешаешь выпавшую карточку, ты получаешь +1 к удаче.",
+    "description": "Пока действует эффект — +1 к удаче: эхо подсказывает, куда смотреть.",
     "polarity": "positive",
     "duration": 15,
     "autoExpire": true,
-    "reactions": {
-      "cardResolved": [
-        { "action": "modifyStat", "target": "currentPlayer", "stat": "luck", "amount": 1 }
-      ]
-    }
+    "reactions": {},
+    "statShifts": {"luck": 1}
   }
 ]

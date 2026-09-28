@@ -340,7 +340,8 @@ final class CurrentPlayerStatAtLeastCondition extends GameCondition {
   @override
   bool isSatisfied(GameContext context) =>
       // The stat as it stands tonight — drink and hangover included.
-      context.currentPlayer.effectiveStat(stat) >= value;
+      context.currentPlayer.effectiveStat(stat, party: context.players) >=
+      value;
 
   @override
   Map<String, dynamic> toJson() => {
@@ -363,8 +364,9 @@ final class AnyPlayerStatAtLeastCondition extends GameCondition {
   });
 
   @override
-  bool isSatisfied(GameContext context) =>
-      context.players.any((p) => p.effectiveStat(stat) >= value);
+  bool isSatisfied(GameContext context) => context.players.any(
+    (p) => p.effectiveStat(stat, party: context.players) >= value,
+  );
 
   @override
   Map<String, dynamic> toJson() => {

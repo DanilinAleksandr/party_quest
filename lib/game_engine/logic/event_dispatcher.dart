@@ -32,6 +32,9 @@ final class EventDispatcher {
         in context.players.map((p) => p.id).toList(growable: false)) {
       final index = next.players.indexWhere((p) => p.id == playerId);
       if (index == -1) continue;
+      // «Каждый твой ход»: a turn's reactions are the holder's own, and run
+      // only on a card that is theirs.
+      if (event is OnTurnStarted && event.player.id != playerId) continue;
 
       final reactionActions = next.players[index].activeEffects
           .expand(

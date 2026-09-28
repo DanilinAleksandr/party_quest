@@ -510,6 +510,142 @@ void main() {
     });
   });
 
+  group('effects shift stats while they are on', () {
+    GameCard card(
+      String id,
+      List<GameCondition> conditions, [
+      List<GameAction> actions = const [],
+    ]) => GameCard(
+      id: id,
+      title: id,
+      description: 'd',
+      type: CardType.event,
+      rarity: Rarity.common,
+      weight: 1,
+      conditions: conditions,
+      actions: actions,
+    );
+    GameController controller(
+      Map<String, GameEffect> effects,
+      List<GameAction> first, {
+      List<String> players = const ['A'],
+      int seed = 1,
+    }) => GameController(
+      playerNames: players,
+      cards: [
+        card('put_on', const [MaximumStepCondition(steps: 1)], first),
+        card('road', const [MinimumStepCondition(steps: 2)]),
+      ],
+      itemCatalog: const ItemCatalog({}),
+      effectCatalog: EffectCatalog(effects),
+      adventureCatalog: const AdventureCatalog({}),
+      biomeCatalog: const BiomeCatalog({}),
+      originCatalog: const OriginCatalog({}),
+      seed: seed,
+      journeySteps: null,
+      skipPrologue: true,
+    );
+
+    test('a shift counts while the effect is on, never in the base, and '
+        'goes with it', () {
+      const streak = GameEffect(
+        id: 'streak',
+        name: 'n',
+        description: 'd',
+        polarity: EffectPolarity.positive,
+        duration: 2,
+        remainingTurns: 2,
+        statShifts: {StatType.luck: 1},
+      );
+      final c = controller(
+        {'streak': streak},
+        const [ApplyEffectAction(effectId: 'streak')],
+      );
+      Player me() => c.state.players.single;
+      final seen = <int>[];
+      for (var i = 0; i < 4; i++) {
+        c.takeStep();
+        seen.add(me().effectiveStat(StatType.luck));
+        expect(me().stats.valueOf(StatType.luck), 0);
+        c.resolveCard();
+      }
+      // Drawn: the card that puts it on, two cards with it, one without.
+      expect(seen, [0, 1, 1, 0]);
+    });
+
+    test('a shift shared with the table skips its holder', () {
+      const host = GameEffect(
+        id: 'host',
+        name: 'n',
+        description: 'd',
+        polarity: EffectPolarity.positive,
+        duration: 5,
+        remainingTurns: 5,
+        partyStatShifts: {StatType.luck: 1},
+      );
+      final holder = Player(
+        id: 'a',
+        name: 'A',
+        activeEffects: [host.instantiate()],
+      );
+      const guest = Player(id: 'b', name: 'B');
+      final party = [holder, guest];
+      expect(holder.effectiveStat(StatType.luck, party: party), 0);
+      expect(guest.effectiveStat(StatType.luck, party: party), 1);
+      expect(guest.effectiveStat(StatType.luck), 0);
+      expect(guest.stats.valueOf(StatType.luck), 0);
+    });
+
+    test('«каждый твой ход» fires only on the holder\'s own card', () {
+      const omen = GameEffect(
+        id: 'omen',
+        name: 'n',
+        description: 'd',
+        polarity: EffectPolarity.negative,
+        duration: -1,
+        remainingTurns: -1,
+        reactions: {
+          GameEventKind.turnStarted: [
+            ModifyGlobalModifierAction(key: 'danger_level', amount: 1),
+          ],
+        },
+      );
+      final c = controller(
+        {'omen': omen},
+        const [ApplyEffectAction(effectId: 'omen')],
+        players: const ['A', 'B', 'C'],
+      );
+      c.takeStep();
+      // Whoever the first card is about gets the omen, and only they.
+      final holder = c.state.currentPlayer.id;
+      c.resolveCard();
+      var own = 0;
+      for (var i = 0; i < 30; i++) {
+        c.takeStep();
+        if (c.state.currentPlayer.id == holder) own++;
+        c.resolveCard();
+      }
+      expect(own, inExclusiveRange(0, 30));
+      expect(c.state.worldState.modifiers['danger_level'] ?? 0, own);
+    });
+
+    test('an effect\'s shifts survive a save', () {
+      const e = GameEffect(
+        id: 'x',
+        name: 'n',
+        description: 'd',
+        polarity: EffectPolarity.positive,
+        duration: 3,
+        remainingTurns: 3,
+        statShifts: {StatType.luck: 1},
+        partyStatShifts: {StatType.charisma: -1},
+      );
+      final back = GameEffect.fromJson(e.toJson());
+      expect(back.statShifts, {StatType.luck: 1});
+      expect(back.partyStatShifts, {StatType.charisma: -1});
+    });
+  });
+
   group('effect durations in play', () {
     test('an effect lasts exactly its duration in cards drawn', () {
       const effect = GameEffect(
