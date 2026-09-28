@@ -492,6 +492,22 @@ void main() {
         expect(received.whereType<OnEffectExpired>(), hasLength(1));
       },
     );
+
+    test('counts a longer effect down step by step, then expires it', () {
+      var context = _buildContext(
+        players: [const Player(id: 'p1', name: 'A')],
+      );
+      context = const ActionExecutor().execute(
+        const ApplyEffectAction(effectId: 'eff_test'),
+        context,
+      );
+      const lifecycle = EffectLifecycle();
+      context = lifecycle.expireForAllPlayers(context);
+      // A step with nothing running out still counts.
+      expect(context.currentPlayer.activeEffects.single.remainingTurns, 1);
+      context = lifecycle.expireForAllPlayers(context);
+      expect(context.currentPlayer.activeEffects, isEmpty);
+    });
   });
 
   group('GameController determinism', () {

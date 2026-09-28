@@ -176,6 +176,18 @@ class _Header extends StatelessWidget {
             letterSpacing: 0.81,
           ),
         ),
+        const SizedBox(height: 5),
+        // A number, never the bracket: what the age does is for the table
+        // to find out.
+        Text(
+          'Возраст: ${player.age}',
+          textAlign: TextAlign.center,
+          style: theme.textTheme.labelSmall?.copyWith(
+            fontSize: 12,
+            letterSpacing: 0.4,
+            color: SteelPalette.textLow.withValues(alpha: 0.8),
+          ),
+        ),
         if (origin != null) ...[
           const SizedBox(height: 7),
           Text(

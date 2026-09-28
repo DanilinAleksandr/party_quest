@@ -531,6 +531,7 @@ final class ContentValidator {
       case IntoxicationAtLeastCondition _:
       case IntoxicationBelowCondition _:
       case CurrentPlayerHungoverCondition _:
+      case CurrentPlayerAgeBracketCondition _:
       case AnyPlayerMissingOriginCondition _:
       case CurrentPlayerOriginUnknownCondition _:
       case CurrentPlayerStatAtLeastCondition _:

@@ -129,6 +129,9 @@ sealed class GameCondition {
         level: IntoxicationLevel.fromJson(json['level'] as String),
       ),
       'currentPlayerHungover' => const CurrentPlayerHungoverCondition(),
+      'currentPlayerAgeBracket' => CurrentPlayerAgeBracketCondition(
+        bracket: AgeBracket.fromJson(json['bracket'] as String),
+      ),
       'maximumStepsSinceFlag' => MaximumStepsSinceFlagCondition(
         flag: json['flag'] as String,
         steps: json['steps'] as int,
@@ -883,6 +886,25 @@ final class CurrentPlayerHungoverCondition extends GameCondition {
 
   @override
   Map<String, dynamic> toJson() => {'condition': 'currentPlayerHungover'};
+}
+
+/// The current player is of this age bracket — young, mature or elder. The
+/// table sees only the number; content reads the bracket, the way it reads
+/// a drink level rather than the count.
+final class CurrentPlayerAgeBracketCondition extends GameCondition {
+  final AgeBracket bracket;
+
+  const CurrentPlayerAgeBracketCondition({required this.bracket});
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.ageBracket == bracket;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'currentPlayerAgeBracket',
+    'bracket': bracket.toJson(),
+  };
 }
 
 /// The other end of [MinimumStepsSinceFlagCondition]: no more than [steps]

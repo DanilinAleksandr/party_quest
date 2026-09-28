@@ -137,6 +137,9 @@ List<InfluenceTag> influenceTagsOf(
       case CurrentPlayerHungoverCondition _:
         add(InfluenceSource.drink);
 
+      case CurrentPlayerAgeBracketCondition _:
+        add(InfluenceSource.age);
+
       // "Not yet this drunk" is a guard, like the other absences: it is why
       // an option is still offered, not something the drink opened.
       case IntoxicationBelowCondition _:

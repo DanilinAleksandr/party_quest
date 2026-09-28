@@ -247,7 +247,9 @@ final class ActionExecutor {
     final targets = _resolveTargets(action.target, context);
     final alone = context.players.length == 1;
     return _updateTargets(context, targets, (p) {
-      var intoxication = p.intoxication + action.amount;
+      // Age is felt here and nowhere else: one drink is more for the young
+      // and less for the old.
+      var intoxication = p.intoxication + action.amount * p.drinkFactor;
       // Nobody is left to carry a party of one while it sleeps.
       if (alone && intoxication > kSoloCap) intoxication = kSoloCap;
       final level = IntoxicationLevel.of(intoxication);

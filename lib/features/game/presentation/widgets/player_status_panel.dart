@@ -63,136 +63,156 @@ class PlayerStatusPanel extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 38,
-                height: 38,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  // A cut stone rather than a social-app circle, lit from
-                  // the same upper left as everything else.
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      SteelPalette.steel.withValues(alpha: 0.14),
-                      Colors.black.withValues(alpha: 0.25),
-                    ],
-                  ),
-                ),
-                child: Text(
-                  player.name.isEmpty ? '?' : player.name[0].toUpperCase(),
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                    // The per-player colour survives the repaint: it is how
-                    // the table tells four cards apart at a glance, and it
-                    // is the one hue on the card that is not saying
-                    // something about rarity.
-                    color: avatarColor,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                player.name,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.6,
-                  color: SteelPalette.textHigh,
-                ),
-              ),
-              // One word under the name, never a number: «навеселе», «пьян»,
-              // «в стельку», «похмелье», «спит». A sober player gets nothing.
-              if (player.conditionWord case final word?)
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Text(
-                    word,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      fontSize: 11,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      color: InfluenceSource.drink.color,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 38,
+                    height: 38,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      // A cut stone rather than a social-app circle, lit from
+                      // the same upper left as everything else.
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          SteelPalette.steel.withValues(alpha: 0.14),
+                          Colors.black.withValues(alpha: 0.25),
+                        ],
+                      ),
+                    ),
+                    child: Text(
+                      player.name.isEmpty ? '?' : player.name[0].toUpperCase(),
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                        // The per-player colour survives the repaint: it is how
+                        // the table tells four cards apart at a glance, and it
+                        // is the one hue on the card that is not saying
+                        // something about rarity.
+                        color: avatarColor,
+                      ),
                     ),
                   ),
-                ),
-              const SizedBox(height: 8),
-              OriginRevealFlash(origin: origin),
-              if (stats.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  alignment: WrapAlignment.center,
-                  children: stats.entries
-                      .map(
-                        (entry) => StatChip(
-                          stat: entry.key,
-                          value: entry.value,
-                          compact: true,
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-              if (player.inventory.isNotEmpty ||
-                  blessings > 0 ||
-                  curses > 0) ...[
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    if (player.inventory.isNotEmpty)
-                      _CountPill(
-                        icon: InfluenceSource.item.icon,
-                        color: InfluenceSource.item.color,
-                        count: player.inventory.length,
-                        tooltip: 'Предметы',
-                      ),
-                    // Blessings and curses are the same list split by
-                    // polarity (`Player.blessings`/`curses`), and they keep
-                    // the green/red vocabulary `EffectChip` established, so
-                    // the color alone says which is which.
-                    if (blessings > 0)
-                      _CountPill(
-                        icon: Icons.auto_awesome,
-                        color: AppColors.positiveEffectColor,
-                        count: blessings,
-                        tooltip: 'Благословения',
-                      ),
-                    if (curses > 0)
-                      _CountPill(
-                        icon: Icons.dangerous_outlined,
-                        color: AppColors.negativeEffectColor,
-                        count: curses,
-                        tooltip: 'Проклятия',
-                      ),
-                  ],
-                ),
-              ],
-              if (onTap != null) ...[
-                const SizedBox(height: 10),
-                Text(
-                  'Подробнее ›',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: SteelPalette.textLow.withValues(alpha: 0.6),
+                  const SizedBox(height: 8),
+                  Text(
+                    player.name,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.6,
+                      color: SteelPalette.textHigh,
+                    ),
                   ),
+                  // One word under the name, never a number: «навеселе», «пьян»,
+                  // «в стельку», «похмелье», «спит». A sober player gets nothing.
+                  if (player.conditionWord case final word?)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        word,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontSize: 11,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                          color: InfluenceSource.drink.color,
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 8),
+                  OriginRevealFlash(origin: origin),
+                  if (stats.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      alignment: WrapAlignment.center,
+                      children: stats.entries
+                          .map(
+                            (entry) => StatChip(
+                              stat: entry.key,
+                              value: entry.value,
+                              compact: true,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                  if (player.inventory.isNotEmpty ||
+                      blessings > 0 ||
+                      curses > 0) ...[
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        if (player.inventory.isNotEmpty)
+                          _CountPill(
+                            icon: InfluenceSource.item.icon,
+                            color: InfluenceSource.item.color,
+                            count: player.inventory.length,
+                            tooltip: 'Предметы',
+                          ),
+                        // Blessings and curses are the same list split by
+                        // polarity (`Player.blessings`/`curses`), and they keep
+                        // the green/red vocabulary `EffectChip` established, so
+                        // the color alone says which is which.
+                        if (blessings > 0)
+                          _CountPill(
+                            icon: Icons.auto_awesome,
+                            color: AppColors.positiveEffectColor,
+                            count: blessings,
+                            tooltip: 'Благословения',
+                          ),
+                        if (curses > 0)
+                          _CountPill(
+                            icon: Icons.dangerous_outlined,
+                            color: AppColors.negativeEffectColor,
+                            count: curses,
+                            tooltip: 'Проклятия',
+                          ),
+                      ],
+                    ),
+                  ],
+                  if (onTap != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      'Подробнее ›',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: SteelPalette.textLow.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            // The age, as a bare number in the top left corner, small, in
+            // the panel's caption style. The top right is kept clear: a
+            // constellation sign goes there later.
+            Positioned(
+              top: 9,
+              left: 11,
+              child: Text(
+                '${player.age}',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.4,
+                  color: SteelPalette.textLow.withValues(alpha: 0.7),
                 ),
-              ],
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

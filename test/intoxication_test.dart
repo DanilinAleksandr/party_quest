@@ -47,6 +47,8 @@ const _potion = InventoryItem(
 GameController _controller(
   List<GameCard> cards, {
   List<String> players = const ['A', 'B'],
+  int? age,
+  int seed = 2,
 }) => GameController(
   playerNames: players,
   cards: cards,
@@ -55,9 +57,11 @@ GameController _controller(
   adventureCatalog: const AdventureCatalog({}),
   biomeCatalog: const BiomeCatalog({}),
   originCatalog: const OriginCatalog({}),
-  seed: 2,
+  seed: seed,
   journeySteps: null,
   skipPrologue: true,
+  // Mature unless a test says otherwise, so one drink is one.
+  ages: [for (final _ in players) age ?? kDefaultAge],
 );
 
 /// Draws and resolves one card; the fixture decks below hold exactly the
@@ -537,4 +541,189 @@ void main() {
       expect(forTheHungover, ['Попросить всех говорить потише']);
     },
   );
+
+  group('age', () {
+    const young = 24, mature = 40, elder = 58;
+
+    test('is always 20–65, over a hundred seeds', () {
+      final seen = <int>{};
+      for (var seed = 0; seed < 100; seed++) {
+        final c = GameController(
+          playerNames: const ['A', 'B', 'C', 'D', 'E', 'F'],
+          cards: const [],
+          itemCatalog: const ItemCatalog({}),
+          effectCatalog: const EffectCatalog({}),
+          adventureCatalog: const AdventureCatalog({}),
+          biomeCatalog: const BiomeCatalog({}),
+          originCatalog: const OriginCatalog({}),
+          seed: seed,
+          skipPrologue: true,
+        );
+        for (final p in c.state.players) {
+          expect(p.age, inInclusiveRange(kMinAge, kMaxAge), reason: '$seed');
+          expect(p.age, greaterThanOrEqualTo(20));
+          seen.add(p.age);
+        }
+      }
+      // Spread over the whole range, every bracket included.
+      expect(seen.map(AgeBracket.of).toSet(), AgeBracket.values.toSet());
+      expect(seen.length, greaterThan(40));
+    });
+
+    test('the same seed gives the same ages', () {
+      List<int> ages(int seed) => [
+        for (final p in _controller(
+          const [],
+          players: const ['A', 'B', 'C', 'D'],
+        ).state.players)
+          p.age,
+      ];
+      expect(rollAges(7, 4), rollAges(7, 4));
+      expect(rollAges(7, 4), isNot(rollAges(8, 4)));
+      GameController make(int seed) => GameController(
+        playerNames: const ['A', 'B', 'C', 'D'],
+        cards: const [],
+        itemCatalog: const ItemCatalog({}),
+        effectCatalog: const EffectCatalog({}),
+        adventureCatalog: const AdventureCatalog({}),
+        biomeCatalog: const BiomeCatalog({}),
+        originCatalog: const OriginCatalog({}),
+        seed: seed,
+      );
+      expect(
+        make(11).state.players.map((p) => p.age),
+        make(11).state.players.map((p) => p.age),
+      );
+      expect(make(11).state.players.map((p) => p.age), rollAges(11, 4));
+      expect(ages(2), hasLength(4));
+    });
+
+    test('falls into brackets at 30 and 50', () {
+      for (final (age, bracket) in [
+        (20, AgeBracket.young),
+        (29, AgeBracket.young),
+        (30, AgeBracket.mature),
+        (49, AgeBracket.mature),
+        (50, AgeBracket.elder),
+        (65, AgeBracket.elder),
+      ]) {
+        expect(AgeBracket.of(age), bracket, reason: '$age');
+      }
+    });
+
+    test('one drink is 1.3, 1.0 and 0.75', () {
+      for (final (age, amount) in [
+        (young, 1.3),
+        (mature, 1.0),
+        (elder, 0.75),
+      ]) {
+        final c = _controller(
+          onceThen(const [DrinkAction(target: ActionTarget.allPlayers)]),
+          age: age,
+        );
+        _play(c);
+        expect(_only(c).intoxication, closeTo(amount, 1e-9), reason: '$age');
+      }
+    });
+
+    test('the hangover lasts 3, 6 and 9 cards', () {
+      for (final (age, cards) in [(young, 3), (mature, 6), (elder, 9)]) {
+        // Enough to get everybody as far as drunk.
+        final c = _controller(
+          onceThen(const [
+            DrinkAction(amount: 4, target: ActionTarget.allPlayers),
+          ]),
+          age: age,
+        );
+        var hungover = 0;
+        for (var i = 0; i < 60; i++) {
+          _play(c);
+          final p = _only(c);
+          if (p.isHungover) {
+            hungover++;
+            if (hungover == 1) {
+              final effect = p.activeEffects.firstWhere(
+                (e) => e.id == kHangoverEffectId,
+              );
+              expect(effect.remainingTurns, cards, reason: '$age');
+            }
+          } else if (hungover > 0) {
+            break;
+          }
+        }
+        expect(hungover, cards, reason: '$age');
+      }
+    });
+
+    test('«Для храбрости» makes the young tipsy at once, the old not yet', () {
+      final bar = _card(
+        'bar',
+        choices: const [
+          CardChoice(label: 'Уйти'),
+          CardChoice(
+            label: 'Спеть',
+            conditions: [
+              IntoxicationAtLeastCondition(level: IntoxicationLevel.tipsy),
+            ],
+          ),
+        ],
+      );
+      final youngC = _controller([bar], age: young)..takeStep();
+      youngC.drinkForCourage();
+      expect(
+        youngC.state.currentPlayer.intoxicationLevel,
+        IntoxicationLevel.tipsy,
+      );
+      expect(youngC.state.pendingCard!.choices, hasLength(2));
+
+      final elderC = _controller([bar], age: elder)..takeStep();
+      elderC.drinkForCourage();
+      expect(
+        elderC.state.currentPlayer.intoxicationLevel,
+        IntoxicationLevel.sober,
+      );
+      expect(elderC.state.pendingCard!.choices, hasLength(1));
+    });
+
+    test('the bracket condition reads the current player, and round-trips', () {
+      for (final bracket in AgeBracket.values) {
+        final condition = CurrentPlayerAgeBracketCondition(bracket: bracket);
+        expect(
+          GameCondition.fromJson(condition.toJson()).toJson(),
+          condition.toJson(),
+        );
+        for (final age in [young, mature, elder]) {
+          final context = GameContext(
+            state: GameState(
+              players: [Player(id: 'p', name: 'A', age: age)],
+              currentPlayerIndex: 0,
+              status: GameStatus.inProgress,
+            ),
+            random: RandomProvider(seed: 1),
+            cardCatalog: const CardCatalog([]),
+            itemCatalog: const ItemCatalog({}),
+            effectCatalog: const EffectCatalog({}),
+            adventureCatalog: const AdventureCatalog({}),
+            biomeCatalog: const BiomeCatalog({}),
+            originCatalog: const OriginCatalog({}),
+            eventBus: GameEventBus(),
+            mode: GameMode.classic,
+          );
+          expect(
+            condition.isSatisfied(context),
+            AgeBracket.of(age) == bracket,
+            reason: '$age $bracket',
+          );
+        }
+      }
+    });
+
+    test('is saved with the player; an old save is mature', () {
+      const p = Player(id: 'p', name: 'A', age: 61);
+      expect(Player.fromJson(p.toJson()).age, 61);
+      final old = p.toJson()..remove('age');
+      expect(Player.fromJson(old).age, kDefaultAge);
+      expect(Player.fromJson(old).ageBracket, AgeBracket.mature);
+    });
+  });
 }

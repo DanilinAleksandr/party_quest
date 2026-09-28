@@ -18,9 +18,7 @@ const _longestOrigin = Origin(
   rarity: Rarity.epic,
 );
 
-const _catalog = OriginCatalog({
-  'origin_ancient_kings_heir': _longestOrigin,
-});
+const _catalog = OriginCatalog({'origin_ancient_kings_heir': _longestOrigin});
 
 Future<void> _openDialog(
   WidgetTester tester,
@@ -131,7 +129,12 @@ void main() {
             originId: 'origin_ancient_kings_heir',
           ),
         ], origins: _catalog),
-        [(source: InfluenceSource.origin, text: '👑 Наследник древних королей')],
+        [
+          (
+            source: InfluenceSource.origin,
+            text: '👑 Наследник древних королей',
+          ),
+        ],
       );
     });
 
@@ -148,16 +151,19 @@ void main() {
       );
     });
 
-    test('"someone at the table" stays generic — it may not be this player', () {
-      expect(
-        influenceTagsOf([
-          const AnyPlayerHasOriginCondition(
-            originId: 'origin_ancient_kings_heir',
-          ),
-        ], origins: _catalog).single.text,
-        'Происхождение',
-      );
-    });
+    test(
+      '"someone at the table" stays generic — it may not be this player',
+      () {
+        expect(
+          influenceTagsOf([
+            const AnyPlayerHasOriginCondition(
+              originId: 'origin_ancient_kings_heir',
+            ),
+          ], origins: _catalog).single.text,
+          'Происхождение',
+        );
+      },
+    );
 
     test('every other source keeps its category word', () {
       expect(
@@ -168,34 +174,43 @@ void main() {
         ['Предмет', 'Союзник'],
       );
     });
+
+    test('an age-gated option carries the «Возраст» badge', () {
+      final tags = influenceTagsOf(const [
+        CurrentPlayerAgeBracketCondition(bracket: AgeBracket.elder),
+      ]);
+      expect(tags.single.source, InfluenceSource.age);
+      expect(tags.single.text, 'Возраст');
+    });
   });
 
   group('dialog rendering', () {
-    testWidgets('a gated option is labelled with its source, a plain one is not', (
-      tester,
-    ) async {
-      const card = GameCard(
-        id: 'c',
-        title: 'Всадники из-за бархана',
-        description: 'Из-за бархана появляются всадники.',
-        type: CardType.event,
-        rarity: Rarity.common,
-        weight: 1,
-        choices: [
-          CardChoice(
-            label: 'Протянуть флягу',
-            conditions: [CurrentPlayerHasItemCondition(itemId: 'item_flask')],
-          ),
-          CardChoice(label: 'Сражаться'),
-        ],
-      );
+    testWidgets(
+      'a gated option is labelled with its source, a plain one is not',
+      (tester) async {
+        const card = GameCard(
+          id: 'c',
+          title: 'Всадники из-за бархана',
+          description: 'Из-за бархана появляются всадники.',
+          type: CardType.event,
+          rarity: Rarity.common,
+          weight: 1,
+          choices: [
+            CardChoice(
+              label: 'Протянуть флягу',
+              conditions: [CurrentPlayerHasItemCondition(itemId: 'item_flask')],
+            ),
+            CardChoice(label: 'Сражаться'),
+          ],
+        );
 
-      await _openDialog(tester, card);
+        await _openDialog(tester, card);
 
-      expect(find.text('Протянуть флягу'), findsOneWidget);
-      expect(find.text('Сражаться'), findsOneWidget);
-      expect(find.text('Предмет'), findsOneWidget);
-    });
+        expect(find.text('Протянуть флягу'), findsOneWidget);
+        expect(find.text('Сражаться'), findsOneWidget);
+        expect(find.text('Предмет'), findsOneWidget);
+      },
+    );
 
     testWidgets('a whole event gated by world memory says so', (tester) async {
       const card = GameCard(

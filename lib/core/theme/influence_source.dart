@@ -53,7 +53,11 @@ enum InfluenceSource {
     label: 'Хмель',
     icon: Icons.sports_bar_outlined,
     color: Color(0xFFC4A23E),
-  );
+  ),
+
+  /// ⏳ How old the one choosing is: an answer only the young would give,
+  /// or one that takes years.
+  age(label: 'Возраст', icon: Icons.hourglass_bottom, color: Color(0xFFC4838F));
 
   const InfluenceSource({
     required this.label,
