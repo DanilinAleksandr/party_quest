@@ -29,7 +29,9 @@ final class EffectLifecycle {
         }
       }
 
-      if (expired.isEmpty) continue;
+      // Saved whenever there was anything to tick, not only when something
+      // ran out — otherwise a count never gets below where it started.
+      if (player.activeEffects.isEmpty) continue;
 
       final updatedPlayer = player.copyWith(activeEffects: kept);
       final updatedPlayers = next.players

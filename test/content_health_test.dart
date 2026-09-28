@@ -32,7 +32,9 @@ void main() {
     AnyPlayerHasOriginCondition _ ||
     CurrentPlayerLacksOriginCondition _ ||
     AnyPlayerMissingOriginCondition _ ||
-    CurrentPlayerOriginUnknownCondition _ => 'origin',
+    CurrentPlayerOriginUnknownCondition _ ||
+    // Age is who the character is, the way an origin is.
+    CurrentPlayerAgeBracketCondition _ => 'origin',
     CurrentPlayerHasItemCondition _ ||
     PartyHasItemCondition _ ||
     AnyPlayerHasItemCondition _ ||

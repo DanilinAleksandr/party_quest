@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'player.dart';
 import 'stat_type.dart';
 
@@ -55,6 +57,67 @@ const int kRestSoberingFactor = 3;
 /// read from here, like the levels' shifts.
 const String kHangoverEffectId = 'effect_hangover';
 
+/// How old a character is, as far as the drink is concerned — the only
+/// thing age does. Older drinks more before it shows but pays longer for
+/// it; younger shows it at once and shakes it off. Shown at the table as a
+/// number only, never as the bracket.
+enum AgeBracket {
+  young,
+  mature,
+  elder;
+
+  static AgeBracket of(int age) {
+    if (age >= kElderFrom) return elder;
+    if (age >= kMatureFrom) return mature;
+    return young;
+  }
+
+  static AgeBracket fromJson(String value) => AgeBracket.values.byName(value);
+
+  String toJson() => name;
+}
+
+/// Every character is a grown-up: this is a game about drinking, and no
+/// age below [kMinAge] can ever be rolled.
+const int kMinAge = 20;
+const int kMaxAge = 65;
+
+/// Where the brackets begin: young 20–29, mature 30–49, elder 50–65.
+const int kMatureFrom = 30;
+const int kElderFrom = 50;
+
+/// The age of a character with none on record — a save from before ages,
+/// or a test that does not care. Mature, so nothing about the drink moves.
+const int kDefaultAge = 35;
+
+/// What one drink amounts to, by bracket. Applies to every `drink` — «Для
+/// храбрости» and the hair of the dog alike; sobering and the thresholds
+/// do not change.
+const Map<AgeBracket, double> kDrinkFactor = {
+  AgeBracket.young: 1.3,
+  AgeBracket.mature: 1.0,
+  AgeBracket.elder: 0.75,
+};
+
+/// How many cards the hangover lasts, by bracket. What it does to the stats
+/// is the same for everybody — see [kHangoverShifts].
+const Map<AgeBracket, int> kHangoverCards = {
+  AgeBracket.young: 3,
+  AgeBracket.mature: 6,
+  AgeBracket.elder: 9,
+};
+
+/// The party's ages, one per player, from the match's seed. A generator of
+/// their own rather than draws from the match's shared one, so adding ages
+/// shifted none of the cards, duels and season an existing seed replays.
+List<int> rollAges(int matchSeed, int count) {
+  final random = Random(matchSeed ^ 0x0A6E5EED);
+  return [
+    for (var i = 0; i < count; i++)
+      kMinAge + random.nextInt(kMaxAge - kMinAge + 1),
+  ];
+}
+
 /// How each level shifts the stats a check reads. Luck is never touched —
 /// it was only just made scarce, and a drink is not a way back to it.
 const Map<IntoxicationLevel, Map<StatType, int>> kIntoxicationShifts = {
@@ -93,6 +156,25 @@ extension IntoxicationOf on Player {
   bool get isHungover => activeEffects.any((e) => e.id == kHangoverEffectId);
 
   bool get isPassedOut => passedOutCards > 0;
+
+  AgeBracket get ageBracket => AgeBracket.of(age);
+
+  /// What one drink amounts to for this character.
+  double get drinkFactor => kDrinkFactor[ageBracket]!;
+
+  /// How many cards this character's hangover lasts.
+  int get hangoverCards => kHangoverCards[ageBracket]!;
+
+  /// The hangover just applied from the catalog, set to this character's
+  /// length of it.
+  Player withHangoverForAge() => copyWith(
+    activeEffects: [
+      for (final e in activeEffects)
+        e.id == kHangoverEffectId
+            ? e.copyWith(duration: hangoverCards, remainingTurns: hangoverCards)
+            : e,
+    ],
+  );
 
   /// Every shift in force right now, level and hangover together.
   Map<StatType, int> get intoxicationShifts {

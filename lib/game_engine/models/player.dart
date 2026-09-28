@@ -1,5 +1,6 @@
 import 'effect.dart';
 import 'effect_polarity.dart';
+import 'intoxication.dart';
 import 'inventory_item.dart';
 import 'player_stats.dart';
 
@@ -23,10 +24,14 @@ import 'player_stats.dart';
 /// the number. [wasDrunk] remembers the character got as far as drunk, so
 /// coming back down below it brings the hangover; [passedOutCards] counts
 /// down the cards a character sleeps through.
+///
+/// [age] is rolled at the start of a match, 20–65, and works only through
+/// the drink — see `AgeBracket`.
 final class Player {
   final String id;
   final String name;
   final String? originId;
+  final int age;
   final List<InventoryItem> inventory;
   final PlayerStats stats;
   final List<GameEffect> activeEffects;
@@ -38,6 +43,7 @@ final class Player {
     required this.id,
     required this.name,
     this.originId,
+    this.age = kDefaultAge,
     this.inventory = const [],
     this.stats = PlayerStats.initial,
     this.activeEffects = const [],
@@ -58,6 +64,7 @@ final class Player {
     String? id,
     String? name,
     String? originId,
+    int? age,
     List<InventoryItem>? inventory,
     PlayerStats? stats,
     List<GameEffect>? activeEffects,
@@ -69,6 +76,7 @@ final class Player {
       id: id ?? this.id,
       name: name ?? this.name,
       originId: originId ?? this.originId,
+      age: age ?? this.age,
       inventory: inventory ?? this.inventory,
       stats: stats ?? this.stats,
       activeEffects: activeEffects ?? this.activeEffects,
@@ -82,6 +90,7 @@ final class Player {
     id: json['id'] as String,
     name: json['name'] as String,
     originId: json['originId'] as String?,
+    age: json['age'] as int? ?? kDefaultAge,
     inventory: (json['inventory'] as List<dynamic>? ?? const [])
         .map((e) => InventoryItem.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -100,6 +109,7 @@ final class Player {
     'id': id,
     'name': name,
     'originId': originId,
+    'age': age,
     'inventory': inventory.map((i) => i.toJson()).toList(),
     'stats': stats.toJson(),
     'activeEffects': activeEffects.map((e) => e.toJson()).toList(),

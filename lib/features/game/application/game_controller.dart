@@ -112,6 +112,9 @@ class GameController extends StateNotifier<GameState> {
     // JourneyPhase.journey, the same way `seed` exists so tests can pin
     // randomness rather than because a real match ever wants to.
     bool skipPrologue = false,
+    // Rolled from the seed in a real match; tests about the drink pin them
+    // so one drink is one.
+    List<int>? ages,
   }) : stepsToWin = journeySteps,
        super(GameState.newGame(playerNames)) {
     _dispatcher = EventDispatcher(_executor);
@@ -134,9 +137,14 @@ class GameController extends StateNotifier<GameState> {
     // engine makes. Nothing ever changes it again after this (see
     // `WorldState.currentSeason`).
     final season = Season.values[_context.random.nextInt(Season.values.length)];
+    ages ??= rollAges(_context.random.seed, _context.players.length);
     _context = _context.withState(
       _context.state.copyWith(
         worldState: _context.state.worldState.copyWith(currentSeason: season),
+        players: [
+          for (final (i, p) in _context.players.indexed)
+            p.copyWith(age: ages[i]),
+        ],
       ),
     );
     if (skipPrologue) {
@@ -592,10 +600,11 @@ class GameController extends StateNotifier<GameState> {
           wasDrunk: false,
         );
       }
-      // Tenths, kept as tenths: float drift must never turn ten cards of
-      // sobering into nine and a bit.
+      // Hundredths, kept as hundredths: float drift must never turn ten
+      // cards of sobering into nine and a bit. Hundredths rather than tenths,
+      // because an old hand's drink is 0.75.
       final raw = player.intoxication - wearsOff;
-      final intoxication = raw <= 0 ? 0.0 : (raw * 10).round() / 10;
+      final intoxication = raw <= 0 ? 0.0 : (raw * 100).round() / 100;
       if (player.wasDrunk && intoxication < kDrunkAt) {
         if (!resting) hangovers.add(player.id);
         return player.copyWith(intoxication: intoxication, wasDrunk: false);
@@ -612,6 +621,14 @@ class GameController extends StateNotifier<GameState> {
           const [ApplyEffectAction(effectId: kHangoverEffectId)],
           id,
           ctx,
+        );
+        ctx = ctx.withState(
+          ctx.state.copyWith(
+            players: [
+              for (final p in ctx.players)
+                p.id == id ? p.withHangoverForAge() : p,
+            ],
+          ),
         );
       }
     }
