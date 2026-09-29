@@ -26,6 +26,9 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// before the animation starts, so what lands here is what happens next
 /// rather than a decorative spin followed by an unrelated verdict.
 ///
+/// [spinner] forces a throw to come down spinning on its edge, or not; left
+/// null, about one in three do. It changes only how the coin gets there.
+///
 /// [edge] is the rare third way down: the coin comes to rest standing on
 /// its milled edge, rocks, and stays there. It favours the thrower
 /// whatever was called, so [passed] is true with it.
@@ -47,6 +50,7 @@ Future<void> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
   bool edge = false,
+  bool? spinner,
   List<String>? sides,
   int? calledIndex,
   String? challenger,
@@ -60,6 +64,7 @@ Future<void> showChanceCheckDialog({
     content: _RollBody(
       passed: passed || edge,
       edge: edge,
+      spinner: spinner,
       sides: sides,
       calledIndex: calledIndex,
       challenger: challenger,
@@ -72,6 +77,7 @@ Future<void> showChanceCheckDialog({
 class _RollBody extends StatefulWidget {
   final bool passed;
   final bool edge;
+  final bool? spinner;
   final List<String>? sides;
   final int? calledIndex;
   final String? challenger;
@@ -80,6 +86,7 @@ class _RollBody extends StatefulWidget {
   const _RollBody({
     required this.passed,
     this.edge = false,
+    this.spinner,
     this.sides,
     this.calledIndex,
     this.challenger,
@@ -92,39 +99,34 @@ class _RollBody extends StatefulWidget {
 
 class _RollBodyState extends State<_RollBody>
     with SingleTickerProviderStateMixin {
-  static const _throw = Duration(milliseconds: 2000);
-
-  /// Whole half-turns before it lands. Even, so the coin finishes showing
-  /// the same face it started on, which lets the starting face be chosen
-  /// from the outcome instead of the turn count having to be tuned per
-  /// result. The simulation below is built to travel exactly this far — or,
-  /// for a coin that stands on its edge, half a turn more than that.
-  static const _halfTurns = 8;
+  /// Whole half-turns in the air. Even, so a coin that falls flat finishes
+  /// showing the same face it started on, which lets the starting face be
+  /// chosen from the outcome instead of the turn count having to be tuned
+  /// per result. The simulation below is built to travel exactly this far —
+  /// or, for a coin that comes down on its edge to spin, half a turn more.
+  static const _halfTurns = 10;
 
   /// How long the coin is off the table, and how high it gets, in seconds
   /// and logical pixels. Everything else about the arc follows from these
   /// two: a toss that peaks at [_peak] and lands after [_flight] needs
   /// `g = 8·peak/flight²` and a launch speed of `g·flight/2`.
-  static const _flight = 1.35;
-  static const _peak = 34.0;
+  static const _flight = 2.0;
+  static const _peak = 50.0;
   static const _gravity = 8 * _peak / (_flight * _flight);
 
-  /// The hop it makes on landing, as a fraction of the launch speed. Real
-  /// enough to see it settle rather than stick, small enough not to read as
-  /// a second toss.
+  /// The hop it makes on landing flat, as a fraction of the launch speed.
+  /// Real enough to see it settle rather than stick, small enough not to
+  /// read as a second toss.
   static const _rebound = 0.34;
+  static const _hopTime = _flight * _rebound;
 
-  /// When the hop is over and the coin is down for good.
-  static const _landed = _flight * (1 + _rebound);
+  /// After a flat landing, and after a spin has clattered down, the coin
+  /// lies still for this long before the verdict.
+  static const _rest = 0.3;
 
-  /// A coin on its edge rocks for this long after landing, and then stands
-  /// still for [_edgeHold] before the verdict, so the table has time to see
-  /// it standing.
-  static const _edgeRock = 1.5;
+  /// A coin standing on its edge stays standing this long before the
+  /// verdict, so the table has time to see it.
   static const _edgeHold = 1.0;
-  static final _edgeThrow = Duration(
-    milliseconds: ((_landed + _edgeRock + _edgeHold) * 1000).round(),
-  );
 
   /// Both arcs measure downward from the table, which is where
   /// [GravitySimulation] puts its origin: the coin starts at 0 moving up,
@@ -142,18 +144,30 @@ class _RollBodyState extends State<_RollBody>
     -_gravity * _flight / 2 * _rebound,
   );
 
-  /// Angular speed with drag on it, rather than a curve pretending to be
-  /// one. A [FrictionSimulation] loses a fixed fraction of its speed per
-  /// second, so the total distance it will ever cover is `-v/ln(drag)` —
-  /// run that backwards to launch it at exactly the speed that spends
-  /// [_halfTurns] and no more.
-  static const _drag = 0.1;
-  static FrictionSimulation _spinFor(double halfTurns) =>
-      FrictionSimulation(_drag, 0, -halfTurns * math.log(_drag));
-  static final _spin = _spinFor(_halfTurns.toDouble());
-  static final _edgeSpin = _spinFor(_halfTurns + 0.5);
+  /// How far through its turns the coin is, 0..1, at [seconds] in the air:
+  /// a brisk, nearly even spin that eases off to nothing just as it lands,
+  /// so it neither hangs lifeless at the top of a long toss nor has turns
+  /// left over to snap through once it is down.
+  static double _turned(double seconds) {
+    final x = (seconds / _flight).clamp(0.0, 1.0);
+    return 1 - math.pow(1 - x, 1.5).toDouble();
+  }
 
-  late final Duration _duration = widget.edge ? _edgeThrow : _throw;
+  /// Whether this throw comes down spinning on its edge like a disc on a
+  /// table — about one in three, and every time the coin is going to stand
+  /// — and for how long it spins. Only how it looks: the face it ends on
+  /// is the one already thrown.
+  late final math.Random _random = math.Random();
+  late final bool _spins =
+      widget.edge || (widget.spinner ?? _random.nextInt(3) == 0);
+  late final double _spinTime = 1.5 + _random.nextDouble();
+
+  late final double _seconds = _spins
+      ? _flight + _spinTime + (widget.edge ? _edgeHold : _rest)
+      : _flight + _hopTime + _rest;
+  late final Duration _duration = Duration(
+    milliseconds: (_seconds * 1000).round(),
+  );
 
   late final AnimationController _controller = AnimationController(
     vsync: this,
@@ -166,39 +180,68 @@ class _RollBodyState extends State<_RollBody>
     super.dispose();
   }
 
-  /// Height above the table at [seconds]: the toss, then the hop, then
-  /// still.
-  double _height(double seconds) {
-    if (seconds < _flight) return -_toss.x(seconds);
-    final since = seconds - _flight;
-    if (since < _flight * _rebound) return -_hop.x(since);
-    return 0;
-  }
-
-  /// How far the coin has turned about its horizontal axis, in radians: 0
-  /// is a face square to the table's eye, π/2 the coin standing on edge.
+  /// Where the coin is at [seconds]: how high, how far it has turned about
+  /// its horizontal axis (0 is a face square to the eye, π/2 standing on
+  /// edge), how far it has wheeled about the eye's own axis while spinning,
+  /// and how far it has rolled off centre.
   ///
-  /// Friction leaves the last fraction of a degree unspent, so the settled
-  /// frame is squared up by hand rather than left to land on exactly even
-  /// by luck.
-  double _angle(double seconds, {required bool settled}) {
-    if (!widget.edge) {
-      return settled ? 0 : math.pi * _spin.x(seconds);
+  /// At rest everything is squared up by hand rather than left to land on
+  /// exactly even by luck.
+  _Pose _pose(double seconds, {required bool settled}) {
+    if (settled) {
+      return _Pose(angle: widget.edge ? math.pi / 2 : 0);
     }
-    if (settled) return math.pi / 2;
-    var angle = math.pi * _edgeSpin.x(seconds);
-    // Down on its edge, it rocks from side to side and dies away: two or
-    // three swings, each smaller than the last.
-    final since = seconds - _landed;
-    if (since > 0) {
-      final fade = math.exp(-since / 0.42);
-      angle += 0.42 * fade * math.sin(2 * math.pi * since / 0.52);
-      // What is left of the spin is folded into the rock, so it comes to
-      // rest exactly upright rather than a degree off.
-      final rest = math.pi * (_halfTurns + 0.5);
-      angle = rest + (angle - rest) * math.min(1, fade * 3);
+    if (!_spins) {
+      final lift = seconds < _flight
+          ? -_toss.x(seconds)
+          : seconds < _flight + _hopTime
+          ? -_hop.x(seconds - _flight)
+          : 0.0;
+      return _Pose(lift: lift, angle: math.pi * _halfTurns * _turned(seconds));
     }
-    return angle;
+    if (seconds < _flight) {
+      return _Pose(
+        lift: -_toss.x(seconds),
+        angle: math.pi * (_halfTurns + 0.5) * _turned(seconds),
+      );
+    }
+    // Down on its edge, spinning. Upright is half a turn past the throw's
+    // even count; flat on the right face is half a turn back from there.
+    const upright = math.pi * (_halfTurns + 0.5);
+    final u = math.min(1.0, (seconds - _flight) / _spinTime);
+    if (u >= 1) {
+      if (widget.edge) return const _Pose(angle: upright);
+      // Lying flat after the clatter, a last quick shiver.
+      final since = seconds - _flight - _spinTime;
+      final shiver =
+          0.07 * math.exp(-since / 0.07) * math.sin(2 * math.pi * since * 14);
+      return _Pose(angle: upright - math.pi / 2 + shiver);
+    }
+    final double lean;
+    final double wheel;
+    if (widget.edge) {
+      // Starts leaning like any other spin, then rights itself, slows and
+      // stops standing — nobody can tell until the last second.
+      lean = 0.42 * math.sin(math.pi * u) * (1 - 0.35 * u);
+      wheel = math.pi * 3 * (1 - math.pow(1 - u, 2));
+    } else {
+      // Euler's disk: the lean grows faster and faster, and the wheeling
+      // with it, until it slaps down flat. The wheeling is scaled to end on
+      // a whole turn, so the face lies square when it lands.
+      lean = math.pi / 2 * math.pow(u, 2.2);
+      const c = 0.96;
+      final g = 1 - math.sqrt(1 - c * u);
+      final g1 = 1 - math.sqrt(1 - c);
+      wheel = 2 * math.pi * 4 * g / g1;
+    }
+    // The rattle: a flutter in the lean whose pace follows the wheeling.
+    final rattle = 0.035 * u * math.sin(3 * wheel);
+    final roll = 4 * math.sin(lean);
+    return _Pose(
+      angle: upright - lean + rattle,
+      wheel: wheel,
+      drift: Offset(math.cos(wheel), math.sin(wheel)) * roll,
+    );
   }
 
   /// Which face the coin is showing once it stops.
@@ -241,26 +284,29 @@ class _RollBodyState extends State<_RollBody>
         // two simulations, read at the elapsed time in seconds.
         final seconds = _controller.value * _duration.inMilliseconds / 1000;
         final settled = _controller.isCompleted;
-        final angle = _angle(seconds, settled: settled);
+        final pose = _pose(seconds, settled: settled);
         // Which face is turned towards the table's eye; its sign flips once
         // per half-turn.
-        final showingBack = math.cos(angle) < 0;
+        final showingBack = math.cos(pose.angle) < 0;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 132,
-              child: Center(
+              height: 172,
+              child: Align(
+                alignment: const Alignment(0, 0.5),
                 child: Transform.translate(
                   // Thrown, not eased: a parabola under gravity, and a small
-                  // second one when it lands.
-                  offset: Offset(0, -_height(seconds)),
+                  // second one when it lands flat.
+                  offset: pose.drift + Offset(0, -pose.lift),
                   child: _SolidCoin(
-                    angle: angle,
-                    // The spin ends on an even half-turn, so at rest this is
-                    // exactly `_restingFace` — which is the point: the coin
-                    // is started on whichever side it must finish on.
+                    angle: pose.angle,
+                    wheel: pose.wheel,
+                    // A flat landing ends on an even half-turn, so at rest
+                    // this is exactly `_restingFace` — which is the point:
+                    // the coin is started on whichever side it must finish
+                    // on.
                     face: showingBack != _restingFace,
                     settled: settled,
                   ),
@@ -365,7 +411,7 @@ class _Verdict extends StatelessWidget {
     );
 
     return SizedBox(
-      height: (isDuel ? 62 : 34) + (edge ? 24 : 0),
+      height: (isDuel ? 62 : 34) + (edge ? 34 : 0),
       child: settled
           ? TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: 1),
@@ -414,6 +460,21 @@ class _Verdict extends StatelessWidget {
   }
 }
 
+/// One frame of the coin's motion. See [_RollBodyState._pose].
+final class _Pose {
+  final double lift;
+  final double angle;
+  final double wheel;
+  final Offset drift;
+
+  const _Pose({
+    this.lift = 0,
+    required this.angle,
+    this.wheel = 0,
+    this.drift = Offset.zero,
+  });
+}
+
 /// The coin as a solid: two struck faces and the milled edge between them.
 ///
 /// It turns about its horizontal axis in real perspective. The face turned
@@ -424,6 +485,10 @@ class _Verdict extends StatelessWidget {
 class _SolidCoin extends StatelessWidget {
   final double angle;
 
+  /// How far it has wheeled about the eye's axis — a spinning coin's
+  /// precession, seen from above.
+  final double wheel;
+
   /// True is the Jester's side, false the King's — the two entries of a
   /// card's `sides` in order.
   final bool face;
@@ -431,6 +496,7 @@ class _SolidCoin extends StatelessWidget {
 
   const _SolidCoin({
     required this.angle,
+    this.wheel = 0,
     required this.face,
     required this.settled,
   });
@@ -443,13 +509,14 @@ class _SolidCoin extends StatelessWidget {
   /// A little perspective, enough for the near edge to read as nearer.
   static const double _perspective = 0.003;
 
-  static Matrix4 matrixFor(double angle) => Matrix4.identity()
+  static Matrix4 matrixFor(double angle, double wheel) => Matrix4.identity()
     ..setEntry(3, 2, _perspective)
+    ..rotateZ(wheel)
     ..rotateX(angle);
 
   @override
   Widget build(BuildContext context) {
-    final matrix = matrixFor(angle);
+    final matrix = matrixFor(angle, wheel);
     // The near face sits at whichever end of the coin is closer: the King's
     // end while the King looks up, the other once it has turned over.
     final nearZ = math.cos(angle) >= 0 ? -thickness / 2 : thickness / 2;
@@ -464,6 +531,7 @@ class _SolidCoin extends StatelessWidget {
             size: const Size.square(diameter),
             painter: _EdgePainter(
               angle: angle,
+              wheel: wheel,
               radius: diameter / 2,
               half: thickness / 2,
               matrix: matrix,
@@ -486,12 +554,14 @@ class _SolidCoin extends StatelessWidget {
 /// along it as the coin turns, and crossed by fine light reeding.
 class _EdgePainter extends CustomPainter {
   final double angle;
+  final double wheel;
   final double radius;
   final double half;
   final Matrix4 matrix;
 
   _EdgePainter({
     required this.angle,
+    required this.wheel,
     required this.radius,
     required this.half,
     required this.matrix,
@@ -509,7 +579,7 @@ class _EdgePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final centre = size.center(Offset.zero);
-    final rotation = Matrix4.rotationX(angle);
+    final rotation = Matrix4.rotationZ(wheel)..rotateX(angle);
 
     Offset project(double x, double y, double z) {
       final v = matrix.perspectiveTransform(Vector3(x, y, z));
@@ -575,7 +645,7 @@ class _EdgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _EdgePainter oldDelegate) =>
-      oldDelegate.angle != angle;
+      oldDelegate.angle != angle || oldDelegate.wheel != wheel;
 }
 
 /// The lot-casting coin, struck with a King on one side and a Jester on the

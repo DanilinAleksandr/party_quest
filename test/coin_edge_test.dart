@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/widgets/chance_check_dialog.dart';
@@ -255,6 +256,74 @@ void main() {
       expect(find.text('Аня и Боря'), findsOneWidget);
       expect(find.text('Ребро'), findsOneWidget);
       expect(find.textContaining('Платит'), findsNothing);
+    });
+  });
+
+  group('a coin that spins on its edge', () {
+    Future<void> spin(
+      WidgetTester tester, {
+      required bool passed,
+      List<String>? sides,
+      int? calledIndex,
+    }) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => ElevatedButton(
+              onPressed: () => showChanceCheckDialog(
+                context: context,
+                passed: passed,
+                spinner: true,
+                sides: sides,
+                calledIndex: calledIndex,
+              ),
+              child: const Text('gamble'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('gamble'));
+      await tester.pump();
+    }
+
+    String face(WidgetTester tester) {
+      final svg = tester.widget<SvgPicture>(find.byType(SvgPicture));
+      return (svg.bytesLoader as SvgAssetLoader).assetName;
+    }
+
+    testWidgets('says nothing while it spins', (tester) async {
+      await spin(tester, passed: true);
+      // Down after two seconds in the air, and spinning for at least 1.5.
+      await tester.pump(const Duration(milliseconds: 3000));
+      expect(find.text('Обошлось'), findsNothing);
+      await tester.pumpAndSettle();
+      expect(find.text('Обошлось'), findsOneWidget);
+    });
+
+    testWidgets('a check that held falls on the King', (tester) async {
+      await spin(tester, passed: true);
+      await tester.pumpAndSettle();
+      expect(face(tester), contains('coin_king'));
+    });
+
+    testWidgets('a check that failed falls on the Jester', (tester) async {
+      await spin(tester, passed: false);
+      await tester.pumpAndSettle();
+      expect(face(tester), contains('coin_jester'));
+    });
+
+    testWidgets('a called wager lands on the side the call needs', (
+      tester,
+    ) async {
+      await spin(
+        tester,
+        passed: true,
+        sides: const ['Король', 'Шут'],
+        calledIndex: 1,
+      );
+      await tester.pumpAndSettle();
+      expect(face(tester), contains('coin_jester'));
+      expect(find.text('Ставка: Шут  ·  Выпало: Шут'), findsOneWidget);
     });
   });
 }
