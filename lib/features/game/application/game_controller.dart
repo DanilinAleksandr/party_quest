@@ -513,6 +513,12 @@ class GameController extends StateNotifier<GameState> {
     return won ? CoinThrow.win : CoinThrow.lose;
   }
 
+  /// How the next watched throw looks — from the match's seed, so a replay
+  /// throws the same, and from a stream of its own, so drawing it moves no
+  /// card or face.
+  CoinStyle coinStyle() =>
+      CoinStyle.of(_context.random.nextStyle(CoinStyle.count));
+
   /// The chronicle's line for a coin that stood on its edge in [action] —
   /// null when [action] is not the watched throw.
   String? _edgeChronicleLine(

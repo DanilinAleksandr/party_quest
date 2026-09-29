@@ -10,6 +10,7 @@ import 'package:drinking_quest/features/game/presentation/scene_strip/scene_stri
 import 'package:drinking_quest/features/game/application/auto_walk_timer.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/game_screen.dart';
+import 'package:drinking_quest/features/game/presentation/widgets/continue_journey_button.dart';
 import 'package:drinking_quest/features/settings/application/walk_settings.dart';
 import 'package:drinking_quest/game_engine/data/content_providers.dart';
 import 'package:drinking_quest/game_engine/logic/logic.dart';
@@ -343,19 +344,27 @@ void main() {
       expect(controller.state.pendingCard?.id, 'gift');
     });
 
-    testWidgets('a change of biome does not hold the next card', (
+    List<GameCard> biomeCards() => [
+      _card(
+        'move',
+        conditions: const [MaximumStepCondition(steps: 1)],
+        actions: const [SetBiomeAction(biomeId: 'mountains')],
+      ),
+      _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
+    ];
+
+    testWidgets('walking into a new biome, the next card waits 7 s', (
       tester,
     ) async {
-      final controller = _controller(
-        cards: [
-          _card(
-            'move',
-            conditions: const [MaximumStepCondition(steps: 1)],
-            actions: const [SetBiomeAction(biomeId: 'mountains')],
-          ),
-          _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
-        ],
-      );
+      final controller = _controller(cards: biomeCards());
+      DateTime? changed, drawn;
+      controller.addListener((state) {
+        final now = tester.binding.clock.now();
+        if (changed == null && state.worldState.currentBiomeId == 'mountains') {
+          changed = now;
+        }
+        if (drawn == null && state.pendingCard?.id == 'road') drawn = now;
+      }, fireImmediately: false);
       await _pumpGame(
         tester,
         controller,
@@ -364,17 +373,41 @@ void main() {
       await tester.tap(find.text(_start));
       await tester.pump();
       await _dismissCard(tester);
-      expect(controller.state.worldState.currentBiomeId, 'mountains');
-      expect(controller.state.pendingCard, isNull);
+      expect(changed, isNotNull);
 
-      // The countdown is a second, and the card comes on it — the old road
-      // still driving off, to finish after.
-      for (var i = 0; i < 30 && controller.state.pendingCard == null; i++) {
+      // The countdown is a second, but the party walks into the new biome
+      // first: nothing before seven.
+      for (var i = 0; i < 200 && drawn == null; i++) {
         await tester.pump(const Duration(milliseconds: 50));
       }
-      expect(controller.state.pendingCard?.id, 'road');
-      final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
-      expect(strip.world!.streams.any((s) => s.done), isTrue);
+      expect(drawn, isNotNull);
+      final waited = drawn!.difference(changed!);
+      expect(waited, greaterThanOrEqualTo(const Duration(seconds: 7)));
+      expect(waited, lessThan(const Duration(milliseconds: 8500)));
+    });
+
+    testWidgets('by hand, the step waits out the walk into a new biome', (
+      tester,
+    ) async {
+      final controller = _controller(cards: biomeCards());
+      await _pumpGame(
+        tester,
+        controller,
+        const WalkSettings(mode: WalkMode.manual),
+      );
+      await tester.tap(find.text(_start));
+      await tester.pump();
+      await _dismissCard(tester);
+      expect(controller.state.worldState.currentBiomeId, 'mountains');
+
+      ContinueJourneyButton button() => tester.widget<ContinueJourneyButton>(
+        find.byType(ContinueJourneyButton),
+      );
+      expect(button().onPressed, isNull);
+      await tester.pump(const Duration(seconds: 6));
+      expect(button().onPressed, isNull);
+      await tester.pump(const Duration(milliseconds: 1100));
+      expect(button().onPressed, isNotNull);
     });
   });
 

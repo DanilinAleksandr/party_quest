@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/walk_settings.dart';
+import 'debug_coin_screen.dart';
 
 /// How the party walks, and the icon attribution.
 ///
@@ -76,6 +78,31 @@ class SettingsScreen extends ConsumerWidget {
                 label: '${walk.restInterval}',
                 onChanged: (value) => notifier.setRestInterval(value.round()),
               ),
+              // A bench for the developer and whoever tunes the game; a
+              // release build never shows it.
+              if (kDebugMode) ...[
+                const SizedBox(height: 20),
+                Text(
+                  'ОТЛАДКА',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.6,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.toll_outlined),
+                  title: const Text('Монета'),
+                  subtitle: const Text('Бросить к нужному исходу'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const DebugCoinScreen(),
+                    ),
+                  ),
+                ),
+              ],
               const Spacer(),
               Divider(color: theme.colorScheme.outlineVariant),
               const SizedBox(height: 16),
