@@ -7,10 +7,11 @@ import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 import '../../../../game_engine/models/models.dart';
 
-/// One frame of a throw: how high the coin is, how far it has turned about
-/// its horizontal axis (0 is a face square to the eye, π/2 standing on
-/// edge), how far it has wheeled about the eye's own axis, and how far it
-/// has rolled off its spot.
+/// One frame of a throw, in the world of the table: how high the coin is
+/// above where it would rest, how far it has turned about the table's
+/// left-right axis ([angle]: 0 is lying King-side up, π/2 standing on its
+/// edge), how far it has wheeled about the upright ([wheel]), and where on
+/// the table it is ([drift]: across, and towards the eye).
 final class CoinPose {
   final double lift;
   final double angle;
@@ -40,12 +41,35 @@ enum CoinBeat {
   freeze,
 }
 
+/// The one camera every throw is seen through: above the table and in
+/// front of it, looking down at [elevation] — so a coin lying flat is an
+/// ellipse, a coin in the air shows its faces and its edge as it turns,
+/// and nothing about the view changes from the toss to the rest.
+abstract final class CoinCamera {
+  static const double elevation = 37 * math.pi / 180;
+
+  /// A little perspective, enough for the near edge to read as nearer.
+  static const double perspective = 0.0028;
+
+  /// World (x across, y up, z towards the eye) to the screen's (x right,
+  /// y down, z into the screen).
+  static final Matrix4 view = Matrix4.identity()
+    ..setEntry(1, 1, -math.cos(elevation))
+    ..setEntry(1, 2, math.sin(elevation))
+    ..setEntry(2, 1, -math.sin(elevation))
+    ..setEntry(2, 2, -math.cos(elevation));
+
+  static final Matrix4 projection = Matrix4.identity()
+    ..setEntry(3, 2, perspective);
+}
+
 /// The whole of one throw, worked out in advance from its [style]: where
 /// the coin is at any moment, how long it takes, and when it knocks.
 ///
 /// Pure arithmetic, so a test can ask any variant where it ends up. Every
-/// variant ends where the throw came down: flat on the face it started on
-/// (the half-turns are even), or, for an [edge], standing.
+/// variant ends where the throw came down: on the face it started on (the
+/// half-turns are even), risen and turned to face the eye so it can be
+/// read — or, for an [edge], standing.
 final class CoinMotion {
   final CoinStyle style;
   final bool edge;
@@ -63,10 +87,26 @@ final class CoinMotion {
   static const _firstRebound = 0.34;
   static const _nextRebound = 0.45;
 
-  /// Still on the table before the verdict; longer for a coin standing, so
-  /// the table has time to see it.
-  static const _rest = 0.3;
+  /// Lying still for a moment, then rising towards the eye and turning its
+  /// face to it, then still again before the verdict.
+  static const _lie = 0.25;
+  static const _reveal = 0.4;
+  static const _after = 0.2;
+
+  /// A coin standing is left standing a second, so the table can see it.
   static const _edgeHold = 1.0;
+
+  /// The spin's rattle, only in its last moments before it goes over.
+  static const _rattle = 0.4;
+
+  /// Turned to face the eye: the face tilted up towards the camera.
+  static const double faceOn = math.pi / 2 - CoinCamera.elevation;
+  static const double _revealLift = 16;
+  static const double _revealNear = 22;
+
+  /// Standing, turned this far round, so both its edge and a sliver of face
+  /// show.
+  static const double _standTurn = 1.1;
 
   bool get spins => edge || style.spins;
 
@@ -85,18 +125,30 @@ final class CoinMotion {
   late final List<double> _bounceTimes = [
     for (final v in _bounceSpeeds) 2 * v / _gravity,
   ];
+  late final double _bouncing = _bounceTimes.fold(0.0, (a, b) => a + b);
 
-  late final double seconds = spins
-      ? flight + style.spinTime + (edge ? _edgeHold : _rest)
-      : flight + _bounceTimes.fold(0.0, (a, b) => a + b) + _rest;
+  /// When the coin is down for good and starts to rise for the reading.
+  late final double _down = spins
+      ? flight + style.spinTime + _lie
+      : flight + _bouncing + _lie;
+
+  late final double seconds = edge
+      ? flight + style.spinTime + _edgeHold
+      : _down + _reveal + _after;
 
   late final List<(double, CoinBeat)> _beats;
 
   /// When the coin knocks, in order.
   List<(double, CoinBeat)> get beats => _beats;
 
-  /// Where it ends: flat and square, or standing.
-  CoinPose get rest => CoinPose(angle: edge ? math.pi / 2 : 0);
+  /// Where it ends: risen and facing the eye, or standing.
+  CoinPose get rest => edge
+      ? CoinPose(angle: math.pi / 2, wheel: style.spinDirection * _standTurn)
+      : const CoinPose(
+          angle: faceOn,
+          lift: _revealLift,
+          drift: Offset(0, _revealNear),
+        );
 
   /// How far through its turns the coin is, 0..1, at [t] in the air: a
   /// brisk, nearly even spin that eases off to nothing just as it lands.
@@ -105,23 +157,36 @@ final class CoinMotion {
     return 1 - math.pow(1 - x, 1.5).toDouble();
   }
 
+  static double _ease(double x) {
+    final t = x.clamp(0.0, 1.0);
+    return t * t * (3 - 2 * t);
+  }
+
   CoinPose poseAt(double t) {
     if (t >= seconds) return rest;
     if (t < flight) {
       return CoinPose(
         lift: _launch * t - _gravity * t * t / 2,
         angle: math.pi * _turns * _turned(t),
-        wheel: style.axisTilt,
       );
     }
-    return spins ? _spinning(t - flight) : _bouncing(t - flight);
+    if (!edge && t >= _down) {
+      // Down and still; now it rises towards the eye and turns its face to
+      // it, so what came up can be read — the camera never moves.
+      final e = _ease((t - _down) / _reveal);
+      return CoinPose(
+        angle: math.pi * style.halfTurns + faceOn * e,
+        lift: _revealLift * e,
+        drift: Offset(0, _revealNear * e),
+      );
+    }
+    return spins ? _spinning(t - flight) : _bouncingAt(t - flight);
   }
 
   /// Down flat: one to three bounces, each lower, the coin tipping a little
-  /// and back on each, the lean of its axis dying away with them.
-  CoinPose _bouncing(double since) {
+  /// and back on each.
+  CoinPose _bouncingAt(double since) {
     final flat = math.pi * style.halfTurns;
-    final total = _bounceTimes.fold(0.0, (a, b) => a + b);
     var start = 0.0;
     for (var k = 0; k < _bounceTimes.length; k++) {
       final d = _bounceTimes[k];
@@ -132,7 +197,6 @@ final class CoinMotion {
         return CoinPose(
           lift: v * s - _gravity * s * s / 2,
           angle: flat + (k.isEven ? tip : -tip),
-          wheel: style.axisTilt * (1 - (start + s) / total),
         );
       }
       start += d;
@@ -140,23 +204,31 @@ final class CoinMotion {
     return CoinPose(angle: flat);
   }
 
-  /// Down on its edge, spinning like a disc on a table.
+  /// Down on its edge, spinning like a disc on a table: calmly, slow
+  /// enough for the eye to follow round.
   CoinPose _spinning(double since) {
     final upright = math.pi * _turns;
     final u = math.min(1.0, since / style.spinTime);
-    if (u >= 1) {
-      if (edge) return CoinPose(angle: upright);
-      // Flat after the clatter, with a last quick shiver.
-      final after = since - style.spinTime;
-      final shiver =
-          0.07 * math.exp(-after / 0.07) * math.sin(2 * math.pi * after * 14);
-      return CoinPose(angle: upright - math.pi / 2 + shiver);
-    }
     final dir = style.spinDirection;
-    final lean = edge ? _edgeLean(u) : math.pi / 2 * math.pow(u, 2.2);
-    final wheeling = _wheeling(u);
-    final rattle = 0.035 * u * math.sin(3 * wheeling);
-    final wheel = style.axisTilt * (1 - u) + dir * wheeling;
+    if (u >= 1) {
+      if (edge) return CoinPose(angle: upright, wheel: dir * _standTurn);
+      return CoinPose(angle: upright - math.pi / 2);
+    }
+    final wheel = dir * _wheeling(u);
+    final double lean;
+    var rattle = 0.0;
+    if (edge) {
+      lean = _edgeLean(u);
+    } else {
+      lean = math.pi / 2 * math.pow(u, 2.4);
+      // The rattle only in the last moments, quickening a little.
+      final left = style.spinTime - since;
+      if (left < _rattle) {
+        final s = _rattle - left;
+        final x = s / _rattle;
+        rattle = 0.025 * x * math.sin(2 * math.pi * (9 * s + 13.75 * s * s));
+      }
+    }
     final roll = style.rollRadius * math.sin(math.pi * u);
     return CoinPose(
       angle: upright - lean + rattle,
@@ -165,26 +237,29 @@ final class CoinMotion {
     );
   }
 
-  /// How far round a spinning coin has wheeled, always a whole number of
-  /// turns by the end, so the face lies square.
-  ///
-  /// Falling flat it is Euler's disk — the wheeling speeds up as the lean
-  /// grows; standing, it slows to a stop.
+  /// How far round a spinning coin has wheeled: about a turn a second,
+  /// no faster, ending on a whole number of turns (falling, so the face
+  /// lies square) or on its standing turn.
   double _wheeling(double u) {
-    if (edge) return 2 * math.pi * 2 * (1 - math.pow(1 - u, 2));
-    const c = 0.96;
-    final g = 1 - math.sqrt(1 - c * u);
-    final g1 = 1 - math.sqrt(1 - c);
-    return 2 * math.pi * 4 * g / g1;
+    const rate = 2 * math.pi * 0.95;
+    if (edge) {
+      final half = rate * style.spinTime / 2;
+      final whole = math.max(1, (half / (2 * math.pi)).round());
+      return (2 * math.pi * whole + _standTurn) * (1 - math.pow(1 - u, 2));
+    }
+    // A little quicker towards the end, never more than a third.
+    double w(double x) => x + x * x / 6;
+    final raw = rate * style.spinTime * w(1);
+    final whole = math.max(1, (raw / (2 * math.pi)).round());
+    return 2 * math.pi * whole * w(u) / w(1);
   }
 
-  /// A coin that will stand leans like any other, and nearly goes over
-  /// [CoinStyle.nearFalls] times before it rights itself for good — nobody
-  /// can tell until the last second.
+  /// A coin that will stand wobbles a little as it spins down, and at most
+  /// once dips, barely — never enough to look like a fall.
   double _edgeLean(double u) {
-    final n = style.nearFalls;
-    final s = math.sin(n * math.pi * math.pow(u, 0.85));
-    return 0.75 * (1 - 0.45 * u) * s * s;
+    if (style.nearFalls == 0) return 0.05 * math.sin(math.pi * u);
+    final s = math.sin(math.pi * u);
+    return 0.16 * s * s;
   }
 
   List<(double, CoinBeat)> _findBeats() {
@@ -197,29 +272,36 @@ final class CoinMotion {
       }
       return beats;
     }
-    // A tick each time the rattle comes round; it quickens with the
-    // wheeling, and is never faster than the hand can tell apart.
-    var last = flight;
-    var lastTurn = 0;
+    // A soft tick each half turn round; for a spin going over, the rattle
+    // at the end, a tick a shake, quickening with it.
+    var lastHalf = 0;
+    final end = flight + style.spinTime;
     for (var s = 0.0; s < style.spinTime; s += 0.004) {
-      final turn = (3 * _wheeling(s / style.spinTime) / (2 * math.pi)).floor();
-      if (turn != lastTurn && flight + s - last > 0.045) {
-        beats.add((flight + s, CoinBeat.tick));
-        last = flight + s;
-      }
-      lastTurn = turn;
+      final t = flight + s;
+      final left = style.spinTime - s;
+      if (!edge && left < _rattle) break;
+      final half = (_wheeling(s / style.spinTime) / math.pi).floor();
+      if (half != lastHalf) beats.add((t, CoinBeat.tick));
+      lastHalf = half;
     }
-    beats.add((
-      flight + style.spinTime,
-      edge ? CoinBeat.freeze : CoinBeat.land,
-    ));
+    if (!edge) {
+      var lastShake = -1;
+      for (var s = 0.0; s < _rattle; s += 0.002) {
+        final shake = (9 * s + 13.75 * s * s).floor();
+        if (shake != lastShake && lastShake >= 0) {
+          beats.add((end - _rattle + s, CoinBeat.tick));
+        }
+        lastShake = shake;
+      }
+    }
+    beats.add((end, edge ? CoinBeat.freeze : CoinBeat.land));
     return beats;
   }
 }
 
 /// Plays a throw's [CoinMotion.beats] on the phone as the frames pass them:
 /// a light knock for the landing, a softer one for each bounce, ticks for a
-/// spinning rattle, and one clear one when a coin goes still standing.
+/// spin, and one clear one when a coin goes still standing.
 class CoinHaptics {
   double _last = -1;
 
@@ -244,16 +326,17 @@ class CoinHaptics {
   }
 }
 
-/// The coin on its table: a faint floor line, a shadow that is small and
-/// pale while the coin is high and dense and wide as it comes down, and the
-/// coin itself at [pose].
+/// The coin on its table, all seen through [CoinCamera]: a faint table and
+/// its far edge, the coin's shadow — small and pale while it is high, wide
+/// and dark as it comes down — and the coin at [pose].
 class CoinTossStage extends StatelessWidget {
   final CoinPose pose;
 
-  /// How high the toss goes at its peak, to scale the shadow by.
+  /// How high the toss goes at its peak, to fade the shadow by.
   final double peak;
 
-  /// True is the Jester's side showing, false the King's.
+  /// The mark on the side that ends face up: true the Jester, false the
+  /// King. The other side carries the other.
   final bool face;
   final bool settled;
 
@@ -265,133 +348,158 @@ class CoinTossStage extends StatelessWidget {
     required this.settled,
   });
 
-  static const double height = 176;
+  static const double height = 190;
 
-  /// Where the floor is, from the top.
-  static const double _floorY = 150;
+  /// Where on the stage the spot the coin rests on is seen.
+  static const double _originY = 132;
 
   @override
   Widget build(BuildContext context) {
     const radius = _SolidCoin.diameter / 2;
-    // The coin stands on the floor whatever way up it is: its lowest point,
-    // as it is turned now, rests on the line — a flat coin by its rim, one
-    // on end by its edge, a spinning one by wherever it leans.
-    final extent =
-        radius * math.cos(pose.angle).abs() +
-        _SolidCoin.thickness / 2 * math.sin(pose.angle).abs();
-    final centreY = _floorY - extent - pose.lift;
+    const half = _SolidCoin.thickness / 2;
+    // The coin's centre stands as high as its lowest point needs: a coin
+    // lying flat on its face, one on end on its edge, one leaning by its
+    // rim — so it is always on the table, whatever way up.
+    final ground =
+        radius * math.sin(pose.angle).abs() + half * math.cos(pose.angle).abs();
+    final world = Matrix4.translationValues(
+      pose.drift.dx,
+      ground + pose.lift,
+      pose.drift.dy,
+    );
+    final orientation = Matrix4.rotationY(pose.wheel)
+      ..rotateX(pose.angle)
+      ..rotateX(math.pi / 2);
+    final turn = CoinCamera.view * orientation as Matrix4;
+    final place = CoinCamera.projection * CoinCamera.view * world as Matrix4;
     final high = (pose.lift / (peak * 1.1)).clamp(0.0, 1.0);
+
     return SizedBox(
       height: height,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            top: _floorY,
-            child: Center(
-              child: Container(
-                width: 200,
-                height: 1,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withValues(alpha: 0),
-                      Colors.white.withValues(alpha: 0.12),
-                      Colors.white.withValues(alpha: 0),
-                    ],
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final origin = Offset(box.maxWidth / 2, _originY);
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _TablePainter(
+                    origin: origin,
+                    shadowAt: pose.drift,
+                    // The footprint of a coin lying flat, shrinking as it
+                    // stands up and as it rises.
+                    shadowRadius:
+                        radius *
+                        (0.55 + 0.45 * math.cos(pose.angle).abs()) *
+                        (1 - 0.45 * high),
+                    shadowOpacity: 0.6 * (1 - 0.75 * high),
                   ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: _floorY - 8,
-            height: 16,
-            child: CustomPaint(
-              painter: _ShadowPainter(
-                dx: pose.drift.dx,
-                width: 80 * (1 - 0.55 * high),
-                opacity: 0.6 * (1 - 0.75 * high),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: centreY - radius,
-            child: Center(
-              child: Transform.translate(
-                offset: pose.drift,
+              Positioned(
+                left: origin.dx - radius,
+                top: origin.dy - radius,
                 child: _SolidCoin(
-                  angle: pose.angle,
-                  wheel: pose.wheel,
+                  place: place,
+                  turn: turn,
+                  orientation: orientation,
                   face: face,
                   settled: settled,
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-/// The coin's shadow on the floor: a soft ellipse, wide and dark when the
-/// coin is down, small and pale when it is high.
-class _ShadowPainter extends CustomPainter {
-  final double dx;
-  final double width;
-  final double opacity;
+/// The table, seen through the camera: a faint far edge, and the coin's
+/// shadow on it.
+class _TablePainter extends CustomPainter {
+  final Offset origin;
+  final Offset shadowAt;
+  final double shadowRadius;
+  final double shadowOpacity;
 
-  const _ShadowPainter({
-    required this.dx,
-    required this.width,
-    required this.opacity,
+  const _TablePainter({
+    required this.origin,
+    required this.shadowAt,
+    required this.shadowRadius,
+    required this.shadowOpacity,
   });
+
+  Offset _project(double x, double z) {
+    final m = CoinCamera.projection * CoinCamera.view as Matrix4;
+    final v = m.perspectiveTransform(Vector3(x, 0, z));
+    return origin + Offset(v.x, v.y);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final centre = size.center(Offset.zero) + Offset(dx, 0);
-    canvas.drawOval(
-      Rect.fromCenter(center: centre, width: width, height: width * 0.14),
+    // The far edge of the table, well behind the coin.
+    final left = _project(-150, -95), right = _project(150, -95);
+    canvas.drawLine(
+      left,
+      right,
       Paint()
-        ..color = Colors.black.withValues(alpha: opacity)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+        ..strokeWidth = 1
+        ..shader = LinearGradient(
+          colors: [
+            Colors.white.withValues(alpha: 0),
+            Colors.white.withValues(alpha: 0.1),
+            Colors.white.withValues(alpha: 0),
+          ],
+        ).createShader(Rect.fromPoints(left, right.translate(0, 1))),
+    );
+    // The shadow: a circle on the table, so an ellipse to the eye.
+    final centre = _project(shadowAt.dx, shadowAt.dy);
+    final across = _project(shadowAt.dx + shadowRadius, shadowAt.dy);
+    final deep = _project(shadowAt.dx, shadowAt.dy + shadowRadius);
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: centre,
+        width: 2 * (across.dx - centre.dx),
+        height: 2 * (deep.dy - centre.dy).abs(),
+      ),
+      Paint()
+        ..color = Colors.black.withValues(alpha: shadowOpacity)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
     );
   }
 
   @override
-  bool shouldRepaint(covariant _ShadowPainter old) =>
-      old.dx != dx || old.width != width || old.opacity != opacity;
+  bool shouldRepaint(covariant _TablePainter old) =>
+      old.shadowAt != shadowAt ||
+      old.shadowRadius != shadowRadius ||
+      old.shadowOpacity != shadowOpacity ||
+      old.origin != origin;
 }
 
-/// The coin as a solid: two struck faces and the milled edge between them.
-///
-/// It turns about its horizontal axis in real perspective. The face turned
-/// towards the eye is a widget carried by the same matrix the edge is
-/// projected with, so the two meet exactly; the edge is painted underneath
-/// it, a band that narrows to nothing when a face looks straight up and is
-/// the whole coin when it stands on end.
+/// The coin as a solid: two struck faces and the milled edge between them,
+/// placed by [place] and turned by [orientation], all through the one
+/// camera. The face turned towards the eye is a widget carried by the same
+/// matrix the edge is projected with, so the two meet exactly; the edge is
+/// painted underneath it.
 class _SolidCoin extends StatelessWidget {
-  final double angle;
+  /// Projection, camera and where the coin is on the table.
+  final Matrix4 place;
 
-  /// How far it has wheeled about the eye's axis — a spinning coin's
-  /// precession, seen from above.
-  final double wheel;
+  /// The camera and the coin's turn, without its place: for which way its
+  /// faces and edge look.
+  final Matrix4 turn;
+  final Matrix4 orientation;
 
-  /// True is the Jester's side, false the King's — the two entries of a
-  /// card's `sides` in order.
+  /// The mark on the King-end side — the side that ends face up.
   final bool face;
   final bool settled;
 
   const _SolidCoin({
-    required this.angle,
-    this.wheel = 0,
+    required this.place,
+    required this.turn,
+    required this.orientation,
     required this.face,
     required this.settled,
   });
@@ -401,21 +509,21 @@ class _SolidCoin extends StatelessWidget {
   /// About a ninth of the diameter: thick enough to stand on.
   static const double thickness = 9.5;
 
-  /// A little perspective, enough for the near edge to read as nearer.
-  static const double _perspective = 0.003;
-
-  static Matrix4 matrixFor(double angle, double wheel) => Matrix4.identity()
-    ..setEntry(3, 2, _perspective)
-    ..rotateZ(wheel)
-    ..rotateX(angle);
-
   @override
   Widget build(BuildContext context) {
-    final matrix = matrixFor(angle, wheel);
-    // The near face sits at whichever end of the coin is closer: the King's
-    // end while the King looks up, the other once it has turned over.
-    final nearZ = math.cos(angle) >= 0 ? -thickness / 2 : thickness / 2;
-    final edgeOn = math.cos(angle).abs() < 0.015;
+    final matrix = place * orientation as Matrix4;
+    // Which end of the coin faces the eye: the end at local −z, or the
+    // other. Negative z is towards the eye.
+    final kingEndNormal = turn.transform3(Vector3(0, 0, -1));
+    final kingEndShows = kingEndNormal.z < 0;
+    final edgeOn = kingEndNormal.z.abs() < 0.02;
+    final faceMatrix = kingEndShows
+        ? (matrix.clone()..translateByDouble(0, 0, -thickness / 2, 1))
+        // The far end, seen from its own side: flipped once more so its
+        // mark reads the right way round, not mirrored.
+        : (matrix.clone()
+            ..translateByDouble(0, 0, thickness / 2, 1)
+            ..scaleByDouble(1, -1, 1, 1));
     return SizedBox.square(
       dimension: diameter,
       child: Stack(
@@ -425,18 +533,17 @@ class _SolidCoin extends StatelessWidget {
           CustomPaint(
             size: const Size.square(diameter),
             painter: _EdgePainter(
-              angle: angle,
-              wheel: wheel,
               radius: diameter / 2,
               half: thickness / 2,
               matrix: matrix,
+              turn: turn,
             ),
           ),
           if (!edgeOn)
             Transform(
               alignment: Alignment.center,
-              transform: matrix.clone()..translateByDouble(0, 0, nearZ, 1),
-              child: _Coin(face: face, settled: settled),
+              transform: faceMatrix,
+              child: _Coin(face: kingEndShows ? face : !face, settled: settled),
             ),
         ],
       ),
@@ -445,21 +552,19 @@ class _SolidCoin extends StatelessWidget {
 }
 
 /// The milled edge, projected through the coin's own matrix: a strip of
-/// quads around the rim, lit from the upper left so a highlight slides
-/// along it as the coin turns, and crossed by fine light reeding.
+/// quads around the rim, lit from above and to the left so a highlight
+/// slides along it as the coin turns, and crossed by fine light reeding.
 class _EdgePainter extends CustomPainter {
-  final double angle;
-  final double wheel;
   final double radius;
   final double half;
   final Matrix4 matrix;
+  final Matrix4 turn;
 
   _EdgePainter({
-    required this.angle,
-    required this.wheel,
     required this.radius,
     required this.half,
     required this.matrix,
+    required this.turn,
   });
 
   static const _segments = 72;
@@ -467,14 +572,13 @@ class _EdgePainter extends CustomPainter {
   static const _lit = Color(0xFFB9BFC7);
   static const _shine = Color(0xFFE6E9ED);
 
-  /// Towards the light: up, to the left, and out towards the eye (negative
-  /// z is nearer under this perspective).
+  /// Towards the light, on the screen: up, to the left, and out towards
+  /// the eye (negative z is nearer).
   static final _light = Vector3(-0.35, -0.75, -0.55)..normalize();
 
   @override
   void paint(Canvas canvas, Size size) {
     final centre = size.center(Offset.zero);
-    final rotation = Matrix4.rotationZ(wheel)..rotateX(angle);
 
     Offset project(double x, double y, double z) {
       final v = matrix.perspectiveTransform(Vector3(x, y, z));
@@ -487,9 +591,7 @@ class _EdgePainter extends CustomPainter {
       final p0 = 2 * math.pi * i / _segments;
       final p1 = 2 * math.pi * (i + 1) / _segments;
       final mid = (p0 + p1) / 2;
-      final normal = rotation.transform3(
-        Vector3(math.cos(mid), math.sin(mid), 0),
-      );
+      final normal = turn.transform3(Vector3(math.cos(mid), math.sin(mid), 0));
       // Only the side of the rim that faces the eye is drawn: the coin is
       // convex, so the rest is behind the near face or the near rim.
       if (normal.z >= 0) continue;
@@ -503,7 +605,7 @@ class _EdgePainter extends CustomPainter {
         ..lineTo(b1.dx, b1.dy)
         ..lineTo(b0.dx, b0.dy)
         ..close();
-      final depth = rotation
+      final depth = turn
           .transform3(
             Vector3(radius * math.cos(mid), radius * math.sin(mid), 0),
           )
@@ -519,28 +621,25 @@ class _EdgePainter extends CustomPainter {
     quads.sort((p, q) => q.depth.compareTo(p.depth));
 
     final fill = Paint()..isAntiAlias = true;
+    final seam = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.6;
     final reed = Paint()
       ..color = _shine.withValues(alpha: 0.28)
       ..strokeWidth = 0.55;
     for (final q in quads) {
       final base = Color.lerp(_dark, _lit, 0.12 + 0.7 * math.pow(q.lit, 1.4))!;
       fill.color = Color.lerp(base, _shine, math.pow(q.lit, 14).toDouble())!;
-      // A hairline of the same colour closes the seams between quads.
       canvas.drawPath(q.path, fill);
-      canvas.drawPath(
-        q.path,
-        Paint()
-          ..color = fill.color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 0.6,
-      );
+      // A hairline of the same colour closes the seams between quads.
+      canvas.drawPath(q.path, seam..color = fill.color);
       canvas.drawLine(q.a, q.b, reed);
     }
   }
 
   @override
   bool shouldRepaint(covariant _EdgePainter oldDelegate) =>
-      oldDelegate.angle != angle || oldDelegate.wheel != wheel;
+      oldDelegate.matrix != matrix;
 }
 
 /// The lot-casting coin, struck with a King on one side and a Jester on the

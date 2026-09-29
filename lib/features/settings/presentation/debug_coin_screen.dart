@@ -96,7 +96,7 @@ class _DebugCoinScreenState extends State<DebugCoinScreen>
                       CoinTossStage(
                         pose: pose,
                         peak: motion.peak,
-                        face: (math.cos(pose.angle) < 0) != jester,
+                        face: jester,
                         settled: settled,
                       ),
                       SizedBox(
@@ -176,13 +176,12 @@ String _describe(CoinMotion motion) {
     'Вариант ${s.number}',
     'высота ×${n(s.lift)}',
     '${s.halfTurns} полуоборотов',
-    'ось ${s.axisTilt >= 0 ? '+' : ''}${n(s.axisTilt)} рад',
     if (motion.spins)
       'волчок ${s.spinDirection > 0 ? '↻' : '↺'} ${n(s.spinTime, 1)} с, '
           'круг ${n(s.rollRadius, 1)}'
     else
       'подскоков ${s.bounces}',
-    if (motion.edge) 'почти падает ${s.nearFalls}',
+    if (motion.edge) s.nearFalls == 0 ? 'не качнётся' : 'качнётся раз',
     'всего ${n(motion.seconds, 1)} с',
   ];
   return parts.join(' · ');

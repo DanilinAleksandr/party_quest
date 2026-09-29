@@ -345,9 +345,17 @@ void main() {
             closeTo(1, 1e-3),
             reason: why,
           );
-          expect(math.cos(last.wheel), closeTo(1, 1e-3), reason: why);
-          expect(last.drift.distance, lessThan(0.5), reason: why);
-          expect(last.lift.abs(), lessThan(0.5), reason: why);
+          expect(
+            math.cos(last.wheel - rest.wheel),
+            closeTo(1, 1e-3),
+            reason: why,
+          );
+          expect(
+            (last.drift - rest.drift).distance,
+            lessThan(0.5),
+            reason: why,
+          );
+          expect((last.lift - rest.lift).abs(), lessThan(0.5), reason: why);
         }
       }
     });
@@ -377,11 +385,10 @@ void main() {
       expect(styles.map((s) => s.spins).toSet(), {true, false});
       expect(styles.map((s) => s.spinDirection).toSet(), {1, -1});
       expect(styles.map((s) => s.bounces).toSet(), {1, 2, 3});
-      expect(styles.map((s) => s.nearFalls).toSet(), {1, 2, 3});
+      expect(styles.map((s) => s.nearFalls).toSet(), {0, 1});
       for (final s in styles) {
         expect(s.lift, inInclusiveRange(0.8, 1.2));
         expect(s.spinTime, inInclusiveRange(1.5, 2.5));
-        expect(s.axisTilt.abs(), lessThanOrEqualTo(0.25));
       }
     });
 

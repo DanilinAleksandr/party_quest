@@ -49,10 +49,6 @@ final class CoinStyle {
   /// flat can be started on the face it must end on.
   final int halfTurns;
 
-  /// How far the axis it turns about leans off square, in radians, so it
-  /// does not always turn straight at the eye.
-  final double axisTilt;
-
   /// Whether it comes down spinning on its edge like a disc on a table —
   /// about one throw in three. A coin that will stand always spins.
   final bool spins;
@@ -69,14 +65,14 @@ final class CoinStyle {
   /// How many times it bounces when it lands flat: 1–3.
   final int bounces;
 
-  /// How many times a coin that will stand nearly falls first: 1–3.
+  /// Whether a coin that will stand dips once, barely, before it settles
+  /// upright: 0 or 1. Never enough to look like a fall.
   final int nearFalls;
 
   const CoinStyle({
     required this.number,
     required this.lift,
     required this.halfTurns,
-    required this.axisTilt,
     required this.spins,
     required this.spinDirection,
     required this.spinTime,
@@ -91,13 +87,12 @@ final class CoinStyle {
       number: number,
       lift: 0.8 + 0.4 * r.nextDouble(),
       halfTurns: const [8, 10, 12][r.nextInt(3)],
-      axisTilt: (r.nextDouble() - 0.5) * 0.5,
       spins: r.nextInt(3) == 0,
       spinDirection: r.nextBool() ? 1 : -1,
       spinTime: 1.5 + r.nextDouble(),
       rollRadius: 2 + 5 * r.nextDouble(),
       bounces: 1 + r.nextInt(3),
-      nearFalls: 1 + r.nextInt(3),
+      nearFalls: r.nextInt(2),
     );
   }
 
@@ -108,7 +103,6 @@ final class CoinStyle {
     number: number,
     lift: lift,
     halfTurns: halfTurns,
-    axisTilt: axisTilt,
     spins: spins ?? this.spins,
     spinDirection: spinDirection,
     spinTime: spinTime,

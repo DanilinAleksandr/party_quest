@@ -173,20 +173,16 @@ class _RollBodyState extends State<_RollBody>
         final settled = _controller.isCompleted;
         final pose = settled ? _motion.rest : _motion.poseAt(seconds);
         _haptics.advance(_motion, settled ? _motion.seconds : seconds);
-        // Which face is turned towards the table's eye; its sign flips once
-        // per half-turn.
-        final showingBack = math.cos(pose.angle) < 0;
-
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             CoinTossStage(
               pose: pose,
               peak: _motion.peak,
-              // The coin ends on an even half-turn, so at rest this is
-              // exactly `_restingFace` — which is the point: the coin is
-              // started on whichever side it must finish on.
-              face: showingBack != _restingFace,
+              // The coin ends on an even half-turn, on the end it started
+              // on — so that end carries `_restingFace`, which is the point:
+              // the coin is started on whichever side it must finish on.
+              face: _restingFace,
               settled: settled,
             ),
             const SizedBox(height: 4),
