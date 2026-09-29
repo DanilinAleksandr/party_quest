@@ -84,9 +84,9 @@ final class CoinMotion {
   }
 
   /// The usual toss, before [CoinStyle.lift]: two seconds in the air,
-  /// seventy-five pixels up.
+  /// ninety-two pixels up.
   static const _baseFlight = 2.0;
-  static const _basePeak = 75.0;
+  static const _basePeak = 92.0;
 
   /// How far the tumbling axis sways in the air, at most, and how many
   /// times its sway goes round in one flight.
@@ -376,10 +376,10 @@ class CoinTossStage extends StatelessWidget {
     required this.settled,
   });
 
-  static const double height = 240;
+  static const double height = 262;
 
   /// Where on the stage the spot the coin rests on is seen.
-  static const double _originY = 184;
+  static const double _originY = 206;
 
   @override
   Widget build(BuildContext context) {

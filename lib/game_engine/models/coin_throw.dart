@@ -45,8 +45,9 @@ final class CoinStyle {
   /// How high the toss goes, against the usual: 0.8–1.2.
   final double lift;
 
-  /// Half-turns in the air: 8, 10 or 12 — always even, so a coin that falls
-  /// flat can be started on the face it must end on.
+  /// Half-turns in the air: 6 or 8 — few enough for each turn to be
+  /// followed by eye, and always even, so a coin that falls flat can be
+  /// started on the face it must end on.
   final int halfTurns;
 
   /// Whether it comes down spinning on its edge like a disc on a table —
@@ -86,7 +87,7 @@ final class CoinStyle {
     return CoinStyle(
       number: number,
       lift: 0.8 + 0.4 * r.nextDouble(),
-      halfTurns: const [8, 10, 12][r.nextInt(3)],
+      halfTurns: r.nextInt(3) == 2 ? 8 : 6,
       spins: r.nextInt(3) == 0,
       spinDirection: r.nextBool() ? 1 : -1,
       spinTime: 1.5 + r.nextDouble(),

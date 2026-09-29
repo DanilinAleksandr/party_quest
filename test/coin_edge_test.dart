@@ -381,7 +381,7 @@ void main() {
 
     test('there is plenty to tell apart', () {
       final styles = [for (var n = 0; n < 60; n++) CoinStyle.of(n)];
-      expect(styles.map((s) => s.halfTurns).toSet(), {8, 10, 12});
+      expect(styles.map((s) => s.halfTurns).toSet(), {6, 8});
       expect(styles.map((s) => s.spins).toSet(), {true, false});
       expect(styles.map((s) => s.spinDirection).toSet(), {1, -1});
       expect(styles.map((s) => s.bounces).toSet(), {1, 2, 3});
