@@ -13,7 +13,15 @@ final class ChronicleEntry {
   final String text;
   final String? aside;
 
-  const ChronicleEntry({required this.text, this.aside});
+  /// A coin that stood on its edge — the party's legend, which the final
+  /// screen singles out.
+  final bool coinEdge;
+
+  const ChronicleEntry({
+    required this.text,
+    this.aside,
+    this.coinEdge = false,
+  });
 }
 
 /// The aside a chronicle entry gets when its player was wasted at the time.

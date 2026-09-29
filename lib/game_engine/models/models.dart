@@ -7,6 +7,7 @@ export 'card_choice.dart';
 export 'card_tag.dart';
 export 'card_type.dart';
 export 'chronicle_entry.dart';
+export 'coin_throw.dart';
 export 'effect.dart';
 export 'effect_polarity.dart';
 export 'event_participant.dart';

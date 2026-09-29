@@ -44,6 +44,8 @@ dependencies:
   confetti: ^0.8.0
   flutter_svg: ^2.3.0
   shared_preferences: ^2.5.5
+  # Vector3 for projecting the coin's edge (already under Flutter).
+  vector_math: ^2.2.0
 
 dev_dependencies:
   flutter_test:

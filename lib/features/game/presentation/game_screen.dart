@@ -200,7 +200,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             // courage may have changed which choice sits at [choiceIndex].
             final current = ref.read(provider).pendingCard ?? card;
             final gamble = notifier.gambleFor(choiceIndex: choiceIndex);
-            bool? won;
+            CoinThrow? coin;
 
             if (gamble != null) {
               int? called;
@@ -212,10 +212,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 if (!context.mounted) return;
               }
 
-              won = notifier.roll();
+              coin = notifier.roll();
               await showChanceCheckDialog(
                 context: context,
-                passed: won,
+                passed: coin.favours,
+                edge: coin == CoinThrow.edge,
                 sides: gamble.hasCall ? gamble.sides : null,
                 calledIndex: called,
                 challenger: gamble.challenger,
@@ -228,7 +229,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               // how it would go, so it cannot be the one to say how it went.
               await tellGambleOutcome(
                 context,
-                gamble.outcomeFor(won: won),
+                gamble.outcomeForThrow(coin),
                 cardTitle: card.title,
               );
               if (!context.mounted) return;
@@ -245,21 +246,23 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 ? notifier.hiddenCheckFor(choiceIndex: choiceIndex)
                 : null;
             if (hidden != null) {
-              won = notifier.roll();
+              // Out of sight there is no coin, and so no edge.
+              coin = notifier.roll(watched: false);
               await tellChoiceOutcome(
                 context,
-                (won ? hidden.winnerOutcome : hidden.loserOutcome) ??
+                (coin.favours ? hidden.winnerOutcome : hidden.loserOutcome) ??
                     choiceOutcome,
               );
               if (!context.mounted) return;
-            } else if (won == null) {
+            } else if (coin == null) {
               await tellChoiceOutcome(context, choiceOutcome);
               if (!context.mounted) return;
             }
             notifier.resolveCard(
               choiceIndex: choiceIndex,
-              gambleWon: won,
+              gambleWon: coin?.favours,
               opponentId: gamble?.opponentId,
+              coinEdge: coin == CoinThrow.edge,
             );
           },
         );

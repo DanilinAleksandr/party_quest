@@ -321,6 +321,12 @@ class _ChronicleSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
+          // The coin on its edge is the party's legend, and gets said
+          // before anything else the journey is remembered for.
+          if (entries.any((e) => e.coinEdge)) ...[
+            _CoinEdgeLegend(times: entries.where((e) => e.coinEdge).length),
+            const SizedBox(height: 14),
+          ],
           if (entries.isEmpty)
             Text(
               'Путешествие обошлось без легенд — просто хорошая дорога вместе.',
@@ -347,22 +353,28 @@ class _ChronicleSection extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Transform.translate(
-                              // Half the lozenge hangs off the rule, so it
-                              // sits *on* the line rather than beside it.
-                              offset: const Offset(-3.5, 0),
-                              child: Transform.rotate(
-                                angle: math.pi / 4,
-                                child: SizedBox.square(
-                                  dimension: 5,
-                                  child: ColoredBox(color: _gold),
+                          if (entry.coinEdge)
+                            Transform.translate(
+                              offset: const Offset(-6.5, 2),
+                              child: Icon(Icons.toll, size: 13, color: _gold),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Transform.translate(
+                                // Half the lozenge hangs off the rule, so it
+                                // sits *on* the line rather than beside it.
+                                offset: const Offset(-3.5, 0),
+                                child: Transform.rotate(
+                                  angle: math.pi / 4,
+                                  child: SizedBox.square(
+                                    dimension: 5,
+                                    child: ColoredBox(color: _gold),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 9),
+                          SizedBox(width: entry.coinEdge ? 3 : 9),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -398,6 +410,39 @@ class _ChronicleSection extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// The line the chronicle opens with when a coin stood on its edge during
+/// the journey — something the table saw once and will tell for years.
+class _CoinEdgeLegend extends StatelessWidget {
+  final int times;
+
+  const _CoinEdgeLegend({required this.times});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final text = times == 1
+        ? 'В этом путешествии монета встала на ребро.'
+        : 'В этом путешествии монета вставала на ребро — '
+              '$times ${times < 5 ? 'раза' : 'раз'}.';
+    return Row(
+      children: [
+        Icon(Icons.toll, color: _gold, size: 18),
+        const SizedBox(width: 9),
+        Expanded(
+          child: Text(
+            text,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _gold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

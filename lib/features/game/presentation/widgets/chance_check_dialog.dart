@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/app_dialog_shell.dart';
@@ -25,6 +26,13 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// before the animation starts, so what lands here is what happens next
 /// rather than a decorative spin followed by an unrelated verdict.
 ///
+/// [spinner] forces a throw to come down spinning on its edge, or not; left
+/// null, about one in three do. It changes only how the coin gets there.
+///
+/// [edge] is the rare third way down: the coin comes to rest standing on
+/// its milled edge, rocks, and stays there. It favours the thrower
+/// whatever was called, so [passed] is true with it.
+///
 /// The button lives inside the content rather than in the shell's `actions`
 /// because it must not exist until the coin has settled: a dialog you can
 /// dismiss before it has told you anything is just a delay.
@@ -41,6 +49,8 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 Future<void> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
+  bool edge = false,
+  bool? spinner,
   List<String>? sides,
   int? calledIndex,
   String? challenger,
@@ -52,7 +62,9 @@ Future<void> showChanceCheckDialog({
     title: 'Бросок',
     barrierDismissible: false,
     content: _RollBody(
-      passed: passed,
+      passed: passed || edge,
+      edge: edge,
+      spinner: spinner,
       sides: sides,
       calledIndex: calledIndex,
       challenger: challenger,
@@ -64,6 +76,8 @@ Future<void> showChanceCheckDialog({
 
 class _RollBody extends StatefulWidget {
   final bool passed;
+  final bool edge;
+  final bool? spinner;
   final List<String>? sides;
   final int? calledIndex;
   final String? challenger;
@@ -71,6 +85,8 @@ class _RollBody extends StatefulWidget {
 
   const _RollBody({
     required this.passed,
+    this.edge = false,
+    this.spinner,
     this.sides,
     this.calledIndex,
     this.challenger,
@@ -83,26 +99,34 @@ class _RollBody extends StatefulWidget {
 
 class _RollBodyState extends State<_RollBody>
     with SingleTickerProviderStateMixin {
-  static const _throw = Duration(milliseconds: 2000);
-
-  /// Whole half-turns before it lands. Even, so the coin finishes showing
-  /// the same face it started on, which lets the starting face be chosen
-  /// from the outcome instead of the turn count having to be tuned per
-  /// result. The simulation below is built to travel exactly this far.
-  static const _halfTurns = 8;
+  /// Whole half-turns in the air. Even, so a coin that falls flat finishes
+  /// showing the same face it started on, which lets the starting face be
+  /// chosen from the outcome instead of the turn count having to be tuned
+  /// per result. The simulation below is built to travel exactly this far —
+  /// or, for a coin that comes down on its edge to spin, half a turn more.
+  static const _halfTurns = 10;
 
   /// How long the coin is off the table, and how high it gets, in seconds
   /// and logical pixels. Everything else about the arc follows from these
   /// two: a toss that peaks at [_peak] and lands after [_flight] needs
   /// `g = 8·peak/flight²` and a launch speed of `g·flight/2`.
-  static const _flight = 1.35;
-  static const _peak = 34.0;
+  static const _flight = 2.0;
+  static const _peak = 50.0;
   static const _gravity = 8 * _peak / (_flight * _flight);
 
-  /// The hop it makes on landing, as a fraction of the launch speed. Real
-  /// enough to see it settle rather than stick, small enough not to read as
-  /// a second toss.
+  /// The hop it makes on landing flat, as a fraction of the launch speed.
+  /// Real enough to see it settle rather than stick, small enough not to
+  /// read as a second toss.
   static const _rebound = 0.34;
+  static const _hopTime = _flight * _rebound;
+
+  /// After a flat landing, and after a spin has clattered down, the coin
+  /// lies still for this long before the verdict.
+  static const _rest = 0.3;
+
+  /// A coin standing on its edge stays standing this long before the
+  /// verdict, so the table has time to see it.
+  static const _edgeHold = 1.0;
 
   /// Both arcs measure downward from the table, which is where
   /// [GravitySimulation] puts its origin: the coin starts at 0 moving up,
@@ -120,21 +144,34 @@ class _RollBodyState extends State<_RollBody>
     -_gravity * _flight / 2 * _rebound,
   );
 
-  /// Angular speed with drag on it, rather than a curve pretending to be
-  /// one. A [FrictionSimulation] loses a fixed fraction of its speed per
-  /// second, so the total distance it will ever cover is `-v/ln(drag)` —
-  /// run that backwards to launch it at exactly the speed that spends
-  /// [_halfTurns] and no more.
-  static const _drag = 0.1;
-  static final _spin = FrictionSimulation(
-    _drag,
-    0,
-    -_halfTurns * math.log(_drag),
+  /// How far through its turns the coin is, 0..1, at [seconds] in the air:
+  /// a brisk, nearly even spin that eases off to nothing just as it lands,
+  /// so it neither hangs lifeless at the top of a long toss nor has turns
+  /// left over to snap through once it is down.
+  static double _turned(double seconds) {
+    final x = (seconds / _flight).clamp(0.0, 1.0);
+    return 1 - math.pow(1 - x, 1.5).toDouble();
+  }
+
+  /// Whether this throw comes down spinning on its edge like a disc on a
+  /// table — about one in three, and every time the coin is going to stand
+  /// — and for how long it spins. Only how it looks: the face it ends on
+  /// is the one already thrown.
+  late final math.Random _random = math.Random();
+  late final bool _spins =
+      widget.edge || (widget.spinner ?? _random.nextInt(3) == 0);
+  late final double _spinTime = 1.5 + _random.nextDouble();
+
+  late final double _seconds = _spins
+      ? _flight + _spinTime + (widget.edge ? _edgeHold : _rest)
+      : _flight + _hopTime + _rest;
+  late final Duration _duration = Duration(
+    milliseconds: (_seconds * 1000).round(),
   );
 
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: _throw,
+    duration: _duration,
   )..forward();
 
   @override
@@ -143,13 +180,68 @@ class _RollBodyState extends State<_RollBody>
     super.dispose();
   }
 
-  /// Height above the table at [seconds]: the toss, then the hop, then
-  /// still.
-  double _height(double seconds) {
-    if (seconds < _flight) return -_toss.x(seconds);
-    final since = seconds - _flight;
-    if (since < _flight * _rebound) return -_hop.x(since);
-    return 0;
+  /// Where the coin is at [seconds]: how high, how far it has turned about
+  /// its horizontal axis (0 is a face square to the eye, π/2 standing on
+  /// edge), how far it has wheeled about the eye's own axis while spinning,
+  /// and how far it has rolled off centre.
+  ///
+  /// At rest everything is squared up by hand rather than left to land on
+  /// exactly even by luck.
+  _Pose _pose(double seconds, {required bool settled}) {
+    if (settled) {
+      return _Pose(angle: widget.edge ? math.pi / 2 : 0);
+    }
+    if (!_spins) {
+      final lift = seconds < _flight
+          ? -_toss.x(seconds)
+          : seconds < _flight + _hopTime
+          ? -_hop.x(seconds - _flight)
+          : 0.0;
+      return _Pose(lift: lift, angle: math.pi * _halfTurns * _turned(seconds));
+    }
+    if (seconds < _flight) {
+      return _Pose(
+        lift: -_toss.x(seconds),
+        angle: math.pi * (_halfTurns + 0.5) * _turned(seconds),
+      );
+    }
+    // Down on its edge, spinning. Upright is half a turn past the throw's
+    // even count; flat on the right face is half a turn back from there.
+    const upright = math.pi * (_halfTurns + 0.5);
+    final u = math.min(1.0, (seconds - _flight) / _spinTime);
+    if (u >= 1) {
+      if (widget.edge) return const _Pose(angle: upright);
+      // Lying flat after the clatter, a last quick shiver.
+      final since = seconds - _flight - _spinTime;
+      final shiver =
+          0.07 * math.exp(-since / 0.07) * math.sin(2 * math.pi * since * 14);
+      return _Pose(angle: upright - math.pi / 2 + shiver);
+    }
+    final double lean;
+    final double wheel;
+    if (widget.edge) {
+      // Starts leaning like any other spin, then rights itself, slows and
+      // stops standing — nobody can tell until the last second.
+      lean = 0.42 * math.sin(math.pi * u) * (1 - 0.35 * u);
+      wheel = math.pi * 3 * (1 - math.pow(1 - u, 2));
+    } else {
+      // Euler's disk: the lean grows faster and faster, and the wheeling
+      // with it, until it slaps down flat. The wheeling is scaled to end on
+      // a whole turn, so the face lies square when it lands.
+      lean = math.pi / 2 * math.pow(u, 2.2);
+      const c = 0.96;
+      final g = 1 - math.sqrt(1 - c * u);
+      final g1 = 1 - math.sqrt(1 - c);
+      wheel = 2 * math.pi * 4 * g / g1;
+    }
+    // The rattle: a flutter in the lean whose pace follows the wheeling.
+    final rattle = 0.035 * u * math.sin(3 * wheel);
+    final roll = 4 * math.sin(lean);
+    return _Pose(
+      angle: upright - lean + rattle,
+      wheel: wheel,
+      drift: Offset(math.cos(wheel), math.sin(wheel)) * roll,
+    );
   }
 
   /// Which face the coin is showing once it stops.
@@ -176,6 +268,7 @@ class _RollBodyState extends State<_RollBody>
     // duel says "Платит: X": the sides are named by content and carry their
     // own gender, so "она и выпала" is wrong the moment the side is a Шут.
     // A label and a name agree with everything.
+    if (widget.edge) return 'Ставка: ${sides[called]}  ·  Выпало: ребро';
     final up = widget.passed ? sides[called] : sides[1 - called];
     return 'Ставка: ${sides[called]}  ·  Выпало: $up';
   }
@@ -189,49 +282,33 @@ class _RollBodyState extends State<_RollBody>
       builder: (context, _) {
         // The controller is only a clock here — the motion comes from the
         // two simulations, read at the elapsed time in seconds.
-        final seconds = _controller.value * _throw.inMilliseconds / 1000;
+        final seconds = _controller.value * _duration.inMilliseconds / 1000;
         final settled = _controller.isCompleted;
-
-        // The flip itself: the coin's width collapses to nothing and opens
-        // out again, once per half-turn. `cos` of the spin's position gives
-        // that for free, and its sign says which face is pointing at the
-        // table. Friction leaves the last fraction of a degree unspent, so
-        // the settled frame is squared up by hand rather than left to land
-        // on exactly even by luck.
-        final squash = settled ? 1.0 : math.cos(math.pi * _spin.x(seconds));
-        final showingBack = squash < 0;
+        final pose = _pose(seconds, settled: settled);
+        // Which face is turned towards the table's eye; its sign flips once
+        // per half-turn.
+        final showingBack = math.cos(pose.angle) < 0;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 132,
-              child: Center(
+              height: 172,
+              child: Align(
+                alignment: const Alignment(0, 0.5),
                 child: Transform.translate(
                   // Thrown, not eased: a parabola under gravity, and a small
-                  // second one when it lands.
-                  offset: Offset(0, -_height(seconds)),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    // A hair of perspective so the collapse reads as a coin
-                    // turning rather than a disc being squeezed.
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.0015)
-                      ..scaleByDouble(
-                        1.0,
-                        squash.abs().clamp(0.06, 1.0),
-                        1.0,
-                        1.0,
-                      ),
-                    child: _Coin(
-                      // The spin ends on an even half-turn, so at rest this
-                      // is exactly `_restingFace` — which is the point: the
-                      // coin is started on whichever side it must finish on.
-                      face: showingBack != _restingFace,
-                      color: settled
-                          ? SteelPalette.textHigh
-                          : SteelPalette.steel,
-                    ),
+                  // second one when it lands flat.
+                  offset: pose.drift + Offset(0, -pose.lift),
+                  child: _SolidCoin(
+                    angle: pose.angle,
+                    wheel: pose.wheel,
+                    // A flat landing ends on an even half-turn, so at rest
+                    // this is exactly `_restingFace` — which is the point:
+                    // the coin is started on whichever side it must finish
+                    // on.
+                    face: showingBack != _restingFace,
+                    settled: settled,
                   ),
                 ),
               ),
@@ -246,6 +323,7 @@ class _RollBodyState extends State<_RollBody>
             _Verdict(
               settled: settled,
               passed: widget.passed,
+              edge: widget.edge,
               challenger: widget.challenger,
               opponent: widget.opponent,
             ),
@@ -296,15 +374,20 @@ class _RollBodyState extends State<_RollBody>
 /// land on the *other* one, and an impersonal line leaves the table guessing
 /// which. A solo risk stays in the second person — there is nobody else in
 /// the sentence — and says what it costs rather than what it won.
+///
+/// A coin on its edge has nobody to name: it is «Ребро», said as plainly
+/// as the thing itself.
 class _Verdict extends StatelessWidget {
   final bool settled;
   final bool passed;
+  final bool edge;
   final String? challenger;
   final String? opponent;
 
   const _Verdict({
     required this.settled,
     required this.passed,
+    this.edge = false,
     this.challenger,
     this.opponent,
   });
@@ -318,12 +401,17 @@ class _Verdict extends StatelessWidget {
 
     // `passed` is "the challenger's throw came off", so the one who pays is
     // whichever of the two it was not.
-    final headline = isDuel
-        ? (passed ? opponent : challenger)
+    final headline = edge
+        ? 'Ребро'
+        : isDuel
+        ? 'Платит: ${passed ? opponent : challenger}'
         : (passed ? 'Обошлось' : 'Платишь');
+    final muted = theme.textTheme.bodyMedium?.copyWith(
+      color: SteelPalette.textLow.withValues(alpha: 0.72),
+    );
 
     return SizedBox(
-      height: isDuel ? 62 : 34,
+      height: (isDuel ? 62 : 34) + (edge ? 34 : 0),
       child: settled
           ? TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: 1),
@@ -337,9 +425,7 @@ class _Verdict extends StatelessWidget {
                     Text(
                       '$challenger и $opponent',
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: SteelPalette.textLow.withValues(alpha: 0.72),
-                      ),
+                      style: muted,
                     ),
                   Text(
                     // "Платит: X" rather than "платит X" or "X проиграл":
@@ -353,19 +439,213 @@ class _Verdict extends StatelessWidget {
                     // The solo lines are already gender-free for the same
                     // reason: "Платишь" is second person, "Обошлось" is
                     // impersonal, and neither has to know who is playing.
-                    isDuel ? 'Платит: $headline' : headline,
+                    headline,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: SteelPalette.textHigh,
                       letterSpacing: 0.6,
                     ),
                   ),
+                  if (edge)
+                    Text(
+                      'Монета встала на ребро.',
+                      textAlign: TextAlign.center,
+                      style: muted,
+                    ),
                 ],
               ),
             )
           : null,
     );
   }
+}
+
+/// One frame of the coin's motion. See [_RollBodyState._pose].
+final class _Pose {
+  final double lift;
+  final double angle;
+  final double wheel;
+  final Offset drift;
+
+  const _Pose({
+    this.lift = 0,
+    required this.angle,
+    this.wheel = 0,
+    this.drift = Offset.zero,
+  });
+}
+
+/// The coin as a solid: two struck faces and the milled edge between them.
+///
+/// It turns about its horizontal axis in real perspective. The face turned
+/// towards the eye is a widget carried by the same matrix the edge is
+/// projected with, so the two meet exactly; the edge is painted underneath
+/// it, a band that narrows to nothing when a face looks straight up and is
+/// the whole coin when it stands on end.
+class _SolidCoin extends StatelessWidget {
+  final double angle;
+
+  /// How far it has wheeled about the eye's axis — a spinning coin's
+  /// precession, seen from above.
+  final double wheel;
+
+  /// True is the Jester's side, false the King's — the two entries of a
+  /// card's `sides` in order.
+  final bool face;
+  final bool settled;
+
+  const _SolidCoin({
+    required this.angle,
+    this.wheel = 0,
+    required this.face,
+    required this.settled,
+  });
+
+  static const double diameter = 84;
+
+  /// About a ninth of the diameter: thick enough to stand on.
+  static const double thickness = 9.5;
+
+  /// A little perspective, enough for the near edge to read as nearer.
+  static const double _perspective = 0.003;
+
+  static Matrix4 matrixFor(double angle, double wheel) => Matrix4.identity()
+    ..setEntry(3, 2, _perspective)
+    ..rotateZ(wheel)
+    ..rotateX(angle);
+
+  @override
+  Widget build(BuildContext context) {
+    final matrix = matrixFor(angle, wheel);
+    // The near face sits at whichever end of the coin is closer: the King's
+    // end while the King looks up, the other once it has turned over.
+    final nearZ = math.cos(angle) >= 0 ? -thickness / 2 : thickness / 2;
+    final edgeOn = math.cos(angle).abs() < 0.015;
+    return SizedBox.square(
+      dimension: diameter,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: const Size.square(diameter),
+            painter: _EdgePainter(
+              angle: angle,
+              wheel: wheel,
+              radius: diameter / 2,
+              half: thickness / 2,
+              matrix: matrix,
+            ),
+          ),
+          if (!edgeOn)
+            Transform(
+              alignment: Alignment.center,
+              transform: matrix.clone()..translateByDouble(0, 0, nearZ, 1),
+              child: _Coin(face: face, settled: settled),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The milled edge, projected through the coin's own matrix: a strip of
+/// quads around the rim, lit from the upper left so a highlight slides
+/// along it as the coin turns, and crossed by fine light reeding.
+class _EdgePainter extends CustomPainter {
+  final double angle;
+  final double wheel;
+  final double radius;
+  final double half;
+  final Matrix4 matrix;
+
+  _EdgePainter({
+    required this.angle,
+    required this.wheel,
+    required this.radius,
+    required this.half,
+    required this.matrix,
+  });
+
+  static const _segments = 72;
+  static const _dark = Color(0xFF3F444B);
+  static const _lit = Color(0xFFB9BFC7);
+  static const _shine = Color(0xFFE6E9ED);
+
+  /// Towards the light: up, to the left, and out towards the eye (negative
+  /// z is nearer under this perspective).
+  static final _light = Vector3(-0.35, -0.75, -0.55)..normalize();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final centre = size.center(Offset.zero);
+    final rotation = Matrix4.rotationZ(wheel)..rotateX(angle);
+
+    Offset project(double x, double y, double z) {
+      final v = matrix.perspectiveTransform(Vector3(x, y, z));
+      return centre + Offset(v.x, v.y);
+    }
+
+    final quads =
+        <({double depth, Path path, Offset a, Offset b, double lit})>[];
+    for (var i = 0; i < _segments; i++) {
+      final p0 = 2 * math.pi * i / _segments;
+      final p1 = 2 * math.pi * (i + 1) / _segments;
+      final mid = (p0 + p1) / 2;
+      final normal = rotation.transform3(
+        Vector3(math.cos(mid), math.sin(mid), 0),
+      );
+      // Only the side of the rim that faces the eye is drawn: the coin is
+      // convex, so the rest is behind the near face or the near rim.
+      if (normal.z >= 0) continue;
+      final x0 = radius * math.cos(p0), y0 = radius * math.sin(p0);
+      final x1 = radius * math.cos(p1), y1 = radius * math.sin(p1);
+      final a0 = project(x0, y0, -half), b0 = project(x0, y0, half);
+      final a1 = project(x1, y1, -half), b1 = project(x1, y1, half);
+      final path = Path()
+        ..moveTo(a0.dx, a0.dy)
+        ..lineTo(a1.dx, a1.dy)
+        ..lineTo(b1.dx, b1.dy)
+        ..lineTo(b0.dx, b0.dy)
+        ..close();
+      final depth = rotation
+          .transform3(
+            Vector3(radius * math.cos(mid), radius * math.sin(mid), 0),
+          )
+          .z;
+      quads.add((
+        depth: depth,
+        path: path,
+        a: a0,
+        b: b0,
+        lit: math.max(0, normal.dot(_light)),
+      ));
+    }
+    quads.sort((p, q) => q.depth.compareTo(p.depth));
+
+    final fill = Paint()..isAntiAlias = true;
+    final reed = Paint()
+      ..color = _shine.withValues(alpha: 0.28)
+      ..strokeWidth = 0.55;
+    for (final q in quads) {
+      final base = Color.lerp(_dark, _lit, 0.12 + 0.7 * math.pow(q.lit, 1.4))!;
+      fill.color = Color.lerp(base, _shine, math.pow(q.lit, 14).toDouble())!;
+      // A hairline of the same colour closes the seams between quads.
+      canvas.drawPath(q.path, fill);
+      canvas.drawPath(
+        q.path,
+        Paint()
+          ..color = fill.color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.6,
+      );
+      canvas.drawLine(q.a, q.b, reed);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _EdgePainter oldDelegate) =>
+      oldDelegate.angle != angle || oldDelegate.wheel != wheel;
 }
 
 /// The lot-casting coin, struck with a King on one side and a Jester on the
@@ -378,30 +658,28 @@ class _Verdict extends StatelessWidget {
 /// inventory item anybody has to find first.
 ///
 /// The marks come from the same game-icons.net library the 35 origins use,
-/// tinted the same way, and neither collides with a shape an origin already
-/// owns: a chess king is not the crown of the Наследник древних королей, and
-/// a jester's hat is not the pointed hat of the Наследник ведьм.
+/// and neither collides with a shape an origin already owns: a chess king is
+/// not the crown of the Наследник древних королей, and a jester's hat is not
+/// the pointed hat of the Наследник ведьм. Struck into a filled steel face
+/// a tone darker than the metal, the way a die leaves them.
 class _Coin extends StatelessWidget {
-  /// True is the Jester's side, false the King's — the two entries of a
-  /// card's `sides` in order.
   final bool face;
-  final Color color;
 
-  const _Coin({required this.face, required this.color});
+  /// Settled, the metal brightens: the coin is at rest and lit.
+  final bool settled;
+
+  const _Coin({required this.face, required this.settled});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: 84,
+      dimension: _SolidCoin.diameter,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // The blank the mark is struck on, drawn rather than imported so
-          // the rim keeps the same hairline weight as the rest of the
-          // chrome at every size.
           CustomPaint(
-            size: const Size.square(84),
-            painter: _BlankPainter(color),
+            size: const Size.square(_SolidCoin.diameter),
+            painter: _FacePainter(settled: settled),
           ),
           SvgPicture.asset(
             face
@@ -409,7 +687,10 @@ class _Coin extends StatelessWidget {
                 : 'assets/icons/coin/coin_king.svg',
             width: 40,
             height: 40,
-            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              settled ? const Color(0xFF5E646C) : const Color(0xFF4A4F56),
+              BlendMode.srcIn,
+            ),
           ),
         ],
       ),
@@ -417,41 +698,39 @@ class _Coin extends StatelessWidget {
   }
 }
 
-/// The rim and the inner ring, on the same 24-unit grid every drawn mark in
-/// this app uses.
-class _BlankPainter extends CustomPainter {
-  final Color color;
+/// A struck face: a filled steel disc lit from the upper left, with the
+/// rim's raised border and an inner ring, both a tone darker.
+class _FacePainter extends CustomPainter {
+  final bool settled;
 
-  const _BlankPainter(this.color);
+  const _FacePainter({required this.settled});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final unit = size.shortestSide / 24;
-    canvas.save();
-    canvas.scale(unit);
-
-    const centre = Offset(12, 12);
+    final centre = size.center(Offset.zero);
+    final radius = size.shortestSide / 2;
+    final rect = Rect.fromCircle(center: centre, radius: radius);
     canvas.drawCircle(
       centre,
-      11,
+      radius,
       Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5 / unit,
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: settled
+              ? const [Color(0xFFE2E5E9), Color(0xFFA3AAB2)]
+              : const [Color(0xFFC3C8CF), Color(0xFF7F868F)],
+        ).createShader(rect),
     );
-    canvas.drawCircle(
-      centre,
-      9.4,
-      Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.9 / unit,
-    );
-
-    canvas.restore();
+    final line = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = (settled ? const Color(0xFF7C838B) : const Color(0xFF626870))
+          .withValues(alpha: 0.9);
+    canvas.drawCircle(centre, radius - 1.2, line..strokeWidth = 2.2);
+    canvas.drawCircle(centre, radius * 0.8, line..strokeWidth = 1.0);
   }
 
   @override
-  bool shouldRepaint(covariant _BlankPainter oldDelegate) =>
-      oldDelegate.color != color;
+  bool shouldRepaint(covariant _FacePainter oldDelegate) =>
+      oldDelegate.settled != settled;
 }

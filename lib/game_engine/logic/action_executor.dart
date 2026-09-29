@@ -297,12 +297,17 @@ final class ActionExecutor {
   /// them before the throw, so the engine must face that same person rather
   /// than draw a second one. Unknown ids fall back to a fresh draw instead
   /// of throwing: a stale id is a UI bug, not a reason to lose the step.
+  ///
+  /// [edge] is a coin that stood on its edge: a draw nobody pays for, so
+  /// neither branch runs and no winner or loser is remembered.
   GameContext startDuel(
     StartDuelAction action,
     GameContext context, {
     bool? currentPlayerWins,
     String? opponentId,
+    bool edge = false,
   }) {
+    if (edge) return context;
     final opponents = context.players
         .where((p) => p.id != context.currentPlayer.id)
         .toList();
@@ -335,11 +340,26 @@ final class ActionExecutor {
   ///
   /// [passed] is the same pre-rolled throw [startDuel] takes, for the same
   /// reason.
+  ///
+  /// [edge] is a coin that stood on its edge: better than winning — the
+  /// winning branch, and [kCoinEdgeEffectId] on top.
   GameContext resolveChanceCheck(
     ChanceCheckAction action,
     GameContext context, {
     bool? passed,
+    bool edge = false,
   }) {
+    if (edge) {
+      return executeAsPlayer(
+        [
+          ...action.winnerActions,
+          if (context.effectCatalog.contains(kCoinEdgeEffectId))
+            const ApplyEffectAction(effectId: kCoinEdgeEffectId),
+        ],
+        context.currentPlayer.id,
+        context,
+      );
+    }
     final succeeded = passed ?? context.random.nextBool();
     return executeAsPlayer(
       succeeded ? action.winnerActions : action.loserActions,
