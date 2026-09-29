@@ -20,6 +20,9 @@ final class Gamble {
   final String? winnerOutcome;
   final String? loserOutcome;
 
+  /// A check's own words for a coin on its edge; a duel has none.
+  final String? edgeOutcome;
+
   /// The two players a duel is between, or null for a solo risk.
   ///
   /// [challenger] is whoever tapped; [opponent] is the companion the engine
@@ -35,6 +38,7 @@ final class Gamble {
     this.sides = const [],
     this.winnerOutcome,
     this.loserOutcome,
+    this.edgeOutcome,
     this.challenger,
     this.opponent,
     this.opponentId,
@@ -60,6 +64,21 @@ final class Gamble {
     return text
         .replaceAll('{winner}', won ? challenger : opponent)
         .replaceAll('{loser}', won ? opponent : challenger);
+  }
+
+  /// [outcomeFor], for any of the three ways the coin can come down. A duel
+  /// on its edge is a draw and says so in its own words; a check on its
+  /// edge uses its [edgeOutcome], or [kCoinEdgeOutcome].
+  String? outcomeForThrow(CoinThrow coin) {
+    if (coin != CoinThrow.edge) return outcomeFor(won: coin == CoinThrow.win);
+    final challenger = this.challenger;
+    final opponent = this.opponent;
+    if (isDuel && challenger != null && opponent != null) {
+      return kDuelEdgeOutcome
+          .replaceAll('{challenger}', challenger)
+          .replaceAll('{opponent}', opponent);
+    }
+    return edgeOutcome ?? kCoinEdgeOutcome;
   }
 }
 
@@ -432,6 +451,7 @@ class GameController extends StateNotifier<GameState> {
             sides: a.sides,
             winnerOutcome: a.winnerOutcome,
             loserOutcome: a.loserOutcome,
+            edgeOutcome: a.edgeOutcome,
           );
         case StartDuelAction a:
           final opponents = _context.players
@@ -480,7 +500,44 @@ class GameController extends StateNotifier<GameState> {
   /// animation could get its own route onto the navigator, the same race the
   /// outcome dialog had to be ordered around. Hand the value back to
   /// [resolveCard] and the two agree by construction.
-  bool roll() => _context.random.nextBool();
+  ///
+  /// [watched] is whether the table sees a coin: only a watched coin can
+  /// stand on its edge. The face is drawn from the match's stream exactly as
+  /// before the edge existed, and the edge from a stream of its own, so a
+  /// seed replays every face it always did.
+  CoinThrow roll({bool watched = true}) {
+    final won = _context.random.nextBool();
+    if (watched && _context.random.nextEdge(kCoinEdgeChance)) {
+      return CoinThrow.edge;
+    }
+    return won ? CoinThrow.win : CoinThrow.lose;
+  }
+
+  /// The chronicle's line for a coin that stood on its edge in [action] —
+  /// null when [action] is not the watched throw.
+  String? _edgeChronicleLine(
+    GameCard card,
+    GameAction action,
+    GameContext ctx,
+    String? opponentId,
+  ) {
+    final player = ctx.currentPlayer.name;
+    switch (action) {
+      case ChanceCheckAction a when a.open:
+        return '«${card.title}» — $player бросает монету, и она встаёт на '
+            'ребро.';
+      case StartDuelAction _:
+        final opponent = ctx.players
+            .where((p) => p.id == opponentId)
+            .firstOrNull
+            ?.name;
+        if (opponent == null) return null;
+        return '«${card.title}» — $player и $opponent бросают монету, и она '
+            'встаёт на ребро.';
+      default:
+        return null;
+    }
+  }
 
   List<GameAction> _actionsFor(GameCard card, int? choiceIndex) =>
       card.hasChoices ? card.choices[choiceIndex!].actions : card.actions;
@@ -495,23 +552,53 @@ class GameController extends StateNotifier<GameState> {
   /// Either way `ActionExecutor` keeps a complete implementation of its own:
   /// every gamble nobody pre-rolled — inside an adventure, on an effect's
   /// reaction — still rolls for itself.
-  void resolveCard({int? choiceIndex, bool? gambleWon, String? opponentId}) {
+  ///
+  /// [coinEdge] is a watched coin that stood on its edge (see [roll]): it
+  /// settles the gamble as an edge whatever [gambleWon] says, and goes into
+  /// the chronicle as the legend it is.
+  void resolveCard({
+    int? choiceIndex,
+    bool? gambleWon,
+    String? opponentId,
+    bool coinEdge = false,
+  }) {
     final card = _context.state.pendingCard;
     if (card == null) return;
+    if (coinEdge) gambleWon ??= true;
 
     var ctx = _context;
+    String? edgeLine;
     for (final action in _actionsFor(card, choiceIndex)) {
+      if (coinEdge && edgeLine == null) {
+        edgeLine = _edgeChronicleLine(card, action, ctx, opponentId);
+      }
       ctx = switch (action) {
         ChanceCheckAction a when gambleWon != null =>
-          _executor.resolveChanceCheck(a, ctx, passed: gambleWon),
+          _executor.resolveChanceCheck(
+            a,
+            ctx,
+            passed: gambleWon,
+            edge: coinEdge && a.open,
+          ),
         StartDuelAction a when gambleWon != null => _executor.startDuel(
           a,
           ctx,
           currentPlayerWins: gambleWon,
           opponentId: opponentId,
+          edge: coinEdge,
         ),
         _ => _executor.execute(action, ctx),
       };
+    }
+    if (edgeLine != null) {
+      ctx = ctx.withState(
+        ctx.state.copyWith(
+          chronicle: [
+            ...ctx.state.chronicle,
+            ChronicleEntry(text: edgeLine, coinEdge: true),
+          ],
+        ),
+      );
     }
 
     if (ctx.state.activeAdventureId != null) {

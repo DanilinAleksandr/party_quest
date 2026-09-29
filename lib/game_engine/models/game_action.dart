@@ -1,4 +1,5 @@
 import 'action_target.dart';
+import 'coin_throw.dart';
 import 'journey_phase.dart';
 import 'stat_type.dart';
 import 'weather.dart';
@@ -391,6 +392,10 @@ final class ChanceCheckAction extends GameAction {
   final String? winnerOutcome;
   final String? loserOutcome;
 
+  /// What the table is told when the coin stands on its edge; without one,
+  /// [kCoinEdgeOutcome].
+  final String? edgeOutcome;
+
   /// Whether the table watches the throw. True for the coin: a ledge, the
   /// wolves, a wager, the bright mushrooms — the moments the table would
   /// call "повезёт — не повезёт" out loud of its own accord.
@@ -409,6 +414,7 @@ final class ChanceCheckAction extends GameAction {
     this.sides = const [],
     this.winnerOutcome,
     this.loserOutcome,
+    this.edgeOutcome,
     this.open = true,
   });
 
@@ -423,6 +429,7 @@ final class ChanceCheckAction extends GameAction {
         sides: _sidesFromJson(json['sides']),
         winnerOutcome: json['winnerOutcome'] as String?,
         loserOutcome: json['loserOutcome'] as String?,
+        edgeOutcome: json['edgeOutcome'] as String?,
         open: json['open'] as bool? ?? true,
       );
 
@@ -432,6 +439,7 @@ final class ChanceCheckAction extends GameAction {
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
     if (sides.isNotEmpty) 'sides': sides,
+    if (edgeOutcome != null) 'edgeOutcome': edgeOutcome,
     if (winnerOutcome != null) 'winnerOutcome': winnerOutcome,
     if (loserOutcome != null) 'loserOutcome': loserOutcome,
     if (!open) 'open': false,
