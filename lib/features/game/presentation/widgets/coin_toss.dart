@@ -16,12 +16,17 @@ final class CoinPose {
   final double lift;
   final double angle;
   final double wheel;
+
+  /// How far the axis it tumbles about is tipped towards or away from the
+  /// eye — with [wheel], the sway of that axis in the air.
+  final double roll;
   final Offset drift;
 
   const CoinPose({
     this.lift = 0,
     required this.angle,
     this.wheel = 0,
+    this.roll = 0,
     this.drift = Offset.zero,
   });
 }
@@ -78,10 +83,15 @@ final class CoinMotion {
     _beats = _findBeats();
   }
 
-  /// The usual toss, before [CoinStyle.lift]: two seconds in the air, fifty
-  /// pixels up.
+  /// The usual toss, before [CoinStyle.lift]: two seconds in the air,
+  /// seventy-five pixels up.
   static const _baseFlight = 2.0;
-  static const _basePeak = 50.0;
+  static const _basePeak = 75.0;
+
+  /// How far the tumbling axis sways in the air, at most, and how many
+  /// times its sway goes round in one flight.
+  static const _sway = 17 * math.pi / 180;
+  static const _swayTurns = 0.8;
 
   /// Each bounce leaves at this fraction of the speed it came down with.
   static const _firstRebound = 0.34;
@@ -150,12 +160,18 @@ final class CoinMotion {
           drift: Offset(0, _revealNear),
         );
 
-  /// How far through its turns the coin is, 0..1, at [t] in the air: a
-  /// brisk, nearly even spin that eases off to nothing just as it lands.
+  /// How far through its turns the coin is, 0..1, at [t] in the air.
+  ///
+  /// Not honest physics, but how a throw reads: fastest straight off the
+  /// hand and on the way up, slowing over the top and down, and coming in
+  /// slowly, so its last turns can be seen one by one.
   double _turned(double t) {
     final x = (t / flight).clamp(0.0, 1.0);
-    return 1 - math.pow(1 - x, 1.5).toDouble();
+    return 1 - math.pow(1 - x, 2.4).toDouble();
   }
+
+  /// Where the sway of the tumbling axis starts round, from the variant.
+  late final double _swayFrom = (style.number * 2.39996) % (2 * math.pi);
 
   static double _ease(double x) {
     final t = x.clamp(0.0, 1.0);
@@ -165,9 +181,21 @@ final class CoinMotion {
   CoinPose poseAt(double t) {
     if (t >= seconds) return rest;
     if (t < flight) {
+      // The axis it tumbles about is not fixed: it sways and drifts round,
+      // so each turn shows the face at a slightly different slant, and the
+      // sway dies away as it comes in to land.
+      final x = t / flight;
+      final sway =
+          _sway *
+          math.sin(math.pi * math.min(1, x * 1.6)) *
+          math.pow(1 - x, 0.8);
+      final round =
+          _swayFrom + style.spinDirection * 2 * math.pi * _swayTurns * x;
       return CoinPose(
         lift: _launch * t - _gravity * t * t / 2,
         angle: math.pi * _turns * _turned(t),
+        wheel: sway * math.cos(round),
+        roll: sway * math.sin(round),
       );
     }
     if (!edge && t >= _down) {
@@ -348,10 +376,10 @@ class CoinTossStage extends StatelessWidget {
     required this.settled,
   });
 
-  static const double height = 190;
+  static const double height = 240;
 
   /// Where on the stage the spot the coin rests on is seen.
-  static const double _originY = 132;
+  static const double _originY = 184;
 
   @override
   Widget build(BuildContext context) {
@@ -368,6 +396,7 @@ class CoinTossStage extends StatelessWidget {
       pose.drift.dy,
     );
     final orientation = Matrix4.rotationY(pose.wheel)
+      ..rotateZ(pose.roll)
       ..rotateX(pose.angle)
       ..rotateX(math.pi / 2);
     final turn = CoinCamera.view * orientation as Matrix4;
