@@ -6,11 +6,12 @@ import 'package:flutter/scheduler.dart';
 
 import '../../../../core/theme/steel_palette.dart';
 import 'stop_scenes.dart';
+import 'village_scene.dart';
 import 'strip_kit.dart';
 import 'strip_world.dart';
 
 /// Where the party has stopped, if anywhere.
-enum StripStop { none, rest, tavern }
+enum StripStop { none, rest, tavern, village }
 
 /// The live scene strip over the game: the party walking through the
 /// current biome, ported from the Claude Design handoff (14a, 16a–16e, 17,
@@ -94,6 +95,10 @@ class SceneStripState extends State<SceneStrip>
       case StripStop.tavern:
         _stopKind = StopKind.tavern;
         _stop = buildTavern();
+      case StripStop.village:
+        // The village of the biome the party walked into (15g–15k).
+        _stopKind = StopKind.village;
+        _stop = buildVillage(world.biome);
       case StripStop.rest:
         _stopKind = const [
           StopKind.camp1,
@@ -250,7 +255,12 @@ class SceneStripPainter extends CustomPainter {
 
   void _paintStop(Canvas canvas, Size size, StopScene stop) {
     final w = size.width, t = _stopTime();
-    final ownSky = stop.label == 'ТАВЕРНА' || world.biome == StripBiome.forest;
+    // The tavern and the villages carry their own far planes; a halt away
+    // from the forest stands in front of the biome's.
+    final ownSky =
+        stop.label == 'ТАВЕРНА' ||
+        stop.label == 'ДЕРЕВНЯ' ||
+        world.biome == StripBiome.forest;
     if (ownSky) {
       paintStopSky(canvas, size);
     } else {

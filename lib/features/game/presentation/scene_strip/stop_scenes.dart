@@ -38,10 +38,10 @@ abstract final class _C {
 }
 
 /// Which stop, and for the halt, which of its three variants.
-enum StopKind { camp1, camp2, camp3, tavern }
+enum StopKind { camp1, camp2, camp3, tavern, village }
 
 /// How a looping part moves, from the prototype's CSS keyframes.
-enum StopMotion { flick, glow, sway, laugh, reachLeft, reachRight }
+enum StopMotion { flick, glow, sway, laugh, reachLeft, reachRight, smoke }
 
 /// A part that moves: recorded once, then transformed or faded per frame
 /// about the bottom-centre of its own bounds, as `transform-box: fill-box`.
@@ -557,7 +557,8 @@ StopScene buildCamp(StopKind kind, {required bool environment}) {
         r.anim(_sitter(354, -1, _Sit.laugh, 322, delay: -1.4));
       });
     case StopKind.tavern:
-      throw ArgumentError('the tavern is not a halt');
+    case StopKind.village:
+      throw ArgumentError('$kind is not a halt');
   }
   return StopScene('ПРИВАЛ', pieces);
 }
@@ -827,6 +828,20 @@ double _frames(double p, List<(double, double)> keys) {
         (1, 0),
       ]);
       return (m: about(1, 1, 0, 0, y), opacity: 1);
+    case StopMotion.smoke:
+      // A puff from a chimney: it drifts up and a little aside, swells and
+      // thins, at an even pace — the prototype's is linear — about its own
+      // centre.
+      final p = cycle(false);
+      final s = 0.6 + 1.2 * p, dx = 3 * p, dy = -12 * p;
+      final cx = a.bounds.center.dx, cy = a.bounds.center.dy;
+      return (
+        m: Float64List.fromList([
+          s, 0, 0, 0, 0, s, 0, 0, 0, 0, 1, 0, //
+          cx + dx - s * cx, cy + dy - s * cy, 0, 1,
+        ]),
+        opacity: p < 0.15 ? 0.45 * p / 0.15 : 0.45 * (1 - (p - 0.15) / 0.85),
+      );
     case StopMotion.reachLeft:
     case StopMotion.reachRight:
       final sign = a.motion == StopMotion.reachLeft ? -1 : 1;

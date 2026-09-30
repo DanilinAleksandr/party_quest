@@ -79,6 +79,17 @@ final class GameCard {
         action.value,
   );
 
+  /// Whether drawing this card walks the party out of a village — see
+  /// `CardCatalog.eligibleCards`, which leaves only these once a village
+  /// has had [kVillageMostCards] cards. Read off the action, like
+  /// [beginsRest].
+  bool get endsVillage => actions.any(
+    (action) =>
+        action is SetWorldFlagAction &&
+        action.flag == 'in_village' &&
+        !action.value,
+  );
+
   /// Used by `GameController` to cache, in `GameState`, the same card with
   /// only the choices the player is currently eligible to see — mirrors
   /// `AdventureNode.withChoices` so the index the UI shows always lines up

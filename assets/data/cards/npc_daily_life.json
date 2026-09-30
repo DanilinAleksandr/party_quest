@@ -116,12 +116,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
