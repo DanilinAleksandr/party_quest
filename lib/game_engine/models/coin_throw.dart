@@ -1,3 +1,5 @@
+import 'dart:math';
+
 /// How a watched coin came down: on one face or the other, or — once in a
 /// long while — standing on its edge.
 ///
@@ -29,3 +31,84 @@ const String kCoinEdgeOutcome =
 const String kDuelEdgeOutcome =
     '{challenger} и {opponent} смотрят на монету, стоящую на ребре. Спор '
     'решать некому — и платить никому.';
+
+/// How one throw of the coin looks — never what it comes to, which is
+/// always the [CoinThrow] already thrown. Every throw is drawn afresh, so
+/// the table cannot learn the pattern.
+///
+/// All of it follows from [number], the variant's name: the same number is
+/// the same throw, which is what lets a replay look the same and lets
+/// somebody say «вариант 3 плохой».
+final class CoinStyle {
+  final int number;
+
+  /// How high the toss goes, against the usual: 0.8–1.2.
+  final double lift;
+
+  /// Half-turns in the air: 6 or 8 — few enough for each turn to be
+  /// followed by eye, and always even, so a coin that falls flat can be
+  /// started on the face it must end on.
+  final int halfTurns;
+
+  /// Whether it comes down spinning on its edge like a disc on a table —
+  /// about one throw in three. A coin that will stand always spins.
+  final bool spins;
+
+  /// Which way it wheels when it spins: 1 or −1.
+  final int spinDirection;
+
+  /// How long it spins on its edge, in seconds: 1.5–2.5.
+  final double spinTime;
+
+  /// How far it rolls round while spinning, in logical pixels.
+  final double rollRadius;
+
+  /// How many times it bounces when it lands flat: 1–3.
+  final int bounces;
+
+  /// Whether a coin that will stand dips once, barely, before it settles
+  /// upright: 0 or 1. Never enough to look like a fall.
+  final int nearFalls;
+
+  const CoinStyle({
+    required this.number,
+    required this.lift,
+    required this.halfTurns,
+    required this.spins,
+    required this.spinDirection,
+    required this.spinTime,
+    required this.rollRadius,
+    required this.bounces,
+    required this.nearFalls,
+  });
+
+  factory CoinStyle.of(int number) {
+    final r = Random(number);
+    return CoinStyle(
+      number: number,
+      lift: 0.8 + 0.4 * r.nextDouble(),
+      halfTurns: r.nextInt(3) == 2 ? 8 : 6,
+      spins: r.nextInt(3) == 0,
+      spinDirection: r.nextBool() ? 1 : -1,
+      spinTime: 1.5 + r.nextDouble(),
+      rollRadius: 2 + 5 * r.nextDouble(),
+      bounces: 1 + r.nextInt(3),
+      nearFalls: r.nextInt(2),
+    );
+  }
+
+  /// The variant numbers there are.
+  static const int count = 10000;
+
+  CoinStyle copyWith({bool? spins}) => CoinStyle(
+    number: number,
+    lift: lift,
+    halfTurns: halfTurns,
+    spins: spins ?? this.spins,
+    spinDirection: spinDirection,
+    spinTime: spinTime,
+    rollRadius: rollRadius,
+    bounces: bounces,
+    nearFalls: nearFalls,
+  );
+}

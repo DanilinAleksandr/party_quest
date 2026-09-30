@@ -1,9 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game/presentation/widgets/chance_check_dialog.dart';
+import 'package:drinking_quest/features/game/presentation/widgets/coin_toss.dart';
 import 'package:drinking_quest/game_engine/logic/logic.dart';
 import 'package:drinking_quest/game_engine/models/models.dart';
 
@@ -324,6 +327,101 @@ void main() {
       await tester.pumpAndSettle();
       expect(face(tester), contains('coin_jester'));
       expect(find.text('Ставка: Шут  ·  Выпало: Шут'), findsOneWidget);
+    });
+  });
+
+  group('every look of a throw', () {
+    test('ends exactly where the throw came down', () {
+      for (var n = 0; n < 300; n++) {
+        for (final edge in [false, true]) {
+          final motion = CoinMotion(CoinStyle.of(n), edge: edge);
+          final last = motion.poseAt(motion.seconds - 1e-6);
+          final rest = motion.rest;
+          final why = 'variant $n, edge $edge';
+          // The same angle, as far as the eye can tell: the same face up,
+          // or standing — so the resting face is the one thrown.
+          expect(
+            math.cos(last.angle - rest.angle),
+            closeTo(1, 1e-3),
+            reason: why,
+          );
+          expect(
+            math.cos(last.wheel - rest.wheel),
+            closeTo(1, 1e-3),
+            reason: why,
+          );
+          expect(
+            (last.drift - rest.drift).distance,
+            lessThan(0.5),
+            reason: why,
+          );
+          expect((last.lift - rest.lift).abs(), lessThan(0.5), reason: why);
+        }
+      }
+    });
+
+    test('the same seed looks the same', () {
+      List<int> looks(int seed) {
+        final c = _controller(_check, seed: seed);
+        return [for (var i = 0; i < 20; i++) c.coinStyle().number];
+      }
+
+      expect(looks(4), looks(4));
+      expect(looks(4), isNot(looks(5)));
+    });
+
+    test('drawing looks moves no face and no card', () {
+      final a = _controller(_check, seed: 12);
+      final b = _controller(_check, seed: 12);
+      for (var i = 0; i < 50; i++) {
+        b.coinStyle();
+        expect(a.roll(), b.roll());
+      }
+    });
+
+    test('there is plenty to tell apart', () {
+      final styles = [for (var n = 0; n < 60; n++) CoinStyle.of(n)];
+      expect(styles.map((s) => s.halfTurns).toSet(), {6, 8});
+      expect(styles.map((s) => s.spins).toSet(), {true, false});
+      expect(styles.map((s) => s.spinDirection).toSet(), {1, -1});
+      expect(styles.map((s) => s.bounces).toSet(), {1, 2, 3});
+      expect(styles.map((s) => s.nearFalls).toSet(), {0, 1});
+      for (final s in styles) {
+        expect(s.lift, inInclusiveRange(0.8, 1.2));
+        expect(s.spinTime, inInclusiveRange(1.5, 2.5));
+      }
+    });
+
+    test('knocks where the hand should feel it', () {
+      for (var n = 0; n < 60; n++) {
+        final style = CoinStyle.of(n);
+        final flat = CoinMotion(style.copyWith(spins: false));
+        final beats = flat.beats.map((b) => b.$2).toList();
+        expect(beats.first, CoinBeat.land);
+        expect(
+          beats.where((b) => b == CoinBeat.bounce),
+          hasLength(style.bounces),
+        );
+
+        final standing = CoinMotion(style, edge: true);
+        expect(standing.beats.last.$2, CoinBeat.freeze);
+        expect(
+          standing.beats.where((b) => b.$2 == CoinBeat.freeze),
+          hasLength(1),
+        );
+
+        // A spin that falls rattles faster and faster towards the end.
+        final spin = CoinMotion(style.copyWith(spins: true));
+        final ticks = [
+          for (final (t, b) in spin.beats)
+            if (b == CoinBeat.tick) t,
+        ];
+        expect(ticks.length, greaterThan(6));
+        final early = ticks[2] - ticks[1];
+        final late = ticks[ticks.length - 1] - ticks[ticks.length - 2];
+        expect(late, lessThan(early));
+        expect(spin.beats.last.$2, CoinBeat.land);
+      }
     });
   });
 }

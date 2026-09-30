@@ -17,16 +17,23 @@ final class RandomProvider {
   /// existing seed replays.
   final Random _edge;
 
+  /// And one for how each watched throw looks — see `CoinStyle`.
+  final Random _style;
+
   factory RandomProvider({int? seed}) {
     final resolvedSeed = seed ?? DateTime.now().microsecondsSinceEpoch;
     return RandomProvider._(
       resolvedSeed,
       Random(resolvedSeed),
       Random(resolvedSeed ^ 0x3D6E5EED),
+      Random(resolvedSeed ^ 0x57C0171E),
     );
   }
 
-  RandomProvider._(this.seed, this._source, this._edge);
+  RandomProvider._(this.seed, this._source, this._edge, this._style);
+
+  /// The number of the next throw's look, below [count].
+  int nextStyle(int count) => _style.nextInt(count);
 
   /// Whether a coin stands on its edge, at odds of [chance].
   bool nextEdge(double chance) => _edge.nextDouble() < chance;

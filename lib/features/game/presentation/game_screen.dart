@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,8 +44,34 @@ class GameScreen extends ConsumerStatefulWidget {
   ConsumerState<GameScreen> createState() => _GameScreenState();
 }
 
+/// How long the party walks into a new biome before the next card: long
+/// enough for the strip to carry it in, so a card — a halt above all — does
+/// not arrive over the old road like a teleport.
+const Duration kBiomeEntryPause = Duration(seconds: 7);
+
 class _GameScreenState extends ConsumerState<GameScreen> {
   late final AutoWalkTimer _autoWalk = AutoWalkTimer(onStep: _walkOn);
+
+  /// The biome the screen last drew, to notice the party entering another.
+  String? _seenBiomeId;
+
+  /// Walking on its own: the next countdown is at least [kBiomeEntryPause],
+  /// until a step has been taken in the new biome.
+  bool _enteringBiome = false;
+
+  /// Walking by hand: the button waits out [kBiomeEntryPause].
+  Timer? _entryHold;
+
+  void _noticeBiome(String biomeId) {
+    final seen = _seenBiomeId;
+    _seenBiomeId = biomeId;
+    if (seen == null || seen == biomeId) return;
+    _enteringBiome = true;
+    _entryHold?.cancel();
+    _entryHold = Timer(kBiomeEntryPause, () {
+      if (mounted) setState(() => _entryHold = null);
+    });
+  }
 
   GameSetupArgs get setupArgs => widget.setupArgs;
 
@@ -120,11 +148,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     )) {
       return;
     }
+    _enteringBiome = false;
     ref.read(provider.notifier).takeStep();
   }
 
   @override
   void dispose() {
+    _entryHold?.cancel();
     _autoWalk.dispose();
     _cardView?.dispose();
     super.dispose();
@@ -217,6 +247,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               coin = notifier.roll();
               await showChanceCheckDialog(
                 context: context,
+                style: notifier.coinStyle(),
                 passed: coin.favours,
                 edge: coin == CoinThrow.edge,
                 sides: gamble.hasCall ? gamble.sides : null,
@@ -363,15 +394,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final inDetour = _inDetour(gameState);
     final inRest = gameState.worldState.flag('in_rest');
     final onTop = ModalRoute.of(context)?.isCurrent ?? true;
+    _noticeBiome(gameState.worldState.currentBiomeId);
     final timerRuns = _canWalk(gameState, walk, onTop: onTop);
     // Idempotent: a countdown already running is left to finish, and one
     // that should not be running is dropped. Doing it here rather than in a
     // listener is what lets a route change — not only a state change —
     // start and stop it.
+    final entryPause = _enteringBiome ? kBiomeEntryPause.inSeconds : 0;
     _autoWalk.update(
       canWalk: timerRuns,
-      minDelaySeconds: walk.minDelay,
-      maxDelaySeconds: walk.maxDelay,
+      minDelaySeconds: math.max(walk.minDelay, entryPause),
+      maxDelaySeconds: math.max(walk.maxDelay, entryPause),
     );
     final currentBiome = biomes?.byId(gameState.worldState.currentBiomeId);
 
@@ -555,7 +588,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       : inDetour
                       ? 'ДАЛЬШЕ'
                       : 'ПРОДОЛЖИТЬ ПОХОД',
-                  onPressed: canTakeStep
+                  onPressed: canTakeStep && _entryHold == null
                       ? () => ref.read(provider.notifier).takeStep()
                       : null,
                 ),
