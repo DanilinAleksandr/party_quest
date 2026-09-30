@@ -126,6 +126,11 @@ List<InfluenceTag> influenceTagsOf(
         if (placeFlags.contains(c.flag)) break;
         add(InfluenceSource.world);
 
+      // A spacing, not a memory: why something may happen again, not what
+      // the world recalls.
+      case FlagNotSetWithinStepsCondition _:
+        break;
+
       case MaximumStepsSinceFlagCondition c:
         if (placeFlags.contains(c.flag)) break;
         add(InfluenceSource.world);
@@ -165,6 +170,7 @@ List<InfluenceTag> influenceTagsOf(
       case MinimumTurnsInWeatherCondition _:
       case MinimumTurnsInTavernCondition _:
       case MinimumTurnsInRestCondition _:
+      case MinimumTurnsInVillageCondition _:
       case MinimumPlayersCondition _:
       case MaximumPlayersCondition _:
       case MinimumStepCondition _:

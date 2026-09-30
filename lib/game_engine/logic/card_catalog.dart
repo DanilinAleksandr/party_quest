@@ -12,6 +12,11 @@ import '../models/models.dart';
 /// tavern's length is `in_tavern`'s.
 const int kRestInterval = 10;
 
+/// The most village cards a stay in a village holds; after that, only the
+/// ways out are drawn. The ways out are weighted for three to five, but a
+/// weight is a likelihood, and this is a promise.
+const int kVillageMostCards = 7;
+
 /// The full pool of cards a match can draw from, plus condition-aware,
 /// weighted selection.
 ///
@@ -76,6 +81,13 @@ final class CardCatalog {
   /// its own; doing it here in one line keeps eight campfire cards from
   /// needing eight copies of the same condition.
   ///
+  /// A village is the halt's pattern once more, `in_village`, both ways:
+  /// inside, only `CardTag.village` content; outside, none of it. A halt
+  /// never begins in one, and none is lost to one: the steps stand still in
+  /// a village, so the schedule cannot come due there, and a due step is
+  /// the halt's own, so no village can begin on one. The halt simply comes
+  /// after, on the road.
+  ///
   /// The prologue and the tavern take precedence, and the schedule waits.
   /// A halt cannot begin inside another detour, and a due step that lands
   /// there simply passes — the player is never told the halt comes every
@@ -94,31 +106,51 @@ final class CardCatalog {
     final inPrologue = context.state.phase == JourneyPhase.prologue;
     final inTavern = context.state.worldState.flag('in_tavern');
     final inRest = context.state.worldState.flag('in_rest');
+    final inVillage = context.state.worldState.flag('in_village');
+    final villageOver =
+        inVillage &&
+        context.state.worldState.turnsInVillage > kVillageMostCards;
     final steps = context.state.partySteps;
     final restDue =
         !inPrologue &&
         !inTavern &&
         !inRest &&
+        !inVillage &&
         steps > 0 &&
         steps % context.restInterval == 0;
 
-    List<GameCard> pool({required bool arrivals}) => allCards
-        .where((card) {
-          if (!context.mode.allowedRarities.contains(card.rarity)) return false;
-          if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
-          if (inTavern && !card.hasTag(CardTag.tavern)) return false;
-          if (inRest != card.hasTag(CardTag.rest)) return false;
-          if (arrivals != card.beginsRest) return false;
-          final conditionsMet = card.conditions.every(
-            (condition) => condition.isSatisfied(context),
-          );
-          return conditionsMet && (extraFilter?.call(card) ?? true);
-        })
-        .toList(growable: false);
+    List<GameCard> pool({required bool arrivals, bool capped = true}) =>
+        allCards
+            .where((card) {
+              if (!context.mode.allowedRarities.contains(card.rarity)) {
+                return false;
+              }
+              if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
+              if (inTavern && !card.hasTag(CardTag.tavern)) return false;
+              if (inRest != card.hasTag(CardTag.rest)) return false;
+              if (inVillage != card.hasTag(CardTag.village)) return false;
+              if (capped && villageOver && !card.endsVillage) return false;
+              if (arrivals != card.beginsRest) return false;
+              final conditionsMet = card.conditions.every(
+                (condition) => condition.isSatisfied(context),
+              );
+              return conditionsMet && (extraFilter?.call(card) ?? true);
+            })
+            .toList(growable: false);
 
-    if (!restDue) return pool(arrivals: false);
+    // A village that has had its fill with no way out through the filter
+    // (a card set without exits) keeps to its own content rather than
+    // drawing from an empty pool.
+    List<GameCard> ordinary() {
+      final pooled = pool(arrivals: false);
+      return pooled.isEmpty && villageOver
+          ? pool(arrivals: false, capped: false)
+          : pooled;
+    }
+
+    if (!restDue) return ordinary();
     final due = pool(arrivals: true);
-    return due.isEmpty ? pool(arrivals: false) : due;
+    return due.isEmpty ? ordinary() : due;
   }
 
   /// Draws one eligible card, weighted by [GameCard.weight].

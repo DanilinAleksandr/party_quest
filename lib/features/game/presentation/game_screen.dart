@@ -130,7 +130,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   /// Stopped somewhere rather than on the road.
   static bool _inDetour(GameState state) =>
-      state.worldState.flag('in_tavern') || state.worldState.flag('in_rest');
+      state.worldState.flag('in_tavern') ||
+      state.worldState.flag('in_rest') ||
+      state.worldState.flag('in_village');
 
   /// The countdown ran out. Everything is checked once more rather than
   /// trusted from the last rebuild: a dialog pushed in the same frame would
@@ -473,6 +475,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     ? StripStop.rest
                     : gameState.worldState.flag('in_tavern')
                     ? StripStop.tavern
+                    : gameState.worldState.flag('in_village')
+                    ? StripStop.village
                     : StripStop.none,
               ),
               const SizedBox(height: 14),

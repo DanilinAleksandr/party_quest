@@ -1,0 +1,285 @@
+[
+  {
+    "id": "village_enter_forest",
+    "title": "Дым над кронами",
+    "description": "Сначала запах — дым и свежий хлеб. Потом между стволами проступают крыши: деревня стоит прямо в лесу, будто лес её так и не заметил.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 90,
+    "tags": [
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_village"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 3
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "left_village",
+        "steps": 12
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_enter_mountains",
+    "title": "Дома на уступах",
+    "description": "Тропа упирается в каменную стену с калиткой. За ней — дома, прилепленные к склону уступами, и козы, которые смотрят на вас сверху.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 90,
+    "tags": [
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_village"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 3
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "left_village",
+        "steps": 12
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_enter_coast",
+    "title": "Сети на шестах",
+    "description": "Пахнет рыбой и смолой. Дома стоят на сваях над водой, между ними мостки, а на шестах сушатся сети — их развесили только что.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 90,
+    "tags": [
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_village"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 3
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "left_village",
+        "steps": 12
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_enter_desert",
+    "title": "Оазис",
+    "description": "Сначала — зелень, которой здесь быть не может. Потом пальмы, глиняные стены и колодец, у которого стоит очередь из людей и верблюдов.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 90,
+    "tags": [
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_village"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 3
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "left_village",
+        "steps": 12
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_enter_floodlands",
+    "title": "Деревня по окна в воде",
+    "description": "Насыпь выводит к мосткам. Дальше дома стоят в воде по окна; люди живут наверху и перекрикиваются из окна в окно.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 90,
+    "tags": [
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_village"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "in_tavern"
+      },
+      {
+        "condition": "minimumTurnsInBiome",
+        "turns": 3
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "left_village",
+        "steps": 12
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_leave_outskirts",
+    "title": "Околица",
+    "description": "Последний дом, последняя собака, которая провожает до поворота. Деревня остаётся позади — со своими делами, которые вас уже не касаются.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 45,
+    "tags": [
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumTurnsInVillage",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": false
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "left_village",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "village_leave_porch_wave",
+    "title": "Машут с крыльца",
+    "description": "Кто-то машет с крыльца — не то вам, не то просто так. Дорога снова ваша.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 45,
+    "tags": [
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumTurnsInVillage",
+        "turns": 4
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWorldFlag",
+        "flag": "in_village",
+        "value": false
+      },
+      {
+        "action": "setWorldFlag",
+        "flag": "left_village",
+        "value": true
+      }
+    ]
+  }
+]

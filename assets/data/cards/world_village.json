@@ -7,12 +7,21 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -25,7 +34,8 @@
     "rarity": "common",
     "weight": 3,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [
       {
@@ -59,7 +69,8 @@
     "rarity": "common",
     "weight": 3,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [
       {
@@ -77,12 +88,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -95,12 +111,21 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -113,12 +138,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -131,12 +161,21 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -149,12 +188,21 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -167,12 +215,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -185,12 +238,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -203,12 +261,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -222,12 +285,17 @@
     "weight": 3,
     "tags": [
       "social",
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "choices": [

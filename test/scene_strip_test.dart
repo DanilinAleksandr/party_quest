@@ -5,6 +5,7 @@ import 'package:drinking_quest/features/game/presentation/scene_strip/scene_stri
 import 'package:drinking_quest/features/game/presentation/scene_strip/stop_scenes.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/strip_kit.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/strip_world.dart';
+import 'package:drinking_quest/features/game/presentation/scene_strip/village_scene.dart';
 
 StripWorld _world(StripBiome biome, {int seed = 17}) =>
     StripWorld(geo: StripGeo(56), width: 412, biome: biome, seed: seed);
@@ -359,6 +360,50 @@ void main() {
       final tavern = buildTavern();
       expect(tavern.label, 'ТАВЕРНА');
       tavern.dispose();
+    });
+
+    test('each biome with villages has its own, as drawn in the handoff', () {
+      for (final biome in [
+        StripBiome.forest,
+        StripBiome.mountains,
+        StripBiome.coast,
+        StripBiome.desert,
+        StripBiome.floodlands,
+      ]) {
+        final scene = buildVillage(biome);
+        expect(scene.label, 'ДЕРЕВНЯ', reason: '$biome');
+        // Lit up piece by piece in the prototype's order, with the sky's fog
+        // and the ground there from the first frame.
+        final orders = scene.pieces.map((p) => p.order).whereType<int>();
+        expect(orders.length, greaterThanOrEqualTo(6), reason: '$biome');
+        expect(scene.pieces.any((p) => p.order == null), isTrue);
+        // And the chimneys smoke — all but the oasis, whose clay houses
+        // have none.
+        final motions = {
+          for (final p in scene.pieces)
+            for (final a in p.anims) a.motion,
+        };
+        if (biome != StripBiome.desert) {
+          expect(motions, contains(StopMotion.smoke), reason: '$biome');
+        }
+        scene.dispose();
+      }
+      // The flooded village's mound has its fire and its people.
+      final flood = buildVillage(StripBiome.floodlands);
+      final moving = {
+        for (final p in flood.pieces)
+          for (final a in p.anims) a.motion,
+      };
+      expect(
+        moving,
+        containsAll([
+          StopMotion.glow,
+          StopMotion.flick,
+          StopMotion.laugh,
+          StopMotion.reachLeft,
+        ]),
+      );
+      flood.dispose();
     });
   });
 }

@@ -27,6 +27,11 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// echo carries 200 so that it actually turns up after a halt — and a sum
 /// that counts it as if it were on the road every step reports a share it
 /// never has. Every other card, however gated, is still counted.
+///
+/// The ways into and out of a village are left out for the same reason:
+/// there are five ways in, one per biome, of which only one can ever be on
+/// the road, weighted to bring a village round every fifteen to twenty
+/// cards — not a share of every step. The village's own content is counted.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -39,6 +44,7 @@ void main() {
               (condition) => condition is MaximumStepsSinceFlagCondition,
             ),
           )
+          .where((c) => !c.actions.any(_movesVillage))
           .toList();
       final totalWeight = cards.fold<int>(0, (sum, c) => sum + c.weight);
 
@@ -82,3 +88,7 @@ void main() {
     },
   );
 }
+
+/// Walks the party into a village or out of one.
+bool _movesVillage(GameAction action) =>
+    action is SetWorldFlagAction && action.flag == 'in_village';

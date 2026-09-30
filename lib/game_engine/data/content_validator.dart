@@ -526,7 +526,9 @@ final class ContentValidator {
       case MinimumTurnsInBiomeCondition _:
       case MinimumTurnsInTavernCondition _:
       case MinimumTurnsInRestCondition _:
+      case MinimumTurnsInVillageCondition _:
       case MinimumStepsSinceFlagCondition _:
+      case FlagNotSetWithinStepsCondition _:
       case MaximumStepsSinceFlagCondition _:
       case IntoxicationAtLeastCondition _:
       case IntoxicationBelowCondition _:
