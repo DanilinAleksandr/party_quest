@@ -39,7 +39,13 @@ enum CardTag {
   /// steps — see `CardCatalog.eligibleCards`. Unlike the two above, this
   /// tag also keeps a card *out* of every other step: a campfire is not
   /// something that happens by chance on the road.
-  rest;
+  rest,
+
+  /// Marks content for a village the party walks into — see
+  /// `CardCatalog.eligibleCards`. Both ways, like [rest]: inside a village
+  /// only this content is drawn, and outside it none of it is, so a
+  /// miller or a quarrel over a fence never turns up on a mountain pass.
+  village;
 
   static CardTag fromJson(String value) => CardTag.values.byName(value);
 

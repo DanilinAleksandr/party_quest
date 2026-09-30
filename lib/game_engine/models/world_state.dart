@@ -92,6 +92,8 @@ import 'weather.dart';
 /// inside whatever biome the party is already in, its own content pool, its
 /// own way out, and `partySteps` frozen throughout — an evening at the fire
 /// no more shortens the road than an evening at the bar does.
+///
+/// [turnsInVillage] is the third of the kind, keyed off `in_village`.
 final class WorldState {
   final Map<String, bool> flags;
   final Set<String> completedAdventures;
@@ -103,6 +105,7 @@ final class WorldState {
   final Season currentSeason;
   final int turnsInTavern;
   final int turnsInRest;
+  final int turnsInVillage;
   final String? previousParticipantId;
   final String? previousWinnerId;
   final String? previousLoserId;
@@ -120,6 +123,7 @@ final class WorldState {
     this.currentSeason = Season.summer,
     this.turnsInTavern = 0,
     this.turnsInRest = 0,
+    this.turnsInVillage = 0,
     this.previousParticipantId,
     this.previousWinnerId,
     this.previousLoserId,
@@ -151,6 +155,7 @@ final class WorldState {
     Season? currentSeason,
     int? turnsInTavern,
     int? turnsInRest,
+    int? turnsInVillage,
     String? previousParticipantId,
     String? previousWinnerId,
     String? previousLoserId,
@@ -169,6 +174,7 @@ final class WorldState {
       currentSeason: currentSeason ?? this.currentSeason,
       turnsInTavern: turnsInTavern ?? this.turnsInTavern,
       turnsInRest: turnsInRest ?? this.turnsInRest,
+      turnsInVillage: turnsInVillage ?? this.turnsInVillage,
       previousParticipantId:
           previousParticipantId ?? this.previousParticipantId,
       previousWinnerId: previousWinnerId ?? this.previousWinnerId,
@@ -200,6 +206,7 @@ final class WorldState {
         : Season.fromJson(json['currentSeason'] as String),
     turnsInTavern: json['turnsInTavern'] as int? ?? 0,
     turnsInRest: json['turnsInRest'] as int? ?? 0,
+    turnsInVillage: json['turnsInVillage'] as int? ?? 0,
     previousParticipantId: json['previousParticipantId'] as String?,
     previousWinnerId: json['previousWinnerId'] as String?,
     previousLoserId: json['previousLoserId'] as String?,
@@ -219,6 +226,7 @@ final class WorldState {
     'currentSeason': currentSeason.toJson(),
     'turnsInTavern': turnsInTavern,
     'turnsInRest': turnsInRest,
+    'turnsInVillage': turnsInVillage,
     'previousParticipantId': previousParticipantId,
     'previousWinnerId': previousWinnerId,
     'previousLoserId': previousLoserId,

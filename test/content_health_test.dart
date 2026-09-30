@@ -66,6 +66,8 @@ void main() {
     MinimumTurnsInBiomeCondition _ ||
     MinimumTurnsInTavernCondition _ ||
     MinimumTurnsInRestCondition _ ||
+    MinimumTurnsInVillageCondition _ ||
+    FlagNotSetWithinStepsCondition _ ||
     MinimumPlayersCondition _ ||
     MaximumPlayersCondition _ ||
     MinimumStepCondition _ ||

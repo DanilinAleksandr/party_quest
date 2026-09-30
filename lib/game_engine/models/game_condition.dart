@@ -98,6 +98,9 @@ sealed class GameCondition {
       'minimumTurnsInTavern' => MinimumTurnsInTavernCondition(
         turns: json['turns'] as int,
       ),
+      'minimumTurnsInVillage' => MinimumTurnsInVillageCondition(
+        turns: json['turns'] as int,
+      ),
       'minimumTurnsInRest' => MinimumTurnsInRestCondition(
         turns: json['turns'] as int,
       ),
@@ -118,6 +121,10 @@ sealed class GameCondition {
       ),
       'leaderIsSet' => const LeaderIsSetCondition(),
       'leaderIsUnset' => const LeaderIsUnsetCondition(),
+      'flagNotSetWithinSteps' => FlagNotSetWithinStepsCondition(
+        flag: json['flag'] as String,
+        steps: json['steps'] as int,
+      ),
       'minimumStepsSinceFlag' => MinimumStepsSinceFlagCondition(
         flag: json['flag'] as String,
         steps: json['steps'] as int,
@@ -808,6 +815,55 @@ final class MinimumTurnsInRestCondition extends GameCondition {
   Map<String, dynamic> toJson() => {
     'condition': 'minimumTurnsInRest',
     'turns': turns,
+  };
+}
+
+/// The same, for a village — see `WorldState.turnsInVillage`: how the ways
+/// out wait until the party has been there a while.
+final class MinimumTurnsInVillageCondition extends GameCondition {
+  final int turns;
+
+  const MinimumTurnsInVillageCondition({required this.turns});
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.state.worldState.turnsInVillage >= turns;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'minimumTurnsInVillage',
+    'turns': turns,
+  };
+}
+
+/// A pause after something, including before it has ever happened: true
+/// if [flag] has never been set, or is off, or was set at least [steps]
+/// party steps ago. [MinimumStepsSinceFlagCondition] is false until the
+/// flag is first set, which is right for a payoff and wrong for a spacing —
+/// the first village of a match must be possible.
+final class FlagNotSetWithinStepsCondition extends GameCondition {
+  final String flag;
+  final int steps;
+
+  const FlagNotSetWithinStepsCondition({
+    required this.flag,
+    required this.steps,
+  });
+
+  @override
+  bool isSatisfied(GameContext context) {
+    final worldState = context.state.worldState;
+    if (!worldState.flag(flag)) return true;
+    final setAtStep = worldState.flagSetAtStep[flag];
+    if (setAtStep == null) return true;
+    return context.state.partySteps - setAtStep >= steps;
+  }
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'flagNotSetWithinSteps',
+    'flag': flag,
+    'steps': steps,
   };
 }
 

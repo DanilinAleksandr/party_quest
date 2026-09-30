@@ -205,6 +205,7 @@ class GameController extends StateNotifier<GameState> {
     ctx = _incrementTurnsInWeather(ctx);
     ctx = _incrementTurnsInTavern(ctx);
     ctx = _incrementTurnsInRest(ctx);
+    ctx = _incrementTurnsInVillage(ctx);
 
     if (stepsToWin != null && ctx.state.partySteps >= stepsToWin!) {
       _finishJourney(ctx);
@@ -763,7 +764,9 @@ class GameController extends StateNotifier<GameState> {
   /// for the tavern's own local dwell counter.
   GameContext _incrementPartySteps(GameContext ctx) {
     final world = ctx.state.worldState;
-    if (world.flag('in_tavern') || world.flag('in_rest')) {
+    if (world.flag('in_tavern') ||
+        world.flag('in_rest') ||
+        world.flag('in_village')) {
       return ctx;
     }
     return ctx.withState(
@@ -814,6 +817,15 @@ class GameController extends StateNotifier<GameState> {
     final inRest = ctx.state.worldState.flag('in_rest');
     final worldState = ctx.state.worldState.copyWith(
       turnsInRest: inRest ? ctx.state.worldState.turnsInRest + 1 : 0,
+    );
+    return ctx.withState(ctx.state.copyWith(worldState: worldState));
+  }
+
+  /// The same counter for a village — see `WorldState.turnsInVillage`.
+  GameContext _incrementTurnsInVillage(GameContext ctx) {
+    final inVillage = ctx.state.worldState.flag('in_village');
+    final worldState = ctx.state.worldState.copyWith(
+      turnsInVillage: inVillage ? ctx.state.worldState.turnsInVillage + 1 : 0,
     );
     return ctx.withState(ctx.state.copyWith(worldState: worldState));
   }

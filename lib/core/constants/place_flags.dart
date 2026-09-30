@@ -15,4 +15,12 @@
 /// `left_rest` is the same bookkeeping one step later: it is stamped as the
 /// party gets up from a halt, so a card can know the fire is fresh behind
 /// them. It says when, not what the world remembers.
-const Set<String> placeFlags = {'in_tavern', 'in_rest', 'left_rest'};
+///
+/// `in_village` and `left_village` are the village's pair.
+const Set<String> placeFlags = {
+  'in_tavern',
+  'in_rest',
+  'left_rest',
+  'in_village',
+  'left_village',
+};

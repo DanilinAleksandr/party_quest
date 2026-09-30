@@ -6,8 +6,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "desert" }],
     "actions": []
   },
   {
@@ -17,10 +17,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "desert" }
     ],
     "actions": []
   },
@@ -31,10 +32,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "desert" }
     ],
     "actions": []
   },
@@ -46,8 +48,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   },
   {
@@ -57,10 +59,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -71,10 +74,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
+    "tags": ["solo", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -86,7 +90,7 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
+    "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
     "actions": []
   },
@@ -97,7 +101,7 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 4 }
@@ -111,7 +115,7 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 9 }
@@ -126,8 +130,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   },
   {
@@ -137,10 +141,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -151,10 +156,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -166,8 +172,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "desert" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   },
   {
@@ -177,10 +183,12 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "desert" },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -191,10 +199,12 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
+    "tags": ["solo", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "desert" },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -206,10 +216,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "desert" }
     ],
     "actions": []
   },
@@ -220,10 +231,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
+    "tags": ["solo", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "desert" }
     ],
     "actions": []
   },
@@ -235,10 +247,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
+    "tags": ["group", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -249,10 +262,11 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
+    "tags": ["solo", "village"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 9 }
+      { "condition": "minimumStep", "steps": 9 },
+      { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },
@@ -264,8 +278,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "inSeason", "season": "spring" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "inSeason", "season": "spring" }, { "condition": "notInBiome", "biomeId": "desert" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   },
   {
@@ -275,8 +289,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["solo"],
-    "conditions": [{ "condition": "inSeason", "season": "summer" }],
+    "tags": ["solo", "village"],
+    "conditions": [{ "condition": "inSeason", "season": "summer" }, { "condition": "notInBiome", "biomeId": "desert" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   },
   {
@@ -286,8 +300,8 @@
     "type": "event",
     "rarity": "common",
     "weight": 2,
-    "tags": ["group"],
-    "conditions": [{ "condition": "inSeason", "season": "autumn" }],
+    "tags": ["group", "village"],
+    "conditions": [{ "condition": "inSeason", "season": "autumn" }, { "condition": "notInBiome", "biomeId": "desert" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
     "actions": []
   }
 ]
