@@ -72,12 +72,17 @@
     "weight": 3,
     "tags": [
       "curse",
-      "solo"
+      "solo",
+      "tavern"
     ],
     "conditions": [
       {
         "condition": "worldFlagSet",
         "flag": "cheated_legendary_cardsharp"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_tavern"
       }
     ],
     "actions": [
