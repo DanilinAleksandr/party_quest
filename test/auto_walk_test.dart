@@ -105,7 +105,8 @@ Future<void> _pumpGame(
   await tester.pump();
 }
 
-const _start = 'НАЧАТЬ';
+/// The first button, whatever it was drawn to say.
+final _start = find.byKey(kStartButtonKey);
 const _onward = 'ПРОДОЛЖИТЬ ПОХОД';
 const _next = 'ДАЛЬШЕ';
 
@@ -179,12 +180,14 @@ void main() {
         const WalkSettings(mode: WalkMode.manual),
       );
 
-      expect(find.text(_start), findsOneWidget);
+      expect(_start, findsOneWidget);
       // No timer is walking the party behind the button's back.
       await tester.pump(const Duration(seconds: 30));
       expect(controller.state.pendingCard, isNull);
 
-      await tester.tap(find.text(_start));
+      await tester.tap(_start);
+      // The party leaves the house before the first card.
+      await tester.pump(kLeaveHomeMax);
       await tester.pump();
       expect(controller.state.pendingCard, isNotNull);
       await _dismissCard(tester);
@@ -211,15 +214,17 @@ void main() {
       );
 
       // Nothing moves until the table says so.
-      expect(find.text(_start), findsOneWidget);
+      expect(_start, findsOneWidget);
       await tester.pump(const Duration(seconds: 30));
       expect(controller.state.pendingCard, isNull);
 
-      await tester.tap(find.text(_start));
+      await tester.tap(_start);
+      // The party leaves the house before the first card.
+      await tester.pump(kLeaveHomeMax);
       await tester.pump();
       expect(controller.state.pendingCard, isNotNull);
       await _dismissCard(tester);
-      expect(find.text(_start), findsNothing);
+      expect(_start, findsNothing);
       expect(find.text(_onward), findsNothing);
 
       // The countdown started as the card closed, early in `_dismissCard`'s
@@ -235,6 +240,31 @@ void main() {
       await tester.pump(const Duration(minutes: 1));
       expect(controller.state.pendingCard, same(card));
       expect(controller.state.partySteps, 2);
+    });
+
+    testWidgets('the first card comes 5–7 s after the start, never sooner', (
+      tester,
+    ) async {
+      for (final mode in WalkMode.values) {
+        final controller = _controller();
+        await _pumpGame(tester, controller, WalkSettings(mode: mode));
+        final label = tester.widget<ContinueJourneyButton>(_start).label;
+        expect(kStartLabels.map((l) => l.toUpperCase()), contains(label));
+
+        await tester.tap(_start);
+        await tester.pump();
+        // Pressed again while the party is still in the doorway: nothing.
+        expect(tester.widget<ContinueJourneyButton>(_start).onPressed, isNull);
+        await tester.pump(kLeaveHomeMin - const Duration(milliseconds: 100));
+        expect(controller.state.pendingCard, isNull, reason: '$mode');
+        await tester.pump(
+          kLeaveHomeMax - kLeaveHomeMin + const Duration(milliseconds: 100),
+        );
+        expect(controller.state.pendingCard, isNotNull, reason: '$mode');
+        expect(controller.state.partySteps, 1);
+        await _dismissCard(tester);
+        await tester.pumpWidget(const SizedBox());
+      }
     });
 
     testWidgets('at a halt the cards keep coming on their own, no button', (
@@ -260,7 +290,8 @@ void main() {
         tester.widget<SceneStrip>(find.byType(SceneStrip)).stop,
         StripStop.rest,
       );
-      for (final label in [_start, _onward, _next]) {
+      expect(_start, findsNothing);
+      for (final label in [_onward, _next]) {
         expect(find.text(label), findsNothing);
       }
 
@@ -284,7 +315,9 @@ void main() {
         const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
       );
 
-      await tester.tap(find.text(_start));
+      await tester.tap(_start);
+      // The party leaves the house before the first card.
+      await tester.pump(kLeaveHomeMax);
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.phase, JourneyPhase.prologue);
@@ -370,7 +403,9 @@ void main() {
         controller,
         const WalkSettings(mode: WalkMode.auto, minDelay: 1, maxDelay: 1),
       );
-      await tester.tap(find.text(_start));
+      await tester.tap(_start);
+      // The party leaves the house before the first card.
+      await tester.pump(kLeaveHomeMax);
       await tester.pump();
       await _dismissCard(tester);
       expect(changed, isNotNull);
@@ -395,7 +430,9 @@ void main() {
         controller,
         const WalkSettings(mode: WalkMode.manual),
       );
-      await tester.tap(find.text(_start));
+      await tester.tap(_start);
+      // The party leaves the house before the first card.
+      await tester.pump(kLeaveHomeMax);
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.worldState.currentBiomeId, 'mountains');
@@ -444,7 +481,9 @@ void main() {
       const WalkSettings(mode: WalkMode.manual),
     );
 
-    await tester.tap(find.text(_start));
+    await tester.tap(_start);
+    // The party leaves the house before the first card.
+    await tester.pump(kLeaveHomeMax);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     await tester.tap(find.text('Проверить мешок'));

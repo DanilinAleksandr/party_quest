@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/routes.dart';
 import '../../../core/constants/game_constants.dart';
-import '../../../core/constants/journey_length_config.dart';
 import '../../../core/theme/steel_palette.dart';
 import '../../../core/widgets/line_icons.dart';
 import '../../../core/widgets/tactile_press_button.dart';
 import '../../settings/application/walk_settings.dart';
+import '../application/last_party.dart';
 import 'widgets/journey_length_picker.dart';
 
 /// Ephemeral form state — this screen only builds the player list that gets
@@ -29,7 +29,22 @@ class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
   final List<String> _playerNames = [];
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nameFocusNode = FocusNode();
-  int? _journeySteps = JourneyLengthConfig.defaultSteps;
+
+  /// Null — without end — unless the table picks a length.
+  int? _journeySteps;
+
+  /// Set once the table adds or removes anybody, so the last party,
+  /// arriving a moment late from the store, does not overwrite them.
+  bool _rosterTouched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    LastParty.load().then((names) {
+      if (!mounted || _rosterTouched || names.isEmpty) return;
+      setState(() => _playerNames.addAll(names.take(GameConstants.maxPlayers)));
+    });
+  }
 
   @override
   void dispose() {
@@ -46,6 +61,7 @@ class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
     final name = _nameController.text.trim();
     if (name.isEmpty || !_canAddPlayer) return;
     setState(() {
+      _rosterTouched = true;
       _playerNames.add(name);
       _nameController.clear();
     });
@@ -53,10 +69,14 @@ class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
   }
 
   void _removePlayer(int index) {
-    setState(() => _playerNames.removeAt(index));
+    setState(() {
+      _rosterTouched = true;
+      _playerNames.removeAt(index);
+    });
   }
 
   void _startGame() {
+    LastParty.save(List<String>.of(_playerNames));
     Navigator.of(context).pushNamed(
       AppRoutes.game,
       arguments: (

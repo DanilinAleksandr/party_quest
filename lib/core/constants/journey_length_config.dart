@@ -7,17 +7,9 @@
 abstract final class JourneyLengthConfig {
   static const int minSteps = 10;
 
-  /// The largest *finite* step count the slider can express. One further
-  /// slider position past this represents infinite — see
-  /// [sliderMaxPosition].
+  /// The largest *finite* step count the trail can express. Past it, on the
+  /// ∞ glyph, the journey has no end.
   static const int maxFiniteSteps = 200;
-
-  /// The slider's technical maximum — one more than [maxFiniteSteps], so
-  /// dragging all the way to the end is a distinct, reachable position
-  /// meaning "infinite," not just an extreme finite value.
-  static const int sliderMaxPosition = maxFiniteSteps + 1;
-
-  static const int defaultSteps = 20;
 
   /// Rough scale markers shown under the slider — calibration hints for a
   /// first-time player, not hard limits.

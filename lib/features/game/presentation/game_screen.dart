@@ -49,8 +49,51 @@ class GameScreen extends ConsumerStatefulWidget {
 /// not arrive over the old road like a teleport.
 const Duration kBiomeEntryPause = Duration(seconds: 7);
 
+/// What the first button says — one of these, drawn as the screen opens,
+/// so the evening does not begin with the same word every time.
+const List<String> kStartLabels = [
+  'Покинуть дом',
+  'В путь',
+  'Начать поход',
+  'Закрыть за собой дверь',
+  'Выйти за порог',
+];
+
+/// How long the party takes to leave the house after the first press,
+/// before the first card: the table watches them go rather than being
+/// handed a card the instant it said «пошли». Drawn afresh in this range.
+const Duration kLeaveHomeMin = Duration(seconds: 5);
+const Duration kLeaveHomeMax = Duration(seconds: 7);
+
+/// The first button, whatever it says.
+const Key kStartButtonKey = Key('start_button');
+
 class _GameScreenState extends ConsumerState<GameScreen> {
   late final AutoWalkTimer _autoWalk = AutoWalkTimer(onStep: _walkOn);
+
+  final math.Random _random = math.Random();
+
+  late final String _startLabel =
+      kStartLabels[_random.nextInt(kStartLabels.length)];
+
+  /// Running from the first press until the first card: the party is
+  /// leaving the house.
+  Timer? _leavingHome;
+
+  void _leaveHome() {
+    if (_leavingHome != null) return;
+    final span = kLeaveHomeMax - kLeaveHomeMin;
+    final delay =
+        kLeaveHomeMin +
+        Duration(milliseconds: _random.nextInt(span.inMilliseconds + 1));
+    setState(() {
+      _leavingHome = Timer(delay, () {
+        if (!mounted) return;
+        ref.read(gameControllerProvider(setupArgs).notifier).takeStep();
+        setState(() => _leavingHome = null);
+      });
+    });
+  }
 
   /// The biome the screen last drew, to notice the party entering another.
   String? _seenBiomeId;
@@ -111,8 +154,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   /// after the last result card is dismissed.
   ///
   /// Everywhere once the match has begun — the prologue, the tavern and the
-  /// halt included. The one press walking on its own asks for is the first,
-  /// «НАЧАТЬ»: the table says when the evening starts, and from then on the
+  /// halt included. The one press walking on its own asks for is the first
+  /// (see [kStartLabels]): the table says when the evening starts, and from then on the
   /// road runs by itself. A playtest had somebody press «Продолжить поход»
   /// through a whole prologue on auto, wondering why nobody was walking.
   bool _canWalk(GameState state, WalkSettings walk, {required bool onTop}) =>
@@ -154,6 +197,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   void dispose() {
+    _leavingHome?.cancel();
     _entryHold?.cancel();
     _autoWalk.dispose();
     _cardView?.dispose();
@@ -576,17 +620,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               // Walking on its own, the button is there once, to begin;
               // walking by hand, it is there every turn, and says what the
               // press will do from where the party is standing.
+              // The first press only sets the party walking out of the
+              // house: the first card comes once they are out — see
+              // [kLeaveHomeMin]. The button stays, dimmed, until then.
               if (walk.mode == WalkMode.manual || !started) ...[
                 const SizedBox(height: 4),
                 ContinueJourneyButton(
+                  key: started ? null : kStartButtonKey,
                   label: !started
-                      ? 'НАЧАТЬ'
+                      ? _startLabel.toUpperCase()
                       // Nobody "continues the journey" from a campfire.
                       : inDetour
                       ? 'ДАЛЬШЕ'
                       : 'ПРОДОЛЖИТЬ ПОХОД',
-                  onPressed: canTakeStep && _entryHold == null
-                      ? () => ref.read(provider.notifier).takeStep()
+                  onPressed:
+                      canTakeStep && _entryHold == null && _leavingHome == null
+                      ? (started
+                            ? () => ref.read(provider.notifier).takeStep()
+                            : _leaveHome)
                       : null,
                 ),
               ],
