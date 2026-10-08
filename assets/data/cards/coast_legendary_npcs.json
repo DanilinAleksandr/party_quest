@@ -237,6 +237,14 @@
       {
         "condition": "worldFlagSet",
         "flag": "cheated_pirate_captain"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
       }
     ],
     "actions": [
@@ -266,6 +274,22 @@
       {
         "condition": "currentPlayerMissingEffect",
         "effectId": "effect_captains_favor"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
       }
     ],
     "actions": [
