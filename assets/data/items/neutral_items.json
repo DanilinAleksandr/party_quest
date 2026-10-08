@@ -16,5 +16,14 @@
     "usageType": "manual",
     "isConsumable": false,
     "useActions": []
+  },
+  {
+    "id": "item_forgotten_note",
+    "name": "Забытая записка",
+    "description": "Клочок бумаги, наполовину стёртый дождём. Разобрать можно только одно слово: «таверна».",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
   }
 ]

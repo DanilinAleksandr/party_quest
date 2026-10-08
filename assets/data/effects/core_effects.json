@@ -4,7 +4,7 @@
     "name": "Икота",
     "description": "Икай перед каждой фразой, пока эффект не закончится.",
     "polarity": "negative",
-    "duration": 4,
+    "duration": 3,
     "autoExpire": true,
     "reactions": {}
   },
@@ -13,7 +13,7 @@
     "name": "Обет молчания",
     "description": "Общайся только жестами. Пока действует эффект — −1 к харизме: за болтливость.",
     "polarity": "negative",
-    "duration": 4,
+    "duration": 3,
     "autoExpire": true,
     "reactions": {},
     "statShifts": {"charisma": -1}
@@ -59,9 +59,9 @@
   {
     "id": "effect_party_king",
     "name": "Ваше Величество",
-    "description": "Ближайшие 4 хода все за столом обращаются к тебе только «Ваше Величество». Пока действует — +1 к харизме.",
+    "description": "Ближайшие 3 хода все за столом обращаются к тебе только «Ваше Величество». Пока действует — +1 к харизме.",
     "polarity": "positive",
-    "duration": 4,
+    "duration": 3,
     "autoExpire": true,
     "reactions": {},
     "statShifts": {"charisma": 1}

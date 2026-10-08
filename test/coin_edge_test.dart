@@ -244,7 +244,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Ребро'), findsOneWidget);
       expect(find.text('Монета встала на ребро.'), findsOneWidget);
-      expect(find.text('Обошлось'), findsNothing);
+      expect(find.text('Твоя взяла'), findsNothing);
     });
 
     testWidgets('a called wager says the edge came up', (tester) async {
@@ -298,9 +298,9 @@ void main() {
       await spin(tester, passed: true);
       // Down after two seconds in the air, and spinning for at least 1.5.
       await tester.pump(const Duration(milliseconds: 3000));
-      expect(find.text('Обошлось'), findsNothing);
+      expect(find.text('Твоя взяла'), findsNothing);
       await tester.pumpAndSettle();
-      expect(find.text('Обошлось'), findsOneWidget);
+      expect(find.text('Твоя взяла'), findsOneWidget);
     });
 
     testWidgets('a check that held falls on the King', (tester) async {

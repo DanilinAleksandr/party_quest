@@ -424,4 +424,20 @@ void main() {
     ];
     expect(offenders, isEmpty);
   });
+
+  test('a choice that says it takes something along gives an item', () async {
+    final cards = await const CardRepository().loadCards();
+    final takes = RegExp(
+      r'забрать|взять с собой|возьм\S* с собой|в сумку|прихват',
+      caseSensitive: false,
+    );
+    final empty = [
+      for (final card in cards)
+        for (final choice in card.choices)
+          if (takes.hasMatch(choice.label) &&
+              !choice.actions.any((a) => a is GiveItemAction))
+            '${card.id}: ${choice.label}',
+    ];
+    expect(empty, isEmpty, reason: empty.join('\n'));
+  });
 }

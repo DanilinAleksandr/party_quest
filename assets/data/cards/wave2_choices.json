@@ -914,12 +914,14 @@
         "actions": [
           {
             "action": "chanceCheck",
+            "winnerOutcome": "Ва-банк сыграл: удачи вдвое против синицы.",
+            "loserOutcome": "Ва-банк не сыграл — и синица улетела вместе со всем остальным.",
             "winnerActions": [
               {
                 "action": "modifyStat",
                 "target": "currentPlayer",
                 "stat": "luck",
-                "amount": 3
+                "amount": 2
               }
             ],
             "loserActions": [

@@ -235,14 +235,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             CoinThrow? coin;
 
             if (gamble != null) {
-              int? called;
-              if (gamble.hasCall) {
-                called = await showWagerCallDialog(
-                  context: context,
-                  sides: gamble.sides,
-                );
-                if (!context.mounted) return;
-              }
+              final called = await showWagerCallDialog(
+                context: context,
+                sides: gamble.sides,
+              );
+              if (!context.mounted) return;
 
               coin = notifier.roll();
               await showChanceCheckDialog(
@@ -250,7 +247,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 style: notifier.coinStyle(),
                 passed: coin.favours,
                 edge: coin == CoinThrow.edge,
-                sides: gamble.hasCall ? gamble.sides : null,
+                sides: gamble.sides,
                 calledIndex: called,
                 challenger: gamble.challenger,
                 opponent: gamble.opponent,

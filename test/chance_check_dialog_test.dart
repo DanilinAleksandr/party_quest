@@ -51,7 +51,7 @@ void main() {
       await _roll(tester, true, log);
 
       expect(find.byKey(appDialogContentKey), findsOneWidget);
-      expect(find.text('Обошлось'), findsNothing);
+      expect(find.text('Твоя взяла'), findsNothing);
       expect(find.text('Дальше'), findsNothing);
       expect(log, isEmpty);
     });
@@ -63,7 +63,7 @@ void main() {
       await _roll(tester, true, log);
       await tester.pumpAndSettle();
 
-      expect(find.text('Обошлось'), findsOneWidget);
+      expect(find.text('Твоя взяла'), findsOneWidget);
       expect(find.text('Дальше'), findsOneWidget);
       // The effects must not be applied behind a dialog still on screen.
       expect(log, isEmpty);
@@ -81,7 +81,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Платишь'), findsOneWidget);
-      expect(find.text('Обошлось'), findsNothing);
+      expect(find.text('Твоя взяла'), findsNothing);
     });
   });
 
@@ -222,7 +222,7 @@ void main() {
       await _roll(tester, true, []);
       await tester.pumpAndSettle();
 
-      expect(find.text('Обошлось'), findsOneWidget);
+      expect(find.text('Твоя взяла'), findsOneWidget);
       expect(find.textContaining('Платит:'), findsNothing);
     });
   });

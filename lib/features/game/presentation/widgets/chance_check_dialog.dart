@@ -277,7 +277,7 @@ class _Verdict extends StatelessWidget {
         ? 'Ребро'
         : isDuel
         ? 'Платит: ${passed ? opponent : challenger}'
-        : (passed ? 'Обошлось' : 'Платишь');
+        : (passed ? 'Твоя взяла' : 'Платишь');
     final muted = theme.textTheme.bodyMedium?.copyWith(
       color: SteelPalette.textLow.withValues(alpha: 0.72),
     );
@@ -309,8 +309,9 @@ class _Verdict extends StatelessWidget {
                     // the wager receipt follow.
                     //
                     // The solo lines are already gender-free for the same
-                    // reason: "Платишь" is second person, "Обошлось" is
-                    // impersonal, and neither has to know who is playing.
+                    // reason: "Платишь" and "Твоя взяла" are second person
+                    // and neither has to know who is playing. "Обошлось" was
+                    // retired: said of a +3, it read as "nothing happened".
                     headline,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleLarge?.copyWith(

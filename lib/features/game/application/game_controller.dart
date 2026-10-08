@@ -13,8 +13,11 @@ import '../../../game_engine/models/models.dart';
 /// are the same question — did this come off? — so the screen asks it once,
 /// the same way, and this is the shape of that question.
 final class Gamble {
-  /// The two things the player can call before the throw, or empty when the
-  /// scene has nobody in it to call against — see [ChanceCheckAction.sides].
+  /// The two things the player calls before the throw: the scene's own —
+  /// see [ChanceCheckAction.sides] — or the coin's faces, [kCoinSides].
+  /// Every watched throw is called. The call changes nothing about the
+  /// odds: the coin shows the called side when the throw comes off and the
+  /// other when it does not.
   final List<String> sides;
 
   final String? winnerOutcome;
@@ -43,8 +46,6 @@ final class Gamble {
     this.opponent,
     this.opponentId,
   });
-
-  bool get hasCall => sides.length == 2;
 
   bool get isDuel => opponentId != null;
 
@@ -462,7 +463,7 @@ class GameController extends StateNotifier<GameState> {
           continue;
         case ChanceCheckAction a:
           return Gamble(
-            sides: a.sides,
+            sides: _sidesOf(a.sides),
             winnerOutcome: a.winnerOutcome,
             loserOutcome: a.loserOutcome,
             edgeOutcome: a.edgeOutcome,
@@ -474,7 +475,7 @@ class GameController extends StateNotifier<GameState> {
           if (opponents.isEmpty) return null;
           final opponent = opponents[_context.random.nextInt(opponents.length)];
           return Gamble(
-            sides: a.sides,
+            sides: _sidesOf(a.sides),
             winnerOutcome: a.winnerOutcome,
             loserOutcome: a.loserOutcome,
             challenger: _context.currentPlayer.name,
@@ -487,6 +488,9 @@ class GameController extends StateNotifier<GameState> {
     }
     return null;
   }
+
+  static List<String> _sidesOf(List<String> own) =>
+      own.length == 2 ? own : kCoinSides;
 
   /// The chance check a choice is about to make out of sight — one with
   /// `open: false` — or null when it makes none.
