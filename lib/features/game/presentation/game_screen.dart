@@ -364,6 +364,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           node: node,
           title: adventureTitle,
           iconAsset: adventureIcon,
+          rarity: next.pendingCard?.rarity,
           participants: next.secondaryPlayer == null
               ? [next.currentPlayer]
               : [next.currentPlayer, next.secondaryPlayer!],
