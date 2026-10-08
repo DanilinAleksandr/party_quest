@@ -7,7 +7,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -26,7 +27,8 @@
     "weight": 3,
     "tags": [
       "social",
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -120,7 +122,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -138,7 +141,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -156,7 +160,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -175,7 +180,8 @@
     "weight": 2,
     "tags": [
       "social",
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -194,7 +200,8 @@
     "weight": 3,
     "tags": [
       "social",
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -256,7 +263,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -275,7 +283,8 @@
     "weight": 3,
     "tags": [
       "social",
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -345,7 +354,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -363,7 +373,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -382,7 +393,8 @@
     "weight": 3,
     "tags": [
       "social",
-      "group"
+      "group",
+      "town"
     ],
     "conditions": [
       {
@@ -433,7 +445,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {

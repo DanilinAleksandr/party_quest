@@ -164,6 +164,8 @@ final class CardCatalog {
               if (inTavern && !card.hasTag(CardTag.tavern)) return false;
               if (inRest != card.hasTag(CardTag.rest)) return false;
               if (inVillage != card.hasTag(CardTag.village)) return false;
+              // No town to be in yet — see [CardTag.town].
+              if (card.hasTag(CardTag.town)) return false;
               if (capped && villageOver && !card.endsVillage) return false;
               if (arrivals != card.beginsRest) return false;
               final conditionsMet = card.conditions.every(

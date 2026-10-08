@@ -17,11 +17,7 @@ final class ChronicleEntry {
   /// screen singles out.
   final bool coinEdge;
 
-  const ChronicleEntry({
-    required this.text,
-    this.aside,
-    this.coinEdge = false,
-  });
+  const ChronicleEntry({required this.text, this.aside, this.coinEdge = false});
 }
 
 /// The aside a chronicle entry gets when its player was wasted at the time.

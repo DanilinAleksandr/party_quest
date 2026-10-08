@@ -2,7 +2,7 @@
   {
     "id": "world_road_after_storm",
     "title": "После ночной грозы",
-    "description": "Дорога вымыта до камня, и по обочине идёт свежая промоина в ладонь глубиной. В ней стоят листья, сбитые ветки и один птичий пух.\n\nВ промоине уже проложена узкая тропка — кто-то прошёл здесь до рассвета.",
+    "description": "Дорога вымыта до камня, и по обочине идёт свежая промоина в ладонь глубиной. В ней стоит принесённый водой сор и один птичий пух.\n\nВ промоине уже проложена узкая тропка — кто-то прошёл здесь до рассвета.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -32,6 +32,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "choices": [
@@ -101,6 +105,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -119,6 +127,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -137,6 +149,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -155,6 +171,10 @@
       {
         "condition": "notInWeather",
         "weather": "rain"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -173,6 +193,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -180,7 +204,7 @@
   {
     "id": "world_road_lime_kiln_smoke",
     "title": "Дым известковой печи",
-    "description": "Печь стоит у самого откоса, и дым из неё идёт белый и тяжёлый — стелется по земле, а не поднимается.\n\nТрава вокруг на десять шагов седая. Так тут будет ещё лет двадцать.",
+    "description": "Печь стоит у самого откоса, и дым из неё идёт белый и тяжёлый — стелется по земле, а не поднимается.\n\nЗемля вокруг на десять шагов седая. Так тут будет ещё лет двадцать.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -227,6 +251,10 @@
       {
         "condition": "inSeason",
         "season": "winter"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -245,6 +273,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -263,6 +295,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []

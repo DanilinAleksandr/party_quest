@@ -83,6 +83,14 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -311,6 +319,10 @@
       {
         "condition": "inSeason",
         "season": "autumn"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
