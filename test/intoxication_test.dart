@@ -77,10 +77,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('levels', () {
-    test('fall at 1, 3 and 5 drinks', () {
+    test('fall at the first drink, then at 3 and 5', () {
       for (final (drinks, level) in [
         (0.0, IntoxicationLevel.sober),
-        (0.9, IntoxicationLevel.sober),
+        (0.1, IntoxicationLevel.sober),
+        (0.15, IntoxicationLevel.tipsy),
+        (0.75, IntoxicationLevel.tipsy),
         (1.0, IntoxicationLevel.tipsy),
         (2.9, IntoxicationLevel.tipsy),
         (3.0, IntoxicationLevel.drunk),
@@ -145,31 +147,52 @@ void main() {
   ];
 
   group('wearing off', () {
-    test('a tenth per card played, from the card after the drink', () {
+    test('a little per own turn, from the turn after the drink', () {
       final c = _controller(
         onceThen(const [DrinkAction(target: ActionTarget.allPlayers)]),
+        players: const ['A'],
       );
       _play(c);
-      // Not on the card the drink was taken on: one drink is exactly
-      // «навеселе», and it would otherwise be gone before anyone saw it.
+      // Not on the card the drink was taken on.
       expect(_only(c).intoxication, 1.0);
       expect(_only(c).intoxicationLevel, IntoxicationLevel.tipsy);
       _play(c);
-      expect(_only(c).intoxication, closeTo(0.9, 1e-9));
+      expect(_only(c).intoxication, closeTo(1 - kSoberingPerTurn, 1e-9));
     });
 
-    test('three times as fast at a halt', () {
-      final c = _controller([
-        _card('road'),
-        _card(
-          'arrive',
-          actions: const [
-            DrinkAction(amount: 2, target: ActionTarget.allPlayers),
-            SetWorldFlagAction(flag: 'in_rest'),
-          ],
-        ),
-        _card('fire', tags: const [CardTag.rest]),
-      ]);
+    test("only on the drinker's own turns", () {
+      final c = _controller(
+        onceThen(const [DrinkAction(target: ActionTarget.allPlayers)]),
+        players: const ['A', 'B', 'C', 'D'],
+      );
+      _play(c);
+      for (var i = 0; i < 30; i++) {
+        final before = {for (final p in c.state.players) p.id: p.intoxication};
+        c.takeStep();
+        final turnOf = c.state.currentPlayer.id;
+        c.resolveCard();
+        for (final p in c.state.players) {
+          if (p.id == turnOf) continue;
+          expect(p.intoxication, before[p.id], reason: 'card $i, ${p.name}');
+        }
+      }
+    });
+
+    test('twice as fast at a halt', () {
+      final c = _controller(
+        players: const ['A'],
+        [
+          _card('road'),
+          _card(
+            'arrive',
+            actions: const [
+              DrinkAction(amount: 2, target: ActionTarget.allPlayers),
+              SetWorldFlagAction(flag: 'in_rest'),
+            ],
+          ),
+          _card('fire', tags: const [CardTag.rest]),
+        ],
+      );
       // The arrival is only drawn on a due step, so walk up to one.
       for (var i = 0; i < kRestInterval; i++) {
         _play(c);
@@ -177,7 +200,10 @@ void main() {
       expect(c.state.worldState.flag('in_rest'), isTrue);
       expect(_only(c).intoxication, 2.0);
       _play(c);
-      expect(_only(c).intoxication, closeTo(2 - 0.3, 1e-9));
+      expect(
+        _only(c).intoxication,
+        closeTo(2 - kSoberingPerTurn * kRestSoberingFactor, 1e-9),
+      );
     });
   });
 
@@ -187,6 +213,7 @@ void main() {
         onceThen(const [
           DrinkAction(amount: 2, target: ActionTarget.allPlayers),
         ]),
+        players: const ['A'],
       );
       for (var i = 0; i < 25; i++) {
         _play(tipsy);
@@ -200,11 +227,12 @@ void main() {
         onceThen(const [
           DrinkAction(amount: 3, target: ActionTarget.allPlayers),
         ]),
+        players: const ['A'],
       );
       _play(drunk);
       expect(_only(drunk).intoxicationLevel, IntoxicationLevel.drunk);
       expect(_only(drunk).isHungover, isFalse);
-      // One card on, 2.9 is back below drunk — and there it is.
+      // One turn on, 2.85 is back below drunk — and there it is.
       _play(drunk);
       expect(_only(drunk).intoxicationLevel, IntoxicationLevel.tipsy);
       expect(_only(drunk).isHungover, isTrue);
@@ -229,6 +257,7 @@ void main() {
             ),
           ],
         ),
+        players: const ['A'],
       );
       _play(c);
       _play(c);
@@ -657,7 +686,7 @@ void main() {
       }
     });
 
-    test('«Для храбрости» makes the young tipsy at once, the old not yet', () {
+    test('«Для храбрости» makes everybody tipsy at once, whatever the age', () {
       final bar = _card(
         'bar',
         choices: const [
@@ -670,21 +699,63 @@ void main() {
           ),
         ],
       );
-      final youngC = _controller([bar], age: young)..takeStep();
-      youngC.drinkForCourage();
-      expect(
-        youngC.state.currentPlayer.intoxicationLevel,
-        IntoxicationLevel.tipsy,
-      );
-      expect(youngC.state.pendingCard!.choices, hasLength(2));
+      for (final age in [young, mature, elder]) {
+        final c = _controller([bar], age: age)..takeStep();
+        c.drinkForCourage();
+        expect(
+          c.state.currentPlayer.intoxicationLevel,
+          IntoxicationLevel.tipsy,
+          reason: '$age',
+        );
+        expect(c.state.pendingCard!.choices, hasLength(2), reason: '$age');
+      }
+    });
 
-      final elderC = _controller([bar], age: elder)..takeStep();
-      elderC.drinkForCourage();
-      expect(
-        elderC.state.currentPlayer.intoxicationLevel,
-        IntoxicationLevel.sober,
+    /// How many of the drinker's own turns after the one they drank on
+    /// still find them at least «навеселе», out of [drinks] drinks.
+    int tipsyTurns(int age, int drinks, {int players = 4}) {
+      final c = _controller(
+        [
+          _card(
+            'first',
+            conditions: const [MaximumStepCondition(steps: 1)],
+            actions: [
+              DrinkAction(
+                amount: drinks.toDouble(),
+                target: ActionTarget.allPlayers,
+              ),
+            ],
+          ),
+          _card('road', conditions: const [MinimumStepCondition(steps: 2)]),
+        ],
+        players: [for (var i = 0; i < players; i++) 'P$i'],
+        age: age,
       );
-      expect(elderC.state.pendingCard!.choices, hasLength(1));
+      _play(c);
+      final drinker = c.state.players.first.id;
+      var turns = 0;
+      for (var i = 0; i < 400; i++) {
+        c.takeStep();
+        final mine = c.state.currentPlayer.id == drinker;
+        final level = c.state.players.first.intoxicationLevel;
+        c.resolveCard();
+        if (!mine) continue;
+        if (level == IntoxicationLevel.sober) break;
+        turns++;
+      }
+      return turns;
+    }
+
+    test('one drink holds «навеселе» five own turns at any age', () {
+      for (final age in [kMinAge, young, mature, elder, kMaxAge]) {
+        for (final players in [1, 3, 6]) {
+          expect(
+            tipsyTurns(age, 1, players: players),
+            greaterThanOrEqualTo(5),
+            reason: 'age $age, $players players',
+          );
+        }
+      }
     });
 
     test('the bracket condition reads the current player, and round-trips', () {

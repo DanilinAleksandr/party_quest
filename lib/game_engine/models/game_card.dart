@@ -90,6 +90,21 @@ final class GameCard {
         !action.value,
   );
 
+  /// Whether this card is meant to come round again and again: a way into
+  /// or out of a place (a tavern, a halt, a village), or the halt's own
+  /// content, which a party meets at every fire. `CardCatalog` exempts
+  /// these from its no-repeat window; every other card the party has met
+  /// lately waits its turn.
+  bool get recurs =>
+      hasTag(CardTag.rest) ||
+      actions.any(
+        (action) =>
+            action is SetWorldFlagAction &&
+            (action.flag == 'in_tavern' ||
+                action.flag == 'in_rest' ||
+                action.flag == 'in_village'),
+      );
+
   /// Used by `GameController` to cache, in `GameState`, the same card with
   /// only the choices the player is currently eligible to see — mirrors
   /// `AdventureNode.withChoices` so the index the UI shows always lines up

@@ -230,6 +230,19 @@ class GameController extends StateNotifier<GameState> {
       _participantResolver.resolve(const RandomPlayerParticipant(), ctx),
     );
     final drawnCard = ctx.cardCatalog.drawEligibleCard(ctx);
+    final recent = ctx.state.recentCards;
+    ctx = ctx.withState(
+      ctx.state.copyWith(
+        recentCards: [
+          ...recent.skip(
+            recent.length >= kNoRepeatWindow
+                ? recent.length - kNoRepeatWindow + 1
+                : 0,
+          ),
+          drawnCard.id,
+        ],
+      ),
+    );
 
     final resolution = drawnCard.participant is RandomPlayerParticipant
         ? ResolvedParticipant(ctx)
@@ -669,29 +682,28 @@ class GameController extends StateNotifier<GameState> {
       ),
     );
     ctx = _dispatcher.dispatch(OnTurnFinished(player: resolvedFor), ctx);
-    ctx = _afterCard(ctx);
+    ctx = _afterCard(ctx, turnOf: resolvedFor.id);
     _drawnCard = null;
     _setContext(ctx);
   }
 
-  /// What one played card does to everybody's drinking: the scale wears
-  /// down, a sleeper counts down towards waking, and whoever came back down
-  /// from drunk gets the hangover for it.
+  /// What one played card does to everybody's drinking: the scale of the
+  /// player whose turn it was wears down, a sleeper counts down towards
+  /// waking, and whoever came back down from drunk gets the hangover for it.
   ///
-  /// Counted per card rather than per step. Inside a tavern or at a halt
-  /// `partySteps` stands still, and that is exactly where people need to
-  /// sober up; at the fire they sleep it off three times as fast, and the
-  /// halt lifts a hangover outright.
-  GameContext _afterCard(GameContext ctx) {
+  /// The scale wears down on the drinker's own turns, not on every card:
+  /// see [kSoberingPerTurn]. Turns rather than steps, all the same — inside
+  /// a tavern or at a halt `partySteps` stands still, and that is exactly
+  /// where people need to sober up; at the fire they sleep it off faster,
+  /// and the halt lifts a hangover outright.
+  GameContext _afterCard(GameContext ctx, {required String turnOf}) {
     final resting = ctx.state.worldState.flag('in_rest');
-    final wearsOff = kSoberingPerCard * (resting ? kRestSoberingFactor : 1);
+    final wearsOff = kSoberingPerTurn * (resting ? kRestSoberingFactor : 1);
     final hangovers = <String>[];
 
     Player wearOff(Player player) {
-      // Whoever drank on this card does not sober on it too. With the
-      // thresholds where they are, one drink is exactly "навеселе", and a
-      // tenth off on the same card would make it vanish before anybody saw
-      // it.
+      // Whoever drank on this card does not sober on it too: the turn a
+      // drink is taken on is not one of the turns it wears off over.
       final atDraw = _intoxicationAtDraw[player.id];
       if (atDraw != null && player.intoxication > atDraw) {
         if (player.wasDrunk && player.intoxication < kDrunkAt) {
@@ -711,9 +723,10 @@ class GameController extends StateNotifier<GameState> {
           wasDrunk: false,
         );
       }
-      // Hundredths, kept as hundredths: float drift must never turn ten
-      // cards of sobering into nine and a bit. Hundredths rather than tenths,
-      // because an old hand's drink is 0.75.
+      if (player.id != turnOf) return player;
+      // Hundredths, kept as hundredths: float drift must never turn five
+      // turns of sobering into four and a bit. Hundredths rather than
+      // tenths, because an old hand's drink is 0.75.
       final raw = player.intoxication - wearsOff;
       final intoxication = raw <= 0 ? 0.0 : (raw * 100).round() / 100;
       if (player.wasDrunk && intoxication < kDrunkAt) {

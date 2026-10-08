@@ -84,6 +84,13 @@ final class GameState {
   /// [JourneyPhase.prologue] instead.
   final JourneyPhase phase;
 
+  /// The ids of the cards drawn lately, oldest first — at most
+  /// `kNoRepeatWindow` of them. `CardCatalog` keeps these out of the next
+  /// draw, so a card the party has just met does not turn up again a few
+  /// cards on. Written by `GameController.takeStep`, the one place a card
+  /// is drawn.
+  final List<String> recentCards;
+
   const GameState({
     required this.players,
     required this.currentPlayerIndex,
@@ -99,6 +106,7 @@ final class GameState {
     this.journeyLog = const [],
     this.chronicle = const [],
     this.phase = JourneyPhase.journey,
+    this.recentCards = const [],
   });
 
   /// Every player starts with no origin — see `Origin`/`RevealOriginAction`.
@@ -141,6 +149,7 @@ final class GameState {
     List<JourneyLogEntry>? journeyLog,
     List<ChronicleEntry>? chronicle,
     JourneyPhase? phase,
+    List<String>? recentCards,
   }) {
     return GameState(
       players: players ?? this.players,
@@ -165,6 +174,7 @@ final class GameState {
       journeyLog: journeyLog ?? this.journeyLog,
       chronicle: chronicle ?? this.chronicle,
       phase: phase ?? this.phase,
+      recentCards: recentCards ?? this.recentCards,
     );
   }
 }

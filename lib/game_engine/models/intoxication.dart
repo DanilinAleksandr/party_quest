@@ -35,7 +35,13 @@ enum IntoxicationLevel {
 }
 
 /// Thresholds on `Player.intoxication`, in drinks.
-const double kTipsyAt = 1;
+///
+/// «Навеселе» begins with the first drink at any age: it is the faint end
+/// of the scale, so that one drink stays one for as long as it is meant to
+/// — even an old hand's three-quarters of one, which a threshold at a full
+/// drink never showed at all. Age still decides how soon the drink tells
+/// further up the scale.
+const double kTipsyAt = 0.15;
 const double kDrunkAt = 3;
 const double kWastedAt = 5;
 
@@ -47,10 +53,16 @@ const int kPassOutCards = 3;
 /// the scale stops just short of passing out.
 const double kSoloCap = 6.9;
 
-/// What wears off per card played, and how much faster a night at the fire
-/// does it.
-const double kSoberingPerCard = 0.1;
-const int kRestSoberingFactor = 3;
+/// What wears off on each of a character's own turns — a card about them —
+/// and how much faster a night at the fire does it.
+///
+/// Counted on their own turns rather than on every card the party plays:
+/// at a table of five a card-by-card tick took a drink away before its
+/// drinker had a turn to be tipsy in. At this rate one drink holds
+/// «навеселе» for five of the drinker's own turns even at the oldest age
+/// (0.75 → 0.15), and at the fire it still takes three.
+const double kSoberingPerTurn = 0.15;
+const int kRestSoberingFactor = 2;
 
 /// The hangover is an ordinary effect with a duration, so it expires and
 /// shows the way every other effect does; what it does to the stats is
