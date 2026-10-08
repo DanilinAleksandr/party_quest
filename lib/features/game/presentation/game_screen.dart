@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/theme/adventure_icons.dart';
+import '../../../core/theme/card_type_style.dart';
 import '../../../core/theme/steel_palette.dart';
 import '../../../core/widgets/biome_banner.dart';
 import '../../../core/widgets/game_result_card.dart';
@@ -323,13 +325,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               // Out of sight there is no coin, and so no edge.
               coin = notifier.roll(watched: false);
               await tellChoiceOutcome(
+                title: current.title,
+                icon: cardTypeIcon(current.type),
                 context,
                 (coin.favours ? hidden.winnerOutcome : hidden.loserOutcome) ??
                     choiceOutcome,
               );
               if (!context.mounted) return;
             } else if (coin == null) {
-              await tellChoiceOutcome(context, choiceOutcome);
+              await tellChoiceOutcome(
+                context,
+                choiceOutcome,
+                title: current.title,
+                icon: cardTypeIcon(current.type),
+              );
               if (!context.mounted) return;
             }
             notifier.resolveCard(
@@ -347,9 +356,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           previous?.pendingAdventureNode != next.pendingAdventureNode;
       if (adventureNodeChanged) {
         final node = next.pendingAdventureNode!;
+        // Known by the way in the party saw: the card that opened it.
+        final adventureTitle = next.pendingCard?.title ?? 'Приключение';
+        final adventureIcon = adventureIconAsset(next.activeAdventureId);
         showAdventureNodeDialog(
           context: context,
           node: node,
+          title: adventureTitle,
+          iconAsset: adventureIcon,
           participants: next.secondaryPlayer == null
               ? [next.currentPlayer]
               : [next.currentPlayer, next.secondaryPlayer!],
@@ -359,7 +373,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             next.journeyLog,
           ),
           onChoice: (choiceIndex) async {
-            await tellChoiceOutcome(context, node.choices[choiceIndex].outcome);
+            await tellChoiceOutcome(
+              context,
+              node.choices[choiceIndex].outcome,
+              title: adventureTitle,
+              icon: kAdventureFallbackIcon,
+              iconAsset: adventureIcon,
+            );
             if (!context.mounted) return;
             ref.read(provider.notifier).resolveAdventureChoice(choiceIndex);
           },

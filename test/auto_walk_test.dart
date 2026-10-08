@@ -496,7 +496,9 @@ void main() {
       find.byWidgetPredicate((w) => w.runtimeType.toString() == '_RollBody'),
       findsNothing,
     );
-    expect(find.text('Последствие'), findsOneWidget);
+    // Headed by the scene, not by a generic «Последствие».
+    expect(find.text('Последствие'), findsNothing);
+    expect(find.text('Мешок'), findsOneWidget);
     final told = find.text('Нашлось.').evaluate().isNotEmpty
         ? 'Нашлось.'
         : 'Пусто.';

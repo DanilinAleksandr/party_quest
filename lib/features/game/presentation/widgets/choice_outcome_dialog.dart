@@ -9,9 +9,23 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// The null case is the common one — most of the choices in the content
 /// carry no [outcome] yet — so it has to cost nothing, which is why the
 /// guard lives here rather than in a conditional at every call site.
-Future<void> tellChoiceOutcome(BuildContext context, String? outcome) async {
+///
+/// [title] and [icon] are the scene's — see [showChoiceOutcomeDialog].
+Future<void> tellChoiceOutcome(
+  BuildContext context,
+  String? outcome, {
+  required String title,
+  required IconData icon,
+  String? iconAsset,
+}) async {
   if (outcome == null) return;
-  await showChoiceOutcomeDialog(context: context, outcome: outcome);
+  await showChoiceOutcomeDialog(
+    context: context,
+    outcome: outcome,
+    title: title,
+    icon: icon,
+    iconAsset: iconAsset,
+  );
 }
 
 /// The same beat for a gamble, told as part of the scene rather than as a
@@ -96,16 +110,22 @@ class _GambleOutcomeBody extends StatelessWidget {
 /// Only shown when the chosen option actually carries an [outcome]; see
 /// `CardChoice.outcome` for why that is the exception rather than the rule,
 /// and [tellChoiceOutcome] for the guard that skips this step entirely.
+///
+/// Headed by the scene it follows — the card's title and mark, or the
+/// adventure's — rather than by a generic «Последствие»: the table reads
+/// «Деревянная фигурка» and knows which story this is the end of.
 Future<void> showChoiceOutcomeDialog({
   required BuildContext context,
   required String outcome,
+  required String title,
+  required IconData icon,
+  String? iconAsset,
 }) {
   return showAppDialog<void>(
     context: context,
-    // "And then this": the one glyph in the set that means consequence
-    // rather than category, which is the whole content of this dialog.
-    icon: Icons.subdirectory_arrow_right_rounded,
-    title: 'Последствие',
+    icon: icon,
+    iconAsset: iconAsset,
+    title: title,
     barrierDismissible: false,
     content: SizedBox(
       // Left-aligned and full width for the same reason the card's scene

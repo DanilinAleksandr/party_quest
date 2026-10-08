@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../game_engine/models/models.dart';
 import 'rarity_frame.dart';
@@ -14,12 +15,16 @@ const Key appDialogContentKey = Key('app_dialog_content');
 /// header, and a fade+scale entrance (via `showGeneralDialog`'s
 /// `transitionBuilder`, no extra package) instead of the platform's
 /// instant default dialog pop-in.
+///
+/// [iconAsset], an SVG mark, is drawn in place of [icon] when given — an
+/// adventure's own sign rather than the generic glyph.
 Future<T?> showAppDialog<T>({
   required BuildContext context,
   required IconData icon,
   required String title,
   required Widget content,
   required List<Widget> actions,
+  String? iconAsset,
   Color? accentColor,
   Rarity? rarity,
   bool barrierDismissible = false,
@@ -33,6 +38,7 @@ Future<T?> showAppDialog<T>({
     pageBuilder: (context, animation, secondaryAnimation) {
       return _AppDialogContent(
         icon: icon,
+        iconAsset: iconAsset,
         title: title,
         content: content,
         actions: actions,
@@ -55,6 +61,7 @@ Future<T?> showAppDialog<T>({
 
 class _AppDialogContent extends StatelessWidget {
   final IconData icon;
+  final String? iconAsset;
   final String title;
   final Widget content;
   final List<Widget> actions;
@@ -63,6 +70,7 @@ class _AppDialogContent extends StatelessWidget {
 
   const _AppDialogContent({
     required this.icon,
+    this.iconAsset,
     required this.title,
     required this.content,
     required this.actions,
@@ -89,7 +97,14 @@ class _AppDialogContent extends StatelessWidget {
             shape: BoxShape.circle,
             color: color.withValues(alpha: 0.16),
           ),
-          child: Icon(icon, color: color, size: 28),
+          child: iconAsset == null
+              ? Icon(icon, color: color, size: 28)
+              : SvgPicture.asset(
+                  iconAsset!,
+                  width: 28,
+                  height: 28,
+                  colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                ),
         ),
         const SizedBox(height: 12),
         Text(
