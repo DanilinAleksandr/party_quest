@@ -2,7 +2,7 @@
   {
     "id": "road_courier_wrong_way",
     "title": "Гонец не в ту сторону",
-    "description": "Всадник осаживает коня и спрашивает, далеко ли до переправы. Переправа позади — он проскакал мимо неё час назад.\n\nОн выслушивает, кивает, разворачивается. И едет всё-таки вперёд.",
+    "description": "Всадник осаживает коня и спрашивает, далеко ли до постоялого двора. Двор позади — он проскакал мимо неё час назад.\n\nОн выслушивает, кивает, разворачивается. И едет всё-таки вперёд.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -26,7 +26,8 @@
     "weight": 2,
     "tags": [
       "social",
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
@@ -288,12 +289,17 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -733,6 +739,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "choices": [

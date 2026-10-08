@@ -50,6 +50,14 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -164,7 +172,8 @@
     "weight": 2,
     "tags": [
       "social",
-      "solo"
+      "solo",
+      "town"
     ],
     "conditions": [
       {
@@ -210,7 +219,7 @@
   {
     "id": "crafts_tinker_sharpens_everything",
     "title": "Точильщик у поворота",
-    "description": "Колесо крутится ногой, искры летят в пыль. Очередь из трёх ножей, двух ножниц и одной косы, и коса явно ничья — просто стоит прислонённая с утра.\n\nОн наточит и её. Хозяин найдётся.",
+    "description": "Колесо крутится ногой, искры летят веером. Очередь из трёх ножей, двух ножниц и одной косы, и коса явно ничья — просто стоит прислонённая с утра.\n\nОн наточит и её. Хозяин найдётся.",
     "type": "event",
     "rarity": "common",
     "weight": 2,

@@ -45,7 +45,15 @@ enum CardTag {
   /// `CardCatalog.eligibleCards`. Both ways, like [rest]: inside a village
   /// only this content is drawn, and outside it none of it is, so a
   /// miller or a quarrel over a fence never turns up on a mountain pass.
-  village;
+  village,
+
+  /// Marks content that needs a town around it — a market, gates and their
+  /// guard, a bell tower, a paved street. The game has no town to walk
+  /// into yet, so `CardCatalog.eligibleCards` keeps these out of every
+  /// draw: better they wait than turn up in the middle of a desert. When a
+  /// town arrives as a place, this becomes its tag the way [village] is
+  /// the village's.
+  town;
 
   static CardTag fromJson(String value) => CardTag.values.byName(value);
 

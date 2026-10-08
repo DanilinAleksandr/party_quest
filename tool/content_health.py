@@ -130,6 +130,68 @@ unknown_conditions = Counter()
 # --------------------------------------------------------------------------
 # Loading
 
+# --------------------------------------------------------------------------
+# Words that are untrue in a biome. A card open there (by its own biome
+# conditions) whose text has one is reported — not an error, a prompt to
+# look: «ветка» in the desert, «пыль» on the floodlands. Stems, matched at
+# the start of a word; written to miss «деревня», «деревянный», «лист
+# бумаги».
+
+_DESERT = [
+    r'ветк', r'ветв', r'дерев(о|а|у|ом|е|ья|ьев|ьям|ьями)\b', r'трав(а|ы|е|у|ой|ам|ами)?\b',
+    r'ручей', r'ручь', r'мох\b', r'мха\b', r'мхом', r'мшист', r'листв', r'листь',
+    r'листопад', r'берёз', r'берез', r'сосн', r'болот', r'гриб', r'снег', r'сугроб',
+    r'луж', r'грязь', r'грязи', r'чащ', r'куст', r'лесн', r'опушк',
+]
+_NOT_DESERT = [r'бархан', r'оазис', r'барханн']
+# Not «морской»: «Морская фигура» is a party game, not the sea.
+_NOT_SEA = [r'прибой', r'отлив']
+BIOME_DANGER = {
+    'desert': _DESERT + _NOT_SEA,
+    'floodlands': [r'пыль', r'пыльн', r'засух', r'пересохш'] + _NOT_DESERT,
+    'forest': _NOT_DESERT + _NOT_SEA,
+    'mountains': _NOT_DESERT + _NOT_SEA,
+    'coast': _NOT_DESERT,
+    'graveyard': _NOT_DESERT + _NOT_SEA,
+}
+_DANGER_RE = {
+    b: re.compile(r'(?<![а-яё])(' + '|'.join(words) + ')', re.I)
+    for b, words in BIOME_DANGER.items()
+}
+
+
+def _biome_open(conditions, biome):
+    for c in conditions or []:
+        if c.get('condition') == 'inBiome' and c.get('biomeId') != biome:
+            return False
+        if c.get('condition') == 'notInBiome' and c.get('biomeId') == biome:
+            return False
+    return True
+
+
+def biome_word_warnings(cards):
+    """(biome, card id, word, where) for every untrue word in a card open
+    in that biome. Cards tagged `town` are out of play and skipped."""
+    out = []
+    for card in cards:
+        if 'town' in card.get('tags', []):
+            continue
+        for biome, pattern in _DANGER_RE.items():
+            if not _biome_open(card.get('conditions'), biome):
+                continue
+            texts = [('описание', card.get('title', '') + ' ' + card.get('description', ''))]
+            for ch in card.get('choices', []):
+                if not _biome_open(ch.get('conditions'), biome):
+                    continue
+                texts.append(('выбор', ch.get('label', '') + ' ' + (ch.get('outcome') or '')))
+            for where, text in texts:
+                m = pattern.search(text)
+                if m:
+                    out.append((biome, card['id'], m.group(0), where))
+                    break
+    return out
+
+
 def _read_json(path):
     return json.load(io.open(path, encoding='utf-8'))
 
@@ -633,6 +695,20 @@ def main():
         recommendations.append(
             ('warn', 'Скрипт встретил %d неизвестных типов условий.'
              % len(unknown_conditions)))
+
+    biome_words = biome_word_warnings(cards)
+    if biome_words:
+        if not brief:
+            rule('МЕСТО ДЕЙСТВИЯ')
+            print('Карточка открыта для биома, а в тексте слово, которого там нет.')
+            print('Проверь: поправить текст или закрыть notInBiome.')
+            for biome, cid, word, where in biome_words:
+                print('  %-11s %-40s «%s» (%s)' % (biome, cid, word, where))
+        recommendations.append(
+            ('warn', 'Слов не к месту по биомам: %d — см. МЕСТО ДЕЙСТВИЯ.'
+             % len(biome_words)))
+    else:
+        recommendations.append(('ok', 'Слов не к месту по биомам нет.'))
 
     rule('ИТОГ')
     for kind, text in recommendations:
