@@ -91,6 +91,9 @@ flutter:
     # a chess king is not the crown the Наследник древних королей wears, and
     # a jester's hat is not the Наследник ведьм' pointed one.
     - assets/icons/coin/
+    # Each adventure's mark on its dialogs, from the same library and under
+    # the same attribution — see `kAdventureIcons`.
+    - assets/icons/adventures/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

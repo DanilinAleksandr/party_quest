@@ -15,15 +15,36 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('WalkSettingsNotifier', () {
-    test('walks on its own out of the box, every 4 to 10 seconds', () async {
+    test('walks on its own out of the box, every 4 to 7 seconds', () async {
       SharedPreferences.setMockInitialValues({});
       final notifier = WalkSettingsNotifier();
       await _settle();
       expect(notifier.state, const WalkSettings());
       expect(notifier.state.mode, WalkMode.auto);
       expect(notifier.state.minDelay, 4);
-      expect(notifier.state.maxDelay, 10);
+      expect(notifier.state.maxDelay, 7);
       expect(notifier.state.restInterval, 10);
+    });
+
+    test('drops a delay and a halt spacing saved before 4–7, once', () async {
+      SharedPreferences.setMockInitialValues({
+        'walk_mode': 'manual',
+        'walk_min_delay': 4,
+        'walk_max_delay': 10,
+        'rest_interval': 5,
+      });
+      final first = WalkSettingsNotifier();
+      await _settle();
+      // The mode is the table's own choice and stays.
+      expect(first.state, const WalkSettings(mode: WalkMode.manual));
+
+      // Set again afterwards, it is kept like any other setting.
+      first.setDelay(min: 3, max: 9);
+      await _settle();
+      final second = WalkSettingsNotifier();
+      await _settle();
+      expect(second.state.minDelay, 3);
+      expect(second.state.maxDelay, 9);
     });
 
     test('remembers what was set across a restart', () async {
@@ -78,7 +99,7 @@ void main() {
 
     expect(find.text('Идти самостоятельно'), findsOneWidget);
     expect(find.byKey(const Key('walk_delay_slider')), findsOneWidget);
-    expect(find.text('Карточка через, сек: от 4 до 10'), findsOneWidget);
+    expect(find.text('Карточка через, сек: от 4 до 7'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('walk_mode_switch')));
     await tester.pumpAndSettle();
@@ -132,7 +153,10 @@ void main() {
   ) async {
     // No override: the real notifier, reading the real (mocked) store. A lazy
     // provider first created by the start tap would hand the match 10.
-    SharedPreferences.setMockInitialValues({'rest_interval': 7});
+    SharedPreferences.setMockInitialValues({
+      'rest_interval': 7,
+      'walk_settings_version': 2,
+    });
     Object? arguments;
     await tester.pumpWidget(
       ProviderScope(

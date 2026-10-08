@@ -918,7 +918,13 @@
             "weather": "rain"
           }
         ],
-        "actions": []
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_forgotten_note"
+          }
+        ]
       },
       {
         "label": "Выбросить",

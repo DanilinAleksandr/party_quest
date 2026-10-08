@@ -153,11 +153,12 @@ class _JourneyLengthPickerState extends State<JourneyLengthPicker> {
 
 /// The scale, walked rather than dragged by a handle.
 ///
-/// One shared mapping does all the work in both directions: a fraction of
-/// the widget's width is a position on the same 10..201 scale the numeric
-/// field writes to, and the last position is infinity. That is exactly what
-/// the `Slider` computed internally — replacing it changes how the value is
-/// picked, not what the values are.
+/// The notches are the finite scale, 10..200, laid across their own width;
+/// the ∞ glyph past them is infinity, and so is anything from the end of
+/// the notches on. A tap on the glyph is the endless journey, as is a drag
+/// that reaches the right edge. The glyph used to be only the last few
+/// pixels of one long scale, so a tap on it landed on 190-odd: a playtest
+/// managed the endless journey about one try in twenty.
 class _JourneyTrailPicker extends StatelessWidget {
   final int? value;
   final ValueChanged<int?> onChanged;
@@ -190,23 +191,22 @@ class _JourneyTrailPicker extends StatelessWidget {
         final segments = math.max(1, fits);
 
         void report(Offset local) {
-          final fraction = (local.dx / width).clamp(0.0, 1.0);
+          if (local.dx >= trackWidth) {
+            onChanged(null);
+            return;
+          }
+          final fraction = (local.dx / trackWidth).clamp(0.0, 1.0);
           final position =
               JourneyLengthConfig.minSteps +
               fraction *
-                  (JourneyLengthConfig.sliderMaxPosition -
+                  (JourneyLengthConfig.maxFiniteSteps -
                       JourneyLengthConfig.minSteps);
-          final rounded = position.round();
-          if (rounded >= JourneyLengthConfig.sliderMaxPosition) {
-            onChanged(null);
-          } else {
-            onChanged(
-              rounded.clamp(
-                JourneyLengthConfig.minSteps,
-                JourneyLengthConfig.maxFiniteSteps,
-              ),
-            );
-          }
+          onChanged(
+            position.round().clamp(
+              JourneyLengthConfig.minSteps,
+              JourneyLengthConfig.maxFiniteSteps,
+            ),
+          );
         }
 
         return GestureDetector(
@@ -239,6 +239,7 @@ class _JourneyTrailPicker extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
+                  key: const Key('journey_infinity'),
                   width: _infinityWidth,
                   child: Text(
                     '∞',
@@ -266,7 +267,7 @@ class _JourneyTrailPicker extends StatelessWidget {
   _NotchState _stateOf(int index, int segments) {
     if (value == null) return _NotchState.walked;
     final span =
-        JourneyLengthConfig.sliderMaxPosition - JourneyLengthConfig.minSteps;
+        JourneyLengthConfig.maxFiniteSteps - JourneyLengthConfig.minSteps;
     final start = JourneyLengthConfig.minSteps + span * index / segments;
     final end = JourneyLengthConfig.minSteps + span * (index + 1) / segments;
     if (value! >= end) return _NotchState.walked;
@@ -365,16 +366,22 @@ class _JourneyScaleMarkers extends StatelessWidget {
     );
     return SizedBox(
       height: 20,
-      child: Stack(
+      child: Row(
         children: [
-          for (final step in JourneyLengthConfig.scaleMarkers)
-            Align(
-              alignment: Alignment(_fractionToX(step), 0),
-              child: Text('$step', style: style),
+          Expanded(
+            child: Stack(
+              children: [
+                for (final step in JourneyLengthConfig.scaleMarkers)
+                  Align(
+                    alignment: Alignment(_fractionToX(step), 0),
+                    child: Text('$step', style: style),
+                  ),
+              ],
             ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text('∞', style: style),
+          ),
+          SizedBox(
+            width: _JourneyTrailPicker._infinityWidth,
+            child: Text('∞', textAlign: TextAlign.center, style: style),
           ),
         ],
       ),
@@ -384,7 +391,7 @@ class _JourneyScaleMarkers extends StatelessWidget {
   double _fractionToX(int step) {
     final fraction =
         (step - JourneyLengthConfig.minSteps) /
-        (JourneyLengthConfig.sliderMaxPosition - JourneyLengthConfig.minSteps);
+        (JourneyLengthConfig.maxFiniteSteps - JourneyLengthConfig.minSteps);
     return (fraction * 2) - 1;
   }
 }

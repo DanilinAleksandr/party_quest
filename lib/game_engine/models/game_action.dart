@@ -404,7 +404,7 @@ final class ChanceCheckAction extends GameAction {
   /// it did not, the stone had something under it or it did not. The odds
   /// are the same fifty-fifty, thrown the same way; what changes is that no
   /// coin is shown, since a coin landing King over a found flask announces
-  /// «Обошлось» about a risk nobody took. The player is simply told what
+  /// «Твоя взяла» about a risk nobody took. The player is simply told what
   /// was found, as an ordinary «Последствие».
   final bool open;
 

@@ -27,7 +27,7 @@ import '../../../../core/widgets/line_icons.dart';
 class ContinueJourneyButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
-  /// «НАЧАТЬ», «ДАЛЬШЕ» or «ПРОДОЛЖИТЬ ПОХОД» — see `GameScreen`.
+  /// The start label, «ДАЛЬШЕ» or «ПРОДОЛЖИТЬ ПОХОД» — see `GameScreen`.
   final String label;
 
   const ContinueJourneyButton({

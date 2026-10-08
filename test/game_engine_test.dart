@@ -914,9 +914,24 @@ void main() {
 
       final found = controller.gambleFor(choiceIndex: 0);
       expect(found, isNotNull);
-      expect(found!.hasCall, isTrue);
-      expect(found.sides, ['Орёл', 'Решка']);
+      expect(found!.sides, ['Орёл', 'Решка']);
       expect(found.outcomeFor(won: false), isNotNull);
+    });
+
+    test('a gamble with no sides of its own is called King or Jester', () {
+      final ledge = GameCard(
+        id: 'ledge',
+        title: 't',
+        description: 'd',
+        type: CardType.event,
+        rarity: Rarity.common,
+        weight: 5,
+        choices: const [
+          CardChoice(label: 'Прыгнуть', actions: [ChanceCheckAction()]),
+        ],
+      );
+      final controller = controllerFor(ledge)..takeStep();
+      expect(controller.gambleFor(choiceIndex: 0)!.sides, kCoinSides);
     });
 
     test('a duel names both players before anything is applied', () {

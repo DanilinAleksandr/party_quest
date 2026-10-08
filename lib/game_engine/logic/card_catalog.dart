@@ -17,6 +17,16 @@ const int kRestInterval = 10;
 /// weight is a likelihood, and this is a promise.
 const int kVillageMostCards = 7;
 
+/// How many cards must pass before the same card can be drawn again —
+/// unless it [GameCard.recurs]. A pool too narrow to keep to it (the
+/// prologue's, or a themed pack's) narrows the window rather than drawing
+/// from nothing: see [CardCatalog.eligibleCards].
+const int kNoRepeatWindow = 25;
+
+/// The narrower windows tried, in order, when the full one leaves nothing
+/// to draw. The last is no window at all.
+const List<int> _fallbackWindows = [kNoRepeatWindow, 10, 3, 0];
+
 /// The full pool of cards a match can draw from, plus condition-aware,
 /// weighted selection.
 ///
@@ -99,9 +109,34 @@ final class CardCatalog {
   /// pool. Any card set without rest content — a test fixture, a themed
   /// pack, a mode whose rarity pool excludes them — would otherwise hit an
   /// empty pool on its tenth step and take the step down with it.
+  ///
+  /// And a card drawn within the last [kNoRepeatWindow] cards waits, unless
+  /// it [GameCard.recurs]. Where that would leave nothing to draw, the
+  /// window narrows step by step down to none, so a repeat happens only
+  /// when the pool truly has nothing else — and then the least recent one.
   List<GameCard> eligibleCards(
     GameContext context, {
     bool Function(GameCard card)? extraFilter,
+  }) {
+    final recent = context.state.recentCards;
+    for (final window in _fallbackWindows) {
+      final skip = recent
+          .skip(recent.length > window ? recent.length - window : 0)
+          .toSet();
+      final eligible = _eligible(
+        context,
+        extraFilter: (card) =>
+            (card.recurs || !skip.contains(card.id)) &&
+            (extraFilter?.call(card) ?? true),
+      );
+      if (eligible.isNotEmpty || window == 0) return eligible;
+    }
+    return const [];
+  }
+
+  List<GameCard> _eligible(
+    GameContext context, {
+    required bool Function(GameCard card) extraFilter,
   }) {
     final inPrologue = context.state.phase == JourneyPhase.prologue;
     final inTavern = context.state.worldState.flag('in_tavern');
@@ -134,7 +169,7 @@ final class CardCatalog {
               final conditionsMet = card.conditions.every(
                 (condition) => condition.isSatisfied(context),
               );
-              return conditionsMet && (extraFilter?.call(card) ?? true);
+              return conditionsMet && extraFilter(card);
             })
             .toList(growable: false);
 

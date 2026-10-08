@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:drinking_quest/app/app.dart';
 import 'package:drinking_quest/core/widgets/app_dialog_shell.dart';
 import 'package:drinking_quest/core/widgets/game_result_card.dart';
+import 'package:drinking_quest/features/game/presentation/game_screen.dart';
 import 'package:drinking_quest/features/settings/application/walk_settings.dart';
 import 'package:drinking_quest/game_engine/data/content_providers.dart';
 
@@ -91,14 +92,17 @@ void main() {
     expect(find.text('Боря'), findsOneWidget);
     // The trail labels itself "walked / total" — the word "Шаг" moved into
     // the notches themselves.
-    expect(find.text('0 / 20'), findsOneWidget);
+    // A new party walks without end unless the table picks a length.
+    expect(find.text('Шаг 0 — путешествие без конца'), findsOneWidget);
 
     // Take a step: a card should be drawn and presented as a dialog (or,
     // rarely for a card whose event needs the table to pick a player, a
     // participant-selection dialog first — resolve that too if it shows).
     // The button plays its press through before firing, so this has to
     // settle rather than pump a fixed number of frames.
-    await tester.tap(find.text('НАЧАТЬ'));
+    await tester.tap(find.byKey(kStartButtonKey));
+    // The party leaves the house before the first card.
+    await tester.pump(kLeaveHomeMax);
     await tester.pumpAndSettle();
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
@@ -138,6 +142,6 @@ void main() {
     expect(find.byKey(gameResultCardKey), findsNothing);
     expect(find.text('Аня'), findsOneWidget);
     expect(find.text('Боря'), findsOneWidget);
-    expect(find.text('1 / 20'), findsOneWidget);
+    expect(find.text('Шаг 1 — путешествие без конца'), findsOneWidget);
   });
 }

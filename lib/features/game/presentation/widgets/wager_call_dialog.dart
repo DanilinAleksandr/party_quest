@@ -8,11 +8,10 @@ import '../../../../core/widgets/app_dialog_shell.dart';
 /// The two sides are the coin's own faces — the King for order, the Jester
 /// for chance — so each button carries the mark the coin will land on.
 ///
-/// Only for the gambles a person in the scene actually offered. A ledge does
-/// not let you pick a side, and pretending it does would make every risk in
-/// the game feel like the same minigame. The odds are untouched either way:
-/// calling a side changes who you are gambling *against*, not what the throw
-/// is worth.
+/// Asked before every throw the table watches, a ledge as much as a wager:
+/// a coin nobody called left the player watching a verdict they had no
+/// part in. The odds are untouched either way — calling a side decides
+/// which face the coin lands on, not what the throw is worth.
 ///
 /// Returns the index of the side the player called, or null if the dialog
 /// was somehow dismissed — which the caller treats as no call at all rather

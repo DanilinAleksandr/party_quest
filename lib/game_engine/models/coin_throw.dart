@@ -16,6 +16,12 @@ enum CoinThrow {
   bool get favours => this != lose;
 }
 
+/// The coin's two faces, as the player calls them before every watched
+/// throw — the King for order, the Jester for chance. A scene that names
+/// its own sides (see `ChanceCheckAction.sides`) is called with those
+/// instead.
+const List<String> kCoinSides = ['Король', 'Шут'];
+
 /// How often a watched coin stands on its edge.
 const double kCoinEdgeChance = 1 / 75;
 

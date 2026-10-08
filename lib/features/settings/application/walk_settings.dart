@@ -17,6 +17,8 @@ enum WalkMode {
 ///
 /// The delay is a range of whole seconds, not one value: a card that arrives
 /// on a metronome stops feeling like something that happened on the road.
+/// Four to seven by default — time for whoever was talking to finish the
+/// thought, and no longer.
 ///
 /// [restInterval] is how many steps apart the halts fall. It is read once,
 /// when a match is set up, and handed to the engine with the rest of the
@@ -31,7 +33,7 @@ final class WalkSettings {
   const WalkSettings({
     this.mode = WalkMode.auto,
     this.minDelay = 4,
-    this.maxDelay = 10,
+    this.maxDelay = 7,
     this.restInterval = kRestInterval,
   }) : assert(minDelay >= kMinWalkDelay && minDelay <= maxDelay),
        assert(maxDelay <= kMaxWalkDelay),
@@ -91,6 +93,14 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
   static const _minKey = 'walk_min_delay';
   static const _maxKey = 'walk_max_delay';
   static const _restKey = 'rest_interval';
+  static const _versionKey = 'walk_settings_version';
+
+  /// Bumped when the defaults change in a way every table should get, even
+  /// one that had saved its own: stored delays and halt spacing from before
+  /// it are dropped once, on the first launch that sees it. Version 2 is the
+  /// 4–7 s delay after the third playtest — and a halt spacing that test
+  /// builds had left shorter than the game means it to be.
+  static const _version = 2;
 
   /// Set once somebody changes a setting, so a slow first read cannot land
   /// afterwards and quietly undo them.
@@ -101,6 +111,14 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
       final prefs = await SharedPreferences.getInstance();
       if (_touched || !mounted) return;
       final mode = WalkMode.values.asNameMap()[prefs.getString(_modeKey)];
+      final current = (prefs.getInt(_versionKey) ?? 1) >= _version;
+      if (!current) {
+        await prefs.remove(_minKey);
+        await prefs.remove(_maxKey);
+        await prefs.remove(_restKey);
+        await prefs.setInt(_versionKey, _version);
+        if (_touched || !mounted) return;
+      }
       final min = prefs.getInt(_minKey);
       final max = prefs.getInt(_maxKey);
       final delaysValid =
@@ -148,7 +166,11 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
     Future<void> Function(SharedPreferences prefs) write,
   ) async {
     try {
-      await write(await SharedPreferences.getInstance());
+      final prefs = await SharedPreferences.getInstance();
+      await write(prefs);
+      // What was just chosen is chosen under these defaults: no reset for
+      // it to wait for.
+      await prefs.setInt(_versionKey, _version);
     } catch (_) {
       // The setting still holds for this launch; only remembering it failed.
     }

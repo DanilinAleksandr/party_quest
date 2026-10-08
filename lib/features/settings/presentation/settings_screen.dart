@@ -119,7 +119,8 @@ class SettingsScreen extends ConsumerWidget {
               // no url_launcher in the project, and pulling in a dependency
               // to open two URLs would cost more than it gives.
               SelectableText(
-                'Иконки происхождений — Lorc и Delapouite, game-icons.net,\n'
+                'Иконки происхождений, монеты и приключений — Lorc и '
+                'Delapouite, game-icons.net,\n'
                 'лицензия CC BY 3.0.\n'
                 'https://game-icons.net\n'
                 'https://creativecommons.org/licenses/by/3.0/',

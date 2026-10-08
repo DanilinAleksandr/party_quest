@@ -20,7 +20,12 @@ Future<void> _tell(
       home: Builder(
         builder: (context) => ElevatedButton(
           onPressed: () async {
-            await tellChoiceOutcome(context, outcome);
+            await tellChoiceOutcome(
+              context,
+              outcome,
+              title: 'Деревянная фигурка',
+              icon: Icons.inventory_2_outlined,
+            );
             log.add('resolved');
           },
           child: const Text('choose'),
@@ -100,6 +105,9 @@ void main() {
         find.text('Обычная медная монета, ничего примечательного.'),
         findsOneWidget,
       );
+      // Headed by the scene it follows, not by a generic «Последствие».
+      expect(find.text('Деревянная фигурка'), findsOneWidget);
+      expect(find.text('Последствие'), findsNothing);
       // Still open, so the card has not been resolved behind it.
       expect(log, isEmpty);
 
