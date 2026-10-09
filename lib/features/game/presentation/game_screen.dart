@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,6 +28,7 @@ import 'widgets/adventure_node_dialog.dart';
 import 'widgets/card_resolution_dialog.dart';
 import 'widgets/chance_check_dialog.dart';
 import 'widgets/continue_journey_button.dart';
+import 'widgets/debug_aura_sheet.dart';
 import 'widgets/choice_outcome_dialog.dart';
 import 'widgets/journey_log_sheet.dart';
 import 'widgets/journey_trail.dart';
@@ -503,6 +505,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           ),
         ),
         actions: [
+          if (kDebugMode)
+            IconButton(
+              tooltip: 'Отладка: ауры',
+              icon: const Icon(Icons.bug_report_outlined, size: 20),
+              color: SteelPalette.steelDim,
+              onPressed: () => showDebugAuraSheet(
+                context: context,
+                players: gameState.players,
+                onGive: (id, kind, heavy) => ref
+                    .read(provider.notifier)
+                    .debugGiveCursedItem(id, kind, heavy: heavy),
+              ),
+            ),
           IconButton(
             tooltip: 'Журнал путешествия',
             icon: const Icon(Icons.menu_book_outlined, size: 21),

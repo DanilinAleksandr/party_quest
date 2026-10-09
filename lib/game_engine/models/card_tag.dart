@@ -53,7 +53,12 @@ enum CardTag {
   /// draw: better they wait than turn up in the middle of a desert. When a
   /// town arrives as a place, this becomes its tag the way [village] is
   /// the village's.
-  town;
+  town,
+
+  /// Marks a thing found on the road — a coin in the grass, a flask left
+  /// on a stone — as opposed to one given or bought. A find may carry an
+  /// unseen curse or blessing, rolled as its card is drawn: see `ItemAura`.
+  find;
 
   static CardTag fromJson(String value) => CardTag.values.byName(value);
 

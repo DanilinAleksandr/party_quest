@@ -151,13 +151,38 @@ final class ActionExecutor {
     }
 
     final targets = _resolveTargets(action.target, context);
-    return _updateTargets(
+    // A find carries the aura its card rolled as it was drawn, into the
+    // first bag it goes to. A curse takes its heavy form for a taker whose
+    // true luck is down.
+    var aura = context.state.pendingAura;
+    final find = context.state.pendingCard?.hasTag(CardTag.find) ?? false;
+    if (!find) aura = null;
+    var ctx = _updateTargets(
       context,
       targets,
-      (p) => p.copyWith(inventory: [...p.inventory, item]),
+      (p) {
+        final given = aura;
+        if (given == null) return p.copyWith(inventory: [...p.inventory, item]);
+        aura = null;
+        final luck = p.effectiveStat(StatType.luck, party: context.players);
+        return p.copyWith(
+          inventory: [
+            ...p.inventory,
+            item.withAura(
+              given.curse
+                  ? given.copyWith(heavy: luck <= kHeavyCurseLuck)
+                  : given,
+            ),
+          ],
+        );
+      },
       onUpdated: (updated, next) =>
           next.eventBus.emit(OnItemReceived(player: updated, item: item), next),
     );
+    if (find && context.state.pendingAura != null) {
+      ctx = ctx.withState(ctx.state.copyWith(clearPendingAura: true));
+    }
+    return ctx;
   }
 
   GameContext _takeCommonItem(

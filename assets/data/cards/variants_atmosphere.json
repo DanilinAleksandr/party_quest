@@ -760,7 +760,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -785,7 +786,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -810,7 +812,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -834,7 +837,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "item"
+      "item",
+      "find"
     ],
     "conditions": [
       {
@@ -858,7 +862,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "item"
+      "item",
+      "find"
     ],
     "conditions": [
       {
@@ -882,7 +887,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "item"
+      "item",
+      "find"
     ],
     "conditions": [
       {
@@ -910,7 +916,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "item"
+      "item",
+      "find"
     ],
     "conditions": [
       {
