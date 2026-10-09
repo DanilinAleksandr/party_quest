@@ -165,13 +165,16 @@ final class ActionExecutor {
         if (given == null) return p.copyWith(inventory: [...p.inventory, item]);
         aura = null;
         final luck = p.effectiveStat(StatType.luck, party: context.players);
+        // A close look that noticed it: the party takes it knowing.
+        final known = context.state.noticedAura != AuraNotice.none;
         return p.copyWith(
           inventory: [
             ...p.inventory,
             item.withAura(
-              given.curse
-                  ? given.copyWith(heavy: luck <= kHeavyCurseLuck)
-                  : given,
+              (given.curse
+                      ? given.copyWith(heavy: luck <= kHeavyCurseLuck)
+                      : given)
+                  .copyWith(known: known),
             ),
           ],
         );

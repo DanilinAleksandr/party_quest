@@ -120,6 +120,7 @@ Future<void> showChoiceOutcomeDialog({
   required String title,
   required IconData icon,
   String? iconAsset,
+  String button = 'Понятно',
 }) {
   return showAppDialog<void>(
     context: context,
@@ -141,7 +142,7 @@ Future<void> showChoiceOutcomeDialog({
     actions: [
       FilledButton(
         onPressed: () => Navigator.of(context).pop(),
-        child: const Text('Понятно'),
+        child: Text(button),
       ),
     ],
   );

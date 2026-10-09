@@ -545,6 +545,7 @@ final class ContentValidator {
       case AnyPlayerStatAtLeastCondition _:
       case LeaderIsSetCondition _:
       case LeaderIsUnsetCondition _:
+      case AuraNoticedCondition _:
       case GameModeCondition _:
       case InPhaseCondition _:
       case WorldFlagSetCondition _:

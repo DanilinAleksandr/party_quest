@@ -483,6 +483,49 @@ void main() {
     });
   });
 
+  testWidgets('a closer look comes back to the card, without itself', (
+    tester,
+  ) async {
+    final controller = _controller(
+      cards: [
+        GameCard(
+          id: 'thing',
+          title: 'Находка',
+          description: 'd',
+          type: CardType.item,
+          rarity: Rarity.common,
+          weight: 1,
+          tags: const [CardTag.find],
+          choices: const [
+            CardChoice(label: 'Рассмотреть поближе', inspect: true),
+            CardChoice(label: 'Оставить на месте'),
+          ],
+        ),
+      ],
+    );
+    await _pumpGame(
+      tester,
+      controller,
+      const WalkSettings(mode: WalkMode.manual),
+    );
+    await tester.tap(_start);
+    await _walkOut(tester);
+    await tester.pump(const Duration(milliseconds: 500));
+
+    await tester.tap(find.text('Рассмотреть поближе'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text(kNothingSeen), findsOneWidget);
+    await tester.tap(find.text('Продолжить'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+
+    // The same card, still open: the look is gone, the decision is there.
+    expect(controller.state.pendingCard?.id, 'thing');
+    expect(find.text('Рассмотреть поближе'), findsNothing);
+    expect(find.text('Оставить на месте'), findsOneWidget);
+  });
+
   testWidgets('a hidden check says what came of it, with no coin', (
     tester,
   ) async {

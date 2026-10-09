@@ -93,6 +93,7 @@ CONDITION_SYSTEM = {
     'inPhase': None,
     'leaderIsSet': None,
     'leaderIsUnset': None,
+    'auraNoticed': None,
 }
 
 FACTIONS = {

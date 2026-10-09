@@ -1,5 +1,6 @@
 import '../context/game_context.dart';
 import 'intoxication.dart';
+import 'item_aura.dart';
 import 'journey_phase.dart';
 import 'rarity.dart';
 import 'season.dart';
@@ -126,6 +127,9 @@ sealed class GameCondition {
       ),
       'leaderIsSet' => const LeaderIsSetCondition(),
       'leaderIsUnset' => const LeaderIsUnsetCondition(),
+      'auraNoticed' => AuraNoticedCondition(
+        noticed: AuraNotice.fromJson(json['noticed'] as String),
+      ),
       'flagNotSetWithinSteps' => FlagNotSetWithinStepsCondition(
         flag: json['flag'] as String,
         steps: json['steps'] as int,
@@ -1049,6 +1053,24 @@ final class LeaderIsSetCondition extends GameCondition {
 
   @override
   Map<String, dynamic> toJson() => {'condition': 'leaderIsSet'};
+}
+
+/// Whether a close look at the pending find noticed [noticed] — `none`
+/// until it does. What opens «Взять — пусть холодит» and closes the plain
+/// «Взять».
+final class AuraNoticedCondition extends GameCondition {
+  final AuraNotice noticed;
+
+  const AuraNoticedCondition({required this.noticed});
+
+  @override
+  bool isSatisfied(GameContext context) => context.state.noticedAura == noticed;
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'auraNoticed',
+    'noticed': noticed.name,
+  };
 }
 
 final class LeaderIsUnsetCondition extends GameCondition {

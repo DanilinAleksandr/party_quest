@@ -77,7 +77,8 @@ void main() {
     GameModeCondition _ ||
     InPhaseCondition _ ||
     LeaderIsSetCondition _ ||
-    LeaderIsUnsetCondition _ => null,
+    LeaderIsUnsetCondition _ ||
+    AuraNoticedCondition _ => null,
   };
 
   ({int count, Set<String> systems}) analyse(GameCard card) {

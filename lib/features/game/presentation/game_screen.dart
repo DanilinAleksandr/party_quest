@@ -264,6 +264,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           onDrinkForCourage: () =>
               ref.read(provider.notifier).drinkForCourage(),
           onUseItem: (itemId) => ref.read(provider.notifier).useItem(itemId),
+          // A closer look tells what was seen over the card, and the card
+          // comes back without it — the live view follows the change.
+          onInspect: (choiceIndex) async {
+            final seen = ref.read(provider.notifier).inspect(choiceIndex);
+            if (seen.isEmpty) return;
+            await showChoiceOutcomeDialog(
+              context: context,
+              outcome: seen,
+              title: card.title,
+              icon: cardTypeIcon(card.type),
+              button: 'Продолжить',
+            );
+          },
           participants: _participantsFor(next, card.participant),
           origins: origins,
           adventureNames: rememberedAdventureNames(
