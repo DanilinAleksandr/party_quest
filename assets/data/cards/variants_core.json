@@ -168,7 +168,8 @@
     "weight": 3,
     "tags": [
       "social",
-      "party"
+      "party",
+      "town"
     ],
     "conditions": [],
     "actions": []
@@ -210,7 +211,8 @@
     "weight": 2,
     "tags": [
       "social",
-      "party"
+      "party",
+      "town"
     ],
     "conditions": [],
     "actions": []
@@ -258,7 +260,7 @@
   {
     "id": "trap_cold_shower_v4",
     "title": "Мешочек развязался",
-    "description": "Узел ослаб в самый неподходящий момент, и половина содержимого ушла в траву. Собрали не всё.",
+    "description": "Узел ослаб в самый неподходящий момент, и половина содержимого рассыпалась по земле. Собрали не всё.",
     "type": "trap",
     "rarity": "common",
     "weight": 2,

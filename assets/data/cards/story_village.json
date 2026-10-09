@@ -266,7 +266,8 @@
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 9 },
-      { "condition": "notInBiome", "biomeId": "floodlands" }
+      { "condition": "notInBiome", "biomeId": "floodlands" },
+      { "condition": "notInBiome", "biomeId": "desert" }
     ],
     "actions": []
   },

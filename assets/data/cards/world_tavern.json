@@ -131,6 +131,10 @@
       {
         "condition": "inSeason",
         "season": "winter"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
