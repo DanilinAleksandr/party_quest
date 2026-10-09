@@ -348,7 +348,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {

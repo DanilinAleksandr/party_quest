@@ -20,6 +20,10 @@ final class RandomProvider {
   /// And one for how each watched throw looks — see `CoinStyle`.
   final Random _style;
 
+  /// And one for whether a find carries a curse or a blessing, and which,
+  /// so adding auras moved no card, face or look a seed replays.
+  final Random _aura;
+
   factory RandomProvider({int? seed}) {
     final resolvedSeed = seed ?? DateTime.now().microsecondsSinceEpoch;
     return RandomProvider._(
@@ -27,10 +31,20 @@ final class RandomProvider {
       Random(resolvedSeed),
       Random(resolvedSeed ^ 0x3D6E5EED),
       Random(resolvedSeed ^ 0x57C0171E),
+      Random(resolvedSeed ^ 0x0A0BA0A0),
     );
   }
 
-  RandomProvider._(this.seed, this._source, this._edge, this._style);
+  RandomProvider._(
+    this.seed,
+    this._source,
+    this._edge,
+    this._style,
+    this._aura,
+  );
+
+  /// A roll on the aura stream, in [0, 1).
+  double nextAura() => _aura.nextDouble();
 
   /// The number of the next throw's look, below [count].
   int nextStyle(int count) => _style.nextInt(count);

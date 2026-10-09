@@ -125,7 +125,8 @@
     "weight": 7,
     "tags": [
       "item",
-      "tavern"
+      "tavern",
+      "find"
     ],
     "conditions": [
       {
@@ -154,7 +155,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {

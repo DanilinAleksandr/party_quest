@@ -1,4 +1,5 @@
 import 'game_action.dart';
+import 'item_aura.dart';
 import 'item_ownership.dart';
 import 'item_usage_type.dart';
 import 'rarity.dart';
@@ -28,6 +29,10 @@ final class InventoryItem {
   /// automatically by the engine, per [usageType]).
   final List<GameAction> useActions;
 
+  /// A curse or a blessing this particular thing carries, unseen — see
+  /// [ItemAura]. Null for nearly everything.
+  final ItemAura? aura;
+
   const InventoryItem({
     required this.id,
     required this.name,
@@ -37,7 +42,21 @@ final class InventoryItem {
     required this.isConsumable,
     this.ownership = ItemOwnership.personal,
     this.useActions = const [],
+    this.aura,
   });
+
+  /// This thing, carrying [aura] — or none.
+  InventoryItem withAura(ItemAura? aura) => InventoryItem(
+    id: id,
+    name: name,
+    description: description,
+    rarity: rarity,
+    usageType: usageType,
+    isConsumable: isConsumable,
+    ownership: ownership,
+    useActions: useActions,
+    aura: aura,
+  );
 
   factory InventoryItem.fromJson(Map<String, dynamic> json) => InventoryItem(
     id: json['id'] as String,
@@ -50,6 +69,9 @@ final class InventoryItem {
         ? ItemOwnership.personal
         : ItemOwnership.fromJson(json['ownership'] as String),
     useActions: GameAction.listFromJson(json['useActions'] as List<dynamic>?),
+    aura: json['aura'] == null
+        ? null
+        : ItemAura.fromJson(json['aura'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +83,6 @@ final class InventoryItem {
     'isConsumable': isConsumable,
     'ownership': ownership.toJson(),
     'useActions': GameAction.listToJson(useActions),
+    if (aura != null) 'aura': aura!.toJson(),
   };
 }

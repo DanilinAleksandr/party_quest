@@ -4,6 +4,7 @@ import 'adventure_node.dart';
 import 'chronicle_entry.dart';
 import 'game_card.dart';
 import 'game_status.dart';
+import 'item_aura.dart';
 import 'inventory_item.dart';
 import 'journey_log_entry.dart';
 import 'journey_phase.dart';
@@ -96,6 +97,12 @@ final class GameState {
   /// ten steps apart: a window of cards would forget them between two.
   final List<String> recentRestCards;
 
+  /// The curse or blessing the find on the card now pending carries, rolled
+  /// as the card was drawn — what a close look sees, and what the thing
+  /// takes with it into a bag. Null for a card that is no find, or a find
+  /// that is just a thing.
+  final ItemAura? pendingAura;
+
   const GameState({
     required this.players,
     required this.currentPlayerIndex,
@@ -113,6 +120,7 @@ final class GameState {
     this.phase = JourneyPhase.journey,
     this.recentCards = const [],
     this.recentRestCards = const [],
+    this.pendingAura,
   });
 
   /// Every player starts with no origin — see `Origin`/`RevealOriginAction`.
@@ -157,6 +165,8 @@ final class GameState {
     JourneyPhase? phase,
     List<String>? recentCards,
     List<String>? recentRestCards,
+    ItemAura? pendingAura,
+    bool clearPendingAura = false,
   }) {
     return GameState(
       players: players ?? this.players,
@@ -183,6 +193,7 @@ final class GameState {
       phase: phase ?? this.phase,
       recentCards: recentCards ?? this.recentCards,
       recentRestCards: recentRestCards ?? this.recentRestCards,
+      pendingAura: clearPendingAura ? null : (pendingAura ?? this.pendingAura),
     );
   }
 }

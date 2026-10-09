@@ -273,7 +273,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "item"
+      "item",
+      "find"
     ],
     "conditions": [
       {
@@ -298,7 +299,8 @@
     "weight": 6,
     "tags": [
       "item",
-      "social"
+      "social",
+      "find"
     ],
     "conditions": [
       {

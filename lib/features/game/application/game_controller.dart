@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../game_engine/context/game_context.dart';
@@ -399,11 +400,16 @@ class GameController extends StateNotifier<GameState> {
     final worldState = context.state.worldState.copyWith(
       previousParticipantId: context.currentPlayer.id,
     );
+    final aura = drawnCard.hasTag(CardTag.find)
+        ? rollAura(context.random)
+        : null;
     var ctx = context.withState(
       context.state.copyWith(
         pendingCard: card,
         clearPendingParticipantSelection: true,
         worldState: worldState,
+        pendingAura: aura,
+        clearPendingAura: aura == null,
       ),
     );
     ctx = _dispatcher.dispatch(
@@ -528,6 +534,75 @@ class GameController extends StateNotifier<GameState> {
       return CoinThrow.edge;
     }
     return won ? CoinThrow.win : CoinThrow.lose;
+  }
+
+  /// Debug only: hands [playerId] a found stone carrying a [kind] curse,
+  /// heavy or not — the game screen offers it under `kDebugMode`.
+  void debugGiveCursedItem(
+    String playerId,
+    AuraKind kind, {
+    bool heavy = false,
+  }) {
+    if (!_context.itemCatalog.contains('item_odd_stone')) return;
+    final stone = _context.itemCatalog
+        .byId('item_odd_stone')
+        .withAura(
+          ItemAura(
+            kind: kind,
+            heavy: heavy,
+            stat: kind.onStat ? kAuraStats[_context.random.nextInt(5)] : null,
+          ),
+        );
+    _setContext(
+      _context.withState(
+        _context.state.copyWith(
+          players: [
+            for (final p in _context.players)
+              p.id == playerId
+                  ? p.copyWith(inventory: [...p.inventory, stone])
+                  : p,
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Tests: puts [item] in [playerId]'s bag as it is, aura and all.
+  @visibleForTesting
+  void debugGive(String playerId, InventoryItem item) => _setContext(
+    _context.withState(
+      _context.state.copyWith(
+        players: [
+          for (final p in _context.players)
+            p.id == playerId
+                ? p.copyWith(inventory: [...p.inventory, item])
+                : p,
+        ],
+      ),
+    ),
+  );
+
+  /// Tests: sets the current player's base luck.
+  @visibleForTesting
+  void debugSetLuck(int luck) {
+    final p = _context.currentPlayer;
+    _setContext(
+      _context.withState(
+        _context.state.copyWith(
+          players: [
+            for (final q in _context.players)
+              q.id == p.id
+                  ? q.copyWith(
+                      stats: q.stats.modify(
+                        StatType.luck,
+                        luck - q.stats.valueOf(StatType.luck),
+                      ),
+                    )
+                  : q,
+          ],
+        ),
+      ),
+    );
   }
 
   /// How the next watched throw looks — from the match's seed, so a replay
@@ -672,6 +747,7 @@ class GameController extends StateNotifier<GameState> {
     ctx = ctx.withState(
       ctx.state.copyWith(
         clearPendingCard: true,
+        clearPendingAura: true,
         journeyLog: [
           ...ctx.state.journeyLog,
           JourneyLogEntry(
@@ -704,6 +780,24 @@ class GameController extends StateNotifier<GameState> {
     final wearsOff = kSoberingPerTurn * (resting ? kRestSoberingFactor : 1);
     final hangovers = <String>[];
 
+    // The unseen auras on what the player whose turn it was carries count
+    // one more of their own turns.
+    ctx = ctx.withState(
+      ctx.state.copyWith(
+        players: [
+          for (final p in ctx.players)
+            p.id == turnOf && p.inventory.any((i) => i.aura != null)
+                ? p.copyWith(
+                    inventory: [
+                      for (final i in p.inventory)
+                        i.aura == null ? i : i.withAura(i.aura!.tick()),
+                    ],
+                  )
+                : p,
+        ],
+      ),
+    );
+
     Player wearOff(Player player) {
       // Whoever drank on this card does not sober on it too: the turn a
       // drink is taken on is not one of the turns it wears off over.
@@ -730,7 +824,7 @@ class GameController extends StateNotifier<GameState> {
       // Hundredths, kept as hundredths: float drift must never turn five
       // turns of sobering into four and a bit. Hundredths rather than
       // tenths, because an old hand's drink is 0.75.
-      final raw = player.intoxication - wearsOff;
+      final raw = player.intoxication - wearsOff / player.soberDivisor;
       final intoxication = raw <= 0 ? 0.0 : (raw * 100).round() / 100;
       if (player.wasDrunk && intoxication < kDrunkAt) {
         if (!resting) hangovers.add(player.id);
@@ -742,6 +836,10 @@ class GameController extends StateNotifier<GameState> {
     final players = [for (final p in ctx.players) wearOff(p)];
     ctx = ctx.withState(ctx.state.copyWith(players: players));
 
+    // Something they carry may keep the morning away.
+    hangovers.removeWhere(
+      (id) => ctx.players.firstWhere((p) => p.id == id).sparedHangover,
+    );
     if (ctx.effectCatalog.contains(kHangoverEffectId)) {
       for (final id in hangovers) {
         ctx = _executor.executeAsPlayer(
@@ -851,6 +949,26 @@ class GameController extends StateNotifier<GameState> {
     );
     return ctx.withState(ctx.state.copyWith(worldState: worldState));
   }
+}
+
+/// Whether a find carries a curse or a blessing, and which — rolled on the
+/// match's aura stream as the find's card is drawn. Its weight (heavy or
+/// not) is settled later, as the thing is taken: see `ActionExecutor`.
+ItemAura? rollAura(RandomProvider random) {
+  final r = random.nextAura();
+  final List<AuraKind> pool;
+  if (r < kCurseChance) {
+    pool = AuraKind.curses;
+  } else if (r < kCurseChance + kBlessingChance) {
+    pool = AuraKind.blessings;
+  } else {
+    return null;
+  }
+  final kind = pool[(random.nextAura() * pool.length).floor()];
+  final stat = kind.onStat
+      ? kAuraStats[(random.nextAura() * kAuraStats.length).floor()]
+      : null;
+  return ItemAura(kind: kind, stat: stat);
 }
 
 /// What `GameSetupScreen` collects before a match starts — bundled into one

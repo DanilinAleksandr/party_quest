@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'item_aura.dart';
 import 'player.dart';
 import 'stat_type.dart';
 
@@ -171,8 +172,26 @@ extension IntoxicationOf on Player {
 
   AgeBracket get ageBracket => AgeBracket.of(age);
 
-  /// What one drink amounts to for this character.
-  double get drinkFactor => kDrinkFactor[ageBracket]!;
+  /// What one drink amounts to for this character — their age, and any
+  /// unseen aura on what they carry.
+  double get drinkFactor =>
+      kDrinkFactor[ageBracket]! * _auras.fold(1.0, (f, a) => f * a.drinkFactor);
+
+  Iterable<ItemAura> get _auras => [
+    for (final i in inventory)
+      if (i.aura != null) i.aura!,
+  ];
+
+  /// How much slower the drink wears off for this character: 1, unless an
+  /// aura on what they carry holds it in.
+  double get soberDivisor => _auras.fold(1.0, (d, a) => d * a.soberDivisor);
+
+  /// Whether something they carry keeps the hangover away.
+  bool get sparedHangover => _auras.any((a) => a.blocksHangover);
+
+  /// What the unseen auras on this character's things do to the stats a
+  /// check reads. Never shown: the screen shows the base stats.
+  Map<StatType, int> get auraShifts => _sum([for (final a in _auras) a.shifts]);
 
   /// How many cards this character's hangover lasts.
   int get hangoverCards => kHangoverCards[ageBracket]!;
@@ -218,7 +237,8 @@ extension IntoxicationOf on Player {
       stats.valueOf(stat) +
       (intoxicationShifts[stat] ?? 0) +
       (effectStatShifts[stat] ?? 0) +
-      (partyShiftsFrom(party)[stat] ?? 0);
+      (partyShiftsFrom(party)[stat] ?? 0) +
+      (auraShifts[stat] ?? 0);
 
   /// The one word for the roster card: asleep, then drunk, then hungover.
   String? get conditionWord {

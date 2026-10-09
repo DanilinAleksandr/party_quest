@@ -8,7 +8,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -190,7 +191,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -368,7 +370,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
@@ -550,7 +553,8 @@
     "weight": 2,
     "tags": [
       "item",
-      "luck"
+      "luck",
+      "find"
     ],
     "conditions": [
       {
