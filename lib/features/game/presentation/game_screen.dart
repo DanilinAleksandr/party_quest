@@ -62,11 +62,12 @@ const List<String> kStartLabels = [
   'Выйти за порог',
 ];
 
-/// How long the party takes to leave the house after the first press,
-/// before the first card: the table watches them go rather than being
-/// handed a card the instant it said «пошли». Drawn afresh in this range.
-const Duration kLeaveHomeMin = Duration(seconds: 5);
-const Duration kLeaveHomeMax = Duration(seconds: 7);
+/// After the first press the party walks out of the house on the strip
+/// (18a/18b), and the first card comes when they are all out and walking —
+/// when the strip says so, not on a clock, so a strip that stutters on a
+/// slow phone still gets to finish. This is only the guard against a strip
+/// that never gets to say it: off screen, say.
+const Duration kLeaveHomeGuard = Duration(seconds: 15);
 
 /// The first button, whatever it says.
 const Key kStartButtonKey = Key('start_button');
@@ -79,23 +80,29 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   late final String _startLabel =
       kStartLabels[_random.nextInt(kStartLabels.length)];
 
-  /// Running from the first press until the first card: the party is
-  /// leaving the house.
-  Timer? _leavingHome;
+  /// From the first press until the first card: the party is leaving the
+  /// house.
+  bool _leaving = false;
+  Timer? _leaveGuard;
+
+  /// Whether the strip opens on the house: the match had not begun when
+  /// the screen was first built.
+  late final bool _fromHome = !_hasStarted(
+    ref.read(gameControllerProvider(setupArgs)),
+  );
 
   void _leaveHome() {
-    if (_leavingHome != null) return;
-    final span = kLeaveHomeMax - kLeaveHomeMin;
-    final delay =
-        kLeaveHomeMin +
-        Duration(milliseconds: _random.nextInt(span.inMilliseconds + 1));
-    setState(() {
-      _leavingHome = Timer(delay, () {
-        if (!mounted) return;
-        ref.read(gameControllerProvider(setupArgs).notifier).takeStep();
-        setState(() => _leavingHome = null);
-      });
-    });
+    if (_leaving) return;
+    setState(() => _leaving = true);
+    _leaveGuard = Timer(kLeaveHomeGuard, _outOfTheHouse);
+  }
+
+  /// Everyone is out and walking: the first card.
+  void _outOfTheHouse() {
+    if (!mounted || !_leaving) return;
+    _leaveGuard?.cancel();
+    ref.read(gameControllerProvider(setupArgs).notifier).takeStep();
+    setState(() => _leaving = false);
   }
 
   /// The biome the screen last drew, to notice the party entering another.
@@ -200,7 +207,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   void dispose() {
-    _leavingHome?.cancel();
+    _leaveGuard?.cancel();
     _entryHold?.cancel();
     _autoWalk.dispose();
     _cardView?.dispose();
@@ -536,7 +543,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               // yet begun or over, walking by hand.
               SceneStrip(
                 biomeId: gameState.worldState.currentBiomeId,
-                moving: timerRuns,
+                moving: timerRuns || _leaving,
+                figures: gameState.players.length,
+                inPrologue: gameState.phase == JourneyPhase.prologue,
+                fromHome: _fromHome,
+                onPrologueReady: _outOfTheHouse,
                 stop: inRest
                     ? StripStop.rest
                     : gameState.worldState.flag('in_tavern')
@@ -647,7 +658,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               // press will do from where the party is standing.
               // The first press only sets the party walking out of the
               // house: the first card comes once they are out — see
-              // [kLeaveHomeMin]. The button stays, dimmed, until then.
+              // [kLeaveHomeGuard]. The button stays, dimmed, until then.
               if (walk.mode == WalkMode.manual || !started) ...[
                 const SizedBox(height: 4),
                 ContinueJourneyButton(
@@ -658,8 +669,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       : inDetour
                       ? 'ДАЛЬШЕ'
                       : 'ПРОДОЛЖИТЬ ПОХОД',
-                  onPressed:
-                      canTakeStep && _entryHold == null && _leavingHome == null
+                  onPressed: canTakeStep && _entryHold == null && !_leaving
                       ? (started
                             ? () => ref.read(provider.notifier).takeStep()
                             : _leaveHome)

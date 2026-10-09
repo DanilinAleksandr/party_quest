@@ -1,18 +1,23 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'strip_fields.dart';
 import 'strip_kit.dart';
 import 'strip_shapes.dart';
 
-/// The paths the strip knows how to draw: the forest (14a) and the five of
-/// round 4 (16a–16e).
+/// The paths the strip knows how to draw: the forest (14a), the five of
+/// round 4 (16a–16e), and the fields of the prologue (18).
 enum StripBiome {
   forest,
   mountains,
   coast,
   desert,
   floodlands,
-  graveyard;
+  graveyard,
+
+  /// The open country the party walks out into from the house. Not a biome
+  /// of the content: it is the prologue's, whatever biome the world says.
+  fields;
 
   /// A `Biome.id` from the content. Anything the strip has no path for —
   /// the tavern, a biome added later — walks through the forest.
@@ -53,6 +58,20 @@ final class StripStream {
   final List<StripItem> items = [];
   double edge;
 
+  /// Makes the next item knowing where it will stand — for the fences of
+  /// the fields, which keep their wells a screen apart. Used instead of
+  /// [make] when set.
+  final StripShape Function(double x)? makeAt;
+
+  /// Leaves out an item at x, w wide — for the first fill of the prologue,
+  /// which keeps the yard and the first screen clear. The stream moves on
+  /// past it all the same, as the prototype's does.
+  bool Function(double x, double w)? skip;
+
+  /// The house of the prologue: one item placed by hand, nothing more ever
+  /// made — see [StripWorld.yard].
+  final bool yard;
+
   /// Set when the biome changes: the stream stops placing items, and goes
   /// once its last one has left the strip.
   bool done = false;
@@ -73,15 +92,18 @@ final class StripStream {
     required this.make,
     required this.gap,
     this.tag = false,
+    this.makeAt,
+    this.yard = false,
   }) : edge = -80 - r() * 60;
 
   /// Places items until the stream reaches past [right], and drops the ones
   /// that have gone off the left — both measured at scroll offset [off].
   void fill(double off, double right) {
     while (!done && edge - off < right) {
-      final shape = make(), x = edge;
+      final x = edge, shape = makeAt?.call(x) ?? make();
       final g = gap(r);
       edge = x + shape.w + g;
+      if (skip?.call(x, shape.w) ?? false) continue;
       items.add(StripItem(x, shape));
     }
     while (items.isNotEmpty &&
@@ -132,7 +154,29 @@ typedef _Spec = ({
   StripShape Function() make,
   double Function(Rng r) gap,
   bool tag,
+  StripShape Function(double x)? makeAt,
 });
+
+/// What the fields need from the world they grow in: how dense they are
+/// now, and how far apart the wells must stand.
+final class FieldsSetting {
+  /// The multiplier on the gaps (`FDENS`), read as each item is placed, so
+  /// the fields can thin out as the party walks.
+  final double Function() density;
+
+  /// No two wells on the screen at once: a well comes only this far past
+  /// the last one — the screen's width and a little more.
+  final double wellGap;
+
+  /// Where the last well stood: the yard's, at the start.
+  final double firstWell;
+
+  const FieldsSetting({
+    required this.density,
+    required this.wellGap,
+    this.firstWell = -1e9,
+  });
+}
 
 double Function(Rng) _range(double a, double b) =>
     (r) => a + r() * (b - a);
@@ -149,7 +193,12 @@ double Function(Rng) _gapR(
 
 /// Every stream of [biome], seeded by [seed] — `buildLayers` in the
 /// prototype, for the forest of round 2 and the paths of round 4.
-List<StripStream> buildStreams(StripGeo g, int seed, StripBiome biome) {
+List<StripStream> buildStreams(
+  StripGeo g,
+  int seed,
+  StripBiome biome, {
+  FieldsSetting? fields,
+}) {
   var count = 0;
   Rng next() => stripRng(seed * 7919 + (++count) * 104729);
   final r1 = next(),
@@ -159,7 +208,7 @@ List<StripStream> buildStreams(StripGeo g, int seed, StripBiome biome) {
       r5 = next(),
       r6 = next(),
       r7 = next();
-  final specs = _layers(g, biome, [r1, r2, r3, r4, r5, r6, r7]);
+  final specs = _layers(g, biome, [r1, r2, r3, r4, r5, r6, r7], fields);
   return [
     for (final s in specs)
       StripStream(
@@ -169,11 +218,17 @@ List<StripStream> buildStreams(StripGeo g, int seed, StripBiome biome) {
         make: s.make,
         gap: s.gap,
         tag: s.tag,
+        makeAt: s.makeAt,
       ),
   ];
 }
 
-List<_Spec> _layers(StripGeo g, StripBiome biome, List<Rng> rs) {
+List<_Spec> _layers(
+  StripGeo g,
+  StripBiome biome,
+  List<Rng> rs, [
+  FieldsSetting? fields,
+]) {
   final [r1, r2, r3, r4, r5, r6, r7] = rs;
   final gy = g.gy, k = g.k, hy = gy - g.h * 0.3, nearC = StripColors.near;
   final t = pathTone(biome);
@@ -184,7 +239,16 @@ List<_Spec> _layers(StripGeo g, StripBiome biome, List<Rng> rs) {
     StripShape Function() make,
     double Function(Rng) gap, {
     bool tag = false,
-  }) => (layer: layer, ratio: ratio, r: r, make: make, gap: gap, tag: tag);
+    StripShape Function(double x)? makeAt,
+  }) => (
+    layer: layer,
+    ratio: ratio,
+    r: r,
+    make: make,
+    gap: gap,
+    tag: tag,
+    makeAt: makeAt,
+  );
   const far = StripLayer.far,
       midfar = StripLayer.midfar,
       mid = StripLayer.mid,
@@ -192,6 +256,94 @@ List<_Spec> _layers(StripGeo g, StripBiome biome, List<Rng> rs) {
       near = StripLayer.near;
 
   switch (biome) {
+    case StripBiome.fields:
+      // The prologue's open country (`fieldsLayers`). Gaps are divided by
+      // the density as each item is placed, so the fields thin out.
+      final setting =
+          fields ??
+          FieldsSetting(density: () => kFields, wellGap: double.infinity);
+      double dn() => setting.density();
+      double Function(Rng) dense(double a, double b) =>
+          (r) => (a + r() * (b - a)) / dn();
+      final tone = pathTone(biome)!;
+      var fences = 0;
+      var lastWell = setting.firstWell;
+      StripShape fence(double x) {
+        if (++fences % 4 == 2 && x - lastWell >= setting.wellGap) {
+          lastWell = x;
+          return well(g);
+        }
+        return pick(r4, [
+          (2, () => pletyen(r4, g)),
+          (2, () => zherdi(r4, g)),
+          (1.4, () => palisade(r4, g)),
+          (0.8, () => stone(r4, g)),
+        ]);
+      }
+
+      return [
+        s(
+          far,
+          0.15,
+          r1,
+          () => farFields(r1, g, tone, gy - g.h * 0.16),
+          (r) => -(12 + r() * 30) * k,
+        ),
+        s(
+          midfar,
+          0.35,
+          r2,
+          () => pick(r2, [
+            (3, () => treeGroup(r2, g, tone.midfar, gy - 3, 0.24, 0.36, 3)),
+            (1.2, () => crownTree(r2, g, tone.midfar, gy - 3, 0.26, 0.38)),
+            (1, () => bushLine(r2, g, tone.midfar, gy - 3)),
+            (0.8, () => stog(r2, g, tone.midfar, gy - 3)),
+          ]),
+          dense(50 * k, 200 * k),
+        ),
+        s(
+          mid,
+          0.6,
+          r3,
+          () => pick(r3, [
+            (3, () => crownTree(r3, g, tone.mid, gy + 1, 0.62, 0.9)),
+            (
+              1.2 * dn(),
+              () => treeGroup(r3, g, tone.mid, gy + 1, 0.52, 0.8, 3),
+            ),
+            (1, () => kopna(r3, g, tone.mid, gy + 1)),
+            (0.5, () => scarecrow(r3, g, tone.mid, gy + 1)),
+          ]),
+          dense(70, 240),
+        ),
+        s(ground, 1, r5, () => tuft(r5, g), _range(10, 50)),
+        s(
+          ground,
+          1,
+          r4,
+          () => fence(double.negativeInfinity),
+          dense(60, 200),
+          makeAt: fence,
+        ),
+        s(
+          near,
+          1.7,
+          r6,
+          () => pick(r6, [
+            (1, () => zherdiNear(r6, g)),
+            (1.2, () => bushNear(r6, g)),
+          ]),
+          dense(260, 620),
+          tag: true,
+        ),
+        s(
+          near,
+          1.7,
+          r7,
+          () => grass(r7, g, g.h + 1, nearC, 6, 14),
+          dense(24, 100),
+        ),
+      ];
     case StripBiome.forest:
       return [
         s(
@@ -527,6 +679,7 @@ List<_Spec> _layers(StripGeo g, StripBiome biome, List<Rng> rs) {
 /// has none.
 PathTone? pathTone(StripBiome biome) => switch (biome) {
   StripBiome.forest => null,
+  StripBiome.fields => fieldsTone,
   StripBiome.mountains => PathTone(
     skyHor: '#7C828C',
     far: '#70767F',
@@ -612,6 +765,102 @@ final class StripTone {
   List<Color> get skyAndFog => [...skyColors, fog1, fog2];
 }
 
+/// One walker in the party: where they walk, how bright they are, and how
+/// far out of step with the others, so the party does not march.
+typedef StripFigure = ({double x, double alpha, double phase});
+
+/// The walking party for [count] players: the lead at 226 in the
+/// prototype's 412-wide frame, the rest 13⅓ dp apart behind, the back one
+/// dimmest. At four it is the prototype's `GROUP`.
+List<StripFigure> stripGroup(int count) {
+  final n = count.clamp(1, 8);
+  const phases = [0.0, 0.3, 0.55, 0.8];
+  return [
+    for (var i = 0; i < n; i++)
+      (
+        x: 226 - (n - 1 - i) * 40 / 3,
+        alpha: n == 1 ? 1.0 : 0.55 + 0.45 * i / (n - 1),
+        phase: phases[i % 4] + (i ~/ 4) * 0.13,
+      ),
+  ];
+}
+
+/// The party walking out of the house (18a/18b, `prologue()`): the door
+/// opens, they come out one by one with the lead first, and when the lead
+/// reaches the middle the world starts moving, picking up to the road's
+/// pace over [Prologue.ramp]. [ready] once everyone stands in place and the
+/// world is at full pace — when the first card may come.
+///
+/// Every figure's step follows its speed over the ground, its own and the
+/// world's together, so the feet do not slide.
+final class StripPrologue {
+  final List<StripFigure> group;
+
+  /// Seconds since the party set off; nothing moves before [start].
+  double time = 0;
+  double? _walkFrom;
+
+  /// Where each figure is (in the 412-wide frame) and how far into its
+  /// stride.
+  final List<double> x;
+  final List<double> leg;
+
+  bool ready = false;
+  double? readyAt;
+
+  StripPrologue(this.group)
+    : x = [for (final _ in group) Prologue.doorX + 5],
+      leg = [for (final f in group) f.phase];
+
+  int get _lead => group.length - 1;
+
+  /// When figure [i] steps out: the lead first, the back one last.
+  double exitAt(int i) => Prologue.firstExit + (_lead - i) * Prologue.exitEvery;
+
+  /// How visible figure [i] is: out of sight until it steps out, then
+  /// coming out of the doorway's shadow over its first 5 dp.
+  double opacity(int i) => time < exitAt(i)
+      ? 0
+      : (0.15 + (x[i] - Prologue.doorX - 5) / 5).clamp(0.0, 1.0).toDouble();
+
+  /// The world's pace now.
+  double get worldSpeed {
+    final from = _walkFrom;
+    if (from == null) return 0;
+    final t = ((time - from) / Prologue.ramp).clamp(0.0, 1.0);
+    return kRoadSpeed * t * t * (3 - 2 * t);
+  }
+
+  /// Moves the party on by [dt]; returns how fast the world moves.
+  double tick(double dt) {
+    time += dt;
+    if (_walkFrom == null && x[_lead] >= Prologue.center) _walkFrom = time;
+    final vw = worldSpeed;
+    for (var i = 0; i < group.length; i++) {
+      if (time < exitAt(i)) continue;
+      final rem = group[i].x - x[i];
+      final vs = rem <= 0
+          ? 0.0
+          : math.min(math.max(rem * 4, 6), math.max(0, Prologue.walk - vw));
+      if (vs * dt >= rem) {
+        x[i] = math.max(x[i], group[i].x);
+      } else {
+        x[i] += vs * dt;
+      }
+      leg[i] += dt * (vs + vw) / kRoadSpeed / kStride;
+    }
+    if (!ready &&
+        vw >= kRoadSpeed * 0.999 &&
+        [
+          for (var i = 0; i < group.length; i++) group[i].x - x[i] < 0.01,
+        ].every((d) => d)) {
+      ready = true;
+      readyAt = time;
+    }
+    return vw;
+  }
+}
+
 /// The strip's world: its streams, its clock, and the biome it is walking
 /// through, including a biome change in progress.
 ///
@@ -640,6 +889,18 @@ final class StripWorld {
   int _currentSeed;
   final List<StripStream> streams = [];
 
+  /// The walking party.
+  final List<StripFigure> group;
+
+  /// Set when the match starts at the house: the party walks out of it, and
+  /// the world waits for them. Kept after they are out — their steps carry
+  /// on from where the walk-out left them.
+  final StripPrologue? prologue;
+
+  /// Where the walking party is centred on a strip wider or narrower than
+  /// the prototype's 412: the house and the figures move together.
+  double get dx => width / 2 - 206;
+
   /// The biome being left and when the change began; its tone fades out
   /// over [kToneFade] while the new one fades in.
   StripBiome? fromBiome;
@@ -652,11 +913,66 @@ final class StripWorld {
     required this.width,
     required this.biome,
     required int seed,
-  }) : _currentSeed = seed {
-    streams.addAll(buildStreams(geo, _currentSeed, biome));
+    int figures = 4,
+    bool fromHome = false,
+  }) : _currentSeed = seed,
+       group = stripGroup(figures),
+       prologue = fromHome ? StripPrologue(stripGroup(figures)) : null {
+    final yardLeft = dx + Prologue.yardFrom, yardRight = dx + Prologue.yardTo;
+    streams.addAll(
+      buildStreams(
+        geo,
+        _currentSeed,
+        biome,
+        fields: FieldsSetting(
+          density: () => fieldsDensity,
+          wellGap: width + 40,
+          firstWell: fromHome ? dx + Prologue.wellX : -1e9,
+        ),
+      ),
+    );
     for (final s in streams) {
+      // The first fill of the walk-out keeps the yard clear for the house,
+      // and the near plane off the first screen (`prologue()`).
+      if (fromHome && s.layer == StripLayer.near) {
+        s.skip = (x, w) => x < width;
+      } else if (fromHome && s.layer == StripLayer.ground) {
+        s.skip = (x, w) => x < yardRight && x + w > yardLeft;
+      }
       s.fill(0, width + 80);
+      s.skip = null;
     }
+    if (fromHome) {
+      final yard = StripStream(
+        layer: StripLayer.ground,
+        ratio: 1,
+        r: stripRng(seed),
+        make: () => throw StateError('the house is built once'),
+        gap: (_) => 0,
+        yard: true,
+      )..done = true;
+      yard.items.add(StripItem(dx, house(geo)));
+      streams.add(yard);
+    }
+  }
+
+  /// How far the road has gone at which the fields have thinned from the
+  /// yard's density to the open country's — about three cards' walking.
+  static const double kThinOver = 360;
+
+  /// The fields' density now: [kFieldsDense] by the house, easing to
+  /// [kFields] over [kThinOver] dp of road. Only the fields read it.
+  double get fieldsDensity {
+    final t = (distance / kThinOver).clamp(0.0, 1.0);
+    return kFieldsDense + (kFields - kFieldsDense) * t * t * (3 - 2 * t);
+  }
+
+  /// The house, while it is still on the strip.
+  StripStream? get yard {
+    for (final s in streams) {
+      if (s.yard) return s;
+    }
+    return null;
   }
 
   double offsetOf(StripStream s) => distance * s.ratio;
@@ -664,8 +980,9 @@ final class StripWorld {
   /// Moves the world on by [dt] seconds.
   void advance(double dt) {
     time += dt;
-    distance += dt * kRoadSpeed;
-    stride += dt / kStride;
+    final speed = prologue?.tick(dt) ?? kRoadSpeed;
+    distance += dt * speed;
+    stride += dt * speed / kRoadSpeed / kStride;
     for (var i = streams.length - 1; i >= 0; i--) {
       final s = streams[i];
       s.fill(offsetOf(s), width + 80);

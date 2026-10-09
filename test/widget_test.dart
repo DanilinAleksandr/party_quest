@@ -102,7 +102,13 @@ void main() {
     // settle rather than pump a fixed number of frames.
     await tester.tap(find.byKey(kStartButtonKey));
     // The party leaves the house before the first card.
-    await tester.pump(kLeaveHomeMax);
+    for (
+      var i = 0;
+      i < 400 && find.byKey(appDialogContentKey).evaluate().isEmpty;
+      i++
+    ) {
+      await tester.pump(const Duration(milliseconds: 20));
+    }
     await tester.pumpAndSettle();
 
     expect(find.byKey(appDialogContentKey), findsOneWidget);
