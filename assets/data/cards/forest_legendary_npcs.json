@@ -91,7 +91,7 @@
   {
     "id": "callback_bandit_revenge",
     "title": "Старые счёты",
-    "description": "Из-за поворота выходят знакомые лица — уцелевшие разбойники наконец нашли тебя и явно не забыли, чей это был лагерь.",
+    "description": "Между деревьями мелькают знакомые лица — уцелевшие разбойники наконец нашли тебя и явно не забыли, чей это был лагерь.",
     "type": "trap",
     "rarity": "rare",
     "weight": 3,
@@ -104,6 +104,10 @@
       {
         "condition": "worldFlagSet",
         "flag": "raided_bandit_camp"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": [

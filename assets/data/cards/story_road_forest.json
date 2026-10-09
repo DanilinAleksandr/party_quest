@@ -135,14 +135,14 @@
   {
     "id": "story_road_gravel_hauled",
     "title": "Возят щебень",
-    "description": "Телеги идут одна за другой и вываливают камень прямо в ямы. Двое разбивают крупные куски кувалдами, ещё двое разравнивают.\n\nНад ямами стоит белое облако от битого камня и садится на всё, включая тех, кто просто проходит мимо.",
+    "description": "Телеги идут одна за другой и вываливают камень прямо в ямы. Двое разбивают крупные куски кувалдами, ещё двое разравнивают.\n\nПыль стоит белая и садится на всё, включая тех, кто просто проходит мимо.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
     "tags": ["group"],
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
-      { "condition": "minimumStep", "steps": 4 }
+      { "condition": "minimumStep", "steps": 4 }, { "condition": "notInBiome", "biomeId": "floodlands" }
     ],
     "actions": []
   },

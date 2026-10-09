@@ -82,7 +82,7 @@
   {
     "id": "atmosphere_distant_wave_v4",
     "title": "Кто-то свистнул",
-    "description": "Откуда-то сбоку раздаётся короткий свист в две ноты. Через паузу оттуда же отвечают тем же.",
+    "description": "Со стороны леса раздаётся короткий свист в две ноты. Через паузу оттуда же отвечают тем же.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -92,7 +92,12 @@
     "participant": {
       "kind": "wholeGroup"
     },
-    "conditions": [],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
     "actions": []
   },
   {
@@ -872,7 +877,7 @@
   {
     "id": "item_compass_find_v4",
     "title": "Подкладка плаща",
-    "description": "Брошенный у дороги плащ порван по шву, и из подкладки что-то выпадает на землю.\n\nСтарый компас. Стрелка держит север.",
+    "description": "Брошенный на кустах плащ порван по шву, и из подкладки что-то выпадает в траву.\n\nСтарый компас. Стрелка держит север.",
     "type": "item",
     "rarity": "common",
     "weight": 2,
@@ -883,6 +888,38 @@
       {
         "condition": "currentPlayerMissingItem",
         "itemId": "item_broken_compass"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "giveItem",
+        "target": "currentPlayer",
+        "itemId": "item_broken_compass"
+      }
+    ]
+  },
+  {
+    "id": "item_compass_find_v4_desert",
+    "title": "Подкладка плаща",
+    "description": "Плащ, зацепившийся за колючий куст, порван по шву, и из подкладки что-то падает в песок.\n\nСтарый компас. Стрелка держит север.",
+    "type": "item",
+    "rarity": "common",
+    "weight": 2,
+    "tags": [
+      "item"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerMissingItem",
+        "itemId": "item_broken_compass"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": [
