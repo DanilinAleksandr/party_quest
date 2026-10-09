@@ -106,11 +106,60 @@
       },
       {
         "label": "Поднять и осмотреть",
-        "outcome": "Камень как камень — гладкий, тяжёлый, без секретов. Ты кладёшь его обратно.",
-        "actions": []
+        "outcome": "Камень как камень — гладкий, тяжёлый, без секретов.",
+        "actions": [],
+        "inspect": true
       },
       {
         "label": "Взять с собой",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          }
+        ],
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
         "actions": [
           {
             "action": "giveItem",
@@ -610,12 +659,61 @@
             "target": "currentPlayer",
             "itemId": "item_lucky_coin"
           }
+        ],
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
         ]
       },
       {
         "label": "Присмотреться получше",
         "outcome": "Обычная медная монета, ничего примечательного.",
-        "actions": []
+        "actions": [],
+        "inspect": true
       },
       {
         "label": "Пройти мимо",
@@ -777,7 +875,85 @@
         ]
       },
       {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
         "label": "Попытаться достать монету со дна",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ],
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_cloud"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
         "actions": [
           {
             "action": "chanceCheck",
@@ -934,7 +1110,8 @@
             "flag": "found_tavern_note",
             "value": true
           }
-        ]
+        ],
+        "inspect": true
       },
       {
         "label": "Забрать с собой на всякий случай",
@@ -942,6 +1119,60 @@
           {
             "condition": "notInWeather",
             "weather": "rain"
+          },
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_forgotten_note"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "notInWeather",
+            "weather": "rain"
+          },
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_forgotten_note"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "notInWeather",
+            "weather": "rain"
+          },
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
           }
         ],
         "actions": [
@@ -1210,6 +1441,54 @@
             "target": "currentPlayer",
             "itemId": "item_wooden_figurine"
           }
+        ],
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          }
         ]
       },
       {
@@ -1219,7 +1498,8 @@
       {
         "label": "Разглядеть внимательнее",
         "outcome": "Резьба чистая, но чья рука — не сказать. Просто чья-то работа.",
-        "actions": []
+        "actions": [],
+        "inspect": true
       }
     ],
     "conditions": [

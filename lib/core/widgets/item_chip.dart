@@ -8,6 +8,10 @@ import 'line_icons.dart';
 /// same color ramp (without the full glow treatment — that's reserved for
 /// bigger moments, an inventory row would be noisy with a dozen pulsing
 /// chips). A rarer item still reads as visibly more valuable at a glance.
+///
+/// An aura shows only once the party noticed it on a close look (see
+/// `ItemAura.known`): a word, «холодит» or «греет», and never what it does.
+/// An aura nobody noticed shows nothing at all.
 class ItemChip extends StatelessWidget {
   final InventoryItem item;
 
@@ -33,6 +37,18 @@ class ItemChip extends StatelessWidget {
           LineIcon(shape: LineIconShape.flask, size: 15, color: color),
           const SizedBox(width: 6),
           Text(item.name, style: Theme.of(context).textTheme.labelMedium),
+          // An aura the party noticed before taking the thing, and only that:
+          // what it does stays unnamed until a shaman names it.
+          if (item.aura?.known ?? false) ...[
+            const SizedBox(width: 6),
+            Text(
+              item.aura!.curse ? 'холодит' : 'греет',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/card_type_style.dart';
+import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/app_dialog_shell.dart';
 import '../../../../core/widgets/event_participant_banner.dart';
 import '../../../../core/widgets/influence_badge.dart';
@@ -56,6 +57,7 @@ Future<void> showCardResolutionDialog({
   ValueListenable<CardDialogView>? live,
   VoidCallback? onDrinkForCourage,
   void Function(String itemId)? onUseItem,
+  void Function(int choiceIndex)? onInspect,
 }) {
   final cardTags = influenceTagsOf(
     card.conditions,
@@ -109,18 +111,28 @@ Future<void> showCardResolutionDialog({
           final buttons = current.hasChoices
               ? [
                   for (var i = 0; i < current.choices.length; i++)
-                    InfluenceGatedAction(
-                      label: current.choices[i].label,
-                      tags: influenceTagsOf(
-                        current.choices[i].conditions,
-                        origins: origins,
-                        adventureNames: adventureNames,
+                    if (current.choices[i].inspect)
+                      // A look before deciding, not a decision: the dialog
+                      // stays, and comes back without it.
+                      LookCloserButton(
+                        label: current.choices[i].label,
+                        onPressed: onInspect == null
+                            ? null
+                            : () => onInspect(i),
+                      )
+                    else
+                      InfluenceGatedAction(
+                        label: current.choices[i].label,
+                        tags: influenceTagsOf(
+                          current.choices[i].conditions,
+                          origins: origins,
+                          adventureNames: adventureNames,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          onResolve(i);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        onResolve(i);
-                      },
-                    ),
                 ]
               : [
                   FilledButton(
@@ -210,6 +222,45 @@ class _PersonalActionsRow extends StatelessWidget {
   }
 }
 
+/// The look of a move made before deciding — a closer look, a drink for
+/// courage: outlined in a lighter steel than the choices, with an icon, so
+/// it reads as something to do first rather than an answer to the scene.
+ButtonStyle beforeDecidingStyle(BuildContext context, {bool compact = false}) =>
+    OutlinedButton.styleFrom(
+      foregroundColor: SteelPalette.textHigh,
+      side: BorderSide(
+        color: SteelPalette.steel.withValues(alpha: 0.75),
+        width: 1.2,
+      ),
+      backgroundColor: SteelPalette.steel.withValues(alpha: 0.08),
+      visualDensity: compact ? VisualDensity.compact : null,
+      padding: compact
+          ? const EdgeInsets.symmetric(horizontal: 12, vertical: 6)
+          : null,
+      textStyle: compact ? Theme.of(context).textTheme.labelMedium : null,
+    );
+
+/// «Рассмотреть поближе» and its kind, as a full-width button among the
+/// choices.
+class LookCloserButton extends StatelessWidget {
+  final String label;
+  final VoidCallback? onPressed;
+
+  const LookCloserButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) => OutlinedButton.icon(
+    onPressed: onPressed,
+    icon: const Icon(Icons.search, size: 18),
+    label: Text(label),
+    style: beforeDecidingStyle(context),
+  );
+}
+
 class _PersonalChip extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -227,11 +278,7 @@ class _PersonalChip extends StatelessWidget {
       onPressed: onPressed,
       icon: Icon(icon, size: 16),
       label: Text(label),
-      style: OutlinedButton.styleFrom(
-        visualDensity: VisualDensity.compact,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        textStyle: Theme.of(context).textTheme.labelMedium,
-      ),
+      style: beforeDecidingStyle(context, compact: true),
     );
   }
 }

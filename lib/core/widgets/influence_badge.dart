@@ -165,6 +165,8 @@ List<InfluenceTag> influenceTagsOf(
       case NotInWeatherCondition _:
       case NotInSeasonCondition _:
       case LeaderIsUnsetCondition _:
+      // What a close look just noticed is on the card's own text already.
+      case AuraNoticedCondition _:
       case InBiomeCondition _:
       case InWeatherCondition _:
       case InSeasonCondition _:

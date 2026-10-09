@@ -52,6 +52,16 @@ enum AuraKind {
   static AuraKind fromJson(String v) => AuraKind.values.byName(v);
 }
 
+/// What a close look at a find came to notice about its aura — see
+/// `inspectFind`. A knowing choice ("Взять — пусть холодит") waits for it.
+enum AuraNotice {
+  none,
+  curse,
+  blessing;
+
+  static AuraNotice fromJson(String v) => AuraNotice.values.byName(v);
+}
+
 /// How often a find carries an aura, decided as its card is drawn.
 const double kCurseChance = 0.12;
 const double kBlessingChance = 0.03;
@@ -85,12 +95,17 @@ final class ItemAura {
   final int turns;
   final int accrued;
 
+  /// Noticed on a close look before the thing was taken: the party knows
+  /// it is cursed or blessed — not how; only a shaman can name it.
+  final bool known;
+
   const ItemAura({
     required this.kind,
     this.heavy = false,
     this.stat,
     this.turns = 0,
     this.accrued = 0,
+    this.known = false,
   });
 
   bool get curse => kind.curse;
@@ -132,14 +147,20 @@ final class ItemAura {
 
   bool get blocksHangover => kind == AuraKind.noHangover;
 
-  ItemAura copyWith({AuraKind? kind, bool? heavy, int? turns, int? accrued}) =>
-      ItemAura(
-        kind: kind ?? this.kind,
-        heavy: heavy ?? this.heavy,
-        stat: stat,
-        turns: turns ?? this.turns,
-        accrued: accrued ?? this.accrued,
-      );
+  ItemAura copyWith({
+    AuraKind? kind,
+    bool? heavy,
+    int? turns,
+    int? accrued,
+    bool? known,
+  }) => ItemAura(
+    kind: kind ?? this.kind,
+    heavy: heavy ?? this.heavy,
+    stat: stat,
+    turns: turns ?? this.turns,
+    accrued: accrued ?? this.accrued,
+    known: known ?? this.known,
+  );
 
   factory ItemAura.fromJson(Map<String, dynamic> json) => ItemAura(
     kind: AuraKind.fromJson(json['kind'] as String),
@@ -149,6 +170,7 @@ final class ItemAura {
         : StatType.values.byName(json['stat'] as String),
     turns: json['turns'] as int? ?? 0,
     accrued: json['accrued'] as int? ?? 0,
+    known: json['known'] as bool? ?? false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -157,5 +179,6 @@ final class ItemAura {
     if (stat != null) 'stat': stat!.name,
     if (turns != 0) 'turns': turns,
     if (accrued != 0) 'accrued': accrued,
+    if (known) 'known': true,
   };
 }

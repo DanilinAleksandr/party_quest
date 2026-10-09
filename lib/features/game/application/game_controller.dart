@@ -370,6 +370,37 @@ class GameController extends StateNotifier<GameState> {
     _takePersonalAction(ctx);
   }
 
+  /// «Рассмотреть поближе» — choice [choiceIndex] of the pending card,
+  /// which must be a look closer. Its own actions run, what the current
+  /// player makes of the find is worked out, and the card stays — without
+  /// the look, and with whatever choices what was noticed opens. Returns
+  /// what to tell the player: the choice's own words, then what was seen.
+  String inspect(int choiceIndex) {
+    final card = _context.state.pendingCard;
+    final drawn = _drawnCard;
+    if (card == null || drawn == null) return '';
+    final choice = card.choices[choiceIndex];
+    if (!choice.inspect) return '';
+    var ctx = _executor.executeAll(choice.actions, _context);
+    final seen = inspectFind(
+      ctx,
+      drawn,
+      companionRoll: ctx.random.nextAura(),
+      quiet: choice.outcome != null,
+    );
+    ctx = ctx.withState(
+      ctx.state.copyWith(inspected: true, noticedAura: seen.notice),
+    );
+    ctx = ctx.withState(
+      ctx.state.copyWith(pendingCard: _filterCardChoices(drawn, ctx)),
+    );
+    _setContext(ctx);
+    return [
+      if (choice.outcome != null) choice.outcome!,
+      if (seen.text.isNotEmpty) seen.text,
+    ].join('\n\n');
+  }
+
   void _takePersonalAction(GameContext ctx) {
     _personalActionTaken = true;
     final drawn = _drawnCard!;
@@ -410,6 +441,8 @@ class GameController extends StateNotifier<GameState> {
         worldState: worldState,
         pendingAura: aura,
         clearPendingAura: aura == null,
+        inspected: false,
+        noticedAura: AuraNotice.none,
       ),
     );
     ctx = _dispatcher.dispatch(
@@ -436,6 +469,8 @@ class GameController extends StateNotifier<GameState> {
   GameCard _filterCardChoices(GameCard card, GameContext context) {
     if (!card.hasChoices) return card;
     final eligible = card.choices
+        // A closer look is taken once; then it is gone from the card.
+        .where((c) => !(c.inspect && context.state.inspected))
         .where((c) => c.conditions.every((cond) => cond.isSatisfied(context)))
         .toList();
     return eligible.isEmpty ? card : card.withChoices(eligible);
@@ -577,6 +612,19 @@ class GameController extends StateNotifier<GameState> {
             p.id == playerId
                 ? p.copyWith(inventory: [...p.inventory, item])
                 : p,
+        ],
+      ),
+    ),
+  );
+
+  /// Tests: gives [playerId] a revealed [originId], stats untouched.
+  @visibleForTesting
+  void debugSetOrigin(String playerId, String originId) => _setContext(
+    _context.withState(
+      _context.state.copyWith(
+        players: [
+          for (final p in _context.players)
+            p.id == playerId ? p.copyWith(originId: originId) : p,
         ],
       ),
     ),
@@ -748,6 +796,8 @@ class GameController extends StateNotifier<GameState> {
       ctx.state.copyWith(
         clearPendingCard: true,
         clearPendingAura: true,
+        inspected: false,
+        noticedAura: AuraNotice.none,
         journeyLog: [
           ...ctx.state.journeyLog,
           JourneyLogEntry(

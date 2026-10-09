@@ -103,6 +103,11 @@ final class GameState {
   /// that is just a thing.
   final ItemAura? pendingAura;
 
+  /// Whether the pending card's find has been looked at closely, and what
+  /// that look noticed — cleared with the card.
+  final bool inspected;
+  final AuraNotice noticedAura;
+
   const GameState({
     required this.players,
     required this.currentPlayerIndex,
@@ -121,6 +126,8 @@ final class GameState {
     this.recentCards = const [],
     this.recentRestCards = const [],
     this.pendingAura,
+    this.inspected = false,
+    this.noticedAura = AuraNotice.none,
   });
 
   /// Every player starts with no origin — see `Origin`/`RevealOriginAction`.
@@ -167,6 +174,8 @@ final class GameState {
     List<String>? recentRestCards,
     ItemAura? pendingAura,
     bool clearPendingAura = false,
+    bool? inspected,
+    AuraNotice? noticedAura,
   }) {
     return GameState(
       players: players ?? this.players,
@@ -194,6 +203,8 @@ final class GameState {
       recentCards: recentCards ?? this.recentCards,
       recentRestCards: recentRestCards ?? this.recentRestCards,
       pendingAura: clearPendingAura ? null : (pendingAura ?? this.pendingAura),
+      inspected: inspected ?? this.inspected,
+      noticedAura: noticedAura ?? this.noticedAura,
     );
   }
 }

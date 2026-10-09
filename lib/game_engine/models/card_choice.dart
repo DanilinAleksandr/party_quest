@@ -28,11 +28,17 @@ final class CardChoice {
   final List<GameCondition> conditions;
   final List<GameAction> actions;
 
+  /// A look closer, not a decision: taking it tells what was seen and
+  /// returns to the same card, without this choice and perhaps with new
+  /// ones a noticed aura opens — see `GameController.inspect`.
+  final bool inspect;
+
   const CardChoice({
     required this.label,
     this.outcome,
     this.conditions = const [],
     this.actions = const [],
+    this.inspect = false,
   });
 
   factory CardChoice.fromJson(Map<String, dynamic> json) => CardChoice(
@@ -42,6 +48,7 @@ final class CardChoice {
       json['conditions'] as List<dynamic>?,
     ),
     actions: GameAction.listFromJson(json['actions'] as List<dynamic>?),
+    inspect: json['inspect'] as bool? ?? false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +56,6 @@ final class CardChoice {
     if (outcome != null) 'outcome': outcome,
     'conditions': GameCondition.listToJson(conditions),
     'actions': GameAction.listToJson(actions),
+    if (inspect) 'inspect': true,
   };
 }
