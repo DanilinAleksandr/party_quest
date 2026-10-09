@@ -31,7 +31,10 @@ StopScene buildVillage(StripBiome biome) {
 /// No village stands in a graveyard; the forest's is the fallback for any
 /// biome without one of its own.
 String _villageOf(StripBiome biome) => switch (biome) {
-  StripBiome.forest || StripBiome.graveyard => 'forest',
+  // The fields of the prologue have no village of their own; the forest's
+  // stands in.
+  StripBiome.forest || StripBiome.graveyard || StripBiome.fields =>
+    'forest',
   StripBiome.mountains => 'mountains',
   StripBiome.coast => 'coast',
   StripBiome.desert => 'desert',

@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import '../../../../core/theme/steel_palette.dart';
 import 'stop_scenes.dart';
 import 'village_scene.dart';
+import 'strip_fields.dart';
 import 'strip_kit.dart';
 import 'strip_world.dart';
 
@@ -33,6 +34,22 @@ class SceneStrip extends StatefulWidget {
   /// Fixed for tests; left null, every match grows its own forest.
   final int? seed;
 
+  /// How many walk: one figure per player.
+  final int figures;
+
+  /// While the match is in its prologue the party walks the fields (18),
+  /// whatever [biomeId] says; leaving it is a change of biome like any
+  /// other (18f).
+  final bool inPrologue;
+
+  /// The match has not begun: the strip opens on the house, and walking
+  /// sets the party out of it (18a/18b) rather than down the road.
+  final bool fromHome;
+
+  /// Called once the party is out of the house, every figure in its place
+  /// and the world at full pace — when the first card may come.
+  final VoidCallback? onPrologueReady;
+
   static const double height = 56;
 
   const SceneStrip({
@@ -41,7 +58,15 @@ class SceneStrip extends StatefulWidget {
     required this.moving,
     this.stop = StripStop.none,
     this.seed,
+    this.figures = 4,
+    this.inPrologue = false,
+    this.fromHome = false,
+    this.onPrologueReady,
   });
+
+  /// The path the strip walks: the fields through the prologue.
+  StripBiome get stripBiome =>
+      inPrologue ? StripBiome.fields : StripBiome.fromId(biomeId);
 
   @override
   State<SceneStrip> createState() => SceneStripState();
@@ -69,11 +94,15 @@ class SceneStripState extends State<SceneStrip>
   @visibleForTesting
   StripWorld? get world => _world;
 
+  /// Whether the walk-out has been reported, so the first card is asked
+  /// for once.
+  bool _readyTold = false;
+
   @override
   void didUpdateWidget(covariant SceneStrip oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.biomeId != widget.biomeId) {
-      _world?.setBiome(StripBiome.fromId(widget.biomeId));
+    if (oldWidget.stripBiome != widget.stripBiome) {
+      _world?.setBiome(widget.stripBiome);
       _repaint.value++;
     }
     if (oldWidget.stop != widget.stop) _enterStop();
@@ -107,10 +136,7 @@ class SceneStripState extends State<SceneStrip>
         ][_random.nextInt(3)];
         // The forest is the halt as drawn; anywhere else the camp stands in
         // front of that biome's own far and middle planes, stopped.
-        _stop = buildCamp(
-          _stopKind!,
-          environment: world.biome == StripBiome.forest,
-        );
+        _stop = buildCamp(_stopKind!, environment: _campOwnsSky(world.biome));
     }
     _repaint.value++;
   }
@@ -133,6 +159,10 @@ class SceneStripState extends State<SceneStrip>
       _stopTime += dt;
     } else {
       _world!.advance(dt);
+    }
+    if (!_readyTold && (_world!.prologue?.ready ?? false)) {
+      _readyTold = true;
+      widget.onPrologueReady?.call();
     }
     _repaint.value++;
   }
@@ -160,8 +190,10 @@ class SceneStripState extends State<SceneStrip>
           final world = _world ??= StripWorld(
             geo: StripGeo(SceneStrip.height),
             width: width,
-            biome: StripBiome.fromId(widget.biomeId),
+            biome: widget.stripBiome,
             seed: _seed,
+            figures: widget.figures,
+            fromHome: widget.fromHome,
           );
           world.width = width;
           if (_stop == null && widget.stop != StripStop.none) _enterStop();
@@ -189,6 +221,12 @@ class SceneStripState extends State<SceneStrip>
     );
   }
 }
+
+/// Whether a halt in [biome] is drawn as the halt is in the forest, with its
+/// own sky — the prologue's fields keep the halt they had when the prologue
+/// was walked through the forest.
+bool _campOwnsSky(StripBiome biome) =>
+    biome == StripBiome.forest || biome == StripBiome.fields;
 
 /// The stop's label: Nunito 600, 8 dp, spaced, at 72 % of the text tone.
 TextStyle _labelStyle(BuildContext context) =>
@@ -246,10 +284,21 @@ class SceneStripPainter extends CustomPainter {
     _layer(canvas, StripLayer.mid);
     _slot(canvas, _ground, w);
     _layer(canvas, StripLayer.ground);
+    _house(canvas);
     _figures(canvas, w);
     _layer(canvas, StripLayer.near);
     _edges(canvas, size);
 
+    canvas.restore();
+  }
+
+  /// The door, the light and the smoke of the house, while it is in sight.
+  void _house(Canvas canvas) {
+    final yard = world.yard, prologue = world.prologue;
+    if (yard == null || prologue == null || yard.items.isEmpty) return;
+    canvas.save();
+    canvas.translate(yard.items.first.x - world.offsetOf(yard), 0);
+    paintHouseMotion(canvas, world.geo, prologue.time);
     canvas.restore();
   }
 
@@ -260,7 +309,7 @@ class SceneStripPainter extends CustomPainter {
     final ownSky =
         stop.label == 'ТАВЕРНА' ||
         stop.label == 'ДЕРЕВНЯ' ||
-        world.biome == StripBiome.forest;
+        _campOwnsSky(world.biome);
     if (ownSky) {
       paintStopSky(canvas, size);
     } else {
@@ -441,6 +490,7 @@ class SceneStripPainter extends CustomPainter {
       case StripBiome.forest:
       case StripBiome.mountains:
       case StripBiome.graveyard:
+      case StripBiome.fields:
         break;
     }
   }
@@ -492,20 +542,21 @@ class SceneStripPainter extends CustomPainter {
     );
   }
 
-  /// The walking party: four figures, the same proportions as before, a
-  /// [kStride] stride, a step apart in phase so they do not march.
-  static const _group = [
-    (186.0, 0.55, 0.0),
-    (199.0, 0.7, 0.3),
-    (212.0, 0.85, 0.55),
-    (226.0, 1.0, 0.8),
-  ];
-
+  /// The walking party: one figure per player, the same proportions as
+  /// before, a [kStride] stride, a step apart in phase so they do not
+  /// march. Coming out of the house they walk where the walk-out has them.
   void _figures(Canvas canvas, double w) {
-    final dx = w / 2 - 206, foot = world.geo.gy - 1;
-    for (final (x0, alpha, phase) in _group) {
+    final dx = world.dx, foot = world.geo.gy - 1;
+    final prologue = world.prologue;
+    for (final (i, figure) in world.group.indexed) {
+      final shown = prologue == null ? 1.0 : prologue.opacity(i);
+      if (shown <= 0) continue;
+      final alpha = figure.alpha * shown;
+      final x0 = prologue == null ? figure.x : prologue.x[i];
       final colour = StripColors.figure.withValues(alpha: alpha);
-      final t = world.stride + phase;
+      final t = prologue == null
+          ? world.stride + figure.phase
+          : prologue.leg[i];
       final a = math.sin(t * 2 * math.pi) * 0.42;
       const leg = 8.0;
       final x = x0 + dx;
@@ -532,7 +583,11 @@ class SceneStripPainter extends CustomPainter {
         ..strokeJoin = StrokeJoin.round;
       canvas.drawPath(path, stroke);
       final head = Offset(sh.dx + 0.5, sh.dy - 3.6);
-      canvas.drawCircle(head, 2.3, Paint()..color = StripColors.mid);
+      canvas.drawCircle(
+        head,
+        2.3,
+        Paint()..color = StripColors.mid.withValues(alpha: shown),
+      );
       canvas.drawCircle(head, 2.3, stroke);
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/features/game/presentation/scene_strip/scene_strip.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/stop_scenes.dart';
+import 'package:drinking_quest/features/game/presentation/scene_strip/strip_fields.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/strip_kit.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/strip_world.dart';
 import 'package:drinking_quest/features/game/presentation/scene_strip/village_scene.dart';
@@ -28,6 +29,7 @@ const _farOf = {
   StripBiome.desert: {'столовая гора', 'останец'},
   StripBiome.floodlands: {'кромка', 'мёртвое дерево'},
   StripBiome.graveyard: {'часовня', 'мёртвое дерево', 'надгробие', 'крест'},
+  StripBiome.fields: {'поля'},
 };
 
 void main() {
@@ -405,5 +407,128 @@ void main() {
       );
       flood.dispose();
     });
+  });
+
+  group('the prologue (18)', () {
+    StripWorld home({int figures = 4, double width = 412, int seed = 17}) =>
+        StripWorld(
+          geo: StripGeo(56),
+          width: width,
+          biome: StripBiome.fields,
+          seed: seed,
+          figures: figures,
+          fromHome: true,
+        );
+
+    test('the party is out and walking in about six seconds, any size', () {
+      for (final figures in [2, 4, 6, 8]) {
+        final w = home(figures: figures);
+        while (!w.prologue!.ready) {
+          w.advance(1 / 60);
+          expect(w.prologue!.time, lessThan(7), reason: '$figures');
+        }
+        expect(w.prologue!.readyAt, greaterThan(5.5), reason: '$figures');
+        // Everyone in their place, and the world at the road's pace.
+        for (final (i, f) in w.group.indexed) {
+          expect(w.prologue!.x[i], closeTo(f.x, 0.01));
+        }
+        expect(w.prologue!.worldSpeed, closeTo(kRoadSpeed, 0.01));
+        w.dispose();
+      }
+    });
+
+    test('the world stands still until the lead reaches the middle', () {
+      final w = home();
+      for (var t = 0.0; t < 5; t += 1 / 60) {
+        w.advance(1 / 60);
+        if (w.prologue!.x.last < Prologue.center) {
+          expect(w.distance, 0);
+        }
+      }
+      w.dispose();
+    });
+
+    test('the house is there at the start, and never again', () {
+      final w = home();
+      expect(w.yard, isNotNull);
+      expect(_types(w, StripLayer.ground), contains('дом'));
+      var gone = false;
+      for (var i = 0; i < 6000; i++) {
+        w.advance(1 / 30);
+        if (w.yard == null) gone = true;
+        if (gone) {
+          expect(w.yard, isNull);
+          expect(_types(w, StripLayer.ground), isNot(contains('дом')));
+        }
+      }
+      expect(gone, isTrue);
+      w.dispose();
+    });
+
+    test('never two wells on the screen at once', () {
+      for (final width in [412.0, 900.0]) {
+        for (final seed in [1, 2, 3, 17, 40]) {
+          final w = home(width: width, seed: seed);
+          var wells = 0;
+          for (var i = 0; i < 8000; i++) {
+            w.advance(1 / 30);
+            final onScreen = [
+              for (final st in w.streams)
+                if (st.layer == StripLayer.ground)
+                  for (final item in st.items)
+                    if (item.shape.type == 'колодец' ||
+                        item.shape.type == 'дом')
+                      if (item.x - w.offsetOf(st) < width &&
+                          item.x - w.offsetOf(st) + item.shape.w > 0)
+                        item,
+            ];
+            expect(onScreen.length, lessThanOrEqualTo(1), reason: '$seed');
+            wells += onScreen.where((x) => x.shape.type == 'колодец').length;
+          }
+          // They do come, with the fences.
+          expect(wells, greaterThan(0), reason: '$seed');
+          w.dispose();
+        }
+      }
+    });
+
+    test('dense by the house, thinning to the open fields', () {
+      final w = home();
+      expect(w.fieldsDensity, kFieldsDense);
+      while (w.distance < StripWorld.kThinOver) {
+        w.advance(1 / 30);
+      }
+      expect(w.fieldsDensity, closeTo(kFields, 1e-9));
+      w.dispose();
+    });
+
+    for (final id in const [
+      'forest',
+      'mountains',
+      'coast',
+      'desert',
+      'floodlands',
+      'graveyard',
+    ]) {
+      testWidgets('out of the prologue into $id through the change', (
+        tester,
+      ) async {
+        Widget strip(bool prologue) => MaterialApp(
+          home: SceneStrip(
+            biomeId: id,
+            moving: false,
+            inPrologue: prologue,
+            seed: 5,
+          ),
+        );
+        await tester.pumpWidget(strip(true));
+        final state = tester.state<SceneStripState>(find.byType(SceneStrip));
+        expect(state.world!.biome, StripBiome.fields);
+        await tester.pumpWidget(strip(false));
+        expect(state.world!.biome, StripBiome.fromId(id));
+        expect(state.world!.fromBiome, StripBiome.fields);
+        expect(state.world!.toneProgress, lessThan(1));
+      });
+    }
   });
 }

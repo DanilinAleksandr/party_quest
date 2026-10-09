@@ -60,19 +60,22 @@ const _biomes = BiomeCatalog({
   'mountains': Biome(id: 'mountains', name: 'Горы', description: ''),
 });
 
-GameController _controller({List<GameCard>? cards, bool skipPrologue = true}) =>
-    GameController(
-      playerNames: _args.playerNames,
-      cards: cards ?? _cards,
-      itemCatalog: const ItemCatalog({}),
-      effectCatalog: const EffectCatalog({}),
-      adventureCatalog: const AdventureCatalog({}),
-      biomeCatalog: _biomes,
-      originCatalog: const OriginCatalog({}),
-      seed: 3,
-      journeySteps: 200,
-      skipPrologue: skipPrologue,
-    );
+GameController _controller({
+  List<GameCard>? cards,
+  bool skipPrologue = true,
+  List<String>? players,
+}) => GameController(
+  playerNames: players ?? _args.playerNames,
+  cards: cards ?? _cards,
+  itemCatalog: const ItemCatalog({}),
+  effectCatalog: const EffectCatalog({}),
+  adventureCatalog: const AdventureCatalog({}),
+  biomeCatalog: _biomes,
+  originCatalog: const OriginCatalog({}),
+  seed: 3,
+  journeySteps: 200,
+  skipPrologue: skipPrologue,
+);
 
 /// Pumps the game screen over [controller], with the walking settings
 /// pinned. The biome catalog holds the forest and the mountains, so the
@@ -109,6 +112,24 @@ Future<void> _pumpGame(
 final _start = find.byKey(kStartButtonKey);
 const _onward = 'ПРОДОЛЖИТЬ ПОХОД';
 const _next = 'ДАЛЬШЕ';
+
+/// Lets the party walk out of the house frame by frame — the strip only
+/// moves a frame at a time — until the first card comes. A single long pump
+/// would be one frame, and the walk-out would barely start.
+Future<void> _walkOut(WidgetTester tester) async {
+  for (var i = 0; i < 400; i++) {
+    await tester.pump(const Duration(milliseconds: 20));
+    if (find.text('Понятно').evaluate().isNotEmpty ||
+        find.byType(SceneStrip).evaluate().isEmpty) {
+      return;
+    }
+    final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+    if (strip.world?.prologue?.ready ?? true) {
+      await tester.pump();
+      return;
+    }
+  }
+}
 
 /// Closes the card dialog that is up. Settles by the clock rather than with
 /// `pumpAndSettle`, which the walkers — a looping animation — never allow.
@@ -187,7 +208,7 @@ void main() {
 
       await tester.tap(_start);
       // The party leaves the house before the first card.
-      await tester.pump(kLeaveHomeMax);
+      await _walkOut(tester);
       await tester.pump();
       expect(controller.state.pendingCard, isNotNull);
       await _dismissCard(tester);
@@ -220,7 +241,7 @@ void main() {
 
       await tester.tap(_start);
       // The party leaves the house before the first card.
-      await tester.pump(kLeaveHomeMax);
+      await _walkOut(tester);
       await tester.pump();
       expect(controller.state.pendingCard, isNotNull);
       await _dismissCard(tester);
@@ -242,28 +263,42 @@ void main() {
       expect(controller.state.partySteps, 2);
     });
 
-    testWidgets('the first card comes 5–7 s after the start, never sooner', (
+    testWidgets('the first card waits for the party to be out of the house', (
       tester,
     ) async {
       for (final mode in WalkMode.values) {
-        final controller = _controller();
-        await _pumpGame(tester, controller, WalkSettings(mode: mode));
-        final label = tester.widget<ContinueJourneyButton>(_start).label;
-        expect(kStartLabels.map((l) => l.toUpperCase()), contains(label));
+        for (final players in [2, 4, 6]) {
+          final controller = _controller(
+            players: [for (var i = 0; i < players; i++) 'P$i'],
+          );
+          await _pumpGame(tester, controller, WalkSettings(mode: mode));
+          final label = tester.widget<ContinueJourneyButton>(_start).label;
+          expect(kStartLabels.map((l) => l.toUpperCase()), contains(label));
+          final strip = tester.state<SceneStripState>(find.byType(SceneStrip));
+          final prologue = strip.world!.prologue!;
+          expect(strip.world!.group, hasLength(players));
 
-        await tester.tap(_start);
-        await tester.pump();
-        // Pressed again while the party is still in the doorway: nothing.
-        expect(tester.widget<ContinueJourneyButton>(_start).onPressed, isNull);
-        await tester.pump(kLeaveHomeMin - const Duration(milliseconds: 100));
-        expect(controller.state.pendingCard, isNull, reason: '$mode');
-        await tester.pump(
-          kLeaveHomeMax - kLeaveHomeMin + const Duration(milliseconds: 100),
-        );
-        expect(controller.state.pendingCard, isNotNull, reason: '$mode');
-        expect(controller.state.partySteps, 1);
-        await _dismissCard(tester);
-        await tester.pumpWidget(const SizedBox());
+          await tester.tap(_start);
+          await tester.pump();
+          // Pressed again while the party is still in the doorway: nothing.
+          expect(
+            tester.widget<ContinueJourneyButton>(_start).onPressed,
+            isNull,
+          );
+          // Frame by frame: no card while anyone is still walking out.
+          while (!prologue.ready) {
+            expect(controller.state.pendingCard, isNull, reason: '$mode');
+            await tester.pump(const Duration(milliseconds: 20));
+            expect(prologue.time, lessThan(7), reason: '$players players');
+          }
+          await tester.pump();
+          expect(controller.state.pendingCard, isNotNull, reason: '$mode');
+          expect(controller.state.partySteps, 1);
+          // About six seconds, as 18a/18b times it, for any table size.
+          expect(prologue.readyAt, inInclusiveRange(5.5, 7.0));
+          await _dismissCard(tester);
+          await tester.pumpWidget(const SizedBox());
+        }
       }
     });
 
@@ -317,7 +352,7 @@ void main() {
 
       await tester.tap(_start);
       // The party leaves the house before the first card.
-      await tester.pump(kLeaveHomeMax);
+      await _walkOut(tester);
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.phase, JourneyPhase.prologue);
@@ -405,7 +440,7 @@ void main() {
       );
       await tester.tap(_start);
       // The party leaves the house before the first card.
-      await tester.pump(kLeaveHomeMax);
+      await _walkOut(tester);
       await tester.pump();
       await _dismissCard(tester);
       expect(changed, isNotNull);
@@ -432,7 +467,7 @@ void main() {
       );
       await tester.tap(_start);
       // The party leaves the house before the first card.
-      await tester.pump(kLeaveHomeMax);
+      await _walkOut(tester);
       await tester.pump();
       await _dismissCard(tester);
       expect(controller.state.worldState.currentBiomeId, 'mountains');
@@ -483,7 +518,7 @@ void main() {
 
     await tester.tap(_start);
     // The party leaves the house before the first card.
-    await tester.pump(kLeaveHomeMax);
+    await _walkOut(tester);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     await tester.tap(find.text('Проверить мешок'));
