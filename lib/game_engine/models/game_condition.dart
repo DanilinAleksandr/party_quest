@@ -127,6 +127,8 @@ sealed class GameCondition {
       ),
       'leaderIsSet' => const LeaderIsSetCondition(),
       'leaderIsUnset' => const LeaderIsUnsetCondition(),
+      'anyPlayerHasFind' => const AnyPlayerHasFindCondition(),
+      'currentPlayerHasFind' => const CurrentPlayerHasFindCondition(),
       'auraNoticed' => AuraNoticedCondition(
         noticed: AuraNotice.fromJson(json['noticed'] as String),
       ),
@@ -1071,6 +1073,30 @@ final class AuraNoticedCondition extends GameCondition {
     'condition': 'auraNoticed',
     'noticed': noticed.name,
   };
+}
+
+/// Whether anyone carries a thing found on the road — what brings a shaman.
+final class AnyPlayerHasFindCondition extends GameCondition {
+  const AnyPlayerHasFindCondition();
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.players.any((p) => p.inventory.any((i) => i.found));
+
+  @override
+  Map<String, dynamic> toJson() => {'condition': 'anyPlayerHasFind'};
+}
+
+/// Whether the current player carries a thing found on the road.
+final class CurrentPlayerHasFindCondition extends GameCondition {
+  const CurrentPlayerHasFindCondition();
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.inventory.any((i) => i.found);
+
+  @override
+  Map<String, dynamic> toJson() => {'condition': 'currentPlayerHasFind'};
 }
 
 final class LeaderIsUnsetCondition extends GameCondition {

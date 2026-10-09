@@ -33,6 +33,9 @@ final class InventoryItem {
   /// [ItemAura]. Null for nearly everything.
   final ItemAura? aura;
 
+  /// Picked up on the road from a find — what a shaman wants to hold.
+  final bool found;
+
   const InventoryItem({
     required this.id,
     required this.name,
@@ -43,7 +46,22 @@ final class InventoryItem {
     this.ownership = ItemOwnership.personal,
     this.useActions = const [],
     this.aura,
+    this.found = false,
   });
+
+  /// This thing, picked up from a find.
+  InventoryItem asFound() => InventoryItem(
+    id: id,
+    name: name,
+    description: description,
+    rarity: rarity,
+    usageType: usageType,
+    isConsumable: isConsumable,
+    ownership: ownership,
+    useActions: useActions,
+    aura: aura,
+    found: true,
+  );
 
   /// This thing, carrying [aura] — or none.
   InventoryItem withAura(ItemAura? aura) => InventoryItem(
@@ -56,6 +74,7 @@ final class InventoryItem {
     ownership: ownership,
     useActions: useActions,
     aura: aura,
+    found: found,
   );
 
   factory InventoryItem.fromJson(Map<String, dynamic> json) => InventoryItem(
@@ -72,6 +91,7 @@ final class InventoryItem {
     aura: json['aura'] == null
         ? null
         : ItemAura.fromJson(json['aura'] as Map<String, dynamic>),
+    found: json['found'] as bool? ?? false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -84,5 +104,6 @@ final class InventoryItem {
     'ownership': ownership.toJson(),
     'useActions': GameAction.listToJson(useActions),
     if (aura != null) 'aura': aura!.toJson(),
+    if (found) 'found': true,
   };
 }

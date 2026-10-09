@@ -43,6 +43,7 @@ sealed class GameAction {
       'giveItem' => GiveItemAction.fromJson(json),
       'takeItem' => TakeItemAction.fromJson(json),
       'takeCommonItem' => TakeCommonItemAction.fromJson(json),
+      'readItem' => ReadItemAction.fromJson(json),
       'applyEffect' => ApplyEffectAction.fromJson(json),
       'removeEffect' => RemoveEffectAction.fromJson(json),
       'modifyStat' => ModifyStatAction.fromJson(json),
@@ -478,12 +479,22 @@ final class SetWorldFlagAction extends GameAction {
   final String flag;
   final bool value;
 
-  const SetWorldFlagAction({required this.flag, this.value = true});
+  /// Where set, the flag is set only this often — how a later consequence
+  /// may or may not come (the figurine's owner: three times in five).
+  @override
+  final double? chance;
+
+  const SetWorldFlagAction({
+    required this.flag,
+    this.value = true,
+    this.chance,
+  });
 
   factory SetWorldFlagAction.fromJson(Map<String, dynamic> json) =>
       SetWorldFlagAction(
         flag: json['flag'] as String,
         value: json['value'] as bool? ?? true,
+        chance: (json['chance'] as num?)?.toDouble(),
       );
 
   @override
@@ -491,7 +502,27 @@ final class SetWorldFlagAction extends GameAction {
     'action': 'setWorldFlag',
     'flag': flag,
     'value': value,
+    if (chance != null) 'chance': chance,
   };
+}
+
+/// What the shaman does with the thing he read — see
+/// `GameController.inspect`: takes it, turns its curse into the mirror
+/// blessing, or makes the curse heavy.
+enum ReadItemMode { take, mirror, worsen }
+
+/// Acts on the thing the shaman picked out of the current player's bag on
+/// this card (`GameState.readItem`). A no-op when he picked none.
+final class ReadItemAction extends GameAction {
+  final ReadItemMode mode;
+
+  const ReadItemAction({required this.mode});
+
+  factory ReadItemAction.fromJson(Map<String, dynamic> json) =>
+      ReadItemAction(mode: ReadItemMode.values.byName(json['do'] as String));
+
+  @override
+  Map<String, dynamic> toJson() => {'action': 'readItem', 'do': mode.name};
 }
 
 /// Adds [amount] (may be negative) to a named global modifier — see

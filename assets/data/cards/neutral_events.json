@@ -1359,6 +1359,18 @@
             "target": "currentPlayer",
             "stat": "attentiveness",
             "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": true,
+            "chance": 0.6
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_rude",
+            "value": true,
+            "chance": 0.4
           }
         ]
       },
@@ -1397,6 +1409,18 @@
             "action": "applyEffect",
             "target": "currentPlayer",
             "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": true,
+            "chance": 0.6
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_rude",
+            "value": true,
+            "chance": 0.4
           }
         ]
       },
@@ -1440,6 +1464,18 @@
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": true,
+            "chance": 0.6
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_rude",
+            "value": true,
+            "chance": 0.4
           }
         ],
         "conditions": [
@@ -1462,6 +1498,18 @@
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": true,
+            "chance": 0.6
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_rude",
+            "value": true,
+            "chance": 0.4
           }
         ]
       },
@@ -1473,7 +1521,14 @@
             "noticed": "curse"
           }
         ],
-        "actions": []
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_left",
+            "value": true,
+            "chance": 0.4
+          }
+        ]
       },
       {
         "label": "Взять — раз греет",
@@ -1488,12 +1543,31 @@
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": true,
+            "chance": 0.6
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_rude",
+            "value": true,
+            "chance": 0.4
           }
         ]
       },
       {
         "label": "Оставить на месте — вдруг хозяин вернётся",
-        "actions": []
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_left",
+            "value": true,
+            "chance": 0.4
+          }
+        ]
       },
       {
         "label": "Разглядеть внимательнее",

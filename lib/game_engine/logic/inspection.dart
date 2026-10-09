@@ -138,3 +138,106 @@ bool _sees(String? origin, ItemAura? aura) {
   if (lines.isEmpty && !quiet) lines.add(kNothingSeen);
   return (text: lines.join('\n\n'), notice: notice);
 }
+
+// ── the shaman ───────────────────────────────────────────────────────────
+
+const String kShamanDrinks =
+    'Шаман пьёт, ты пьёшь. Потом он долго держит твои вещи в ладонях, по '
+    'одной.';
+const String kShamanEmpty =
+    '— Пустые, — говорит он. — Хорошие, но пустые. Повезло.';
+
+/// The stat an aura sits on, as the shaman names it: «отнимает у тебя
+/// {stat}», «даёт тебе {stat}».
+const Map<StatType, String> kStatAccusative = {
+  StatType.strength: 'силу',
+  StatType.charisma: 'обаяние',
+  StatType.endurance: 'выносливость',
+  StatType.attentiveness: 'внимательность',
+  StatType.cunning: 'хитрость',
+  StatType.luck: 'удачу',
+};
+
+/// What the shaman says an aura does.
+String auraReveal(ItemAura a) => switch (a.kind) {
+  AuraKind.luckDrain =>
+    'Пьёт твою удачу. Понемногу, каждые несколько шагов. '
+        '${a.accrued == 0 ? 'Пока не успела ничего.' : 'Уже выпила ${-a.accrued}.'}',
+  AuraKind.heavyHead => 'С ней ты пьянеешь быстрее, чем пьёшь.',
+  AuraKind.longHangover => 'Держит в тебе хмель дольше, чем положено.',
+  AuraKind.quietWeakness =>
+    'Отнимает у тебя ${kStatAccusative[a.stat]} — так тихо, что ты и не '
+        'замечал.',
+  AuraKind.lightHead => 'С ней хмель тебя толком не берёт.',
+  AuraKind.quietLuck => 'Подкладывает тебе удачу. По чуть-чуть.',
+  AuraKind.noHangover => 'С ней утро после вчерашнего — просто утро.',
+  AuraKind.quietStrength =>
+    'Даёт тебе ${kStatAccusative[a.stat]} сверх того, что есть.',
+};
+
+/// The shaman holds the current player's finds one by one: a curse first if
+/// there is one, then a blessing. Returns what he says, what that makes
+/// known, and which thing in the bag he picked out.
+({String text, AuraNotice notice, int? item}) shamanReads(GameContext context) {
+  final bag = context.currentPlayer.inventory;
+  int? pick(bool curse) {
+    for (final (i, thing) in bag.indexed) {
+      final a = thing.aura;
+      if (thing.found && a != null && a.curse == curse) return i;
+    }
+    return null;
+  }
+
+  final cursed = pick(true);
+  if (cursed != null) {
+    final thing = bag[cursed];
+    final name = kItemAccusative[thing.id] ?? thing.name.toLowerCase();
+    return (
+      text:
+          '$kShamanDrinks\n\n— Вот эта. — Он поднимает $name. — '
+          '${auraReveal(thing.aura!)}',
+      notice: AuraNotice.curse,
+      item: cursed,
+    );
+  }
+  final blessed = pick(false);
+  if (blessed != null) {
+    return (
+      text:
+          '$kShamanDrinks\n\n— А эту береги. '
+          '${auraReveal(bag[blessed].aura!)} Таких мало.',
+      notice: AuraNotice.blessing,
+      item: blessed,
+    );
+  }
+  return (
+    text: '$kShamanDrinks\n\n$kShamanEmpty',
+    notice: AuraNotice.none,
+    item: null,
+  );
+}
+
+// ── the figurine's owner ─────────────────────────────────────────────────
+
+/// What the owner says of a find that has changed in someone's bag — the
+/// half line added to their words when the thing is cursed or blessed.
+String auraNote(ItemAura? a) => a == null
+    ? ''
+    : a.curse
+    ? ' Только она теперь какая-то холодная.'
+    : ' Странно, раньше она так не грела.';
+
+final _notePlaceholder = RegExp(r'\{aura_note:([a-z_]+)\}');
+
+/// A card's description with its placeholders filled for the current
+/// player: `{name}` is them, `{aura_note:item_id}` the half line about
+/// their [item_id], if it carries an aura.
+String fillCardText(String text, GameContext context) {
+  final me = context.currentPlayer;
+  return text.replaceAll('{name}', me.name).replaceAllMapped(_notePlaceholder, (
+    m,
+  ) {
+    final thing = me.inventory.where((i) => i.id == m[1]).firstOrNull;
+    return auraNote(thing?.aura);
+  });
+}
