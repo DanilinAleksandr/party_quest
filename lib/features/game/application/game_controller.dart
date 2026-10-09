@@ -231,17 +231,16 @@ class GameController extends StateNotifier<GameState> {
       _participantResolver.resolve(const RandomPlayerParticipant(), ctx),
     );
     final drawnCard = ctx.cardCatalog.drawEligibleCard(ctx);
-    final recent = ctx.state.recentCards;
+    List<String> remember(List<String> recent, int window) => [
+      ...recent.skip(recent.length >= window ? recent.length - window + 1 : 0),
+      drawnCard.id,
+    ];
     ctx = ctx.withState(
       ctx.state.copyWith(
-        recentCards: [
-          ...recent.skip(
-            recent.length >= kNoRepeatWindow
-                ? recent.length - kNoRepeatWindow + 1
-                : 0,
-          ),
-          drawnCard.id,
-        ],
+        recentCards: remember(ctx.state.recentCards, kNoRepeatWindow),
+        recentRestCards: drawnCard.isRestContent
+            ? remember(ctx.state.recentRestCards, kRestNoRepeatWindow)
+            : null,
       ),
     );
 

@@ -42,6 +42,7 @@ sealed class GameAction {
     return switch (kind) {
       'giveItem' => GiveItemAction.fromJson(json),
       'takeItem' => TakeItemAction.fromJson(json),
+      'takeCommonItem' => TakeCommonItemAction.fromJson(json),
       'applyEffect' => ApplyEffectAction.fromJson(json),
       'removeEffect' => RemoveEffectAction.fromJson(json),
       'modifyStat' => ModifyStatAction.fromJson(json),
@@ -116,6 +117,30 @@ final class TakeItemAction extends GameAction {
   Map<String, dynamic> toJson() => {
     'action': 'takeItem',
     'itemId': itemId,
+    'target': target.toJson(),
+  };
+}
+
+/// Takes one common item, picked at random, from each target's own
+/// inventory — what a night visitor makes off with, or what is thrown into
+/// a fire for luck. Only the target's own things: what the party shares is
+/// not theirs to lose. A no-op for a target with no common item; pair it
+/// with `currentPlayerHasCommonItem` where the text says something went.
+final class TakeCommonItemAction extends GameAction {
+  final ActionTarget target;
+
+  const TakeCommonItemAction({this.target = ActionTarget.currentPlayer});
+
+  factory TakeCommonItemAction.fromJson(Map<String, dynamic> json) =>
+      TakeCommonItemAction(
+        target: ActionTarget.fromJson(
+          json['target'] as String? ?? 'currentPlayer',
+        ),
+      );
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'action': 'takeCommonItem',
     'target': target.toJson(),
   };
 }

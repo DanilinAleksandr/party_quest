@@ -383,6 +383,8 @@ final class ContentValidator {
           _requireItem(a.itemId, source, itemCatalog, errors);
         case TakeItemAction a:
           _requireItem(a.itemId, source, itemCatalog, errors);
+        case TakeCommonItemAction _:
+          break;
         case ApplyEffectAction a:
           _requireEffect(a.effectId, source, effectCatalog, errors);
         case RemoveEffectAction a:
@@ -485,6 +487,9 @@ final class ContentValidator {
         _requireItem(c.itemId, source, itemCatalog, errors);
       case CurrentPlayerMissingItemCondition c:
         _requireItem(c.itemId, source, itemCatalog, errors);
+      case CurrentPlayerHasCommonItemCondition _:
+      case CurrentPlayerHasNoCommonItemCondition _:
+        break;
       case PartyHasItemCondition c:
         _requireItem(c.itemId, source, itemCatalog, errors);
       case PartyMissingItemCondition c:

@@ -1,6 +1,7 @@
 import '../context/game_context.dart';
 import 'intoxication.dart';
 import 'journey_phase.dart';
+import 'rarity.dart';
 import 'season.dart';
 import 'stat_type.dart';
 import 'weather.dart';
@@ -38,6 +39,10 @@ sealed class GameCondition {
       'currentPlayerMissingItem' => CurrentPlayerMissingItemCondition(
         itemId: json['itemId'] as String,
       ),
+      'currentPlayerHasCommonItem' =>
+        const CurrentPlayerHasCommonItemCondition(),
+      'currentPlayerHasNoCommonItem' =>
+        const CurrentPlayerHasNoCommonItemCondition(),
       'partyHasItem' => PartyHasItemCondition(itemId: json['itemId'] as String),
       'partyMissingItem' => PartyMissingItemCondition(
         itemId: json['itemId'] as String,
@@ -278,6 +283,35 @@ final class CurrentPlayerMissingItemCondition extends GameCondition {
   Map<String, dynamic> toJson() => {
     'condition': 'currentPlayerMissingItem',
     'itemId': itemId,
+  };
+}
+
+/// Whether the current player carries a common item of their own — the
+/// thing `TakeCommonItemAction` can take. Not any item in particular: a
+/// card that says something was lost needs only that there was something.
+final class CurrentPlayerHasCommonItemCondition extends GameCondition {
+  const CurrentPlayerHasCommonItemCondition();
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      context.currentPlayer.inventory.any((i) => i.rarity == Rarity.common);
+
+  @override
+  Map<String, dynamic> toJson() => {'condition': 'currentPlayerHasCommonItem'};
+}
+
+/// The other side of [CurrentPlayerHasCommonItemCondition]: nothing common
+/// to lose, so the text can say so.
+final class CurrentPlayerHasNoCommonItemCondition extends GameCondition {
+  const CurrentPlayerHasNoCommonItemCondition();
+
+  @override
+  bool isSatisfied(GameContext context) =>
+      !context.currentPlayer.inventory.any((i) => i.rarity == Rarity.common);
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'currentPlayerHasNoCommonItem',
   };
 }
 

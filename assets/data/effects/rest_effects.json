@@ -1,0 +1,14 @@
+[
+  {
+    "id": "effect_borrowed_cloak",
+    "name": "Чужой плащ",
+    "description": "Кто-то накинул тебе на плечи свой плащ. Пока он на тебе — +1 к обаянию.",
+    "polarity": "positive",
+    "duration": 3,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "charisma": 1
+    }
+  }
+]

@@ -32,6 +32,12 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// there are five ways in, one per biome, of which only one can ever be on
 /// the road, weighted to bring a village round every fifteen to twenty
 /// cards — not a share of every step. The village's own content is counted.
+///
+/// The halt's content is left out too. It is drawn only at a halt, from a
+/// pool of its own, and how much of a match it fills is set by the halt's
+/// spacing and its way out, not by how many cards it holds: giving the fire
+/// more to say (it went from 8 cards to 26 so that it stops repeating) must
+/// not read as the road's pacing changing.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -45,6 +51,7 @@ void main() {
             ),
           )
           .where((c) => !c.actions.any(_movesVillage))
+          .where((c) => !c.isRestContent)
           .toList();
       final totalWeight = cards.fold<int>(0, (sum, c) => sum + c.weight);
 

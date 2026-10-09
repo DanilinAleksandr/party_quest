@@ -153,6 +153,8 @@ List<InfluenceTag> influenceTagsOf(
       // --- deliberately unbadged, see the doc comment above ---
       case PartyMissingItemCondition _:
       case CurrentPlayerMissingItemCondition _:
+      case CurrentPlayerHasCommonItemCondition _:
+      case CurrentPlayerHasNoCommonItemCondition _:
       case CurrentPlayerMissingEffectCondition _:
       case AnyPlayerMissingOriginCondition _:
       case CurrentPlayerOriginUnknownCondition _:
