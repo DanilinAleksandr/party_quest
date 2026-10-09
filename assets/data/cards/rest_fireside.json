@@ -28,10 +28,9 @@
             "amount": 0.5
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ],
         "outcome": "Глоток нашёлся для каждого. Откуда — лучше не спрашивать."
@@ -98,10 +97,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Ручей ровно там, где ты сказал. Фляга полна, ноги сухие."
@@ -161,10 +159,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ],
         "outcome": "Ты поёшь его, как написал. Никто не спорит, что так и было."
@@ -183,10 +180,9 @@
             "loserOutcome": "Ты берёшь слишком высоко. К утру голос возвращается не весь.",
             "winnerActions": [
               {
-                "action": "modifyStat",
+                "action": "applyEffect",
                 "target": "currentPlayer",
-                "stat": "charisma",
-                "amount": 1
+                "effectId": "effect_fireside_charm"
               }
             ],
             "loserActions": [
@@ -316,10 +312,9 @@
             "value": true
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Ты показываешь созвездие, и его никто не выдумывает: оно правда там."
@@ -443,20 +438,19 @@
         "conditions": [
           {
             "condition": "currentPlayerHasItem",
-            "itemId": "item_flask"
+            "itemId": "item_bravery_flask"
           }
         ],
         "actions": [
           {
             "action": "takeItem",
             "target": "currentPlayer",
-            "itemId": "item_flask"
+            "itemId": "item_bravery_flask"
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ],
         "outcome": "Тост полный. Фляга пустая. Хозяин бы оценил."
@@ -507,10 +501,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ],
         "outcome": "Пирог оставили нарочно. Деревня проводила вас как своих."
@@ -575,10 +568,9 @@
             "value": true
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Ты читаешь один знак из трёх. Остальные пока молчат."
@@ -632,10 +624,9 @@
             "value": true
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Тень ложится как надо. Ненадолго."
@@ -689,10 +680,9 @@
             "value": true
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Ты не читаешь — ты узнаёшь почерк. Это хуже."
@@ -737,10 +727,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "endurance",
-            "amount": 1
+            "effectId": "effect_fireside_steady"
           }
         ],
         "outcome": "Точки мигают — один раз, вместе. Потом уходят."
@@ -802,10 +791,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ],
         "outcome": "Эхо возвращает твоё слово. Целиком. Горы тебя узнали."
@@ -908,10 +896,9 @@
             "effectId": "effect_shivering"
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "endurance",
-            "amount": 1
+            "effectId": "effect_fireside_steady"
           }
         ],
         "outcome": "Угли под песком греют до рассвета. Все спят."
@@ -967,10 +954,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Плещется сом с бревно. Он смотрит на тебя и уходит вглубь — без обид."
@@ -1040,10 +1026,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ],
         "outcome": "Сторож считает вслух. Получается на одного больше, чем вас."

@@ -1,5 +1,41 @@
 [
   {
+    "id": "effect_fireside_charm",
+    "name": "Душа компании",
+    "description": "Сегодня у огня слушают тебя. Пока действует — +1 к обаянию.",
+    "polarity": "positive",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "charisma": 1
+    }
+  },
+  {
+    "id": "effect_fireside_sharp",
+    "name": "Острый глаз",
+    "description": "Ты замечаешь то, мимо чего проходят другие. Пока действует — +1 к внимательности.",
+    "polarity": "positive",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "attentiveness": 1
+    }
+  },
+  {
+    "id": "effect_fireside_steady",
+    "name": "Второе дыхание",
+    "description": "Усталость отступила. Пока действует — +1 к выносливости.",
+    "polarity": "positive",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "endurance": 1
+    }
+  },
+  {
     "id": "effect_borrowed_cloak",
     "name": "Чужой плащ",
     "description": "Кто-то накинул тебе на плечи свой плащ. Пока он на тебе — +1 к обаянию.",
