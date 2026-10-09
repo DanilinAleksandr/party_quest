@@ -260,14 +260,19 @@
   {
     "id": "trap_cold_shower_v4",
     "title": "Мешочек развязался",
-    "description": "Узел ослаб в самый неподходящий момент, и половина содержимого рассыпалась по земле. Собрали не всё.",
+    "description": "Узел ослаб в самый неподходящий момент, и половина содержимого ушла в траву. Собрали не всё.",
     "type": "trap",
     "rarity": "common",
     "weight": 2,
     "tags": [
       "risk"
     ],
-    "conditions": [],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
     "actions": [
       {
         "action": "modifyStat",

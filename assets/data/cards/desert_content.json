@@ -557,7 +557,7 @@
   {
     "id": "camel_owner_catches_up",
     "title": "Всадник нагоняет",
-    "description": "Позади слышен топот — всадник во весь опор нагоняет компанию. «Мой верблюд! Наконец-то нашёлся!»",
+    "description": "Позади поднимается пыль — всадник во весь опор нагоняет компанию. «Мой верблюд! Наконец-то нашёлся!»",
     "type": "event",
     "rarity": "uncommon",
     "weight": 6,
@@ -570,6 +570,10 @@
       {
         "condition": "currentPlayerHasItem",
         "itemId": "item_stray_camel"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "choices": [

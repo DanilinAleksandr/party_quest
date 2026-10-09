@@ -179,6 +179,7 @@ BIOME_WORDS_ACCEPTED = {
     ('desert', 'item_coin_find_v4'): 'a wooden boundary post',
     ('floodlands', 'home_shoes_by_door'): 'dust on shoes indoors',
     ('floodlands', 'village_miller_stone_dressing'): 'stone dust from a millstone',
+    ('desert', 'item_compass_find_v4_desert'): 'a thorn bush, which the desert has',
 }
 
 

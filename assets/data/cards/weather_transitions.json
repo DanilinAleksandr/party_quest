@@ -29,7 +29,7 @@
   {
     "id": "weather_clears_up",
     "title": "Небо расчищается",
-    "description": "Тучи расходятся, и солнце наконец пробивается сквозь тучи.",
+    "description": "Тучи расходятся, и солнце наконец пробивается сквозь ветви.",
     "type": "event",
     "rarity": "uncommon",
     "weight": 3,
@@ -44,6 +44,41 @@
       {
         "condition": "minimumTurnsInWeather",
         "turns": 4
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "setWeather",
+        "weather": "sunny"
+      }
+    ]
+  },
+  {
+    "id": "weather_clears_up_desert",
+    "title": "Небо расчищается",
+    "description": "Тучи расходятся, и солнце наконец заливает песок до самого горизонта.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "sunny"
+      },
+      {
+        "condition": "minimumTurnsInWeather",
+        "turns": 4
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": [
