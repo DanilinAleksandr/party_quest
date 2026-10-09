@@ -144,7 +144,8 @@
     "rarity": "uncommon",
     "weight": 5,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
@@ -168,6 +169,10 @@
       {
         "condition": "worldFlagSet",
         "flag": "helped_caravan"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": [
@@ -332,7 +337,8 @@
     "weight": 5,
     "tags": [
       "solo",
-      "curse"
+      "curse",
+      "village"
     ],
     "conditions": [
       {
@@ -357,7 +363,8 @@
     "rarity": "uncommon",
     "weight": 5,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
@@ -422,7 +429,8 @@
     "rarity": "uncommon",
     "weight": 4,
     "tags": [
-      "solo"
+      "solo",
+      "village"
     ],
     "conditions": [
       {
@@ -451,6 +459,10 @@
         "condition": "minimumStepsSinceFlag",
         "flag": "dragon_trail_village",
         "steps": 6
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
       }
     ],
     "actions": []
@@ -499,6 +511,10 @@
       {
         "condition": "worldFlagSet",
         "flag": "cheated_smuggler"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": [

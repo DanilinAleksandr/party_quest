@@ -89,7 +89,7 @@
   {
     "id": "reveal_witch_heir",
     "title": "Эхо в крови",
-    "description": "Дни спустя после встречи с ведьмой ты ловишь себя на мысли, что понимаешь шелест листвы так, будто он складывается в слова. Она что-то оставила в тебе — или, может, лишь пробудила то, что всегда там было.",
+    "description": "Дни спустя после встречи с ведьмой ты ловишь себя на мысли, что понимаешь шорох ветра так, будто он складывается в слова. Она что-то оставила в тебе — или, может, лишь пробудила то, что всегда там было.",
     "type": "event",
     "rarity": "rare",
     "weight": 1,
@@ -190,6 +190,10 @@
       {
         "condition": "worldFlagSet",
         "flag": "passed_spirit_trial"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "participant": {
@@ -468,6 +472,10 @@
     "conditions": [
       {
         "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "participant": {
@@ -543,6 +551,10 @@
     "conditions": [
       {
         "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "participant": {

@@ -14,6 +14,10 @@
       {
         "condition": "currentPlayerMissingItem",
         "itemId": "item_lucky_coin"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "choices": [
@@ -358,7 +362,7 @@
   {
     "id": "item_coin_find_v4",
     "title": "Столб на меже",
-    "description": "Межевой столб оброс мхом с одной стороны, и в щели между камнем и деревом натыканы монеты. Никто не помнит, кто начал.\n\nПод мхом на камне проступает другая метка.",
+    "description": "Межевой столб потемнел с одной стороны, и в щели между камнем и деревом натыканы монеты. Никто не помнит, кто начал.\n\nПод налётом на камне проступает другая метка.",
     "type": "item",
     "rarity": "common",
     "weight": 2,
@@ -2410,6 +2414,12 @@
         "label": "Пройти мимо",
         "actions": []
       }
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
     ]
   },
   {
@@ -2581,6 +2591,12 @@
         "label": "Пройти мимо",
         "actions": []
       }
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
     ]
   },
   {
@@ -2751,6 +2767,12 @@
       {
         "label": "Пройти мимо",
         "actions": []
+      }
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ]
   },

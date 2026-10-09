@@ -47,7 +47,7 @@
     ],
     "conditions": [
       {
-        "condition": "notInBiome",
+        "condition": "inBiome",
         "biomeId": "coast"
       }
     ],
@@ -67,6 +67,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "mountains"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -85,6 +89,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "mountains"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
       }
     ],
     "actions": []
@@ -268,6 +276,10 @@
       {
         "condition": "notInBiome",
         "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []
@@ -585,6 +597,10 @@
       {
         "condition": "inWeather",
         "weather": "rain"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
       }
     ],
     "actions": []

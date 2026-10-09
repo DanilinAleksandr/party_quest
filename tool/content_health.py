@@ -160,6 +160,26 @@ _DANGER_RE = {
 }
 
 
+# Read and accepted in the place audit: the word is there, and it is true.
+# (biome, card id) -> why. Keep the reason short and honest; grow this list
+# only after reading the card.
+BIOME_WORDS_ACCEPTED = {
+    ('desert', 'transition_to_forest'): 'describes the forest ahead',
+    ('desert', 'prologue_depart_to_forest'): 'the prologue walks in the forest',
+    ('desert', 'prologue_morning_departure'): 'the prologue walks in the forest',
+    ('desert', 'callback_altar_reminder'): 'a voice remembered from the forest',
+    ('desert', 'npc_musician_tavern_again'): 'a tune remembered from a forest glade',
+    ('desert', 'luck_ward_offer'): '«чаща» is the circle, not a thicket',
+    ('desert', 'state_alchemist_opens_lid'): 'herbs in a jar',
+    ('desert', 'style_word_called_to_judge'): 'a herbwoman reads a boundary by herbs',
+    ('desert', 'rare_long_echo'): 'dried herbs in a bundle',
+    ('desert', 'trace_abandoned_basket'): 'a basket of herbs',
+    ('desert', 'item_coin_find_v4'): 'a wooden boundary post',
+    ('floodlands', 'home_shoes_by_door'): 'dust on shoes indoors',
+    ('floodlands', 'village_miller_stone_dressing'): 'stone dust from a millstone',
+}
+
+
 def _biome_open(conditions, biome):
     for c in conditions or []:
         if c.get('condition') == 'inBiome' and c.get('biomeId') != biome:
@@ -184,6 +204,8 @@ def biome_word_warnings(cards):
                 if not _biome_open(ch.get('conditions'), biome):
                     continue
                 texts.append(('выбор', ch.get('label', '') + ' ' + (ch.get('outcome') or '')))
+            if (biome, card['id']) in BIOME_WORDS_ACCEPTED:
+                continue
             for where, text in texts:
                 m = pattern.search(text)
                 if m:
