@@ -37,6 +37,7 @@ final class ActionExecutor {
       GiveItemAction a => _giveItem(a, context),
       TakeItemAction a => _takeItem(a, context),
       TakeCommonItemAction a => _takeCommonItem(a, context),
+      ReadItemAction a => _readItem(a, context),
       ApplyEffectAction a => _applyEffect(a, context),
       RemoveEffectAction a => _removeEffect(a, context),
       ModifyStatAction a => _modifyStat(a, context),
@@ -162,7 +163,10 @@ final class ActionExecutor {
       targets,
       (p) {
         final given = aura;
-        if (given == null) return p.copyWith(inventory: [...p.inventory, item]);
+        final thing = find ? item.asFound() : item;
+        if (given == null) {
+          return p.copyWith(inventory: [...p.inventory, thing]);
+        }
         aura = null;
         final luck = p.effectiveStat(StatType.luck, party: context.players);
         // A close look that noticed it: the party takes it knowing.
@@ -170,7 +174,7 @@ final class ActionExecutor {
         return p.copyWith(
           inventory: [
             ...p.inventory,
-            item.withAura(
+            thing.withAura(
               (given.curse
                       ? given.copyWith(heavy: luck <= kHeavyCurseLuck)
                       : given)
@@ -203,6 +207,47 @@ final class ActionExecutor {
         ..removeAt(common[context.random.nextInt(common.length)]);
       return p.copyWith(inventory: inventory);
     });
+  }
+
+  GameContext _readItem(ReadItemAction action, GameContext context) {
+    final index = context.state.readItem;
+    if (index == null) return context;
+    final me = context.currentPlayer;
+    if (index >= me.inventory.length) return context;
+    final thing = me.inventory[index];
+    final inventory = [...me.inventory];
+    switch (action.mode) {
+      case ReadItemMode.take:
+        inventory.removeAt(index);
+      case ReadItemMode.mirror:
+        final a = thing.aura;
+        if (a != null && a.curse) {
+          inventory[index] = thing.withAura(
+            ItemAura(
+              kind: a.kind.mirror,
+              stat: a.stat,
+              turns: a.turns,
+              known: true,
+            ),
+          );
+        }
+      case ReadItemMode.worsen:
+        final a = thing.aura;
+        if (a != null && a.curse) {
+          inventory[index] = thing.withAura(a.copyWith(heavy: true));
+        }
+    }
+    final ctx = context.withState(
+      context.state.copyWith(
+        players: [
+          for (final p in context.players)
+            p.id == me.id ? p.copyWith(inventory: inventory) : p,
+        ],
+      ),
+    );
+    return action.mode == ReadItemMode.take
+        ? ctx.withState(ctx.state.copyWith(clearReadItem: true))
+        : ctx;
   }
 
   GameContext _takeItem(TakeItemAction action, GameContext context) {

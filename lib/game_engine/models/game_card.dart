@@ -117,6 +117,21 @@ final class GameCard {
   /// only the choices the player is currently eligible to see — mirrors
   /// `AdventureNode.withChoices` so the index the UI shows always lines up
   /// with the index `resolveCard` receives.
+  /// The same card telling [description] — its placeholders filled in.
+  GameCard withDescription(String description) => GameCard(
+    id: id,
+    title: title,
+    description: description,
+    type: type,
+    rarity: rarity,
+    weight: weight,
+    tags: tags,
+    conditions: conditions,
+    actions: actions,
+    choices: choices,
+    participant: participant,
+  );
+
   GameCard withChoices(List<CardChoice> choices) => GameCard(
     id: id,
     title: title,

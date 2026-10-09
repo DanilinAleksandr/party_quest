@@ -385,6 +385,8 @@ final class ContentValidator {
           _requireItem(a.itemId, source, itemCatalog, errors);
         case TakeCommonItemAction _:
           break;
+        case ReadItemAction _:
+          break;
         case ApplyEffectAction a:
           _requireEffect(a.effectId, source, effectCatalog, errors);
         case RemoveEffectAction a:
@@ -546,6 +548,8 @@ final class ContentValidator {
       case LeaderIsSetCondition _:
       case LeaderIsUnsetCondition _:
       case AuraNoticedCondition _:
+      case AnyPlayerHasFindCondition _:
+      case CurrentPlayerHasFindCondition _:
       case GameModeCondition _:
       case InPhaseCondition _:
       case WorldFlagSetCondition _:

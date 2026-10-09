@@ -108,6 +108,10 @@ final class GameState {
   final bool inspected;
   final AuraNotice noticedAura;
 
+  /// The position in the current player's bag of the thing a shaman picked
+  /// out on the pending card — see `ReadItemAction`.
+  final int? readItem;
+
   const GameState({
     required this.players,
     required this.currentPlayerIndex,
@@ -128,6 +132,7 @@ final class GameState {
     this.pendingAura,
     this.inspected = false,
     this.noticedAura = AuraNotice.none,
+    this.readItem,
   });
 
   /// Every player starts with no origin — see `Origin`/`RevealOriginAction`.
@@ -176,6 +181,8 @@ final class GameState {
     bool clearPendingAura = false,
     bool? inspected,
     AuraNotice? noticedAura,
+    int? readItem,
+    bool clearReadItem = false,
   }) {
     return GameState(
       players: players ?? this.players,
@@ -205,6 +212,7 @@ final class GameState {
       pendingAura: clearPendingAura ? null : (pendingAura ?? this.pendingAura),
       inspected: inspected ?? this.inspected,
       noticedAura: noticedAura ?? this.noticedAura,
+      readItem: clearReadItem ? null : (readItem ?? this.readItem),
     );
   }
 }

@@ -33,6 +33,11 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// the road, weighted to bring a village round every fifteen to twenty
 /// cards — not a share of every step. The village's own content is counted.
 ///
+/// So are cards that wait out a cooldown of their own
+/// (`flagNotSetWithinSteps`), like the shaman: their weight is sized to
+/// come soon after the cooldown ends, once in thirty-odd cards, not to be
+/// a share of every step.
+///
 /// The halt's content is left out too. It is drawn only at a halt, from a
 /// pool of its own, and how much of a match it fills is set by the halt's
 /// spacing and its way out, not by how many cards it holds: giving the fire
@@ -52,6 +57,11 @@ void main() {
           )
           .where((c) => !c.actions.any(_movesVillage))
           .where((c) => !c.isRestContent)
+          .where(
+            (c) => !c.conditions.any(
+              (condition) => condition is FlagNotSetWithinStepsCondition,
+            ),
+          )
           .toList();
       final totalWeight = cards.fold<int>(0, (sum, c) => sum + c.weight);
 

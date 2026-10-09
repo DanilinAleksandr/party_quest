@@ -67,6 +67,13 @@ CONDITION_SYSTEM = {
     'currentPlayerHasEffect': 'effect',
     'anyPlayerHasEffect': 'effect',
     'currentPlayerMissingEffect': 'effect',
+    # The drink is a state the character is in, the way an effect is, and
+    # age is who they are, the way an origin is — as content_health_test
+    # classifies them.
+    'intoxicationAtLeast': 'effect',
+    'intoxicationBelow': 'effect',
+    'currentPlayerHungover': 'effect',
+    'currentPlayerAgeBracket': 'origin',
     'worldFlagSet': 'world',
     'worldFlagUnset': 'world',
     'minimumStepsSinceFlag': 'world',
@@ -94,6 +101,8 @@ CONDITION_SYSTEM = {
     'leaderIsSet': None,
     'leaderIsUnset': None,
     'auraNoticed': None,
+    'anyPlayerHasFind': 'item',
+    'currentPlayerHasFind': 'item',
 }
 
 FACTIONS = {

@@ -58,7 +58,11 @@ enum CardTag {
   /// Marks a thing found on the road — a coin in the grass, a flask left
   /// on a stone — as opposed to one given or bought. A find may carry an
   /// unseen curse or blessing, rolled as its card is drawn: see `ItemAura`.
-  find;
+  find,
+
+  /// The shaman by the road: its closer look is his reading of the current
+  /// player's finds — see `GameController.inspect`.
+  shaman;
 
   static CardTag fromJson(String value) => CardTag.values.byName(value);
 

@@ -1,0 +1,531 @@
+[
+  {
+    "id": "shaman_by_the_road",
+    "title": "Шаман у дороги",
+    "description": "У обочины сидит старик в шкурах, обвешанный косточками и бусинами. Смотрит не на вас — на ваши сумки.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 120,
+    "tags": [
+      "solo",
+      "shaman"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasFind"
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "met_shaman",
+        "steps": 26
+      }
+    ],
+    "choices": [
+      {
+        "label": "Налить ему",
+        "inspect": true,
+        "conditions": [
+          {
+            "condition": "currentPlayerHasFind"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "met_shaman",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Отдать ему",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "readItem",
+            "do": "take"
+          }
+        ],
+        "outcome": "Шаман прячет вещь за пазуху так быстро, будто ждал именно её."
+      },
+      {
+        "label": "Пусть перезачарует",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Он шепчет над вещью, сплёвывает, снова шепчет. — Теперь она за тебя.",
+            "loserOutcome": "Он шепчет, потом замолкает и отдаёт вещь, не глядя. — Хуже сделал. Бывает.",
+            "winnerActions": [
+              {
+                "action": "readItem",
+                "do": "mirror"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "readItem",
+                "do": "worsen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить как есть",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [],
+        "outcome": "— Твоё дело, — пожимает он плечами."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "met_shaman",
+            "value": true
+          }
+        ],
+        "outcome": "Он провожает взглядом не вас — ваши сумки."
+      }
+    ]
+  },
+  {
+    "id": "shaman_in_the_village",
+    "title": "Шаман у дороги",
+    "description": "У обочины сидит старик в шкурах, обвешанный косточками и бусинами. Смотрит не на вас — на ваши сумки.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 120,
+    "tags": [
+      "solo",
+      "shaman",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasFind"
+      },
+      {
+        "condition": "flagNotSetWithinSteps",
+        "flag": "met_shaman",
+        "steps": 26
+      }
+    ],
+    "choices": [
+      {
+        "label": "Налить ему",
+        "inspect": true,
+        "conditions": [
+          {
+            "condition": "currentPlayerHasFind"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "met_shaman",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Отдать ему",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "readItem",
+            "do": "take"
+          }
+        ],
+        "outcome": "Шаман прячет вещь за пазуху так быстро, будто ждал именно её."
+      },
+      {
+        "label": "Пусть перезачарует",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Он шепчет над вещью, сплёвывает, снова шепчет. — Теперь она за тебя.",
+            "loserOutcome": "Он шепчет, потом замолкает и отдаёт вещь, не глядя. — Хуже сделал. Бывает.",
+            "winnerActions": [
+              {
+                "action": "readItem",
+                "do": "mirror"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "readItem",
+                "do": "worsen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Оставить как есть",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [],
+        "outcome": "— Твоё дело, — пожимает он плечами."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "met_shaman",
+            "value": true
+          }
+        ],
+        "outcome": "Он провожает взглядом не вас — ваши сумки."
+      }
+    ]
+  },
+  {
+    "id": "figurine_owner_rude",
+    "title": "Хозяин фигурки",
+    "description": "Вас догоняет бородатый мужик и, не здороваясь, протягивает руку: — Фигурку. Ту, что у дороги лежала.{aura_note:item_wooden_figurine}",
+    "type": "event",
+    "rarity": "common",
+    "weight": 400,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "participant": {
+      "kind": "hasItem",
+      "itemId": "item_wooden_figurine"
+    },
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "figurine_owner_coming"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "figurine_owner_coming",
+        "steps": 4
+      },
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "figurine_owner_coming",
+        "steps": 10
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "figurine_owner_rude"
+      },
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_wooden_figurine"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          }
+        ],
+        "outcome": "Он забирает её, не сказав спасибо. Зато и бить не стал."
+      },
+      {
+        "label": "Нет у нас никакой фигурки",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          },
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Он сверлит вас взглядом, сплёвывает и уходит. Фигурка остаётся.",
+            "loserOutcome": "Он не верит. Находит её сам — и заодно объясняет, почему так делать нельзя.",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_wooden_figurine"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_defeated"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Сказать, что резали такие же — и показать, как держать нож",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          }
+        ],
+        "outcome": "Он слушает, хмыкает и забирает фигурку уже не так зло. Уходя, оглядывается дважды."
+      }
+    ]
+  },
+  {
+    "id": "figurine_owner_daughter",
+    "title": "Дочкина фигурка",
+    "description": "Навстречу идёт человек с девочкой на плечах. Девочка смотрит прямо на твою сумку. — Простите, — говорит человек. — Вы не находили деревянную фигурку? Дочка уронила.{aura_note:item_wooden_figurine}",
+    "type": "event",
+    "rarity": "common",
+    "weight": 400,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "participant": {
+      "kind": "hasItem",
+      "itemId": "item_wooden_figurine"
+    },
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "figurine_owner_coming"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "figurine_owner_coming",
+        "steps": 4
+      },
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "figurine_owner_coming",
+        "steps": 10
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "figurine_owner_rude"
+      },
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_wooden_figurine"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вернуть",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "did_good_deed",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          }
+        ],
+        "outcome": "Девочка хватает фигурку обеими руками. Человек долго трясёт тебе руку и суёт что-то в ладонь."
+      },
+      {
+        "label": "Она теперь моя",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          },
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Человек смотрит на тебя, на дочку, снова на тебя — и уводит её молча. Фигурка твоя. Легче не стало.",
+            "loserOutcome": "Девочка плачет так громко, что фигурку ты отдаёшь сам. Стыдно всем.",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_wooden_figurine"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отдать и сказать девочке, что фигурка по ней скучала",
+        "conditions": [
+          {
+            "condition": "currentPlayerAgeBracket",
+            "bracket": "elder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_wooden_figurine"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "did_good_deed",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_owner_coming",
+            "value": false
+          }
+        ],
+        "outcome": "Девочка серьёзно кивает и прижимает фигурку к щеке. Отец смотрит на тебя так, будто ты вернул ему что-то большее."
+      }
+    ]
+  },
+  {
+    "id": "figurine_left_thanks",
+    "title": "Человек у костра",
+    "description": "Вас окликает незнакомец: — Это ведь вы проходили у нашего лагеря? Фигурку у дороги не тронули. Она дочкина. Спасибо.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 400,
+    "tags": [
+      "group",
+      "drink"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "figurine_left"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "figurine_left",
+        "steps": 4
+      },
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "figurine_left",
+        "steps": 10
+      }
+    ],
+    "choices": [
+      {
+        "label": "Не за что",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "did_good_deed",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_left",
+            "value": false
+          }
+        ],
+        "outcome": "Он наливает каждому — от души."
+      },
+      {
+        "label": "Сказать, что вещь была хорошей работы — пусть бережёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "did_good_deed",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "figurine_left",
+            "value": false
+          }
+        ],
+        "outcome": "Он кивает так, будто это ему сказали. Наливает каждому — от души, и тебе вдвое."
+      }
+    ]
+  }
+]

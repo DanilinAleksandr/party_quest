@@ -382,12 +382,43 @@ class GameController extends StateNotifier<GameState> {
     final choice = card.choices[choiceIndex];
     if (!choice.inspect) return '';
     var ctx = _executor.executeAll(choice.actions, _context);
-    final seen = inspectFind(
-      ctx,
-      drawn,
-      companionRoll: ctx.random.nextAura(),
-      quiet: choice.outcome != null,
-    );
+    final ({String text, AuraNotice notice}) seen;
+    if (drawn.hasTag(CardTag.shaman)) {
+      // The shaman's reading: he names what the thing does, and the thing
+      // is known from then on.
+      final read = shamanReads(ctx);
+      seen = (text: read.text, notice: read.notice);
+      final index = read.item;
+      if (index != null) {
+        final me = ctx.currentPlayer;
+        final thing = me.inventory[index];
+        ctx = ctx.withState(
+          ctx.state.copyWith(
+            readItem: index,
+            players: [
+              for (final p in ctx.players)
+                p.id == me.id
+                    ? p.copyWith(
+                        inventory: [
+                          for (final (i, x) in p.inventory.indexed)
+                            i == index
+                                ? x.withAura(thing.aura!.copyWith(known: true))
+                                : x,
+                        ],
+                      )
+                    : p,
+            ],
+          ),
+        );
+      }
+    } else {
+      seen = inspectFind(
+        ctx,
+        drawn,
+        companionRoll: ctx.random.nextAura(),
+        quiet: choice.outcome != null,
+      );
+    }
     ctx = ctx.withState(
       ctx.state.copyWith(inspected: true, noticedAura: seen.notice),
     );
@@ -418,6 +449,12 @@ class GameController extends StateNotifier<GameState> {
       OnTurnStarted(player: context.currentPlayer),
       context,
     );
+    // Placeholders in the scene — who it is about, what the owner notices
+    // in their bag — filled for the player it turned out to be about.
+    final told = fillCardText(drawnCard.description, context);
+    if (told != drawnCard.description) {
+      drawnCard = drawnCard.withDescription(told);
+    }
     _drawnCard = drawnCard;
     _personalActionTaken = false;
     _intoxicationAtDraw = {
@@ -443,6 +480,7 @@ class GameController extends StateNotifier<GameState> {
         clearPendingAura: aura == null,
         inspected: false,
         noticedAura: AuraNotice.none,
+        clearReadItem: true,
       ),
     );
     ctx = _dispatcher.dispatch(
@@ -798,6 +836,7 @@ class GameController extends StateNotifier<GameState> {
         clearPendingAura: true,
         inspected: false,
         noticedAura: AuraNotice.none,
+        clearReadItem: true,
         journeyLog: [
           ...ctx.state.journeyLog,
           JourneyLogEntry(
