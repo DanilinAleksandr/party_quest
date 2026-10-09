@@ -56,6 +56,28 @@ GameContext _at(
   mode: GameMode.classic,
 );
 
+/// The eighteen halt cards from the fireside wave.
+const _fireside = {
+  'rest_last_drop',
+  'rest_water_run',
+  'rest_song_everyone_knows',
+  'rest_night_guest',
+  'rest_stars',
+  'rest_boots_drying',
+  'rest_seat_by_fire',
+  'rest_toast_to_tavern',
+  'rest_village_pie',
+  'rest_firelight_odd_stone',
+  'rest_firelight_wooden_figurine',
+  'rest_firelight_forgotten_note',
+  'rest_forest_eyes',
+  'rest_mountains_echo',
+  'rest_coast_driftwood',
+  'rest_desert_cold',
+  'rest_floodlands_bank',
+  'rest_graveyard_keeper',
+};
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -183,6 +205,55 @@ void main() {
       expect(
         eligible(byId('rest_water_run'), _at(all, biome: 'desert')),
         isFalse,
+      );
+    });
+  });
+
+  group('the halt cards in a long match', () {
+    late List<GameCard> all;
+    setUpAll(() async => all = await const CardRepository().loadCards());
+
+    Iterable<GameAction> flatten(List<GameAction> actions) sync* {
+      for (final a in actions) {
+        yield a;
+        if (a is ChanceCheckAction) {
+          yield* flatten(a.winnerActions);
+          yield* flatten(a.loserActions);
+        }
+        if (a is StartDuelAction) {
+          yield* flatten(a.winnerActions);
+          yield* flatten(a.loserActions);
+        }
+      }
+    }
+
+    test('give no stat for good: the halt comes round again', () {
+      final permanent = [
+        for (final card in all.where((c) => _fireside.contains(c.id)))
+          for (final choice in card.choices)
+            for (final action in flatten(choice.actions))
+              if (action is ModifyStatAction) '${card.id}: ${choice.label}',
+      ];
+      expect(permanent, isEmpty, reason: permanent.join('\n'));
+    });
+
+    test('an origin line stays hidden until the origin is revealed', () {
+      // Every player starts with no origin; only a reveal sets one. So a
+      // line gated on an origin cannot be on the card before it — no
+      // «Волчья кровь» on a button for a player who has not learned it.
+      final newGame = GameState.newGame(const ['A', 'B']);
+      expect(newGame.players.every((p) => p.originId == null), isTrue);
+
+      final line = all
+          .firstWhere((c) => c.id == 'rest_forest_eyes')
+          .choices
+          .firstWhere((c) => c.label.startsWith('Ответить им тем же взглядом'));
+      bool shown(Player p) =>
+          line.conditions.every((c) => c.isSatisfied(_at(all, players: [p])));
+      expect(shown(const Player(id: 'p', name: 'A')), isFalse);
+      expect(
+        shown(const Player(id: 'p', name: 'A', originId: 'origin_wolf_blood')),
+        isTrue,
       );
     });
   });
