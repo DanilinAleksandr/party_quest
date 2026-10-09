@@ -22,10 +22,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "endurance",
-            "amount": 1
+            "effectId": "effect_fireside_steady"
           }
         ]
       },
@@ -77,10 +76,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ]
       },
@@ -108,10 +106,9 @@
             "loserOutcome": "{loser} со вздохом травит байку о своём самом позорном провале — компания хохочет громче, чем следовало бы.",
             "winnerActions": [
               {
-                "action": "modifyStat",
+                "action": "applyEffect",
                 "target": "currentPlayer",
-                "stat": "charisma",
-                "amount": 1
+                "effectId": "effect_fireside_charm"
               }
             ],
             "loserActions": []
@@ -144,10 +141,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "strength",
-            "amount": 1
+            "effectId": "effect_fireside_strong"
           }
         ]
       },
@@ -204,10 +200,9 @@
             "loserOutcome": "Дракон появляется на середине, съедает главного героя и почему-то жалуется на погоду. Компания плачет от смеха — но не там, где ты рассчитывал.",
             "winnerActions": [
               {
-                "action": "modifyStat",
+                "action": "applyEffect",
                 "target": "currentPlayer",
-                "stat": "charisma",
-                "amount": 1
+                "effectId": "effect_fireside_charm"
               }
             ],
             "loserActions": []
@@ -225,10 +220,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "charisma",
-            "amount": 1
+            "effectId": "effect_fireside_charm"
           }
         ]
       },
@@ -252,10 +246,9 @@
             "loserOutcome": "На середине ты путаешься, кто кого предал — компания великодушно делает вид, что не заметила.",
             "winnerActions": [
               {
-                "action": "modifyStat",
+                "action": "applyEffect",
                 "target": "currentPlayer",
-                "stat": "charisma",
-                "amount": 1
+                "effectId": "effect_fireside_charm"
               }
             ],
             "loserActions": []
@@ -287,10 +280,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ]
       },
@@ -336,10 +328,9 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ]
       },
@@ -392,10 +383,9 @@
             "value": true
           },
           {
-            "action": "modifyStat",
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "effectId": "effect_fireside_sharp"
           }
         ]
       },
@@ -479,10 +469,9 @@
             "loserOutcome": "{loser} машет рукой — ладно, в этот раз не мой путь.",
             "winnerActions": [
               {
-                "action": "modifyStat",
+                "action": "applyEffect",
                 "target": "currentPlayer",
-                "stat": "attentiveness",
-                "amount": 1
+                "effectId": "effect_fireside_sharp"
               }
             ],
             "loserActions": []

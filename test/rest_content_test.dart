@@ -56,28 +56,6 @@ GameContext _at(
   mode: GameMode.classic,
 );
 
-/// The eighteen halt cards from the fireside wave.
-const _fireside = {
-  'rest_last_drop',
-  'rest_water_run',
-  'rest_song_everyone_knows',
-  'rest_night_guest',
-  'rest_stars',
-  'rest_boots_drying',
-  'rest_seat_by_fire',
-  'rest_toast_to_tavern',
-  'rest_village_pie',
-  'rest_firelight_odd_stone',
-  'rest_firelight_wooden_figurine',
-  'rest_firelight_forgotten_note',
-  'rest_forest_eyes',
-  'rest_mountains_echo',
-  'rest_coast_driftwood',
-  'rest_desert_cold',
-  'rest_floodlands_bank',
-  'rest_graveyard_keeper',
-};
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -229,7 +207,7 @@ void main() {
 
     test('give no stat for good: the halt comes round again', () {
       final permanent = [
-        for (final card in all.where((c) => _fireside.contains(c.id)))
+        for (final card in all.where((c) => c.isRestContent))
           for (final choice in card.choices)
             for (final action in flatten(choice.actions))
               if (action is ModifyStatAction) '${card.id}: ${choice.label}',

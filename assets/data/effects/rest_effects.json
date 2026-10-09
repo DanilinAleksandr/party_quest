@@ -36,6 +36,18 @@
     }
   },
   {
+    "id": "effect_fireside_strong",
+    "name": "Рука разогрета",
+    "description": "После спора у огня рука ещё помнит. Пока действует — +1 к силе.",
+    "polarity": "positive",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "strength": 1
+    }
+  },
+  {
     "id": "effect_borrowed_cloak",
     "name": "Чужой плащ",
     "description": "Кто-то накинул тебе на плечи свой плащ. Пока он на тебе — +1 к обаянию.",
