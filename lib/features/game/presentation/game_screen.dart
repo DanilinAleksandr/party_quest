@@ -20,6 +20,7 @@ import '../../settings/application/walk_settings.dart';
 import '../application/adventure_names.dart';
 import '../application/auto_walk_timer.dart';
 import '../application/game_controller.dart';
+import '../application/outcome_names.dart';
 import '../application/result_diff.dart';
 import '../application/result_entry.dart';
 import 'widgets/adventure_node_dialog.dart';
@@ -311,9 +312,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               if (!context.mounted) return;
             }
 
-            final choiceOutcome = choiceIndex == null
+            final rawOutcome = choiceIndex == null
                 ? null
                 : current.choices[choiceIndex].outcome;
+            final choiceOutcome = rawOutcome == null
+                ? null
+                : fillOutcomeNames(rawOutcome, ref.read(provider));
 
             // A check nobody watches: thrown all the same, and told as a
             // plain consequence — what was in the bag, not whether a coin

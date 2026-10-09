@@ -91,6 +91,11 @@ final class GameState {
   /// is drawn.
   final List<String> recentCards;
 
+  /// The ids of the halt's own cards drawn lately, oldest first — at most
+  /// `kRestNoRepeatWindow`. Kept apart from [recentCards] because halts are
+  /// ten steps apart: a window of cards would forget them between two.
+  final List<String> recentRestCards;
+
   const GameState({
     required this.players,
     required this.currentPlayerIndex,
@@ -107,6 +112,7 @@ final class GameState {
     this.chronicle = const [],
     this.phase = JourneyPhase.journey,
     this.recentCards = const [],
+    this.recentRestCards = const [],
   });
 
   /// Every player starts with no origin — see `Origin`/`RevealOriginAction`.
@@ -150,6 +156,7 @@ final class GameState {
     List<ChronicleEntry>? chronicle,
     JourneyPhase? phase,
     List<String>? recentCards,
+    List<String>? recentRestCards,
   }) {
     return GameState(
       players: players ?? this.players,
@@ -175,6 +182,7 @@ final class GameState {
       chronicle: chronicle ?? this.chronicle,
       phase: phase ?? this.phase,
       recentCards: recentCards ?? this.recentCards,
+      recentRestCards: recentRestCards ?? this.recentRestCards,
     );
   }
 }

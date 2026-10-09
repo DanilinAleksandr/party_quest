@@ -1,0 +1,18 @@
+[
+  {
+    "id": "item_stash",
+    "name": "Заначка",
+    "description": "Последний глоток, припрятанный на утро. Снимает похмелье.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": [
+      {
+        "action": "sober",
+        "target": "currentPlayer",
+        "amount": 0.15,
+        "cure": true
+      }
+    ]
+  }
+]

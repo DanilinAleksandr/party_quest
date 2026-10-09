@@ -1,0 +1,1069 @@
+[
+  {
+    "id": "rest_last_drop",
+    "title": "Последняя капля",
+    "description": "Фляга почти пуста. Глотка хватит на одного, и все это знают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "drink",
+      "solo"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Фляга никогда не бывает пуста, если знать, как её наклонить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers",
+            "amount": 0.5
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Глоток нашёлся для каждого. Откуда — лучше не спрашивать."
+      },
+      {
+        "label": "Допить самому",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Никто не возразил вслух."
+      },
+      {
+        "label": "Пустить по кругу — по капле каждому",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers",
+            "amount": 0.5
+          }
+        ],
+        "outcome": "По капле — это даже не глоток. Но пили все, и это почему-то важнее."
+      },
+      {
+        "label": "Оставить на утро",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Ты затыкаешь флягу и прячешь её поглубже. Утро скажет спасибо."
+      }
+    ]
+  },
+  {
+    "id": "rest_water_run",
+    "title": "Кто пойдёт за водой",
+    "description": "Вода кончилась, ручей где-то в темноте. Желающих нет.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Воду слышно отсюда — до неё полсотни шагов",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ручей ровно там, где ты сказал. Фляга полна, ноги сухие."
+      },
+      {
+        "label": "Сходить самому",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Вернулся с полной флягой и чем-то, что блестело у воды.",
+            "loserOutcome": "Ручей нашёл тебя раньше, чем ты его. По колено.",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Отправить самого молодого",
+        "actions": [],
+        "outcome": "Возраст — аргумент. {youngest} уходит в темноту с флягой и возвращается с видом человека, которого опять обидели."
+      }
+    ]
+  },
+  {
+    "id": "rest_song_everyone_knows",
+    "title": "Песня, которую знают все",
+    "description": "Кто-то затягивает песню, которую знают все. Кроме второго куплета.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "social",
+      "party"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Второй куплет ты знаешь — ты его и написал",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты поёшь его, как написал. Никто не спорит, что так и было."
+      },
+      {
+        "label": "Подхватить",
+        "actions": [],
+        "outcome": "Напой за столом строчку любой песни. Не вспомнил — глоток."
+      },
+      {
+        "label": "Спеть свой второй куплет",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Новый куплет приняли. Теперь он и есть второй.",
+            "loserOutcome": "Ты берёшь слишком высоко. К утру голос возвращается не весь.",
+            "winnerActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "charisma",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_whisper"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_night_guest",
+    "title": "Ночной гость",
+    "description": "Из темноты выходит человек и просит погреться. Руки держит на виду.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "risk",
+      "solo"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Пустить к огню",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Гость молчит до утра, а уходя, говорит, где за поворотом наливают честно.",
+            "loserOutcome": "Утром нет ни гостя, ни одной из ваших вещей.",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "lean_tavern",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeCommonItem",
+                "target": "currentPlayer"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Пустить к огню",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasNoCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Гость молчит до утра, а уходя, говорит, где за поворотом наливают честно.",
+            "loserOutcome": "Утром нет ни гостя. Красть у вас было нечего.",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "lean_tavern",
+                "amount": 1
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Не пускать",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Он уходит без слова. Остаток ночи все прислушиваются к темноте."
+      }
+    ]
+  },
+  {
+    "id": "rest_stars",
+    "title": "Звёзды",
+    "description": "Небо такое чистое, что кто-то начинает показывать созвездия. Половину выдумывает на ходу.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "notInWeather",
+        "weather": "rain"
+      },
+      {
+        "condition": "notInWeather",
+        "weather": "fog"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Луна сегодня твоя — и звёзды это знают",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_moonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "saw_own_star",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь созвездие, и его никто не выдумывает: оно правда там."
+      },
+      {
+        "label": "Найти своё",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "saw_own_star",
+            "value": true
+          }
+        ],
+        "outcome": "Ты находишь. Или придумываешь. Звезда в середине, кажется, мигнула — тебе."
+      },
+      {
+        "label": "Слушать, как выдумывают",
+        "actions": [],
+        "outcome": "Созвездие Пьяного Мельника. Созвездие Долга. Созвездие Того, Кто Опять Не Помыл Котелок."
+      }
+    ]
+  },
+  {
+    "id": "rest_boots_drying",
+    "title": "Сапоги сохнут",
+    "description": "Сапоги сохнут у огня. От них идёт пар и такой запах, что разговор сам собой переходит на другие темы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "group"
+    ],
+    "conditions": [],
+    "actions": []
+  },
+  {
+    "id": "rest_seat_by_fire",
+    "title": "Место у огня",
+    "description": "Лучших мест у огня — два. Претендентов больше.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "social",
+      "solo"
+    ],
+    "conditions": [],
+    "choices": [
+      {
+        "label": "Занять силой",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Тепло. Никто не спорит — по крайней мере вслух.",
+            "loserOutcome": "Тебя мягко, но решительно сдвигают. Мёрзнешь с краю.",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Уступить",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_borrowed_cloak"
+          }
+        ],
+        "outcome": "Ты садишься с краю. Кто-то молча накидывает тебе на плечи свой плащ."
+      },
+      {
+        "label": "Тебе нужнее — и все это видят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "outcome": "Тебя сажают к самому огню. Возражений нет: ты синий."
+      }
+    ]
+  },
+  {
+    "id": "rest_toast_to_tavern",
+    "title": "Тост за таверну",
+    "description": "Кто-то вспоминает таверну — с нежностью, которой там не было.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 8,
+    "tags": [
+      "rest",
+      "drink",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "left_tavern",
+        "steps": 15
+      }
+    ],
+    "choices": [
+      {
+        "label": "Долить из своей фляги, чтобы тост был полным",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Тост полный. Фляга пустая. Хозяин бы оценил."
+      },
+      {
+        "label": "Выпить за хозяина",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "За хозяина, за его разбавленное и за то, что выпустил."
+      },
+      {
+        "label": "Вспомнить, кто не заплатил",
+        "actions": [],
+        "outcome": "Каждый вслух называет, кто, по его мнению, ушёл не заплатив. Тот, на кого показали больше всех, — пьёт."
+      }
+    ]
+  },
+  {
+    "id": "rest_village_pie",
+    "title": "Гостинец",
+    "description": "В сумке обнаруживается пирог, которого никто не покупал.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 8,
+    "tags": [
+      "rest",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "left_village",
+        "steps": 10
+      }
+    ],
+    "choices": [
+      {
+        "label": "По корке видно, чья печь, — пирог не украден, а оставлен",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Пирог оставили нарочно. Деревня проводила вас как своих."
+      },
+      {
+        "label": "Съесть, не спрашивая",
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Пирог с капустой. Ещё тёплый. Вопросы снимаются."
+      },
+      {
+        "label": "Выяснить, кто стащил",
+        "actions": [],
+        "outcome": "На счёт три все показывают на одного. Кто набрал больше — молчит и жуёт."
+      }
+    ]
+  },
+  {
+    "id": "rest_firelight_odd_stone",
+    "title": "При свете костра",
+    "description": "Ты держишь камень в руке — он тёплый, хотя у огня не лежал.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 8,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_odd_stone"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "item_glimmer_odd_stone"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Знак на камне проступает и при огне — ты можешь его прочесть",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_odd_stone",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты читаешь один знак из трёх. Остальные пока молчат."
+      },
+      {
+        "label": "Убрать подальше",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_odd_stone",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_firelight_wooden_figurine",
+    "title": "При свете костра",
+    "description": "Тень от деревянной фигурки на земле длиннее, чем должна быть. И, кажется, повёрнута не туда.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 8,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_wooden_figurine"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "item_glimmer_wooden_figurine"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ты держишь фигурку так, как держал её резчик",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_wooden_figurine",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Тень ложится как надо. Ненадолго."
+      },
+      {
+        "label": "Убрать подальше",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_wooden_figurine",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_firelight_forgotten_note",
+    "title": "При свете костра",
+    "description": "На обороте записки при огне проступают буквы, которых днём не было. Прочесть не получается.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 8,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_forgotten_note"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "item_glimmer_forgotten_note"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Такие буквы проступают только при огне. Ты знаешь почему",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_last_archmage"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_forgotten_note",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты не читаешь — ты узнаёшь почерк. Это хуже."
+      },
+      {
+        "label": "Убрать подальше",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "item_glimmer_forgotten_note",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rest_forest_eyes",
+    "title": "Глаза в темноте",
+    "description": "За кругом света — две жёлтые точки. Не мигают.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ответить им тем же взглядом — тебя они поймут",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ],
+        "outcome": "Точки мигают — один раз, вместе. Потом уходят."
+      },
+      {
+        "label": "Бросить им кусок",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "fed_the_eyes",
+            "value": true
+          }
+        ],
+        "outcome": "Точки исчезают. Утром у края поляны — аккуратно сложенная кость. Кажется, вас поблагодарили."
+      },
+      {
+        "label": "Подбросить дров",
+        "actions": [],
+        "outcome": "Огонь встаёт выше. Точки отступают — недалеко."
+      },
+      {
+        "label": "Сделать вид, что не видишь",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Ты смотришь в огонь. Точки смотрят на тебя."
+      }
+    ]
+  },
+  {
+    "id": "rest_mountains_echo",
+    "title": "Эхо",
+    "description": "Кто-то крикнул в ущелье. Эхо вернуло другое слово.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "party"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Крикнуть так, как кричат дома, — горы отвечают своим",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Эхо возвращает твоё слово. Целиком. Горы тебя узнали."
+      },
+      {
+        "label": "Крикнуть своё",
+        "actions": [],
+        "outcome": "Скажи вслух любое слово. Следующий по кругу отвечает рифмой. Не нашёл — глоток."
+      },
+      {
+        "label": "Не отвечать горам",
+        "actions": [],
+        "outcome": "Эхо ещё долго повторяет то слово. Все делают вид, что не расслышали."
+      }
+    ]
+  },
+  {
+    "id": "rest_coast_driftwood",
+    "title": "Плавник",
+    "description": "Костёр из плавника горит зелёным и синим. Соль в дереве, говорят рыбаки.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Бросить в огонь что-нибудь своё — на удачу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeCommonItem",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Пламя на миг становится белым. Ты не знаешь, что это значит, но тебе спокойно.",
+            "loserOutcome": "Ничего. Просто вещь сгорела.",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": []
+          }
+        ]
+      },
+      {
+        "label": "Просто смотреть",
+        "actions": [],
+        "outcome": "Цвета меняются так медленно, что никто не замечает, как прошла ночь."
+      }
+    ]
+  },
+  {
+    "id": "rest_desert_cold",
+    "title": "Холод пустыни",
+    "description": "Днём жгло, а ночью зуб на зуб не попадает. Дров на всю ночь не хватит.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "drink",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Ты знаешь, как держать тепло в песке до утра",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "allPlayers",
+            "effectId": "effect_shivering"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "endurance",
+            "amount": 1
+          }
+        ],
+        "outcome": "Угли под песком греют до рассвета. Все спят."
+      },
+      {
+        "label": "Спать спина к спине",
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "allPlayers",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "outcome": "Тепло. Неловко. Тепло."
+      },
+      {
+        "label": "Согреться изнутри",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Хмель греет быстрее дров. И, если подумать, дешевле."
+      }
+    ]
+  },
+  {
+    "id": "rest_floodlands_bank",
+    "title": "Насыпь",
+    "description": "Привал на сухой насыпи. Вокруг — вода до горизонта, и всю ночь в ней что-то плещется.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вода тебе не чужая — посмотреть, кто там плещется",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Плещется сом с бревно. Он смотрит на тебя и уходит вглубь — без обид."
+      },
+      {
+        "label": "Порыбачить",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "winnerOutcome": "Рыба. Большая. Немного подозрительная, но вкусная.",
+            "loserOutcome": "Клюнуло. Что-то тянет леску вниз, потом отпускает. Леску — без крючка.",
+            "winnerActions": [
+              {
+                "action": "removeEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              },
+              {
+                "action": "removeEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hangover"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Не смотреть в воду",
+        "actions": [],
+        "outcome": "Плеск всю ночь. Под утро — совсем рядом с насыпью. Потом стихает."
+      }
+    ]
+  },
+  {
+    "id": "rest_graveyard_keeper",
+    "title": "Сторож",
+    "description": "На огонь приходит кладбищенский сторож. Скучно ему здесь уже лет сорок.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "social",
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить сторожа, кто ещё сидит у огня",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_spirit_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Сторож считает вслух. Получается на одного больше, чем вас."
+      },
+      {
+        "label": "Налить сторожу",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "graveyard_keeper_friend",
+            "value": true
+          }
+        ],
+        "outcome": "Сторож пьёт, кивает и показывает, по каким могилам здесь лучше не ходить. Таких больше, чем хотелось бы."
+      },
+      {
+        "label": "Спросить, кто здесь лежит",
+        "actions": [],
+        "outcome": "Он рассказывает до утра. Под конец ты уже не уверен, что все эти люди умерли."
+      }
+    ]
+  }
+]

@@ -36,6 +36,7 @@ final class ActionExecutor {
     return switch (action) {
       GiveItemAction a => _giveItem(a, context),
       TakeItemAction a => _takeItem(a, context),
+      TakeCommonItemAction a => _takeCommonItem(a, context),
       ApplyEffectAction a => _applyEffect(a, context),
       RemoveEffectAction a => _removeEffect(a, context),
       ModifyStatAction a => _modifyStat(a, context),
@@ -157,6 +158,23 @@ final class ActionExecutor {
       onUpdated: (updated, next) =>
           next.eventBus.emit(OnItemReceived(player: updated, item: item), next),
     );
+  }
+
+  GameContext _takeCommonItem(
+    TakeCommonItemAction action,
+    GameContext context,
+  ) {
+    final targets = _resolveTargets(action.target, context);
+    return _updateTargets(context, targets, (p) {
+      final common = [
+        for (final (i, item) in p.inventory.indexed)
+          if (item.rarity == Rarity.common) i,
+      ];
+      if (common.isEmpty) return p;
+      final inventory = [...p.inventory]
+        ..removeAt(common[context.random.nextInt(common.length)]);
+      return p.copyWith(inventory: inventory);
+    });
   }
 
   GameContext _takeItem(TakeItemAction action, GameContext context) {

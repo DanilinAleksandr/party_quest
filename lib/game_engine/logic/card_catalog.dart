@@ -27,6 +27,14 @@ const int kNoRepeatWindow = 25;
 /// to draw. The last is no window at all.
 const List<int> _fallbackWindows = [kNoRepeatWindow, 10, 3, 0];
 
+/// How many other halt cards must come before the same one can come again.
+///
+/// The halt's content is exempt from [kNoRepeatWindow] — it [GameCard.recurs]
+/// — because a window of cards would empty it: halts come every ten steps
+/// and hold two or three cards each. So it keeps a window of its own,
+/// counted in halt cards: see `GameState.recentRestCards`.
+const int kRestNoRepeatWindow = 6;
+
 /// The full pool of cards a match can draw from, plus condition-aware,
 /// weighted selection.
 ///
@@ -114,10 +122,40 @@ final class CardCatalog {
   /// it [GameCard.recurs]. Where that would leave nothing to draw, the
   /// window narrows step by step down to none, so a repeat happens only
   /// when the pool truly has nothing else — and then the least recent one.
+  ///
+  /// At a halt, a halt card drawn within the last [kRestNoRepeatWindow] halt
+  /// cards waits too. Where that would leave no halt card but the way out,
+  /// the window narrows one card at a time — so the halt never ends for want
+  /// of something to say, and what it repeats is the one longest ago.
   List<GameCard> eligibleCards(
     GameContext context, {
     bool Function(GameCard card)? extraFilter,
   }) {
+    if (!context.state.worldState.flag('in_rest')) {
+      return _fresh(context, extraFilter);
+    }
+    final recentRest = context.state.recentRestCards;
+    for (var window = kRestNoRepeatWindow; window >= 0; window--) {
+      final skip = recentRest
+          .skip(recentRest.length > window ? recentRest.length - window : 0)
+          .toSet();
+      final eligible = _fresh(
+        context,
+        (card) =>
+            !(card.isRestContent && skip.contains(card.id)) &&
+            (extraFilter?.call(card) ?? true),
+      );
+      if (window == 0 || eligible.any((card) => card.isRestContent)) {
+        return eligible;
+      }
+    }
+    return const [];
+  }
+
+  List<GameCard> _fresh(
+    GameContext context,
+    bool Function(GameCard card)? extraFilter,
+  ) {
     final recent = context.state.recentCards;
     for (final window in _fallbackWindows) {
       final skip = recent

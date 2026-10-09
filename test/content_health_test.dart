@@ -39,6 +39,8 @@ void main() {
     PartyHasItemCondition _ ||
     AnyPlayerHasItemCondition _ ||
     CurrentPlayerMissingItemCondition _ ||
+    CurrentPlayerHasCommonItemCondition _ ||
+    CurrentPlayerHasNoCommonItemCondition _ ||
     PartyMissingItemCondition _ => 'item',
     CurrentPlayerHasEffectCondition _ ||
     // The drink is a state the character is in, the way an effect is.

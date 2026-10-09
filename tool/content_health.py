@@ -59,6 +59,8 @@ CONDITION_SYSTEM = {
     'partyHasItem': 'item',
     'anyPlayerHasItem': 'item',
     'currentPlayerMissingItem': 'item',
+    'currentPlayerHasCommonItem': 'item',
+    'currentPlayerHasNoCommonItem': 'item',
     'partyMissingItem': 'item',
     # effect conditions are split into blessing/curse by the effect's own
     # polarity — resolved in classify() below.

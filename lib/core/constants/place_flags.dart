@@ -16,9 +16,12 @@
 /// party gets up from a halt, so a card can know the fire is fresh behind
 /// them. It says when, not what the world remembers.
 ///
-/// `in_village` and `left_village` are the village's pair.
+/// `in_village` and `left_village` are the village's pair, and
+/// `left_tavern` the tavern's — stamped on the way out so the next halt can
+/// raise a glass to it.
 const Set<String> placeFlags = {
   'in_tavern',
+  'left_tavern',
   'in_rest',
   'left_rest',
   'in_village',

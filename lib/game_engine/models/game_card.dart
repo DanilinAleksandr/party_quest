@@ -105,6 +105,14 @@ final class GameCard {
                 action.flag == 'in_village'),
       );
 
+  /// Whether this is something that happens at a halt, as opposed to the
+  /// halt's way in or way out — see `kRestNoRepeatWindow`.
+  bool get isRestContent =>
+      hasTag(CardTag.rest) &&
+      !actions.any(
+        (action) => action is SetWorldFlagAction && action.flag == 'in_rest',
+      );
+
   /// Used by `GameController` to cache, in `GameState`, the same card with
   /// only the choices the player is currently eligible to see — mirrors
   /// `AdventureNode.withChoices` so the index the UI shows always lines up
