@@ -187,7 +187,8 @@
             "stat": "charisma",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -544,7 +545,8 @@
             "target": "currentPlayer",
             "effectId": "effect_marked"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },

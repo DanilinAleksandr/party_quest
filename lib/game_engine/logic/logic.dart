@@ -1,4 +1,5 @@
 export 'action_executor.dart';
+export 'gamble_odds.dart';
 export 'inspection.dart';
 export 'adventure_catalog.dart';
 export 'adventure_engine.dart';

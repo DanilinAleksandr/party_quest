@@ -27,6 +27,13 @@ final class Gamble {
   /// A check's own words for a coin on its edge; a duel has none.
   final String? edgeOutcome;
 
+  /// The stat the throw measures, or null when only luck moves it — what
+  /// the throw screen names over the coin, never with a number.
+  final StatType? stat;
+
+  /// The odds the throw is made at — see `checkOdds` / `duelOdds`.
+  final double odds;
+
   /// The two players a duel is between, or null for a solo risk.
   ///
   /// [challenger] is whoever tapped; [opponent] is the companion the engine
@@ -46,6 +53,8 @@ final class Gamble {
     this.challenger,
     this.opponent,
     this.opponentId,
+    this.stat,
+    this.odds = 0.5,
   });
 
   bool get isDuel => opponentId != null;
@@ -545,6 +554,8 @@ class GameController extends StateNotifier<GameState> {
             winnerOutcome: a.winnerOutcome,
             loserOutcome: a.loserOutcome,
             edgeOutcome: a.edgeOutcome,
+            stat: a.stat,
+            odds: oddsOf(a),
           );
         case StartDuelAction a:
           final opponents = _context.players
@@ -559,6 +570,13 @@ class GameController extends StateNotifier<GameState> {
             challenger: _context.currentPlayer.name,
             opponent: opponent.name,
             opponentId: opponent.id,
+            stat: a.stat,
+            odds: duelOdds(
+              _context.currentPlayer,
+              opponent,
+              a.stat,
+              party: _context.players,
+            ),
           );
         default:
           continue;
@@ -569,6 +587,14 @@ class GameController extends StateNotifier<GameState> {
 
   static List<String> _sidesOf(List<String> own) =>
       own.length == 2 ? own : kCoinSides;
+
+  /// The odds the current player passes [check] at, right now.
+  double oddsOf(ChanceCheckAction check) => checkOdds(
+    _context.currentPlayer,
+    check.stat,
+    against: check.against,
+    party: _context.players,
+  );
 
   /// The chance check a choice is about to make out of sight — one with
   /// `open: false` — or null when it makes none.
@@ -601,8 +627,8 @@ class GameController extends StateNotifier<GameState> {
   /// stand on its edge. The face is drawn from the match's stream exactly as
   /// before the edge existed, and the edge from a stream of its own, so a
   /// seed replays every face it always did.
-  CoinThrow roll({bool watched = true}) {
-    final won = _context.random.nextBool();
+  CoinThrow roll({bool watched = true, double odds = 0.5}) {
+    final won = _context.random.nextDouble() < odds;
     if (watched && _context.random.nextEdge(kCoinEdgeChance)) {
       return CoinThrow.edge;
     }

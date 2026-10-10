@@ -105,7 +105,8 @@ void main() {
       // The controller drew the season from the same stream first.
       expected.nextInt(Season.values.length);
       for (var i = 0; i < 500; i++) {
-        final face = expected.nextBool();
+        // An even throw: the odds are 50 % with no stat and no luck.
+        final face = expected.nextDouble() < 0.5;
         final coin = c.roll();
         if (coin != CoinThrow.edge) expect(coin.favours, face);
       }

@@ -124,7 +124,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_shivering"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -191,7 +192,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_whisper"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       }
@@ -379,7 +381,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_shivering"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       },
@@ -986,7 +989,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_haunted"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },

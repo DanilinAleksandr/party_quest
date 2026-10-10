@@ -107,6 +107,7 @@
               "actions": [
                 {
                   "action": "duel",
+                  "stat": "strength",
                   "winnerActions": [
                     { "action": "setWorldFlag", "flag": "defeated_dragon", "value": true },
                     { "action": "modifyStat", "target": "currentPlayer", "stat": "strength", "amount": 3 }

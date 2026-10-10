@@ -337,12 +337,17 @@ final class StartDuelAction extends GameAction {
   final String? winnerOutcome;
   final String? loserOutcome;
 
+  /// The stat the two measure, by the difference — see `duelOdds`. Null for
+  /// a pure wager.
+  final StatType? stat;
+
   const StartDuelAction({
     this.winnerActions = const [],
     this.loserActions = const [],
     this.sides = const [],
     this.winnerOutcome,
     this.loserOutcome,
+    this.stat,
   });
 
   factory StartDuelAction.fromJson(Map<String, dynamic> json) =>
@@ -356,11 +361,15 @@ final class StartDuelAction extends GameAction {
         sides: _sidesFromJson(json['sides']),
         winnerOutcome: json['winnerOutcome'] as String?,
         loserOutcome: json['loserOutcome'] as String?,
+        stat: json['stat'] == null
+            ? null
+            : StatType.fromJson(json['stat'] as String),
       );
 
   @override
   Map<String, dynamic> toJson() => {
     'action': 'duel',
+    if (stat != null) 'stat': stat!.toJson(),
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
     if (sides.isNotEmpty) 'sides': sides,
@@ -434,6 +443,15 @@ final class ChanceCheckAction extends GameAction {
   /// was found, as an ordinary «Последствие».
   final bool open;
 
+  /// The stat that moves the odds — lifting is strength, finding is
+  /// attentiveness — or null for a pure gamble, where only luck does. See
+  /// `checkOdds`.
+  final StatType? stat;
+
+  /// What the scene's side brings to it — an NPC's own number in [stat];
+  /// 0 by default.
+  final int against;
+
   const ChanceCheckAction({
     this.winnerActions = const [],
     this.loserActions = const [],
@@ -442,6 +460,8 @@ final class ChanceCheckAction extends GameAction {
     this.loserOutcome,
     this.edgeOutcome,
     this.open = true,
+    this.stat,
+    this.against = 0,
   });
 
   factory ChanceCheckAction.fromJson(Map<String, dynamic> json) =>
@@ -457,11 +477,17 @@ final class ChanceCheckAction extends GameAction {
         loserOutcome: json['loserOutcome'] as String?,
         edgeOutcome: json['edgeOutcome'] as String?,
         open: json['open'] as bool? ?? true,
+        stat: json['stat'] == null
+            ? null
+            : StatType.fromJson(json['stat'] as String),
+        against: json['against'] as int? ?? 0,
       );
 
   @override
   Map<String, dynamic> toJson() => {
     'action': 'chanceCheck',
+    if (stat != null) 'stat': stat!.toJson(),
+    if (against != 0) 'against': against,
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
     if (sides.isNotEmpty) 'sides': sides,

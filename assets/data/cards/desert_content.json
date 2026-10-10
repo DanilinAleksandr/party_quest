@@ -653,7 +653,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_sand_in_eyes"
               }
-            ]
+            ],
+            "stat": "endurance"
           }
         ]
       }
@@ -782,7 +783,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_marked"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       },
@@ -836,7 +838,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_defeated"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       }

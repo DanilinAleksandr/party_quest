@@ -300,7 +300,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_defeated"
               }
-            ]
+            ],
+            "stat": "cunning"
           }
         ]
       },
@@ -419,7 +420,8 @@
                 "target": "currentPlayer",
                 "itemId": "item_wooden_figurine"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       },

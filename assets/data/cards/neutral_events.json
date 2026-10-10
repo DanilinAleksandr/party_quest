@@ -1307,7 +1307,8 @@
                 "itemId": "item_lucky_coin"
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "charisma"
           }
         ]
       },

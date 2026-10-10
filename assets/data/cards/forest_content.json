@@ -132,7 +132,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_defeated"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       },
@@ -274,7 +275,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_whisper"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       },
@@ -922,7 +924,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_hedge_word"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       },

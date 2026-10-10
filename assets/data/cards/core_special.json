@@ -107,7 +107,8 @@
             "stat": "charisma",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -145,7 +146,8 @@
             "target": "currentPlayer",
             "effectId": "effect_defeated"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -184,7 +186,8 @@
             "stat": "luck",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },

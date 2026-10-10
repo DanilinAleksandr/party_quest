@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/steel_palette.dart';
+import '../../../../core/widgets/stat_chip.dart';
 import '../../../../core/widgets/app_dialog_shell.dart';
 import '../../../../game_engine/models/models.dart';
 import 'coin_toss.dart';
@@ -58,6 +59,7 @@ Future<void> showChanceCheckDialog({
   int? calledIndex,
   String? challenger,
   String? opponent,
+  StatType? stat,
 }) {
   return showAppDialog<void>(
     context: context,
@@ -73,6 +75,7 @@ Future<void> showChanceCheckDialog({
       calledIndex: calledIndex,
       challenger: challenger,
       opponent: opponent,
+      stat: stat,
     ),
     actions: const [],
   );
@@ -87,6 +90,7 @@ class _RollBody extends StatefulWidget {
   final int? calledIndex;
   final String? challenger;
   final String? opponent;
+  final StatType? stat;
 
   const _RollBody({
     required this.passed,
@@ -97,6 +101,7 @@ class _RollBody extends StatefulWidget {
     this.calledIndex,
     this.challenger,
     this.opponent,
+    this.stat,
   });
 
   @override
@@ -176,6 +181,11 @@ class _RollBodyState extends State<_RollBody>
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            _WhatCounts(
+              stat: widget.stat,
+              challenger: widget.challenger,
+              opponent: widget.opponent,
+            ),
             CoinTossStage(
               pose: pose,
               peak: _motion.peak,
@@ -230,6 +240,50 @@ class _RollBodyState extends State<_RollBody>
           ],
         );
       },
+    );
+  }
+}
+
+/// What the throw measures, over the coin: the stat and its mark, or
+/// «Удача» for a pure gamble — and in a duel, the two who measure it. Never
+/// a number: the table should feel that strength helps, not work out by
+/// how much.
+class _WhatCounts extends StatelessWidget {
+  final StatType? stat;
+  final String? challenger;
+  final String? opponent;
+
+  const _WhatCounts({this.stat, this.challenger, this.opponent});
+
+  @override
+  Widget build(BuildContext context) {
+    final s = stat ?? StatType.luck;
+    final duel = challenger != null && opponent != null;
+    final text = duel
+        // A dash, not «против»: names arrive as typed, in no known case,
+        // and «против Миша» reads wrong — the same reason «Платит: X».
+        ? '${StatChip.labelFor(s)}: $challenger — $opponent'
+        : StatChip.labelFor(s);
+    final color = SteelPalette.textLow.withValues(alpha: 0.72);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(StatChip.iconFor(s), size: 14, color: color),
+          const SizedBox(width: 6),
+          Flexible(
+            child: Text(
+              text,
+              key: const Key('throw_measures'),
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: color),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

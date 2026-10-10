@@ -300,7 +300,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_shivering"
               }
-            ]
+            ],
+            "stat": "endurance"
           }
         ]
       },
