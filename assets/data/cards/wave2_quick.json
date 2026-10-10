@@ -282,18 +282,117 @@
         "itemId": "item_broken_compass"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_broken_compass"
+        "label": "Сверить стрелку с солнцем — врёт или нет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Врёт. Но врёт всегда в одну сторону — с этим можно жить."
+      },
+      {
+        "label": "Сверить с картой — врёт ли стрелка",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Стрелка и карта сходятся. Компас врёт меньше, чем казалось."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
   {
     "id": "item_ring_find",
     "title": "Блеск под ногами",
-    "description": "У самых ног что-то блестит — кольцо. Стоило его надеть, и слова полились сами собой.",
+    "description": "У самых ног что-то блестит — кольцо.",
     "type": "item",
     "rarity": "uncommon",
     "weight": 6,
@@ -308,17 +407,106 @@
         "itemId": "item_silver_tongue_ring"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_silver_tongue_ring"
+        "label": "Такие кольца подбрасывают нарочно — и смотрят, кто поднимет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [],
+        "outcome": "Ты проходишь мимо, не наклоняясь. Кто-то у обочины разочарованно отворачивается."
       },
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "charisma",
-        "amount": 1
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ],
+        "outcome": "Стоило его надеть, и слова полились сами собой."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_silver_tongue_ring"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "charisma",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },

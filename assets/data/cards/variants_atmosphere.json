@@ -769,11 +769,93 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_lucky_coin"
+        "label": "Вода сама подаёт тебе то, что держит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "outcome": "Волна отступает и оставляет вещь прямо у твоей ладони."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -795,11 +877,93 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_lucky_coin"
+        "label": "Вода сама подаёт тебе то, что держит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "outcome": "Волна отступает и оставляет вещь прямо у твоей ладони."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -821,11 +985,93 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_lucky_coin"
+        "label": "Вода сама подаёт тебе то, что держит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "outcome": "Волна отступает и оставляет вещь прямо у твоей ладони."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -846,11 +1092,110 @@
         "itemId": "item_broken_compass"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_broken_compass"
+        "label": "Сверить стрелку с солнцем — врёт или нет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Врёт. Но врёт всегда в одну сторону — с этим можно жить."
+      },
+      {
+        "label": "Сверить с картой — врёт ли стрелка",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Стрелка и карта сходятся. Компас врёт меньше, чем казалось."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -871,11 +1216,110 @@
         "itemId": "item_broken_compass"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_broken_compass"
+        "label": "Сверить стрелку с солнцем — врёт или нет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Врёт. Но врёт всегда в одну сторону — с этим можно жить."
+      },
+      {
+        "label": "Сверить с картой — врёт ли стрелка",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Стрелка и карта сходятся. Компас врёт меньше, чем казалось."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -900,11 +1344,110 @@
         "biomeId": "desert"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_broken_compass"
+        "label": "Сверить стрелку с солнцем — врёт или нет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Врёт. Но врёт всегда в одну сторону — с этим можно жить."
+      },
+      {
+        "label": "Сверить с картой — врёт ли стрелка",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Стрелка и карта сходятся. Компас врёт меньше, чем казалось."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
@@ -929,11 +1472,110 @@
         "biomeId": "desert"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_broken_compass"
+        "label": "Сверить стрелку с солнцем — врёт или нет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Врёт. Но врёт всегда в одну сторону — с этим можно жить."
+      },
+      {
+        "label": "Сверить с картой — врёт ли стрелка",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ],
+        "outcome": "Стрелка и карта сходятся. Компас врёт меньше, чем казалось."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_broken_compass"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   }

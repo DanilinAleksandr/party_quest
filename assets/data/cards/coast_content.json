@@ -357,11 +357,93 @@
         "biomeId": "coast"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_lucky_coin"
+        "label": "Вода сама подаёт тебе то, что держит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "outcome": "Волна отступает и оставляет вещь прямо у твоей ладони."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },

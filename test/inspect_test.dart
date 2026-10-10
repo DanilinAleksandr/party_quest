@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:drinking_quest/core/widgets/item_chip.dart';
+import 'package:drinking_quest/game_engine/data/card_repository.dart';
 
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/game_engine/logic/logic.dart';
@@ -155,4 +156,38 @@ void main() {
       expect(find.text('греет'), findsOneWidget);
     },
   );
+
+  test(
+    'every find lying on the road can be looked at, taken or left',
+    () async {
+      final cards = await const CardRepository().loadCards();
+      final finds = cards.where((c) => c.hasTag(CardTag.find)).toList();
+      expect(finds.length, greaterThanOrEqualTo(22));
+      for (final card in finds) {
+        expect(card.hasChoices, isTrue, reason: card.id);
+        expect(
+          card.choices.where((c) => c.inspect),
+          hasLength(1),
+          reason: card.id,
+        );
+        expect(
+          card.choices.map((c) => c.label),
+          containsAll(['Взять — пусть холодит', 'Оставить: себе дороже']),
+          reason: card.id,
+        );
+      }
+    },
+  );
+
+  test('the toast warms the table for a while, not for good', () async {
+    final cards = await const CardRepository().loadCards();
+    final toasts = cards.where((c) => c.id.startsWith('global_toast_all'));
+    expect(toasts, hasLength(5));
+    for (final toast in toasts) {
+      expect(toast.actions.whereType<ModifyStatAction>(), isEmpty);
+      final shift = toast.actions.whereType<ApplyEffectAction>().single;
+      expect(shift.effectId, 'effect_fireside_charm');
+      expect(shift.target, ActionTarget.allPlayers);
+    }
+  });
 }

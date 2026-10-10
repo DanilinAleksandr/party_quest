@@ -1197,10 +1197,9 @@
         "target": "allPlayers"
       },
       {
-        "action": "modifyStat",
+        "action": "applyEffect",
         "target": "allPlayers",
-        "stat": "charisma",
-        "amount": 1
+        "effectId": "effect_fireside_charm"
       }
     ]
   },
@@ -1223,10 +1222,9 @@
         "target": "allPlayers"
       },
       {
-        "action": "modifyStat",
+        "action": "applyEffect",
         "target": "allPlayers",
-        "stat": "charisma",
-        "amount": 1
+        "effectId": "effect_fireside_charm"
       }
     ]
   },
@@ -1249,10 +1247,9 @@
         "target": "allPlayers"
       },
       {
-        "action": "modifyStat",
+        "action": "applyEffect",
         "target": "allPlayers",
-        "stat": "charisma",
-        "amount": 1
+        "effectId": "effect_fireside_charm"
       }
     ]
   },
@@ -1275,10 +1272,9 @@
         "target": "allPlayers"
       },
       {
-        "action": "modifyStat",
+        "action": "applyEffect",
         "target": "allPlayers",
-        "stat": "charisma",
-        "amount": 1
+        "effectId": "effect_fireside_charm"
       }
     ]
   },
