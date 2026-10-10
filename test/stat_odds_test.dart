@@ -57,6 +57,22 @@ void main() {
     );
   });
 
+  test('charisma counts from its median, +1; the rest from 0', () {
+    for (final (value, odds) in [(0, 0.40), (1, 0.50), (2, 0.60), (3, 0.65)]) {
+      expect(
+        checkOdds(_p({StatType.charisma: value}), StatType.charisma),
+        closeTo(odds, 1e-9),
+        reason: '$value',
+      );
+    }
+    for (final stat in StatType.values.where((s) => s != StatType.charisma)) {
+      expect(statBaseline(stat), 0, reason: '$stat');
+    }
+    // A duel goes by the difference: equal charisma is an even bout.
+    final a = _p({StatType.charisma: 1});
+    expect(duelOdds(a, _p({StatType.charisma: 1}), StatType.charisma), 0.5);
+  });
+
   test('without a stat, only luck moves it — ± 10 % at most', () {
     expect(checkOdds(_p({StatType.strength: 5}), null), 0.5);
     expect(checkOdds(_p({StatType.luck: 2}), null), closeTo(0.56, 1e-9));
@@ -93,8 +109,10 @@ void main() {
       checkOdds(drunk, StatType.attentiveness),
       lessThan(checkOdds(sober, StatType.attentiveness)),
     );
-    // «Для храбрости»: one drink makes a sober player tipsy, +1 charisma.
-    final courage = _p({}, drunk: 1);
+    // «Для храбрости»: one drink makes the middle player (charisma +1)
+    // tipsy, +1 more — from 50 % to 60 %.
+    expect(checkOdds(_p({StatType.charisma: 1}), StatType.charisma), 0.5);
+    final courage = _p({StatType.charisma: 1}, drunk: 1);
     expect(checkOdds(courage, StatType.charisma), closeTo(0.60, 1e-9));
     // A cursed thing's weakness, and a luck drain, both unseen.
     final weak = _p(

@@ -519,7 +519,8 @@
                 "amount": 1
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "attentiveness"
           }
         ]
       }

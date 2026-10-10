@@ -23,6 +23,12 @@ const double kLuckSwing = 0.10;
 const double kOddsFloor = 0.25;
 const double kOddsCeiling = 0.75;
 
+/// Where a check on a stat starts counting from: the middle player's value
+/// at a throw. Charisma grows with the toasts and the origins, so the middle
+/// player already has +1 of it — at 0 they would pass every charisma check
+/// at 60 %. A duel goes by the difference and needs none.
+int statBaseline(StatType stat) => stat == StatType.charisma ? 1 : 0;
+
 double _clamp(double v, double lo, double hi) => v < lo
     ? lo
     : v > hi
@@ -46,7 +52,9 @@ double checkOdds(
   int against = 0,
   Iterable<Player> party = const [],
 }) => _odds(
-  stat == null ? 0 : player.effectiveStat(stat, party: party) - against,
+  stat == null
+      ? 0
+      : player.effectiveStat(stat, party: party) - statBaseline(stat) - against,
   player.effectiveStat(StatType.luck, party: party),
   withStat: stat != null,
 );

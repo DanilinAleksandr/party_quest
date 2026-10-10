@@ -822,7 +822,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_kicked_out"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       }
