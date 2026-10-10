@@ -109,17 +109,16 @@
         "target": "allPlayers"
       },
       {
-        "action": "modifyStat",
+        "action": "applyEffect",
         "target": "allPlayers",
-        "stat": "charisma",
-        "amount": 1
+        "effectId": "effect_fireside_charm"
       }
     ]
   },
   {
     "id": "item_flask_find",
     "title": "Находка",
-    "description": "Под трактирным столом что-то блестит — ты наклоняешься и достаёшь забытую кем-то фляжку.",
+    "description": "Под трактирным столом что-то блестит — забытая кем-то фляжка.",
     "type": "item",
     "rarity": "uncommon",
     "weight": 7,
@@ -138,11 +137,94 @@
         "itemId": "item_flask"
       }
     ],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "giveItem",
-        "target": "currentPlayer",
-        "itemId": "item_flask"
+        "label": "Встряхнуть — по звуку ясно, что пустая",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ],
+        "outcome": "Пустая. Ты и так знал — по весу."
+      },
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ],
+        "outcome": "Ты наклоняешься и достаёшь её. Лёгкая."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": []
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_flask"
+          }
+        ]
+      },
+      {
+        "label": "Оставить",
+        "conditions": [],
+        "actions": []
       }
     ]
   },
