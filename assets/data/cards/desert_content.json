@@ -194,7 +194,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_sand_in_eyes"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -273,7 +274,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "attentiveness"
       }
     ]
   },
@@ -761,7 +763,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_marked"
               }
-            ]
+            ],
+            "stat": "endurance"
           }
         ]
       },
