@@ -634,7 +634,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_cloud"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       },
@@ -736,7 +737,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_omen"
               }
-            ]
+            ],
+            "stat": "cunning"
           }
         ]
       },

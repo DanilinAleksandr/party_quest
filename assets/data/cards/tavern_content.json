@@ -44,7 +44,8 @@
             "target": "currentPlayer",
             "effectId": "effect_kicked_out"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -315,7 +316,8 @@
             "target": "currentPlayer",
             "effectId": "effect_hedge_word"
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },
@@ -533,7 +535,8 @@
                 "target": "currentPlayer",
                 "itemId": "item_silver_tongue_ring"
               }
-            ]
+            ],
+            "stat": "cunning"
           }
         ]
       },
@@ -592,7 +595,8 @@
                 "stat": "luck",
                 "amount": -1
               }
-            ]
+            ],
+            "stat": "cunning"
           }
         ]
       },
@@ -637,7 +641,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -685,7 +690,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_kicked_out"
               }
-            ]
+            ],
+            "stat": "charisma"
           }
         ]
       },

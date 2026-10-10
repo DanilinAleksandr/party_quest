@@ -310,9 +310,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               );
               if (!context.mounted) return;
 
-              coin = notifier.roll();
+              coin = notifier.roll(odds: gamble.odds);
               await showChanceCheckDialog(
                 context: context,
+                stat: gamble.stat,
                 style: notifier.coinStyle(),
                 passed: coin.favours,
                 edge: coin == CoinThrow.edge,
@@ -349,7 +350,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 : null;
             if (hidden != null) {
               // Out of sight there is no coin, and so no edge.
-              coin = notifier.roll(watched: false);
+              coin = notifier.roll(
+                watched: false,
+                odds: notifier.oddsOf(hidden),
+              );
               await tellChoiceOutcome(
                 title: current.title,
                 icon: cardTypeIcon(current.type),

@@ -34,7 +34,8 @@
             "target": "currentPlayer",
             "effectId": "effect_shivering"
           }
-        ]
+        ],
+        "stat": "attentiveness"
       }
     ]
   },
@@ -78,7 +79,8 @@
                 "stat": "endurance",
                 "amount": -1
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -227,7 +229,8 @@
                 "stat": "luck",
                 "amount": -2
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },

@@ -312,7 +312,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_cloud"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -653,7 +654,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_haunted"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -703,7 +705,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_omen"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       }

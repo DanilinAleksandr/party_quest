@@ -1,5 +1,6 @@
 import '../context/game_context.dart';
 import '../models/models.dart';
+import 'gamble_odds.dart';
 import 'adventure_engine.dart';
 
 /// Interprets [GameAction]s against a [GameContext], producing a new
@@ -408,7 +409,15 @@ final class ActionExecutor {
     final opponent = named.isNotEmpty
         ? named.first
         : opponents[context.random.nextInt(opponents.length)];
-    final wins = currentPlayerWins ?? context.random.nextBool();
+    final wins =
+        currentPlayerWins ??
+        context.random.nextDouble() <
+            duelOdds(
+              context.currentPlayer,
+              opponent,
+              action.stat,
+              party: context.players,
+            );
     final winner = wins ? context.currentPlayer : opponent;
     final loser = wins ? opponent : context.currentPlayer;
 
@@ -451,7 +460,15 @@ final class ActionExecutor {
         context,
       );
     }
-    final succeeded = passed ?? context.random.nextBool();
+    final succeeded =
+        passed ??
+        context.random.nextDouble() <
+            checkOdds(
+              context.currentPlayer,
+              action.stat,
+              against: action.against,
+              party: context.players,
+            );
     return executeAsPlayer(
       succeeded ? action.winnerActions : action.loserActions,
       context.currentPlayer.id,

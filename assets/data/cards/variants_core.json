@@ -471,7 +471,8 @@
             "target": "currentPlayer",
             "effectId": "effect_kicked_out"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -520,7 +521,8 @@
             "target": "currentPlayer",
             "effectId": "effect_kicked_out"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -569,7 +571,8 @@
             "target": "currentPlayer",
             "effectId": "effect_kicked_out"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -618,7 +621,8 @@
             "target": "currentPlayer",
             "effectId": "effect_kicked_out"
           }
-        ]
+        ],
+        "stat": "strength"
       }
     ]
   },
@@ -657,7 +661,8 @@
             "stat": "luck",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },
@@ -696,7 +701,8 @@
             "stat": "luck",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },
@@ -735,7 +741,8 @@
             "stat": "luck",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },
@@ -774,7 +781,8 @@
             "stat": "luck",
             "amount": -1
           }
-        ]
+        ],
+        "stat": "endurance"
       }
     ]
   },
@@ -1057,7 +1065,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1096,7 +1105,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1135,7 +1145,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1174,7 +1185,8 @@
             "target": "currentPlayer",
             "effectId": "effect_cloud"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1312,7 +1324,8 @@
             "target": "currentPlayer",
             "effectId": "effect_marked"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1350,7 +1363,8 @@
             "target": "currentPlayer",
             "effectId": "effect_marked"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1388,7 +1402,8 @@
             "target": "currentPlayer",
             "effectId": "effect_marked"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },
@@ -1426,7 +1441,8 @@
             "target": "currentPlayer",
             "effectId": "effect_marked"
           }
-        ]
+        ],
+        "stat": "charisma"
       }
     ]
   },

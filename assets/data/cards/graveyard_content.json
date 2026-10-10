@@ -335,7 +335,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_haunted"
               }
-            ]
+            ],
+            "stat": "strength"
           }
         ]
       },

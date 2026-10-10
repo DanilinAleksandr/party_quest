@@ -45,7 +45,8 @@
                 "value": true
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "charisma"
           }
         ]
       },
@@ -220,7 +221,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_hedge_word"
               }
-            ]
+            ],
+            "stat": "attentiveness"
           }
         ]
       },
@@ -630,7 +632,8 @@
                 "target": "currentPlayer",
                 "effectId": "effect_cloud"
               }
-            ]
+            ],
+            "stat": "endurance"
           }
         ]
       },

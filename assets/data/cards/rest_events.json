@@ -166,7 +166,8 @@
             "winnerOutcome": "{loser} разносит остатки фляг по кругу — щёки красные то ли от натуги, то ли от смущения.",
             "loserOutcome": "{loser} разносит остатки фляг по кругу — щёки красные то ли от натуги, то ли от смущения.",
             "winnerActions": [],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "strength"
           }
         ]
       }
@@ -205,7 +206,8 @@
                 "effectId": "effect_fireside_charm"
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "charisma"
           }
         ]
       },
@@ -251,7 +253,8 @@
                 "effectId": "effect_fireside_charm"
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "charisma"
           }
         ]
       }
@@ -349,7 +352,8 @@
                 "itemId": "item_healing_potion"
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "attentiveness"
           }
         ]
       }
@@ -474,7 +478,8 @@
                 "effectId": "effect_fireside_sharp"
               }
             ],
-            "loserActions": []
+            "loserActions": [],
+            "stat": "attentiveness"
           }
         ]
       }
