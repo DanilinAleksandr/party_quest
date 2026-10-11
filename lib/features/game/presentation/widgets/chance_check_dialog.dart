@@ -6,6 +6,7 @@ import '../../../../core/theme/steel_palette.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../core/widgets/app_dialog_shell.dart';
 import '../../../../game_engine/models/models.dart';
+import 'arm_wrestle.dart';
 import 'coin_toss.dart';
 
 /// The moment a gamble is settled, made visible.
@@ -79,6 +80,207 @@ Future<void> showChanceCheckDialog({
     ),
     actions: const [],
   );
+}
+
+/// A gamble that is an arm-wrestling bout, shown as one instead of a coin.
+///
+/// The odds settled it before the dialog opens; [scenario] only decides how
+/// it looks getting there. [challenger] is the near arm, at the bottom —
+/// the one who threw down the challenge; [opponent] the far one, a
+/// companion or an NPC. [passed] is "the challenger won". Nothing is called
+/// and nothing can stand on its edge: two arms have no sides to bet on and
+/// no third way down.
+Future<void> showArmWrestleDialog({
+  required BuildContext context,
+  required bool passed,
+  required ArmWrestleScenario scenario,
+  required String challenger,
+  required String opponent,
+}) {
+  return showAppDialog<void>(
+    context: context,
+    icon: Icons.fitness_center,
+    title: 'Армрестлинг',
+    barrierDismissible: false,
+    content: ArmWrestleBody(
+      passed: passed,
+      scenario: scenario,
+      challenger: challenger,
+      opponent: opponent,
+    ),
+    actions: const [],
+  );
+}
+
+/// The inside of [showArmWrestleDialog]. [freezeAt] holds it at one moment
+/// instead of playing it — for the contact sheet.
+class ArmWrestleBody extends StatefulWidget {
+  final bool passed;
+  final ArmWrestleScenario scenario;
+  final String challenger;
+  final String opponent;
+  final double? freezeAt;
+
+  const ArmWrestleBody({
+    super.key,
+    required this.passed,
+    required this.scenario,
+    required this.challenger,
+    required this.opponent,
+    this.freezeAt,
+  });
+
+  @override
+  State<ArmWrestleBody> createState() => _ArmWrestleBodyState();
+}
+
+class _ArmWrestleBodyState extends State<ArmWrestleBody>
+    with SingleTickerProviderStateMixin {
+  final _haptics = ArmWrestleHaptics();
+
+  late final Duration _duration = Duration(
+    milliseconds: (widget.scenario.end * 1000).round(),
+  );
+
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: _duration,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.freezeAt == null) _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scenario = widget.scenario;
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        final frozen = widget.freezeAt;
+        final t =
+            frozen ??
+            (_controller.isCompleted
+                ? scenario.end
+                : _controller.value * _duration.inMilliseconds / 1000);
+        if (frozen == null) _haptics.advance(scenario, t);
+        final slammed = t >= scenario.hit;
+        final over = t >= scenario.end;
+        // Bright and underlined for the winner, dimmed for the loser, from
+        // the slam on; before it, both the same.
+        _NameState stateOf(bool near) => !slammed
+            ? _NameState.even
+            : near == widget.passed
+            ? _NameState.won
+            : _NameState.lost;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _WhatCounts(
+              stat: StatType.strength,
+              challenger: widget.challenger,
+              opponent: widget.opponent,
+            ),
+            _BoutName(widget.opponent, state: stateOf(false), near: false),
+            ArmWrestleStage(scenario: scenario, nearWins: widget.passed, t: t),
+            _BoutName(widget.challenger, state: stateOf(true), near: true),
+            const SizedBox(height: 14),
+            // Built on the slam, the slot reserved before it — and allowed
+            // to grow, so long names push the button down rather than run
+            // into it.
+            _Verdict(
+              settled: slammed,
+              passed: widget.passed,
+              challenger: widget.challenger,
+              opponent: widget.opponent,
+              grow: true,
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: over
+                  ? FilledButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Дальше'),
+                    )
+                  : const SizedBox(height: 52),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+enum _NameState { even, won, lost }
+
+/// A wrestler's name by their arm: the near one under it, the far one over
+/// it. Never declined, two lines at most. From the slam the winner's turns
+/// bright and bold with a short bar by it, the loser's fades to half.
+class _BoutName extends StatelessWidget {
+  final String name;
+  final _NameState state;
+  final bool near;
+
+  const _BoutName(this.name, {required this.state, required this.near});
+
+  static const _fade = Duration(milliseconds: 220);
+
+  @override
+  Widget build(BuildContext context) {
+    final won = state == _NameState.won;
+    final text = AnimatedDefaultTextStyle(
+      duration: _fade,
+      textAlign: TextAlign.center,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: (Theme.of(context).textTheme.bodyMedium ?? const TextStyle())
+          .copyWith(
+            fontSize: 14,
+            height: 1.3,
+            fontWeight: won ? FontWeight.w800 : FontWeight.w600,
+            color: won
+                ? SteelPalette.textHigh
+                : SteelPalette.textLow.withValues(alpha: 0.72),
+          ),
+      child: Text(name, key: Key(near ? 'bout_near' : 'bout_far')),
+    );
+    final bar = AnimatedOpacity(
+      duration: _fade,
+      opacity: won ? 1 : 0,
+      child: Container(
+        key: Key(near ? 'bout_near_bar' : 'bout_far_bar'),
+        width: 24,
+        height: 2,
+        decoration: BoxDecoration(
+          color: SteelPalette.steel,
+          borderRadius: BorderRadius.circular(1),
+        ),
+      ),
+    );
+    return AnimatedOpacity(
+      duration: _fade,
+      opacity: state == _NameState.lost ? 0.5 : 1,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(12, near ? 8 : 0, 12, near ? 0 : 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: near
+              ? [text, const SizedBox(height: 5), bar]
+              : [bar, const SizedBox(height: 5), text],
+        ),
+      ),
+    );
+  }
 }
 
 class _RollBody extends StatefulWidget {
@@ -310,12 +512,19 @@ class _Verdict extends StatelessWidget {
   final String? challenger;
   final String? opponent;
 
+  /// Whether the slot may grow past its height for long names, rather than
+  /// hold to it — the bout's, where the names sit right above and a button
+  /// right below, and words spilling over them would be worse than a dialog
+  /// a line taller.
+  final bool grow;
+
   const _Verdict({
     required this.settled,
     required this.passed,
     this.edge = false,
     this.challenger,
     this.opponent,
+    this.grow = false,
   });
 
   @override
@@ -336,8 +545,11 @@ class _Verdict extends StatelessWidget {
       color: SteelPalette.textLow.withValues(alpha: 0.72),
     );
 
-    return SizedBox(
-      height: (isDuel ? 62 : 34) + (edge ? 34 : 0),
+    final height = (isDuel ? 62.0 : 34.0) + (edge ? 34 : 0);
+    return ConstrainedBox(
+      constraints: grow
+          ? BoxConstraints(minHeight: height)
+          : BoxConstraints.tightFor(height: height),
       child: settled
           ? TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: 1),

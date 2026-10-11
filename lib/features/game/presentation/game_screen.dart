@@ -303,7 +303,28 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             final gamble = notifier.gambleFor(choiceIndex: choiceIndex);
             CoinThrow? coin;
 
-            if (gamble != null) {
+            if (gamble != null &&
+                gamble.visual == GambleVisual.armWrestle &&
+                gamble.challenger != null &&
+                gamble.opponent != null) {
+              // A bout: nothing to call, no edge — the odds decide and the
+              // arms show it.
+              coin = notifier.roll(odds: gamble.odds, edgeable: false);
+              await showArmWrestleDialog(
+                context: context,
+                passed: coin.favours,
+                scenario: notifier.armWrestleScenario(gamble.odds),
+                challenger: gamble.challenger!,
+                opponent: gamble.opponent!,
+              );
+              if (!context.mounted) return;
+              await tellGambleOutcome(
+                context,
+                gamble.outcomeForThrow(coin),
+                cardTitle: card.title,
+              );
+              if (!context.mounted) return;
+            } else if (gamble != null) {
               final called = await showWagerCallDialog(
                 context: context,
                 sides: gamble.sides,

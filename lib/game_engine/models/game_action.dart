@@ -341,6 +341,9 @@ final class StartDuelAction extends GameAction {
   /// a pure wager.
   final StatType? stat;
 
+  /// See [GambleVisual].
+  final GambleVisual visual;
+
   const StartDuelAction({
     this.winnerActions = const [],
     this.loserActions = const [],
@@ -348,6 +351,7 @@ final class StartDuelAction extends GameAction {
     this.winnerOutcome,
     this.loserOutcome,
     this.stat,
+    this.visual = GambleVisual.coin,
   });
 
   factory StartDuelAction.fromJson(Map<String, dynamic> json) =>
@@ -364,18 +368,32 @@ final class StartDuelAction extends GameAction {
         stat: json['stat'] == null
             ? null
             : StatType.fromJson(json['stat'] as String),
+        visual: GambleVisual.fromJson(json['visual'] as String?),
       );
 
   @override
   Map<String, dynamic> toJson() => {
     'action': 'duel',
     if (stat != null) 'stat': stat!.toJson(),
+    if (visual != GambleVisual.coin) 'visual': visual.name,
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
     if (sides.isNotEmpty) 'sides': sides,
     if (winnerOutcome != null) 'winnerOutcome': winnerOutcome,
     if (loserOutcome != null) 'loserOutcome': loserOutcome,
   };
+}
+
+/// How a watched gamble is shown — never what it comes to, which the odds
+/// have already settled. The coin for nearly everything; an arm-wrestling
+/// bout where the text is one, so the table sees the two arms it is
+/// betting on instead of a coin standing in for them.
+enum GambleVisual {
+  coin,
+  armWrestle;
+
+  static GambleVisual fromJson(String? name) =>
+      name == null ? coin : values.byName(name);
 }
 
 List<String> _sidesFromJson(dynamic json) =>
@@ -452,6 +470,13 @@ final class ChanceCheckAction extends GameAction {
   /// 0 by default.
   final int against;
 
+  /// See [GambleVisual].
+  final GambleVisual visual;
+
+  /// Who the scene's side is, by name, for a gamble shown as two people —
+  /// the NPC across the table in an arm-wrestling bout. Null for the rest.
+  final String? opponent;
+
   const ChanceCheckAction({
     this.winnerActions = const [],
     this.loserActions = const [],
@@ -462,6 +487,8 @@ final class ChanceCheckAction extends GameAction {
     this.open = true,
     this.stat,
     this.against = 0,
+    this.visual = GambleVisual.coin,
+    this.opponent,
   });
 
   factory ChanceCheckAction.fromJson(Map<String, dynamic> json) =>
@@ -481,6 +508,8 @@ final class ChanceCheckAction extends GameAction {
             ? null
             : StatType.fromJson(json['stat'] as String),
         against: json['against'] as int? ?? 0,
+        visual: GambleVisual.fromJson(json['visual'] as String?),
+        opponent: json['opponent'] as String?,
       );
 
   @override
@@ -488,6 +517,8 @@ final class ChanceCheckAction extends GameAction {
     'action': 'chanceCheck',
     if (stat != null) 'stat': stat!.toJson(),
     if (against != 0) 'against': against,
+    if (visual != GambleVisual.coin) 'visual': visual.name,
+    if (opponent != null) 'opponent': opponent,
     'winnerActions': GameAction.listToJson(winnerActions),
     'loserActions': GameAction.listToJson(loserActions),
     if (sides.isNotEmpty) 'sides': sides,

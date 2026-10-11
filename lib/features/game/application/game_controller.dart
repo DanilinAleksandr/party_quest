@@ -34,6 +34,11 @@ final class Gamble {
   /// The odds the throw is made at — see `checkOdds` / `duelOdds`.
   final double odds;
 
+  /// How the throw is shown. Only the coin is called, and only the coin can
+  /// stand on its edge: an arm-wrestling bout has nothing to call and no
+  /// third way down.
+  final GambleVisual visual;
+
   /// The two players a duel is between, or null for a solo risk.
   ///
   /// [challenger] is whoever tapped; [opponent] is the companion the engine
@@ -55,6 +60,7 @@ final class Gamble {
     this.opponentId,
     this.stat,
     this.odds = 0.5,
+    this.visual = GambleVisual.coin,
   });
 
   bool get isDuel => opponentId != null;
@@ -556,6 +562,11 @@ class GameController extends StateNotifier<GameState> {
             edgeOutcome: a.edgeOutcome,
             stat: a.stat,
             odds: oddsOf(a),
+            visual: a.visual,
+            // An NPC across the table is named so the bout can show two
+            // people; the player throwing is the challenger.
+            challenger: a.opponent == null ? null : _context.currentPlayer.name,
+            opponent: a.opponent,
           );
         case StartDuelAction a:
           final opponents = _context.players
@@ -577,6 +588,7 @@ class GameController extends StateNotifier<GameState> {
               a.stat,
               party: _context.players,
             ),
+            visual: a.visual,
           );
         default:
           continue;
@@ -627,9 +639,13 @@ class GameController extends StateNotifier<GameState> {
   /// stand on its edge. The face is drawn from the match's stream exactly as
   /// before the edge existed, and the edge from a stream of its own, so a
   /// seed replays every face it always did.
-  CoinThrow roll({bool watched = true, double odds = 0.5}) {
+  CoinThrow roll({
+    bool watched = true,
+    double odds = 0.5,
+    bool edgeable = true,
+  }) {
     final won = _context.random.nextDouble() < odds;
-    if (watched && _context.random.nextEdge(kCoinEdgeChance)) {
+    if (watched && edgeable && _context.random.nextEdge(kCoinEdgeChance)) {
       return CoinThrow.edge;
     }
     return won ? CoinThrow.win : CoinThrow.lose;
@@ -722,6 +738,14 @@ class GameController extends StateNotifier<GameState> {
   /// card or face.
   CoinStyle coinStyle() =>
       CoinStyle.of(_context.random.nextStyle(CoinStyle.count));
+
+  /// The script of the next arm-wrestling bout, drawn as [coinStyle] is —
+  /// from the match's seed, on the look's own stream — and weighted by how
+  /// lopsided [odds] make it: an even bout drags on, a mismatch is quick.
+  ArmWrestleScenario armWrestleScenario(double odds) => ArmWrestleScenario.pick(
+    armWrestleGap(odds),
+    _context.random.nextStyleRoll(),
+  );
 
   /// The chronicle's line for a coin that stood on its edge in [action] —
   /// null when [action] is not the watched throw.
