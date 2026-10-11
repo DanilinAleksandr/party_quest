@@ -147,7 +147,8 @@
             "effectId": "effect_defeated"
           }
         ],
-        "stat": "strength"
+        "stat": "strength",
+        "visual": "armWrestle"
       }
     ]
   },

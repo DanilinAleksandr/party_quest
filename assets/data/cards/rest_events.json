@@ -167,7 +167,8 @@
             "loserOutcome": "{loser} разносит остатки фляг по кругу — щёки красные то ли от натуги, то ли от смущения.",
             "winnerActions": [],
             "loserActions": [],
-            "stat": "strength"
+            "stat": "strength",
+            "visual": "armWrestle"
           }
         ]
       }

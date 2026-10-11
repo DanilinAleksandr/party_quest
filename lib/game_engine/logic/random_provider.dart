@@ -49,6 +49,10 @@ final class RandomProvider {
   /// The number of the next throw's look, below [count].
   int nextStyle(int count) => _style.nextInt(count);
 
+  /// A roll on the same stream, in [0, 1) — for a look that is drawn by
+  /// weight rather than by number, such as an arm-wrestling bout's script.
+  double nextStyleRoll() => _style.nextDouble();
+
   /// Whether a coin stands on its edge, at odds of [chance].
   bool nextEdge(double chance) => _edge.nextDouble() < chance;
 
