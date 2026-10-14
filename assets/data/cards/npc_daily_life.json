@@ -15,7 +15,125 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Попросить дать ударить разок",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_strong"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты бьёшь — и заготовка звенит чисто. Кузнец поднимает бровь и говорит ученику: «Видел? Вот так». Ученик смотрит на тебя с ненавистью и уважением.",
+            "loserOutcome": "Молот уходит вбок, искры — в рукав. Кузнец забирает инструмент молча, ученик впервые за утро улыбается."
+          }
+        ]
+      },
+      {
+        "label": "Подбодрить ученика",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты говоришь, что и у мастеров было в начале не так. Ученик бьёт — и впервые слышит от кузнеца «уже лучше»."
+      },
+      {
+        "label": "Бард задаёт ритм — бить под счёт песни",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты запеваешь рабочую, и ученик сам не замечает, как начинает бить в такт — ровно, сильно, как надо. Кузнец перестаёт поправлять и слушает."
+      },
+      {
+        "label": "Рыцарь помнит, как учили держать меч",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "«Плечо тяжёлое, кисть свободная» — так же говорили и про клинок. Ты показываешь, ученик повторяет, и у обоих выходит."
+      },
+      {
+        "label": "Похмельному этот звон — пытка. Попросить потише",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Кузнец смотрит на тебя, потом бьёт по наковальне так, что звенит в зубах. Ученик хохочет, впервые за утро."
+      },
+      {
+        "label": "Предложить выпить за первый удачный удар",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Удачный удар случается на сорок первый раз. Все трое пьют, и кузнец впервые зовёт ученика по имени."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "life_herbwoman_argues_price",
@@ -33,7 +151,140 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Встать на сторону травницы",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Покупатель сдаётся и платит, сколько просили. Травница суёт тебе пучок мяты — «от головы».",
+            "loserOutcome": "Покупатель переключается на тебя, травница — тоже, обоим не нравится, что ты влез. Ты уходишь, не дождавшись, кто победит."
+          }
+        ]
+      },
+      {
+        "label": "Встать на сторону покупателя",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Ты так убедительно объясняешь про июнь, что травница сбавляет цену. Покупатель уносит пучок и подмигивает тебе.",
+            "loserOutcome": "Травница смотрит на тебя, не мигая, и говорит покупателю: «Теперь — две цены». Ты уходишь первым."
+          }
+        ]
+      },
+      {
+        "label": "Алхимик знает настоящую цену сушёной траве",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты называешь цену и объясняешь, почему. Оба замолкают: спорить с тем, кто знает, неинтересно. Травница отдаёт тебе лишний пучок за честность."
+      },
+      {
+        "label": "Потомок друидов узнаёт траву — она сорвана не в срок",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты переворачиваешь пучок и показываешь: собрано в росу, силы мало. Травница краснеет, покупатель забирает пучок по половине. Ты — уважение обоих."
+      },
+      {
+        "label": "Похмельному эта трава нужна прямо сейчас",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Ты покупаешь пучок за любые деньги и тут же завариваешь — травница сама наливает кипятку. Через полчаса мир перестаёт звенеть."
+      },
+      {
+        "label": "Купец предлагает обоим третью цену",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "outcome": "Третья цена устраивает всех, и ты получаешь за посредничество жетон — травница держит лоток на трёх ярмарках."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "life_cardsharp_teaches_boy",
@@ -202,7 +453,142 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Сказать, где север, — уверенно",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Ты показываешь по мху и солнцу. Картограф сверяется, хмыкает и дорисовывает на своём листе короткую тропу — для вас.",
+            "loserOutcome": "Ты показываешь уверенно и неправильно. Картограф благодарит, разворачивает лист — и уходит в другую сторону, чем вы."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, куда ведёт тропа, которую он рисует",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Он оживляется и показывает: тропа срезает петлю дороги, и о ней знают только пастухи. Вы идёте ею и выигрываете полдня.",
+            "loserOutcome": "Он объясняет так долго и так подробно, что к концу вы знаете всё про тропу и ничего — про дорогу. Солнце уже за полдень."
+          }
+        ]
+      },
+      {
+        "label": "Положить рядом свою карту",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_compass"
+          }
+        ],
+        "outcome": "Две карты рядом спорят друг с другом лучше любых людей. Картограф выдыхает, смеётся и отдаёт вам свой запасной компас: «Мне теперь не нужен»."
+      },
+      {
+        "label": "Достать компас — пусть рассудит",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_compass"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Стрелка дрожит и успокаивается. Картограф долго смотрит на неё, потом на тебя — и переворачивает лист окончательно. Тебе он тоже кивает окончательно."
+      },
+      {
+        "label": "Следопыту хватает одного взгляда на тени",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь север палкой, не глядя на лист. Картограф записывает твоё имя на полях — «спросить, если что»."
+      },
+      {
+        "label": "Под хмельком объяснить ему, что север — понятие относительное",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты излагаешь теорию минут десять. Картограф слушает очень внимательно и всё записывает — потом это будут читать вслух в трактирах."
+      },
+      {
+        "label": "В тумане спорить о севере — сам туман и спорит",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "fog"
+          }
+        ],
+        "actions": [],
+        "outcome": "Картограф поднимает голову: тумана столько, что спор сам собой откладывается до вечера. Вы ждёте вместе, и он рассказывает про три самые неверные карты, что видел."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "life_taxman_scolds_clerk",
@@ -239,6 +625,139 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Встать на сторону девочки",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты подтверждаешь, что яблоко стоит ленты. Коробейник сдаётся под двойным напором. Девочка уходит с лентой и вашей помощью в памяти — ей ещё расти.",
+            "loserOutcome": "Коробейник смотрит на тебя: «Ты-то куда?» Девочка тоже смотрит: «Не мешай». Ты отходишь."
+          }
+        ]
+      },
+      {
+        "label": "Купить у неё яблоко раньше коробейника",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты предлагаешь пуговицу и честное слово. Девочка думает и соглашается. Коробейник смеётся так, что роняет короб.",
+            "loserOutcome": "Девочка смотрит на твою пуговицу, на ленту коробейника — и выбирает ленту. Деловая."
+          }
+        ]
+      },
+      {
+        "label": "Купец не может не вмешаться: так торговать нельзя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты объясняешь девочке, что просить надо две ленты. Она просит две — и получает. Коробейник отдаёт тебе свой жетон: «Только больше не учи»."
+      },
+      {
+        "label": "Бедняк знает цену одному яблоку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты смотришь на них и вспоминаешь своё детство, когда яблоко было богатством. Девочка замечает и отдаёт тебе огрызок — честно поделиться."
+      },
+      {
+        "label": "Подарить девочке монету на счастье",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_lucky_coin"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Девочка берёт монету серьёзно, как взрослая, и прячет. Коробейник смотрит на тебя и, кажется, решает, что ленту можно было и не отдавать."
+      },
+      {
+        "label": "Под хмельком — отнять яблоко, и дело с концом",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Ты тянешься к яблоку. Девочка не отдаёт — и кричит так, что сбегается вся улица. Тебя запоминают все, кто сбежался."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   }
 ]

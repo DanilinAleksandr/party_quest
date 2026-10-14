@@ -1,0 +1,50 @@
+[
+  {
+    "id": "effect_laughingstock",
+    "name": "Посмешище",
+    "description": "Над тобой ещё смеются — и ты это слышишь.",
+    "polarity": "negative",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "charisma": -1
+    }
+  },
+  {
+    "id": "effect_sore_back",
+    "name": "Сорванная спина",
+    "description": "Взялся не за своё — спина напоминает об этом на каждом шагу.",
+    "polarity": "negative",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "strength": -1
+    }
+  },
+  {
+    "id": "effect_good_word",
+    "name": "Добрая молва",
+    "description": "О тебе говорят хорошо — и слушают охотнее.",
+    "polarity": "positive",
+    "duration": 6,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "charisma": 1
+    }
+  },
+  {
+    "id": "effect_sharp_blade",
+    "name": "Свежая заточка",
+    "description": "Нож режет так, что самому страшно.",
+    "polarity": "positive",
+    "duration": 6,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "strength": 1
+    }
+  }
+]

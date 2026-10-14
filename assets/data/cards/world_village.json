@@ -47,13 +47,134 @@
     "choices": [
       {
         "label": "Попросить всех говорить потише",
-        "outcome": "Все послушно переходят на шёпот. Громкий шёпот. Прямо над ухом.",
         "conditions": [
           {
             "condition": "currentPlayerHungover"
           }
         ],
-        "actions": []
+        "actions": [],
+        "outcome": "Все послушно переходят на шёпот. Громкий шёпот. Прямо над ухом."
+      },
+      {
+        "label": "Взяться помочь со скамьями",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Скамьи расставлены, ворота докрашены, и ваши имена уже кто-то вписал в праздничный список — «помогали»."
+      },
+      {
+        "label": "Пообещать вернуться на праздник",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Староста хлопает тебя по плечу и наливает «на дорожку, чтоб вернулись». Наливает щедро.",
+            "loserOutcome": "Староста кивает вежливо и поворачивается к своим — тут таких обещаний за день дают десяток."
+          }
+        ]
+      },
+      {
+        "label": "Бард предлагает сыграть сегодня вечером",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Староста хватает тебя за обе руки: музыкантов не было и не ожидалось. Тебе обещают лучшее место и полную кружку весь вечер."
+      },
+      {
+        "label": "Выставить ваш бочонок к общему столу",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Бочонок встаёт рядом со скамьями, и праздник начинается на час раньше, чем собирались. Вас приглашают как родню."
+      },
+      {
+        "label": "Под хмельком начать праздновать заранее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты начинаешь праздновать, а деревня — смотреть. К вечеру о тебе рассказывают больше, чем о женихе."
+      },
+      {
+        "label": "Фермер знает, что к празднику всегда не хватает рук",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты закатываешь рукава и за час успеваешь там, где не успели трое. Тебя хлопают по спине и называют «наш»."
       },
       {
         "label": "Пройти мимо",
@@ -78,7 +199,125 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Помочь женщине прибрать площадь",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "За час площадь снова становится площадью. Женщина выносит вам ковш квасу и долго смотрит вслед — такое здесь запоминают."
+      },
+      {
+        "label": "Растолкать того, что спит под забором",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Он садится, моргает и узнаёт в тебе лучшего друга со вчерашнего. Из-за пазухи появляется недопитая фляга: «Держи, заслужил».",
+            "loserOutcome": "Он отмахивается во сне — точно в ухо. Женщина с метлой смеётся впервые за утро, и вся улица просыпается посмотреть."
+          }
+        ]
+      },
+      {
+        "label": "Пьянице такое утро знакомо — показать, как его лечат",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Ты будишь спящего, шепчешь ему рецепт, и через четверть часа он на ногах. В благодарность он отдаёт тебе свою заначку."
+      },
+      {
+        "label": "Похмелье и у тебя — присесть рядом с ним",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Вы сидите под забором вдвоём и молчите, пока не отпускает. Женщина приносит обоим по кружке воды."
+      },
+      {
+        "label": "Выкатить бочонок — праздник ещё не кончился",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Пробка вылетает с грохотом, и деревня просыпается на звук. Через полчаса праздник идёт по второму кругу — и вас на нём уже считают своими."
+      },
+      {
+        "label": "Вас тут помнят — и зовут к столу",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Вам ставят чистые кружки и рассказывают, что было вчера, с тремя разными концовками."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_ruined_mill",

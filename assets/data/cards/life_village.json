@@ -515,7 +515,127 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Подержать клёпки, пока он набивает обруч",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_beer_keg"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Клёпки сходятся с хрустом, обруч садится. Бондарь отдаёт тебе маленький бочонок «на пробу» — течёт ли. Не течёт.",
+            "loserOutcome": "Одна клёпка выскальзывает, и цветок распускается обратно с таким звоном, что сбегается полдеревни. Бондарь вздыхает и начинает сначала."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, сколько бочек он делает за зиму",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Бондарь считает до сорока и сбивается. Рассказывает про каждую третью — у каждой своя история и свой хозяин. Ты уходишь, зная полдеревни по бочкам."
+      },
+      {
+        "label": "Ремесленник видит: обруч чуть шире, чем надо",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь, бондарь меряет и тихо ругается — правда. Он перебивает обруч и пожимает тебе руку чёрной от сажи ладонью."
+      },
+      {
+        "label": "Пьяница предлагает проверить бочку как положено",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Бондарь смеётся: проверять положено полной. Наливает. Проверяете оба. Бочка выдерживает испытание лучше вас."
+      },
+      {
+        "label": "Вас здесь знают — бондарь сам зовёт посмотреть",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "outcome": "«А, это вы!» — бондарь вытирает руки и выкатывает из сарая готовый бочонок. — «Для своих держал»."
+      },
+      {
+        "label": "Похмельному каждый удар — по голове",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты морщишься на каждом ударе. Бондарь замечает и начинает бить в два раза чаще, с очень довольным лицом."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_first_beer_of_batch",
