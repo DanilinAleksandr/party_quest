@@ -7,6 +7,7 @@ import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game_setup/presentation/game_setup_screen.dart';
 import 'package:drinking_quest/features/settings/application/walk_settings.dart';
 import 'package:drinking_quest/features/settings/presentation/settings_screen.dart';
+import 'package:drinking_quest/game_engine/logic/card_catalog.dart';
 
 /// Lets the notifier's first read land.
 Future<void> _settle() => Future<void>.delayed(Duration.zero);
@@ -23,7 +24,7 @@ void main() {
       expect(notifier.state.mode, WalkMode.auto);
       expect(notifier.state.minDelay, 4);
       expect(notifier.state.maxDelay, 7);
-      expect(notifier.state.restInterval, 10);
+      expect(notifier.state.restInterval, kRestInterval);
     });
 
     test('drops a delay and a halt spacing saved before 4–7, once', () async {
@@ -45,6 +46,28 @@ void main() {
       await _settle();
       expect(second.state.minDelay, 3);
       expect(second.state.maxDelay, 9);
+    });
+
+    test('moves a halt spacing saved before 15 to 15, once, and keeps the '
+        'delays', () async {
+      SharedPreferences.setMockInitialValues({
+        'walk_settings_version': 2,
+        'walk_min_delay': 3,
+        'walk_max_delay': 9,
+        'rest_interval': 10,
+      });
+      final first = WalkSettingsNotifier();
+      await _settle();
+      expect(first.state.restInterval, kRestInterval);
+      expect(first.state.minDelay, 3);
+      expect(first.state.maxDelay, 9);
+
+      // Chosen again afterwards, it stays.
+      first.setRestInterval(10);
+      await _settle();
+      final second = WalkSettingsNotifier();
+      await _settle();
+      expect(second.state.restInterval, 10);
     });
 
     test('remembers what was set across a restart', () async {
@@ -107,7 +130,10 @@ void main() {
 
     // The halt applies whoever is walking, so it stays.
     expect(find.byKey(const Key('rest_interval_slider')), findsOneWidget);
-    expect(find.text('Привал — каждые 10 карточек'), findsOneWidget);
+    expect(
+      find.text('Привал — каждые $kRestInterval карточек'),
+      findsOneWidget,
+    );
 
     // The attribution stays where it was.
     expect(find.text('БЛАГОДАРНОСТИ'), findsOneWidget);
@@ -155,7 +181,7 @@ void main() {
     // provider first created by the start tap would hand the match 10.
     SharedPreferences.setMockInitialValues({
       'rest_interval': 7,
-      'walk_settings_version': 2,
+      'walk_settings_version': 3,
     });
     Object? arguments;
     await tester.pumpWidget(

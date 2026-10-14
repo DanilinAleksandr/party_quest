@@ -132,11 +132,13 @@ void main() {
 
     test('begins no halt in a village', () {
       final due = CardCatalog(all).eligibleCards(
-        _context(all, steps: 10, flags: const {'in_village': true}),
+        _context(all, steps: kRestInterval, flags: const {'in_village': true}),
       );
       expect(due.map((c) => c.id), isNot(contains('halt')));
       // And the halt's own step is the halt's: no village begins on it.
-      final onRoad = CardCatalog(all).eligibleCards(_context(all, steps: 10));
+      final onRoad = CardCatalog(
+        all,
+      ).eligibleCards(_context(all, steps: kRestInterval));
       expect(onRoad.map((c) => c.id), ['halt']);
     });
 
