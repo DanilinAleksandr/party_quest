@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:drinking_quest/core/constants/game_version.dart';
 import 'package:drinking_quest/features/game/application/game_controller.dart';
 import 'package:drinking_quest/features/game_setup/presentation/game_setup_screen.dart';
 import 'package:drinking_quest/features/settings/application/walk_settings.dart';
@@ -135,8 +136,13 @@ void main() {
       findsOneWidget,
     );
 
-    // The attribution stays where it was.
+    // The attribution stays where it was — with the version just above it.
     expect(find.text('БЛАГОДАРНОСТИ'), findsOneWidget);
+    expect(find.text('Версия игры: #$kGameVersionPr'), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.byKey(const Key('game_version'))).dy,
+      lessThan(tester.getTopLeft(find.text('БЛАГОДАРНОСТИ')).dy),
+    );
   });
 
   testWidgets('a new match takes the halt interval from the settings', (
