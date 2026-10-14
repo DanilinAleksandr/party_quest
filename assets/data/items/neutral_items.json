@@ -25,5 +25,14 @@
     "usageType": "manual",
     "isConsumable": false,
     "useActions": []
+  },
+  {
+    "id": "item_frol_coin",
+    "name": "Монета Фрола",
+    "description": "Медная монета, стёртая до блеска: Фрол Кривой носил её тридцать лет. Её ждут в трактире на отшибе — долг за бочонок.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
   }
 ]

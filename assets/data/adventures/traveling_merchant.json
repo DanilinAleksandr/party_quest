@@ -59,24 +59,126 @@
             }
           },
           {
-            "label": "Купить оберег втридорога",
+            "label": "Купить оберег — цена: распить с ним мировую, по кружке",
+            "outcome": "Он пьёт, ты пьёшь, оберег переходит из рук в руки. Торговля по-дорожному.",
             "onSuccess": {
               "actions": [
                 {
-                  "action": "modifyStat",
-                  "target": "currentPlayer",
-                  "stat": "luck",
-                  "amount": -1
+                  "action": "drink",
+                  "target": "currentPlayer"
                 },
                 {
                   "action": "giveItem",
                   "target": "currentPlayer",
                   "itemId": "item_ward_amulet"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Купить оберег — цена: фляга смелости",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "outcome": "Он нюхает флягу, кивает и отдаёт оберег. Пьёт он, а не ты, — уговор такой.",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_bravery_flask"
                 },
                 {
-                  "action": "applyEffect",
+                  "action": "giveItem",
                   "target": "currentPlayer",
-                  "effectId": "effect_mystery"
+                  "itemId": "item_ward_amulet"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Купить оберег — цена: заначка",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_stash"
+              }
+            ],
+            "outcome": "Заначка уходит в его телегу, оберег — тебе на шею. Утром ты пожалеешь о заначке.",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_stash"
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Купить оберег — цена: ваш бочонок пива",
+            "conditions": [
+              {
+                "condition": "partyHasItem",
+                "itemId": "item_beer_keg"
+              }
+            ],
+            "outcome": "Торговец принимает бочонок с видом знатока и ставит его в телегу. Оберег — тебе на шею.",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_beer_keg"
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Обменять оберег на необычный камень",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_odd_stone"
+              }
+            ],
+            "outcome": "Он вертит камень на свету, хмыкает и забирает. Странное на странное — честный обмен.",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_odd_stone"
+                },
+                {
+                  "action": "giveItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_ward_amulet"
                 }
               ],
               "to": {

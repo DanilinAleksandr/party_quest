@@ -616,7 +616,130 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Пройтись рядом и постучать вместе с ним",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Вдвоём треск выходит ровнее. Мальчишка хохочет, крик за калиткой становится громче, и вы удираете вместе.",
+            "loserOutcome": "Крик за калиткой оказывается адресован тебе. С именем, которого никто не называл."
+          }
+        ]
+      },
+      {
+        "label": "Пригрозить, что расскажешь матери",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Мальчишка бледнеет и убирает палку за спину. Улица затихает. За калиткой кто-то говорит «спасибо».",
+            "loserOutcome": "«Мать в поле», — отвечает он и стучит дальше, уже назло."
+          }
+        ]
+      },
+      {
+        "label": "Бард показывает ритм поинтереснее",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты отбиваешь по частоколу плясовую. Мальчишка повторяет — и за калиткой вдруг смеются. Шум тот же, а злиться уже не на что."
+      },
+      {
+        "label": "Охотник выстругивает ему свисток",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Свисток из ивы — дело пяти минут. Мальчишка бросает палку и убегает свистеть на реку. Частокол отдыхает."
+      },
+      {
+        "label": "Бедняк вспоминает своё детство",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты подбираешь вторую палку и проходишь с ним один раз — до конца частокола. Ровно так, как когда-то. Потом отдаёшь палку и идёшь дальше."
+      },
+      {
+        "label": "Под хмельком — отобрать палку и постучать самому",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ],
+        "outcome": "Теперь за калиткой кричат на тебя. Мальчишка стоит рядом и наслаждается."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "road_cart_stuck_rut",
@@ -1613,6 +1736,11 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
             "action": "modifyGlobalModifier",
             "key": "word_kept",
             "amount": 1
@@ -1688,15 +1816,64 @@
     ],
     "choices": [
       {
-        "label": "Поделиться едой и больше не оборачиваться",
+        "label": "Свистнуть и посмотреть, пойдёт ли",
         "actions": [
           {
-            "action": "modifyStat",
-            "target": "currentPlayer",
+            "action": "chanceCheck",
             "stat": "charisma",
-            "amount": 1
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_follows",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Собака думает, потом встаёт и подходит на десять шагов. Потом ещё. К вечеру она идёт у твоей ноги и делает вид, что так было всегда.",
+            "loserOutcome": "Собака склоняет голову и остаётся сидеть. Ей интересно, но не настолько."
           }
         ]
+      },
+      {
+        "label": "Присесть и подождать, пока подойдёт сама",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_follows",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты сидишь долго. Собака подходит, нюхает ладонь и садится рядом. Теперь вас на одного больше.",
+            "loserOutcome": "Ты сидишь долго. Собака сидит тоже. Идёте дальше вы без неё."
+          }
+        ]
+      },
+      {
+        "label": "Плеснуть ей из фляги в ладонь — тратит флягу смелости",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_follows",
+            "value": true
+          }
+        ],
+        "outcome": "Она лакает из ладони осторожно, потом смелее. Когда вы трогаетесь, она трогается тоже — уже рядом, а не в двадцати шагах."
       },
       {
         "label": "Позвать так, как зовут своих",
@@ -1708,19 +1885,64 @@
         ],
         "actions": [
           {
-            "action": "modifyStat",
+            "action": "setWorldFlag",
+            "flag": "dog_follows",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
             "target": "currentPlayer",
-            "stat": "luck",
-            "amount": 1
+            "effectId": "effect_at_home"
           }
-        ]
+        ],
+        "outcome": "Она поднимает уши и подходит сразу — как к своему. Дальше вы идёте вместе."
+      },
+      {
+        "label": "Охотник знает, как подзывают гончих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_follows",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Два коротких свиста и щелчок. Собака срывается с места и встаёт у ноги, как учили — когда-то, кто-то."
+      },
+      {
+        "label": "Дать ей место на телеге",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_follows",
+            "value": true
+          }
+        ],
+        "outcome": "Собака запрыгивает на телегу и сворачивается среди мешков. Через минуту она спит, впервые, кажется, за неделю."
       },
       {
         "label": "Прогнать, пока не привыкла",
         "actions": [],
         "outcome": "Собака садится, смотрит долго и уходит обратно, к прошлому повороту. Пару раз ещё оглядывается."
       }
-    ]
+    ],
+    "actions": []
   },
   {
     "id": "road_carpenter_carries_door",

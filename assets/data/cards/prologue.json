@@ -84,6 +84,11 @@
             "stat": "luck",
             "amount": 1,
             "chance": 0.02
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "left_at_threshold",
+            "value": true
           }
         ]
       },
@@ -177,7 +182,13 @@
       },
       {
         "label": "Тоже обернуться",
-        "actions": [],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "looked_back",
+            "value": true
+          }
+        ],
         "outcome": "Крыши уже почти неразличимы. Ещё шаг — и дом становится просто местом на карте."
       },
       {

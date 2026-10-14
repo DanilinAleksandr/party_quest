@@ -2,7 +2,7 @@
   {
     "id": "village_miller_stone_dressing",
     "title": "Мельник насекает камень",
-    "description": "Жёрнов снят и лежит плашмя. Мельник бьёт по нему зубилом мелко и часто, и в лицо ему летит каменная пыль.\n\n«Две недели без муки. Зато потом год».",
+    "description": "Жёрнов снят и лежит плашмя. Мельник бьёт по нему зубилом мелко и часто, и в лицо ему летит каменная пыль.\n\n«Раз в год насекаю, — говорит он, не поднимая головы. — Две недели деревня без муки. Зато потом камень мелет ровно до следующей осени».",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -21,7 +21,135 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Подержать зубило, пока он бьёт",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты держишь, не моргая, пока пыль летит в лицо. Мельник заканчивает борозду и говорит: «Через год приходи — будешь сам бить».",
+            "loserOutcome": "На пятом ударе ты моргаешь, и зубило уходит вкось. Мельник молча забирает его и стирает твою борозду."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, зачем это и почему так долго",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Он объясняет: камень стирается гладко и перестаёт молоть. Насечку бьют раз в год, две недели — и всё это время деревня без муки. Зато потом мелет ровно до следующей осени."
+      },
+      {
+        "label": "Хранитель рун узнаёт в насечке старые знаки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Борозды на камне идут не просто так — это знак плодородия, старше мельницы. Мельник и не знал. Он ведёт пальцем по знаку и дальше бьёт осторожнее."
+      },
+      {
+        "label": "Горец знает этот камень — он с перевала",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь, где у этого камня слабая жила. Мельник обходит её и бьёт дальше. Сэкономленный день он отмечает с тобой."
+      },
+      {
+        "label": "Похмельному этот стук — по голове",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Мельник видит твоё лицо и начинает бить чаще. С очень довольным видом."
+      },
+      {
+        "label": "Под хмельком — предложить помочь с зубилом",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_kicked_out"
+              }
+            ],
+            "winnerOutcome": "Ты попадаешь по зубилу. Мельник смотрит на тебя с уважением — для пьяного это подвиг.",
+            "loserOutcome": "Ты попадаешь по мельнику. Не сильно. Но он запомнит."
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_laundress_river",
@@ -63,7 +191,126 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Посидеть с ней до конца песни",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Песня за стеной длинная, про реку и лодку. Ткачиха слушает, ты слушаешь. Потом она связывает нить, и станок стучит дальше."
+      },
+      {
+        "label": "Подержать основу, пока она связывает нить",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты держишь ровно, и узел ложится так, что его не видно. Ткачиха проводит пальцем и кивает: «Руки у тебя есть».",
+            "loserOutcome": "Ты держишь — и чуть дёргаешь. Рвётся вторая нить. Ткачиха вздыхает и снова ищет, где."
+          }
+        ]
+      },
+      {
+        "label": "Бард подхватывает песню за стеной",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты подпеваешь со второго куплета, соседка за стеной замолкает от удивления — и подхватывает. Ткачиха смеётся впервые за день."
+      },
+      {
+        "label": "Бедняк умеет связать нить так, что узла не видно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Так чинили у вас всё — от сетей до рубах. Ткачиха смотрит на узел, которого нет, и просит показать ещё раз."
+      },
+      {
+        "label": "Похмельному песня за стеной — как лекарство",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Ты садишься у стены и слушаешь. К концу песни голова перестаёт звенеть. Ткачиха понимающе ставит рядом кружку воды."
+      },
+      {
+        "label": "Под хмельком — запеть громче соседки",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Соседка замолкает. Ткачиха тоже. Ты допеваешь в одиночку, на всю улицу, и аплодирует только собака."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_potter_bad_batch",
@@ -136,7 +383,131 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Проводить её до двери с огнём",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты идёшь рядом, светишь под ноги. У двери она коротко говорит: «Спасибо. Утром заходите». Утром вас там кормят словами и поят до обеда."
+      },
+      {
+        "label": "Подождать у ворот, пока не закричит младенец",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Под утро из дома кричат два голоса — один совсем новый. Отец выбегает и наливает каждому, кто ждал. Тебе — первому.",
+            "loserOutcome": "Ты засыпаешь у ворот и пропускаешь главное. Утром тебе рассказывают, что всё хорошо, и смеются, что дождаться так и не вышло."
+          }
+        ]
+      },
+      {
+        "label": "Алхимик предлагает свои склянки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Повитуха смотрит на твои склянки, выбирает одну по запаху и кивает. Утром она находит тебя сама — спросить, что там было."
+      },
+      {
+        "label": "Отдать зелье лекаря — пригодится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_healing_potion"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она берёт склянку без слов и прячет в передник. Утром отец ребёнка разыскивает тебя по всей деревне."
+      },
+      {
+        "label": "Проводник душ знает: сегодня обойдётся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты говоришь это отцу, который стоит у ворот белый как стена. Он не верит, но садится. Через час он верит."
+      },
+      {
+        "label": "Под хмельком — поздравить заранее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты стучишь в окно с поздравлениями. Из окна высовывается повитуха и говорит такое, что ты трезвеешь на два шага."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_two_neighbours_fence",
@@ -412,7 +783,144 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Подать снопы наверх",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты подаёшь в такт, и наверху работают быстрее. К вечеру крыша готова на час раньше, и тебя зовут обмыть.",
+            "loserOutcome": "Сноп рассыпается в воздухе. Наверху смеются с задержкой в полвздоха — на этот раз над тобой."
+          }
+        ]
+      },
+      {
+        "label": "Крикнуть наверх что-нибудь смешное",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Наверху смеются так, что один чуть не съезжает. Тебе кидают яблоко и зовут вечером.",
+            "loserOutcome": "Наверху не смеются. Тот, что подаёт снизу, смотрит на тебя с жалостью: так у них не шутят."
+          }
+        ]
+      },
+      {
+        "label": "Ремесленник кладёт сноп по-своему — плотнее",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты показываешь, как увязывать, чтобы не протекало десять лет. Старший пробует, кивает и учит остальных уже твоим способом."
+      },
+      {
+        "label": "Фермер лезет наверх и встаёт пятым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты кроешь, как дома, и наверху сразу видно, что ты свой. К вечеру у тебя есть приглашение на любую крышу этой деревни."
+      },
+      {
+        "label": "Бард поёт рабочую, чтобы держали ритм",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Под песню снопы летят ровнее. Крыша готова к закату, и последнюю строку поют уже все шестеро."
+      },
+      {
+        "label": "Под хмельком — полезть наверх помогать",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Наверху ты ровно до первого шага по свежей соломе. Внизу тебя ловят двое, и это видят все."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_well_bucket_lost",
@@ -481,7 +989,7 @@
   {
     "id": "village_old_woman_names",
     "title": "Старуха у ворот",
-    "description": "Она сидит на лавке и называет по имени каждого, кто проходит. Не здоровается — просто называет.\n\nВас она разглядывает дольше остальных и в конце говорит: «Нет. Не знаю». И это звучит как приговор.",
+    "description": "Она сидит на лавке и называет по имени каждого, кто проходит. Не здоровается — просто называет.\n\nВас она разглядывает дольше остальных и в конце говорит: «Нет. Не знаю». Здесь это значит одно: чужие. Перед чужими двери закрывают чуть раньше.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -496,7 +1004,151 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Назвать ей свои имена",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "old_woman_knows_you",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Она повторяет каждое имя, медленно, будто пробует на вкус. Потом говорит: «Теперь знаю». В этой деревне это значит, что вас пустят в любой дом.",
+            "loserOutcome": "Она выслушивает и качает головой: «Имя — не человек». Чужих здесь узнают годами."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, кого она ждёт, перебирая имена",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "old_woman_son_asked",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты замечаешь, что одно имя она повторяет дважды — с вопросом. Сын. Ушёл в солдаты. Ты обещаешь спросить о нём.",
+            "loserOutcome": "Она смотрит на тебя пустыми глазами и называет следующего прохожего."
+          }
+        ]
+      },
+      {
+        "label": "Наследник древних королей называет свой род",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_ancient_kings_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "old_woman_knows_you",
+            "value": true
+          }
+        ],
+        "outcome": "Она слышит фамилию и встаёт — тяжело, держась за ворота. «Знаю. Знала твоих». И кланяется так, как кланялись при ней."
+      },
+      {
+        "label": "Вас здесь уже знают — она называет и ваши имена",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Она называет вас по именам, не дожидаясь, пока вы подойдёте. Слава в деревнях бежит быстрее путников."
+      },
+      {
+        "label": "Проводник душ — она называет и мёртвых",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Ты понимаешь: половина имён, что она называет, — тех, кого здесь давно нет. Она называет их тоже. Ты киваешь каждому."
+      },
+      {
+        "label": "Под хмельком — назваться чужим именем",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Она повторяет его за тобой — и улыбается так, что становится не по себе. «Нет. Не так тебя зовут»."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_cooper_hoops",
@@ -769,7 +1421,148 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Помочь пасечнику — отгонять пчёл дымом",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Пчёлы садятся на новые ульи. Пасечник наливает вам медовухи из бочонка «для гостей» — густой и честной.",
+            "loserOutcome": "Пчёлы решают, что старое место — это ты. Пасечник уводит тебя к реке и долго извиняется."
+          }
+        ]
+      },
+      {
+        "label": "Постоять тихо среди пчёл",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Пчёлы обтекают тебя, как воду. Одна садится на руку и уходит к новым ульям. Остальные — за ней.",
+            "loserOutcome": "Одна пчела обижается. Остальные — за ней."
+          }
+        ]
+      },
+      {
+        "label": "Дитя леса знает их язык",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты гудишь им вполголоса, и рой поднимается и идёт к новым ульям. Пасечник снимает шапку."
+      },
+      {
+        "label": "Наследник ведьм: пчёлам надо сказать, что место сменилось",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты стучишь по каждому улью и говоришь пчёлам, что хозяин переехал. Так делала твоя бабка. Через час рой садится."
+      },
+      {
+        "label": "Похмельному медовуха пасечника — спасение",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Пасечник видит твоё лицо и наливает без вопросов. Через полчаса пчёлы тебя больше не раздражают."
+      },
+      {
+        "label": "Под хмельком — объяснить пчёлам самому",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Пчёлы выслушивают тебя внимательнее, чем пасечника. Потом отвечают."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_boy_owes_apple",
@@ -792,7 +1585,153 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Съесть спорное яблоко самому — и долга нет",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "apple_debt_settled",
+            "value": true
+          }
+        ],
+        "outcome": "Ты съедаешь яблоко на глазах у обоих. Теперь никто никому не должен — и яблок нет у обоих. Мальчишки смотрят на тебя с одинаковой ненавистью и впервые за год — вместе."
+      },
+      {
+        "label": "Отдать за яблоко свою пуговицу",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "apple_debt_settled",
+            "value": true
+          }
+        ],
+        "outcome": "Пуговица медная, с ободком. Кредитор принимает её как монету, должник отдаёт яблоко — и оба уходят богатыми."
+      },
+      {
+        "label": "Рассудить: прошлым летом яблоки были мельче",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "apple_debt_settled",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты доказываешь, что прошлогоднее яблоко стоит половину нынешнего. Должник отдаёт половину. Оба довольны, и никто не понял, как.",
+            "loserOutcome": "Кредитор слушает тебя и говорит: «Тогда пусть отдаст два». Выходит хуже для всех — и ты уходишь быстро."
+          }
+        ]
+      },
+      {
+        "label": "Купец предлагает проценты",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "apple_debt_settled",
+            "value": true
+          }
+        ],
+        "outcome": "Ты объясняешь, что за год долг вырос до двух яблок. Должник в ужасе, кредитор в восторге. Ты уходишь, оставив после себя торговое право."
+      },
+      {
+        "label": "Рыцарь судит по уставу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "apple_debt_settled",
+            "value": true
+          }
+        ],
+        "outcome": "Ты велишь обоим встать как подобает и выносишь решение: долг прощён, яблоко съедается пополам. Мальчишки кланяются — неуклюже, но всерьёз."
+      },
+      {
+        "label": "Шарлатан превращает долг в общее дело",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "apple_debt_settled",
+            "value": true
+          }
+        ],
+        "outcome": "Через пять минут оба мальчишки должны тебе по яблоку, а друг другу — ничего. Они ещё долго считают на пальцах."
+      },
+      {
+        "label": "Под хмельком — потребовать долю",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Мальчишки объединяются против тебя и выигрывают. Яблоко остаётся в долгу ещё на год."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "village_smoke_from_wrong_chimney",

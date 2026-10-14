@@ -121,6 +121,11 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
             "action": "modifyGlobalModifier",
             "key": "word_kept",
             "amount": 1
@@ -367,7 +372,126 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Вырезать своё имя на срубе",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Хозяин колодца смотрит, как ты режешь, и кивает: «Хорошая вода — хорошие имена». Твоё становится самым верхним.",
+            "loserOutcome": "Хозяин колодца забирает у тебя нож: имена здесь режут свои. Ты уходишь с пустыми руками и стыдом."
+          }
+        ]
+      },
+      {
+        "label": "Набрать воды и узнать, почему его не переносят",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Вода холодная и сладкая. Женщина у колодца рассказывает: из него пили все, чьи имена на срубе. Перенести — значит оставить их здесь одних."
+      },
+      {
+        "label": "Хранитель рун: нижние имена старше рун",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Самые нижние — не имена, а знаки. Ты читаешь их, и это обещание воде. Колодец никогда не пересыхал — и теперь ты знаешь почему."
+      },
+      {
+        "label": "Проводник душ: среди имён есть и живые, и мёртвые",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Ты проводишь пальцем по именам и чувствуешь, где кто. Самое верхнее — свежее — уже не живое. Никто в деревне этого ещё не знает."
+      },
+      {
+        "label": "Похмельному этот колодец — спасение",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Три ковша подряд, ледяных. Голова проясняется так резко, что ты читаешь все имена на срубе с первого раза."
+      },
+      {
+        "label": "Под хмельком — уронить кружку в колодец",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Кружку достают багром всей улицей. Вода хорошая — кружка тоже. Ты — не очень."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_fresh_grave",
@@ -390,7 +514,132 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Положить цветок — по одному, как кладут здесь",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты кладёшь цветок к остальным. Мимо идущая старуха видит это и кивает тебе так, как кивают своим."
+      },
+      {
+        "label": "Посидеть на новой скамейке",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты сидишь, пока не перестаёшь торопиться. Скамейку сколотили хорошо — на ней думается.",
+            "loserOutcome": "Свежие доски ещё смолятся. Встаёшь с пятном на всю дорогу."
+          }
+        ]
+      },
+      {
+        "label": "Проводник душ читает отходную",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты читаешь вполголоса. Когда заканчиваешь, у ограды стоят трое местных — слушали. Один снимает шапку."
+      },
+      {
+        "label": "Избранник духов слышит: он рад скамейке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_spirit_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты передаёшь это первому встречному. Через час это знает вся деревня, и к скамейке начинают ходить."
+      },
+      {
+        "label": "Плеснуть на землю из фляги — помянуть",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Земля пьёт жадно. Издали за тобой кто-то наблюдает — потом подходит и молча пожимает руку."
+      },
+      {
+        "label": "Под хмельком — затянуть поминальную во весь голос",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Слова ты помнишь через одно. Из ближнего дома выходит вдова — и стоит, пока ты не замолчишь."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_apple_orchard",
@@ -417,7 +666,158 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Помочь собрать падалицу — на сидр",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "allPlayers"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты собираешь три корзины. Хозяин ставит перед вами кувшин прошлогоднего сидра — кислого и крепкого.",
+            "loserOutcome": "На второй корзине тебе на голову падает яблоко с той самой ломящейся ветки. Хозяин смеётся до слёз и всё равно наливает."
+          }
+        ]
+      },
+      {
+        "label": "Подпереть ломящееся дерево ещё одним шестом",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Шест встаёт, ветка выпрямляется. Хозяин долго смотрит на дерево, потом на тебя: «Пятый раз за лето. А стоит».",
+            "loserOutcome": "Шест скользит, ветка трещит — но держится. Ты держишься за спину."
+          }
+        ]
+      },
+      {
+        "label": "Потомок друидов говорит, что дерево надо отпустить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты объясняешь хозяину: дерево отдаёт последний урожай. Он долго молчит, потом снимает два шеста из четырёх."
+      },
+      {
+        "label": "Фермер знает, когда яблоки пора снимать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты срываешь одно, нюхаешь, режешь — и говоришь: «Завтра». Хозяин собирает соседей на завтра."
+      },
+      {
+        "label": "Перекинуть верёвку и подвязать ветку к стволу",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_rope"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Верёвка держит ветку лучше шестов. Хозяин просит оставить её — и за неё наливает сидра. Пьёте вместе."
+      },
+      {
+        "label": "Под хмельком — потрясти дерево",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Дерево отвечает всем, что у него было. Ты сидишь в куче яблок, хозяин стоит над тобой."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_apiary_row",
@@ -467,7 +867,142 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Взять цеп и встать в ритм",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_strong"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты держишь ритм до самого конца — и ещё один круг, когда все остановились. Пыль золотая, руки гудят, тебя хлопают по спине.",
+            "loserOutcome": "Цеп бьёт не туда и не тогда. Ритм ломается, и весь ток смотрит на тебя — с пониманием, но долго."
+          }
+        ]
+      },
+      {
+        "label": "Подхватить ритм хлопками",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Хлопки ложатся ровно, цепы сходятся быстрее. Кто-то запевает, и ток работает под песню.",
+            "loserOutcome": "Ты хлопаешь чуть вразнобой, и один молотильщик сбивается из-за тебя. Он ничего не говорит. Всё говорит его спина."
+          }
+        ]
+      },
+      {
+        "label": "Фермер встаёт в ритм с первого удара",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Руки помнят сами. После третьего снопа старший отдаёт тебе свой цеп и садится отдыхать. Это высшая похвала на току."
+      },
+      {
+        "label": "Бард запевает под цепы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты поёшь ту, что поют на току везде, только твой куплет смешнее. До конца молотьбы песню не отпускают."
+      },
+      {
+        "label": "Сильному дают самый тяжёлый цеп",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "outcome": "Самый тяжёлый цеп бьёт за двоих. К концу ты понимаешь, почему им не работали остальные."
+      },
+      {
+        "label": "Под хмельком — сбить всех с ритма",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты вступаешь не в такт, потом ещё раз, потом ток останавливается целиком. Тебе очень вежливо дают метлу."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_village_new_roof_old_house",

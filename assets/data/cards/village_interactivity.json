@@ -1,0 +1,1396 @@
+[
+  {
+    "id": "village_drunk_pays_double",
+    "title": "Видно, что выпил",
+    "description": "Лавочник смотрит, как ты держишься за прилавок, и называет цену. Вдвое против той, что назвал соседу минуту назад.\n\n«А что? С пьяного — по-пьяному».",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "solo",
+      "village",
+      "drink"
+    ],
+    "conditions": [
+      {
+        "condition": "intoxicationAtLeast",
+        "level": "drunk"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Заплатить вдвое — выпить с лавочником две",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Вы пьёте одну за сделку, вторую — за то, что ты пьян. Заначка твоя. Дороже, чем стоит, — но твоя."
+      },
+      {
+        "label": "Поспорить — да кто тут пьян?",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_stash"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты держишься так прямо, что он сбивается и называет обычную цену: одну кружку, вместе. Заначка твоя.",
+            "loserOutcome": "Ты держишься прямо, пока не роняешь кошель. Цена становится втрое."
+          }
+        ]
+      },
+      {
+        "label": "Прийти, когда выветрится",
+        "actions": [],
+        "outcome": "Он пожимает плечами: «Приходи. Трезвым — по-трезвому». Лавка никуда не денется."
+      },
+      {
+        "label": "Пьяница знает, как пьют за сделку, чтобы цена упала",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты предлагаешь выпить за торговлю, потом за лавку, потом за его отца. На третьей он отдаёт заначку даром."
+      },
+      {
+        "label": "Купец называет ему его же закупочную цену",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Ты называешь цифру, которую он платил оптовику. Лавочник бледнеет и отдаёт по обычной — за одну кружку вместе, лишь бы не слышать продолжения."
+      },
+      {
+        "label": "Вас здесь знают — и наливают по-честному",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Из-за спины лавочника выглядывает жена: «Это ж те самые!» Цена падает до обычной, а налитое — до краёв."
+      },
+      {
+        "label": "Показать жетон торговца",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_stash"
+          }
+        ],
+        "outcome": "Лавочник видит жетон и вздыхает: со своими не торгуются. Заначка по обычной цене — одна кружка на двоих."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
+  },
+  {
+    "id": "dog_barks_at_ambush",
+    "title": "Собака рычит",
+    "description": "Собака, что пристала к вам, вдруг останавливается посреди дороги и рычит на кусты у обочины. Шерсть на загривке дыбом.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "group",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dog_follows"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dog_follows",
+        "steps": 5
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dog_barked"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dog_gone"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Остановиться и не идти дальше",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_barked",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Из кустов, поняв, что их видят, выходят трое с дубинами — и уходят в поле. Собака рычит им вслед, пока не скрываются."
+      },
+      {
+        "label": "Шагнуть к кустам первым",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_barked",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_barked",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты раздвигаешь кусты — и двое, что сидели в засаде, бегут не оглядываясь. Собака гонит их до опушки.",
+            "loserOutcome": "Тебя встречают дубиной. Собака бросается следом, и засада уходит, но плечо болит до вечера."
+          }
+        ]
+      },
+      {
+        "label": "Охотник читает по собаке: людей двое, и они боятся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_barked",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты громко говоришь, сколько их и где. Кусты затихают, потом трещат — уходят. Собака садится и смотрит на тебя: «То-то же»."
+      },
+      {
+        "label": "Наёмник обходит кусты слева, как учили",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_barked",
+            "value": true
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "outcome": "Засада оборачивается на собаку и не видит тебя. Дальше всё быстро и тихо. Собака виляет хвостом."
+      },
+      {
+        "label": "Волчья кровь рычит в ответ",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_barked",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Вы рычите вдвоём — ты и собака. Из кустов вылетают двое и бегут так, что теряют шапки."
+      },
+      {
+        "label": "Под хмельком — пойти в кусты поздороваться",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_barked",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Тебе отвечают дубиной, но неуверенно: таких гостей засада не ждала. Собака вытаскивает тебя за штанину."
+      }
+    ]
+  },
+  {
+    "id": "dog_brings_something",
+    "title": "Собака что-то принесла",
+    "description": "Собака убегает в поле, долго роется там и возвращается с чем-то в зубах. Кладёт к твоим ногам и садится, ожидая.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "solo",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dog_follows"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dog_follows",
+        "steps": 8
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dog_brought"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dog_gone"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять и похвалить",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          }
+        ],
+        "outcome": "Странный камень, гладкий, тёплый от собачьей пасти. Собака виляет так, что качается вся."
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          }
+        ],
+        "outcome": "Камень греет ладонь. Собака знала, что принести."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          }
+        ],
+        "outcome": "Камень холодит ладонь даже через рукавицу. Собака смотрит на него с сомнением, но молчит."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          }
+        ],
+        "outcome": "Камень летит в поле. Собака смотрит ему вслед, потом на тебя — и не бежит за ним. Поняла."
+      },
+      {
+        "label": "Почесать за ухом и оставить находку",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Собака обнюхивает отвергнутое, вздыхает и ложится у ног. Ей важнее, что её почесали."
+      },
+      {
+        "label": "Охотник видит: она принесла не просто так — показывает, где взяла",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Собака ведёт тебя в поле, к старому кострищу. Там ещё следы — и всё, что она не донесла."
+      },
+      {
+        "label": "Дитя леса понимает, что она хочет сказать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Она принесла не находку — она принесла весть: в поле лежал чужой. Ты идёшь посмотреть и находишь брошенный лагерь. Хорошо, что пустой."
+      },
+      {
+        "label": "Под хмельком — бросить находку, пусть принесёт снова",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты бросаешь. Собака смотрит на тебя, потом на брошенное — и ложится. Носить за пьяными она не нанималась."
+      },
+      {
+        "label": "Волчья кровь — похвалить её на своём языке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_brought",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты урчишь ей что-то, и собака встаёт на задние лапы от счастья. Находку она отдаёт тебе в руки, а не к ногам."
+      }
+    ]
+  },
+  {
+    "id": "dog_chases_hare",
+    "title": "Заяц",
+    "description": "Из-под ног выскакивает заяц, и собака срывается за ним, не слушая никого. Через минуту в поле её уже не видно.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "dog_follows"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "dog_follows",
+        "steps": 11
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "dog_gone"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Бежать следом и звать",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_gone",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Ты бежишь, пока не видишь её — с зайцем в зубах и очень довольную. Она возвращается к дороге, гордо, впереди тебя.",
+            "loserOutcome": "Ты бежишь, пока хватает дыхания. Поле большое. Собака не возвращается."
+          }
+        ]
+      },
+      {
+        "label": "Ждать у дороги — вернётся сама",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "dog_gone",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Через полчаса она выходит из поля — без зайца, но с видом, что могла бы. Садится рядом, как ни в чём не бывало.",
+            "loserOutcome": "Ждёте долго. Собака не возвращается. Может, нашла дом получше. Может, зайцев."
+          }
+        ]
+      },
+      {
+        "label": "Волчья кровь зовёт её назад",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Один зов — и она бросает зайца на полпути. Возвращается, виноватая, и всю дорогу идёт у ноги."
+      },
+      {
+        "label": "Охотник свистит, как свистят гончим",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Она возвращается на свист — с зайцем, которого кладёт тебе в ноги. Охотничья собака, кто бы мог подумать."
+      },
+      {
+        "label": "Отпустить — значит, её дорога другая",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "dog_gone",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Вы идёте дальше. Через полдня кто-то говорит, что слышит лай за спиной. Никто не оборачивается."
+      },
+      {
+        "label": "Под хмельком — побежать за зайцем самому",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Заяц уходит, собака уходит, ты остаёшься в борозде. Через полчаса собака возвращается — за тобой."
+      },
+      {
+        "label": "Выносливому догнать её — дело одной версты",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "endurance",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты догоняешь её на краю поля. Заяц ушёл, собака довольна, ты — тоже. Назад идёте рядом."
+      }
+    ]
+  },
+  {
+    "id": "ghost_debtor_frol",
+    "title": "Фрол Кривой",
+    "description": "У перевоза сидит старик с повязкой на глазу и чинит сеть. Перевозчик называет его по имени — Фрол. Тот самый Фрол, которого полжизни ждал трактирщик на отшибе.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 10,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "ghost_debt_promised"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "ghost_debt_promised",
+        "steps": 6
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "ghost_debt_settled"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сказать ему, что трактирщик всё ещё ждёт",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_frol_coin"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "ghost_debt_settled",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "ghost_debt_settled",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Фрол долго молчит, потом достаёт из-за пазухи монету, которую носил тридцать лет: «Отнеси. Я сам не дойду». Монета тяжелее, чем должна быть.",
+            "loserOutcome": "Фрол смеётся: «Мёртвым долги не платят». Но вечером ты видишь, как он смотрит в сторону отшиба."
+          }
+        ]
+      },
+      {
+        "label": "Потребовать долг — за трактирщика",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_frol_coin"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "ghost_debt_settled",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Фрол смотрит на тебя единственным глазом и отдаёт монету без спора. «Неси, раз взялся. Давно пора было».",
+            "loserOutcome": "Фрол встаёт, и оказывается, что повязка на глазу — от драки, которую он выиграл. Ты уходишь без долга."
+          }
+        ]
+      },
+      {
+        "label": "Заплатить его долг самому — выпить за обоих",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_debt_settled",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты пьёшь за трактирщика и за Фрола. Фрол смотрит, потом пьёт с тобой. «Передай ему: квиты»."
+      },
+      {
+        "label": "Проводник душ передаёт, что трактирщик сказал",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_debt_settled",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты говоришь Фролу слово в слово то, что мёртвый просил. Старик плачет — впервые, говорит перевозчик, за все годы."
+      },
+      {
+        "label": "Пьяница знает, сколько стоил тот бочонок",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_debt_settled",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_frol_coin"
+          }
+        ],
+        "outcome": "Ты называешь цену бочонка тех лет, с точностью до гроша. Фрол смеётся и отдаёт монету: «Ровно столько. Неси»."
+      },
+      {
+        "label": "Отдать ему вашу флягу — пусть сам отнесёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_debt_settled",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Фрол берёт флягу и встаёт. «Сам дойду. Давно пора». Он идёт к отшибу, не оглядываясь."
+      },
+      {
+        "label": "Фрол слышал о вас — и сам заводит разговор",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_frol_coin"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_debt_settled",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "«Это вы у кривого трактира бывали? Про вас говорят — слово держите». Он молча кладёт тебе в ладонь монету. «Отдай ему. От Фрола»."
+      },
+      {
+        "label": "Промолчать",
+        "actions": [],
+        "outcome": "Фрол чинит сеть. Долг висит над ним, как висел. Может, кто-то другой скажет."
+      }
+    ]
+  },
+  {
+    "id": "abandoned_tavern_flask",
+    "title": "Фляга на полке",
+    "description": "Трактир на отшибе пуст. За стойкой, на полке, стоит фляга — полная, с притёртой пробкой. Пыль вокруг неё есть, на ней — нет.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 400,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "tavern_flask_seen"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "tavern_flask_done"
+      },
+      {
+        "condition": "maximumStepsSinceFlag",
+        "flag": "tavern_flask_seen",
+        "steps": 2
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Фляга тяжёлая и холодная. Кто-то оставил её не для себя."
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Фляга тёплая, будто её только что держали в руках."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Фляга остаётся на полке. Уходя, ты слышишь, как за спиной кто-то её берёт. Обернуться не хочется."
+      },
+      {
+        "label": "Пьяница по звуку слышит, что внутри",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Ты встряхиваешь — по звуку не вода и не вино. Что-то крепкое, старое, хорошее."
+      },
+      {
+        "label": "Похмельному эта фляга — как подарок",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Глоток прямо у полки. Похмелье уходит, будто его сдуло. Фляга отправляется в мешок."
+      },
+      {
+        "label": "Алхимик нюхает пробку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "По запаху — настойка на чём-то горном, старая и честная. Ты забираешь флягу, зная, что внутри."
+      },
+      {
+        "label": "Оставить",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "tavern_flask_done",
+            "value": true
+          }
+        ],
+        "outcome": "Фляга остаётся там, где её оставили."
+      }
+    ]
+  },
+  {
+    "id": "echo_news_from_home",
+    "title": "Весть из дома",
+    "description": "Навстречу идёт человек из ваших мест — узнаёт вас по говору, останавливается и долго трясёт руки.\n\n«Дома всё по-старому. Вас ждут».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "group",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "minimumStep",
+        "steps": 35
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "home_news_heard"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Спросить, лежит ли то, что оставили у порога",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "left_at_threshold"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "home_news_heard",
+            "value": true
+          }
+        ],
+        "outcome": "«Лежит, — кивает он. — Никто не трогает. Говорят, пока лежит — вы вернётесь». Дорога после этого кажется короче."
+      },
+      {
+        "label": "Спросить, видели ли, как мы уходили",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "looked_back"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "home_news_heard",
+            "value": true
+          }
+        ],
+        "outcome": "«Видели, как вы оглянулись. Мать твоя потом долго стояла у калитки — говорит, раз оглянулись, значит, вернутся»."
+      },
+      {
+        "label": "Передать домой привет",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "home_news_heard",
+            "value": true
+          }
+        ],
+        "outcome": "Он обещает передать каждое слово. По глазам видно — передаст, и ещё приукрасит."
+      },
+      {
+        "label": "Расспросить, что нового",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "home_news_heard",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "home_news_heard",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Он рассказывает про свадьбы, ссоры и урожай — и под конец про то, что дома вами гордятся. Неизвестно за что, но гордятся.",
+            "loserOutcome": "Он рассказывает долго и про людей, которых ты не помнишь. Под конец вы оба не знаете, о чём говорить."
+          }
+        ]
+      },
+      {
+        "label": "Под хмельком — расплакаться у него на плече",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "home_news_heard",
+            "value": true
+          }
+        ],
+        "outcome": "Он похлопывает тебя по спине и достаёт флягу «с дома». Пьёте за порог, за калитку и за мать."
+      },
+      {
+        "label": "Беглец не хочет, чтобы о нём там знали",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "home_news_heard",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты просишь не рассказывать дома об этой встрече. Он смотрит на тебя и понимает. «Не видел», — говорит он и уходит."
+      }
+    ]
+  },
+  {
+    "id": "abandoned_tavern_lit",
+    "title": "Свет в трактире на отшибе",
+    "description": "У дороги снова стоит трактир с покосившейся вывеской. В окне — свет, которого там быть не может. Монета Фрола в кармане вдруг становится тяжелее.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 14,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_frol_coin"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "ghost_at_rest"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "abandoned_tavern"
+      }
+    ]
+  }
+]

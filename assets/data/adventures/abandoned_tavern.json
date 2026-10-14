@@ -8,12 +8,78 @@
         "text": "На отшибе дороги стоит трактир с покосившейся вывеской. Дверь скрипит на ржавых петлях — внутри темно, но на стойке будто до сих пор стоят кружки.",
         "choices": [
           {
+            "label": "Отдать долг Фрола",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_frol_coin"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_frol_coin"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_paid"
+              }
+            }
+          },
+          {
             "label": "Войти",
             "onSuccess": {
               "actions": [],
               "to": {
                 "destination": "goToNode",
                 "nodeId": "tavern_inside"
+              }
+            }
+          },
+          {
+            "label": "Сначала заглянуть в окно",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "old_ledger"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_appears"
+              }
+            }
+          },
+          {
+            "label": "Постучать и позвать хозяина",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_appears"
+              }
+            }
+          },
+          {
+            "label": "Ты слышишь: внутри кто-то ждёт — и давно",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_soul_guide"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_story"
               }
             }
           },
@@ -60,17 +126,26 @@
       },
       {
         "id": "empty_tavern",
-        "text": "Трактир и правда пуст. На полке за стойкой — забытая фляга с чем-то крепким.",
-        "onEnterActions": [
-          {
-            "action": "giveItem",
-            "target": "currentPlayer",
-            "itemId": "item_bravery_flask"
-          }
-        ],
+        "text": "Трактир и правда пуст. На полке за стойкой стоит фляга — полная, с притёртой пробкой. Пыль вокруг неё есть, на ней — нет.",
         "choices": [
           {
-            "label": "Понятно",
+            "label": "Подойти к полке",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "tavern_flask_seen",
+                  "value": true
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Не трогать чужое в чужом доме",
+            "outcome": "Ты выходишь, прикрыв дверь. Фляга остаётся там, где её оставили.",
             "onSuccess": {
               "actions": [],
               "to": {
@@ -82,7 +157,7 @@
       },
       {
         "id": "old_ledger",
-        "text": "На стойке лежит раскрытая амбарная книга — список должников трактира, с забавными пометками на полях.",
+        "text": "На стойке лежит раскрытая амбарная книга — список должников трактира. Последняя строка жирная, обведённая трижды: «Фрол Кривой, перевозчик. Бочонок. Отдаст к Покрову».",
         "choices": [
           {
             "label": "Пролистать книгу",
@@ -279,10 +354,10 @@
       },
       {
         "id": "ghost_story",
-        "text": "Призрак рассказывает: он умер, так и не дождавшись последнего гостя, который остался ему должен.",
+        "text": "Призрак рассказывает: последним гостем был Фрол Кривой, перевозчик с разливов. Выпил бочонок в долг, обещал занести к Покрову — и ушёл к своему перевозу. «Тридцать лет жду. Найди его. Он там же, у воды, одноглазый — не спутаешь».",
         "choices": [
           {
-            "label": "Пообещать вернуть долг за того гостя",
+            "label": "Пообещать найти Фрола и стребовать долг",
             "onSuccess": {
               "actions": [
                 {
@@ -299,6 +374,11 @@
                   "action": "applyEffect",
                   "target": "currentPlayer",
                   "effectId": "effect_mystery"
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "ghost_debt_promised",
+                  "value": true
                 }
               ],
               "to": {
@@ -316,6 +396,47 @@
                   "effectId": "effect_whisper"
                 }
               ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_paid",
+        "text": "Ты кладёшь монету на стойку. Пыль поднимается сама — и за стойкой стоит трактирщик, уже не прозрачный, а будто выцветший. Он берёт монету, долго вертит её в пальцах и смеётся: «Фрол. Тридцать лет. А ведь отдал». Он наливает тебе из бочки, которой нет, — последнюю, за счёт заведения. Когда ты допиваешь, за стойкой никого. Только кружка, ещё тёплая.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_at_rest",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Выпить за обоих — и за Фрола, и за трактирщика",
+            "onSuccess": {
+              "actions": [],
               "to": {
                 "destination": "endAdventure"
               }

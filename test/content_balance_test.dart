@@ -3,9 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drinking_quest/game_engine/data/card_repository.dart';
 import 'package:drinking_quest/game_engine/models/models.dart';
 
-/// Guards the design doc's target content mix (60–70% quick / 20–30% choice
-/// / 10–15% full adventures / 1–3% legendary, all by draw-weight share) so
-/// future content additions don't quietly drift the game's pacing — e.g.
+/// Guards the design doc's content mix (`ALKO_QUEST_DESIGN_RULES.md`, «Состав
+/// пула»: 40–75% quick / 15–50% choice / from 7% adventures / legendary
+/// rare, all by draw-weight share). The choice ceiling was 35% and the quick
+/// floor 55% until the fourth playtest, where the players asked for more to
+/// do on a card — «телефон что-то прочитал, и ничего». The guard keeps
+/// future content additions from quietly drifting the game's pacing — e.g.
 /// dumping in twenty more quick filler cards without weighing choices and
 /// adventures up to match would make most turns predictable again, which is
 /// exactly what the design doc says to avoid.
@@ -38,6 +41,10 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// come soon after the cooldown ends, once in thirty-odd cards, not to be
 /// a share of every step.
 ///
+/// So are echoes, which wait for a flag and come a few steps after it
+/// (`minimumStepsSinceFlag`) — the world remembering one thing the table
+/// did, not a share of every step.
+///
 /// The halt's content is left out too. It is drawn only at a halt, from a
 /// pool of its own, and how much of a match it fills is set by the halt's
 /// spacing and its way out, not by how many cards it holds: giving the fire
@@ -62,6 +69,14 @@ void main() {
               (condition) => condition is FlagNotSetWithinStepsCondition,
             ),
           )
+          // Echoes too — a dog that stayed, a courier who comes back: they
+          // wait for one thing the table did and come once, a few steps
+          // after it, so their weight is how soon, not a share of the road.
+          .where(
+            (c) => !c.conditions.any(
+              (condition) => condition is MinimumStepsSinceFlagCondition,
+            ),
+          )
           .toList();
       final totalWeight = cards.fold<int>(0, (sum, c) => sum + c.weight);
 
@@ -84,12 +99,12 @@ void main() {
 
       expect(
         quickPct,
-        inInclusiveRange(55, 75),
+        inInclusiveRange(40, 75),
         reason: 'quick-event share drifted out of range',
       );
       expect(
         choicePct,
-        inInclusiveRange(15, 35),
+        inInclusiveRange(15, 50),
         reason: 'choice-card share drifted out of range',
       );
       expect(
