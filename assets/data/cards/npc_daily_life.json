@@ -380,7 +380,130 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Поправить странника — переправа в другой стороне",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты поправляешь его так, что он думает, будто это его мысль. Женщина за его спиной благодарно кивает тебе.",
+            "loserOutcome": "Странник обижается и начинает объяснять тебе. Женщина с вёдрами тихо уходит, оставив вас вдвоём."
+          }
+        ]
+      },
+      {
+        "label": "Спросить женщину, как на самом деле",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Она смеётся и рассказывает про тропу через овраг, которой странник не знает. Вы идёте ею и выигрываете час.",
+            "loserOutcome": "Она пожимает плечами: «Как он сказал, так и идите». И уходит с вёдрами."
+          }
+        ]
+      },
+      {
+        "label": "Следопыт знает, что прав странник — переправу перенесли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты подтверждаешь: брод ушёл после половодья. Женщина ахает — она не ходила туда с весны. Странник смотрит на тебя как на брата."
+      },
+      {
+        "label": "Развернуть карту — пусть сверятся",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Карта рассуживает обоих. Странник оказывается прав в одном, женщина — в другом, и они расходятся довольные."
+      },
+      {
+        "label": "Пустынный странник узнаёт в нём своего",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "По повязке на запястье. Вы обмениваетесь парой слов на наречии песков, и он рассказывает тебе то, о чём молчал при женщине."
+      },
+      {
+        "label": "Под хмельком — объяснить им обоим третью дорогу",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты объясняешь путь, которого нет. Они слушают до конца и благодарят — оба, одинаково вежливо."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "life_musician_learns_song",

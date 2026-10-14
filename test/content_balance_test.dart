@@ -38,6 +38,10 @@ import 'package:drinking_quest/game_engine/models/models.dart';
 /// come soon after the cooldown ends, once in thirty-odd cards, not to be
 /// a share of every step.
 ///
+/// So are echoes, which wait for a flag and come a few steps after it
+/// (`minimumStepsSinceFlag`) — the world remembering one thing the table
+/// did, not a share of every step.
+///
 /// The halt's content is left out too. It is drawn only at a halt, from a
 /// pool of its own, and how much of a match it fills is set by the halt's
 /// spacing and its way out, not by how many cards it holds: giving the fire
@@ -60,6 +64,14 @@ void main() {
           .where(
             (c) => !c.conditions.any(
               (condition) => condition is FlagNotSetWithinStepsCondition,
+            ),
+          )
+          // Echoes too — a dog that stayed, a courier who comes back: they
+          // wait for one thing the table did and come once, a few steps
+          // after it, so their weight is how soon, not a share of the road.
+          .where(
+            (c) => !c.conditions.any(
+              (condition) => condition is MinimumStepsSinceFlagCondition,
             ),
           )
           .toList();

@@ -16,7 +16,145 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Постучать и спросить, не нужна ли помощь",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "supper_wife_asked",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Она открывает не сразу. Говорит: муж ушёл на мельницу через брод и не вернулся к ужину. Вы обещаете спросить на мельнице. Она зажигает вторую свечу.",
+            "loserOutcome": "Она смотрит на тебя через стекло и задёргивает занавеску. Ждать — дело одного человека."
+          }
+        ]
+      },
+      {
+        "label": "Сказать через окно, что видели человека на дороге сюда",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Она поднимает голову, и в глазах появляется то, ради чего стоило соврать. Подогревает вторую миску.",
+            "loserOutcome": "Она смотрит на тебя долго и понимает, что на дороге никого не было. Отворачивается к столу."
+          }
+        ]
+      },
+      {
+        "label": "Проводник душ видит, кто сидит у полной миски",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "У стола сидит он — полупрозрачный, виноватый, и смотрит на неё. Ты ничего не говоришь вслух. Уходя, долго чувствуешь его взгляд."
+      },
+      {
+        "label": "Орден ищет пропавших — пообещать спросить на заставе",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "supper_wife_asked",
+            "value": true
+          }
+        ],
+        "outcome": "Ты говоришь про заставу, она записывает имя мужа на клочке и отдаёт тебе. Застава получит его завтра."
+      },
+      {
+        "label": "Моряк узнаёт: так ждут тех, кто ушёл за воду",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты стучишь и говоришь то, что говорят у вас на пристани: «Вода отпускает поздно, но отпускает». Она плачет — но уже по-другому."
+      },
+      {
+        "label": "Под хмельком — постучать и сесть за пустую миску",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          }
+        ],
+        "outcome": "Тебя выставляют быстро и молча, а миску она моет так, будто её испортили."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_child_learns_to_whistle",
@@ -40,7 +178,7 @@
   {
     "id": "home_wife_sharpens_knife",
     "title": "Точат нож на пороге",
-    "description": "Женщина водит лезвием по камню — медленно, с одинаковым нажимом, глядя не на нож, а на дорогу.\n\nНож давно острый.",
+    "description": "Женщина водит лезвием по камню — медленно, с одинаковым нажимом, глядя не на нож, а на дорогу.\n\nНож давно острый. Она точит, чтобы чем-то занять руки, пока ждёт.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -54,7 +192,125 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Спросить, кого она ждёт",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "knife_wife_asked",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Муж ушёл в город позавчера и обещал к вечеру. Она точит, чтобы руки были заняты. Ты обещаешь спросить о нём на дороге — и она откладывает нож.",
+            "loserOutcome": "Она поднимает на тебя глаза и продолжает точить. Ответ ясен."
+          }
+        ]
+      },
+      {
+        "label": "Предложить дождаться вместе",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Вы ждёте до заката. На дороге появляется телега, и нож летит на крыльцо. Тебе машут из телеги, не зная, кто ты.",
+            "loserOutcome": "Ты ждёшь, пока не начинает клонить в сон. Она говорит: «Иди. Это моё дело»."
+          }
+        ]
+      },
+      {
+        "label": "Наёмник видит: так ждут не мужа, а тех, кто придёт за ним",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты переводишь взгляд с ножа на дорогу и понимаешь, кого она ждёт. Говоришь тихо, где на развилке стоят чужие. Она кивает и уходит в дом."
+      },
+      {
+        "label": "Беглец понимает её без слов",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты садишься рядом и молчишь. Когда-то и тебя так ждали. Она это видит — и протягивает тебе точильный камень."
+      },
+      {
+        "label": "Попросить наточить и твой нож",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sharp_blade"
+          }
+        ],
+        "outcome": "Она точит твой нож так же, не глядя. Возвращает — и ты боишься убирать его в ножны."
+      },
+      {
+        "label": "Под хмельком — рассказать ей смешную историю",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_out_of_place"
+          }
+        ],
+        "outcome": "История очень смешная. Она точит нож. Ты рассказываешь концовку, глядя на нож, и уходишь, не дождавшись смеха."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_moving_out",
@@ -77,7 +333,135 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Помочь донести последнее",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Сундук, лавка, кадка — всё встаёт на телегу ровно. Хозяин жмёт руку и отдаёт тебе ключ от пустого дома: «Мне уже не нужен».",
+            "loserOutcome": "Сундук выскальзывает на крыльце. Ничего не бьётся, но хозяин молча доносит его сам."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, куда они едут",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "К дочери в город — тут стало пусто. Он рассказывает про каждую вещь на телеге. Скобу кладёт в карман: «Прибью там. Чтоб было как здесь».",
+            "loserOutcome": "Он не отвечает и выносит следующую вещь. На ней он тоже останавливается."
+          }
+        ]
+      },
+      {
+        "label": "Предложить вашу телегу под остаток",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Две телеги уезжают вместо одной. До развилки вы идёте вместе, и на развилке хозяин долго машет."
+      },
+      {
+        "label": "Беглец знает, как уезжают навсегда",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты подходишь и говоришь одно: «Не оборачивайтесь на развилке». Он смотрит на тебя и понимает, что ты знаешь. Кивает."
+      },
+      {
+        "label": "Бедняк понимает, зачем ему скоба",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "У вас тоже уносили с собой дверную скобу — больше было нечего. Ты говоришь это, и он впервые за утро улыбается."
+      },
+      {
+        "label": "Под хмельком — проводить их песней",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Песня прощальная, длинная и не та. Телега уезжает быстрее, чем собиралась."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_bread_shared_over_fence",
@@ -119,7 +503,154 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Залезть по лестнице за кошкой",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты добираешься до конька, и кошка сама переходит тебе на плечо, как на ступеньку. Хозяйка внизу крестится и зовёт вас ужинать — на словах.",
+            "loserOutcome": "На середине лестница решает, что с неё хватит. Кошка смотрит, как ты висишь, с огромным интересом."
+          }
+        ]
+      },
+      {
+        "label": "Позвать её так, как зовут кошек у вас дома",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Кошка поворачивает голову, думает — и спускается по водостоку прямо к тебе. Хозяйка смотрит на тебя как на колдуна.",
+            "loserOutcome": "Кошка выслушивает тебя с тем же вниманием, что и хозяйку. Остаётся на коньке."
+          }
+        ]
+      },
+      {
+        "label": "Дитя леса просто протягивает руку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Кошка спускается с крыши так, будто всегда собиралась. Садится к тебе на руки и мурлычет. Хозяйка обижается — на кошку."
+      },
+      {
+        "label": "Наследник ведьм договаривается — кошка-то не простая",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты говоришь ей пару слов, которых хозяйка не слышит. Кошка спускается, проходит мимо тебя и оборачивается: «Должна». Хозяйка ничего не поняла."
+      },
+      {
+        "label": "Закинуть верёвку на конёк — пусть спускается по ней",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Кошка смотрит на верёвку с презрением, но спускается по ней — медленно, как королева по лестнице."
+      },
+      {
+        "label": "Под хмельком — залезть без лестницы",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты на крыше. Кошка на земле — спрыгнула от удивления. Теперь снимают тебя.",
+            "loserOutcome": "Ты почти на крыше. Потом почти в огороде. Кошка не шевельнулась."
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_grandfather_teaches_knot",
@@ -228,7 +759,145 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Предложить прочесть самому — громко и разборчиво",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Ты читаешь так, что слышно на улице. Женщина благодарит, двор кивает, и тебя ещё долго зовут «тот, что письмо читал».",
+            "loserOutcome": "«Не лезь, чужак», — говорит один из грамотных и забирает письмо. Двор смотрит на тебя, пока ты не уходишь."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, от кого письмо",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "От сына, из города: жив, служит, скоро домой. Ты разглядываешь печать и говоришь, откуда она, — женщина прижимает письмо к груди.",
+            "loserOutcome": "Тебе отвечают коротко и так, что второго вопроса не будет."
+          }
+        ]
+      },
+      {
+        "label": "Хранитель рун замечает приписку тайнописью",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_secret_read",
+            "value": true
+          }
+        ],
+        "outcome": "Внизу, мелко, — знаки, которых грамотные не видят. Ты читаешь их только себе: «Не верь тому, кто привезёт это письмо». Почтальон уже уехал."
+      },
+      {
+        "label": "Бард читает письмо нараспев",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Письмо становится песней. На третьем куплете женщина поёт с тобой — она ведь знает его наизусть."
+      },
+      {
+        "label": "Последний архимаг читает между строк",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_last_archmage"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Чернила сына легли поверх чьих-то других. Ты не говоришь этого вслух. Женщине нужно то письмо, что сверху."
+      },
+      {
+        "label": "Под хмельком — дочитать письмо по-своему",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "В твоей версии сын женится на принцессе. Двор смеётся, женщина — нет. Тебя выводят со двора под руки."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_two_brothers_split",
@@ -336,7 +1005,146 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Спросить хозяйку про пятую пару",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "shoes_father_asked",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Она говорит: отец ушёл с обозом три зимы назад. Сапоги ждут. Ты обещаешь спросить про обоз по дороге — и она ставит сапоги чуть ровнее.",
+            "loserOutcome": "Она молча заносит пятую пару в дом. Дверь закрывается."
+          }
+        ]
+      },
+      {
+        "label": "Смахнуть с пятой пары пыль",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Из окна смотрит хозяйка. Потом выходит, ставит рядом шестую — маленькую, детскую — и улыбается тебе.",
+            "loserOutcome": "Из окна смотрит хозяйка. «Не трогай», — говорит она тихо. Ты отходишь."
+          }
+        ]
+      },
+      {
+        "label": "Наёмник узнаёт сапоги солдатского кроя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "shoes_father_asked",
+            "value": true
+          }
+        ],
+        "outcome": "Такие шили для пограничной стражи. Ты называешь хозяйке крепость, где их носили. Она садится на крыльцо и долго смотрит на дорогу."
+      },
+      {
+        "label": "Моряк знает: так ждут тех, кто ушёл в море",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты переставляешь пятую пару носами к дороге — у вас на побережье так делают, чтобы вернулся. Хозяйка видит и ничего не говорит. Только не переставляет обратно."
+      },
+      {
+        "label": "Ты знаешь, что тот, чьи это сапоги, не вернётся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Ты ничего не говоришь. Но, уходя, чувствуешь, что пятая пара смотрит тебе вслед."
+      },
+      {
+        "label": "Под хмельком — примерить пятую пару",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "Сапоги велики. Хозяйка — в дверях. Ты снимаешь их очень быстро, но недостаточно быстро."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "home_someone_sings_inside",
@@ -355,6 +1163,128 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Подпеть из-за стены",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Голос за стеной замолкает, потом подхватывает с того места, где вступил твой голос. Допеваете вдвоём, не видя друг друга.",
+            "loserOutcome": "Голос за стеной замолкает и больше не начинает. Песню, похоже, спугнули."
+          }
+        ]
+      },
+      {
+        "label": "Дождаться, пока песня дойдёт до конца",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "На третий раз песня проходит место, где обрывалась, и доходит до конца. Ты узнаёшь, чем всё кончилось, — хорошо.",
+            "loserOutcome": "Песня обрывается в том же месте в четвёртый раз. Ты уходишь, так и не узнав, чем всё кончилось."
+          }
+        ]
+      },
+      {
+        "label": "Бард знает эту песню и допевает её",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты допеваешь куплет, на котором она обрывается. В доме тишина, потом открывается окно: «Откуда ты знаешь конец?»"
+      },
+      {
+        "label": "Моряк узнаёт морскую — её поют, пока чинят сети",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты подхватываешь припев, и голос за стеной спотыкается. В окно выглядывает старик: «Откуда ты? Её только у нас пели»."
+      },
+      {
+        "label": "Похмельному тихая песня — то, что нужно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Ты садишься у стены и закрываешь глаза. Когда песня доходит до места, где обрывается, голова уже не болит."
+      },
+      {
+        "label": "Под хмельком — постучать и попросить что-нибудь повеселее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "Песня обрывается сразу. Повеселее тебе объясняют из окна, словами."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   }
 ]

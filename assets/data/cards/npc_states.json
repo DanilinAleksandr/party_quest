@@ -240,7 +240,180 @@
         "biomeId": "mountains"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Попросить попробовать варево",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hiccups"
+              }
+            ],
+            "winnerOutcome": "Пахнет горелым мёдом, на вкус — как удар по затылку. Потом становится очень ясно и очень тепло.",
+            "loserOutcome": "Варево проваливается внутрь и устраивает там своё. Икаешь до самого перевала."
+          }
+        ]
+      },
+      {
+        "label": "Предложить помощь — подержать котелок на счёт",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "helped_alchemist",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты снимаешь котелок ровно на сорок. Алхимик смотрит на тебя с интересом: «Руки есть. Встретимся — поговорим». Он тебя запомнил.",
+            "loserOutcome": "Ты снимаешь на тридцать девять. Алхимик выливает всё на камни и молча ставит новый котелок."
+          }
+        ]
+      },
+      {
+        "label": "Сунуть нос прямо в котелок",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Пар бьёт в нос, и на миг ты видишь всё очень чётко: тропу, камни, птицу на дальнем гребне. Потом проходит.",
+            "loserOutcome": "Алхимик выплёскивает кипяток на камни — рядом с тобой. «Не нюхай чужое». Капли попадают на руки."
+          }
+        ]
+      },
+      {
+        "label": "Алхимик узнаёт коллегу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_alchemist",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты называешь, что в котелке, по запаху. Он поднимает бровь и отливает тебе в склянку: «На пробу. Коллеге»."
+      },
+      {
+        "label": "Отдать ему зелье лекаря — для сравнения",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_healing_potion"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_healing_potion"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "helped_alchemist",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Он нюхает, кривится, нюхает ещё раз и кладёт склянку в сумку. «Интересно. Я тебе должен»."
+      },
+      {
+        "label": "Похмельному этот запах — почти рецепт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hiccups"
+          }
+        ],
+        "outcome": "Он видит твоё лицо и наливает ложку без вопросов. Похмелье уходит. Приходит икота."
+      },
+      {
+        "label": "Под хмельком — сунуть палец в варево",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Горячо. Алхимик даже не оборачивается: «Сорок первый за лето»."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "state_alchemist_broken_glass",

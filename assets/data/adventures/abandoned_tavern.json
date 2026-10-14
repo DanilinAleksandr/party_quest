@@ -18,6 +18,50 @@
             }
           },
           {
+            "label": "Сначала заглянуть в окно",
+            "successChance": 0.6,
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "old_ledger"
+              }
+            },
+            "onFailure": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_appears"
+              }
+            }
+          },
+          {
+            "label": "Постучать и позвать хозяина",
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_appears"
+              }
+            }
+          },
+          {
+            "label": "Ты слышишь: внутри кто-то ждёт — и давно",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasOrigin",
+                "originId": "origin_soul_guide"
+              }
+            ],
+            "onSuccess": {
+              "actions": [],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_story"
+              }
+            }
+          },
+          {
             "label": "Не рисковать, пройти мимо",
             "onSuccess": {
               "actions": [],
@@ -60,17 +104,26 @@
       },
       {
         "id": "empty_tavern",
-        "text": "Трактир и правда пуст. На полке за стойкой — забытая фляга с чем-то крепким.",
-        "onEnterActions": [
-          {
-            "action": "giveItem",
-            "target": "currentPlayer",
-            "itemId": "item_bravery_flask"
-          }
-        ],
+        "text": "Трактир и правда пуст. На полке за стойкой стоит фляга — полная, с притёртой пробкой. Пыль вокруг неё есть, на ней — нет.",
         "choices": [
           {
-            "label": "Понятно",
+            "label": "Подойти к полке",
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "setWorldFlag",
+                  "flag": "tavern_flask_seen",
+                  "value": true
+                }
+              ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          },
+          {
+            "label": "Не трогать чужое в чужом доме",
+            "outcome": "Ты выходишь, прикрыв дверь. Фляга остаётся там, где её оставили.",
             "onSuccess": {
               "actions": [],
               "to": {
@@ -82,7 +135,7 @@
       },
       {
         "id": "old_ledger",
-        "text": "На стойке лежит раскрытая амбарная книга — список должников трактира, с забавными пометками на полях.",
+        "text": "На стойке лежит раскрытая амбарная книга — список должников трактира. Последняя строка жирная, обведённая трижды: «Фрол Кривой, перевозчик. Бочонок. Отдаст к Покрову».",
         "choices": [
           {
             "label": "Пролистать книгу",
@@ -279,10 +332,10 @@
       },
       {
         "id": "ghost_story",
-        "text": "Призрак рассказывает: он умер, так и не дождавшись последнего гостя, который остался ему должен.",
+        "text": "Призрак рассказывает: последним гостем был Фрол Кривой, перевозчик с разливов. Выпил бочонок в долг, обещал занести к Покрову — и ушёл к своему перевозу. «Тридцать лет жду. Найди его. Он там же, у воды, одноглазый — не спутаешь».",
         "choices": [
           {
-            "label": "Пообещать вернуть долг за того гостя",
+            "label": "Пообещать найти Фрола и стребовать долг",
             "onSuccess": {
               "actions": [
                 {
@@ -299,6 +352,11 @@
                   "action": "applyEffect",
                   "target": "currentPlayer",
                   "effectId": "effect_mystery"
+                },
+                {
+                  "action": "setWorldFlag",
+                  "flag": "ghost_debt_promised",
+                  "value": true
                 }
               ],
               "to": {

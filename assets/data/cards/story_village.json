@@ -8,6 +8,130 @@
     "weight": 2,
     "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "desert" }],
+    "choices": [
+      {
+        "label": "Помочь собрать солому со двора",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты носишь солому охапками, пока двор не становится двором. Хозяйка выносит вам последнее, что есть, — и это немало."
+      },
+      {
+        "label": "Спросить, чем ещё помочь",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Хозяин оттаивает: нужны жерди, и он знает, где. Вы приносите четыре — их хватит на каркас.",
+            "loserOutcome": "Хозяин не отвечает. Он сидит на вещах и смотрит на печь."
+          }
+        ]
+      },
+      {
+        "label": "Поставить им во дворе вашу палатку на ночь",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Палатка встаёт у крыльца. Дети залезают в неё первыми, и хозяева впервые за день смеются."
+      },
+      {
+        "label": "Фермер знает, как крыть наскоро",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты показываешь, как увязать солому временно — до настоящей кровли продержится. К вечеру у дома снова есть крыша. Плохая, но своя."
+      },
+      {
+        "label": "Наследник титанов поднимает стропила обратно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Стропила ставят втроём, а держишь их в одиночку. Хозяин не верит глазам и потом рассказывает это в трёх деревнях."
+      },
+      {
+        "label": "Под хмельком — залезть посмотреть, откуда дует",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Дует отовсюду. Особенно когда летишь со стропил на солому."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ],
     "actions": []
   },
   {
@@ -50,6 +174,148 @@
     "weight": 2,
     "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Заглянуть в колодец — нет ли воды глубже",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "На самом дне, под сухим, чернеет мокрый камень. Ты говоришь хозяевам копать на локоть глубже — и через час из колодца снова черпают.",
+            "loserOutcome": "Темно, сухо и пахнет пылью. Ты свешиваешься слишком далеко, и хозяйка оттаскивает тебя за пояс."
+          }
+        ]
+      },
+      {
+        "label": "Помочь донести вёдра от соседского колодца",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты делаешь пять ходок по натоптанной дорожке. Хозяйка выносит тебе первую воду — тебе же и натасканную.",
+            "loserOutcome": "На третьей ходке ведро бьёт по ноге, и полведра — в пыль. Дорожка становится грязной."
+          }
+        ]
+      },
+      {
+        "label": "Потомок друидов ищет воду по траве",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты ходишь по двору, пока не находишь пятно травы зеленее прочей. «Здесь», — говоришь ты. Через неделю здесь будет новый колодец."
+      },
+      {
+        "label": "Пустынный странник знает, как ищут воду в сухой земле",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты кладёшь на землю медную пряжку и ждёшь утра. Под пряжкой — роса. Хозяин копает там, и к вечеру внизу темнеет."
+      },
+      {
+        "label": "Спустить ведро на всю вашу верёвку",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Верёвка уходит глубже ворота, и ведро плюхает в воду. Её мало, но она есть — и хозяева кланяются.",
+            "loserOutcome": "Ведро стукается о сухое на той же глубине. Верёвка длиннее, колодец — нет."
+          }
+        ]
+      },
+      {
+        "label": "Под хмельком — крикнуть в колодец и ждать эха",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Колодец отвечает твоим же голосом, только трезвым. Хозяйка выходит посмотреть, кто кричит, и остаётся смотреть."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ],
     "actions": []
   },
   {
@@ -64,6 +330,150 @@
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 4 },
       { "condition": "notInBiome", "biomeId": "floodlands" }
+    ],
+    "choices": [
+      {
+        "label": "Покрутить ворот",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_strong"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Бадья за бадьёй, пока снизу не кричат: «Мокро!» Ты успеваешь первым заглянуть в яму, где темнеет вода.",
+            "loserOutcome": "На шестой бадье ворот вырывается из рук и бьёт по пальцам. Тебя сменяют молча."
+          }
+        ]
+      },
+      {
+        "label": "Спуститься сменить того, кто внизу",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Внизу тесно и холодно, но лопата идёт легко. На десятом штыке под ней начинает хлюпать. Тебя вытаскивают героем.",
+            "loserOutcome": "Внизу тесно, холодно и страшно. Ты поднимаешься раньше, чем хотелось бы, и долго дышишь наверху."
+          }
+        ]
+      },
+      {
+        "label": "Потомок друидов показывает, где вода ближе",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты указываешь на сторону ямы, где земля темнее. Копают туда — и вода выходит на два аршина раньше."
+      },
+      {
+        "label": "Горец знает, где пойдёт камень",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты слушаешь, как звенит лопата, и говоришь: «Ещё штык — и плита». Плита. Её обходят, и работа не встаёт."
+      },
+      {
+        "label": "Дать свою верёвку — их уже перетёрлась",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ваша верёвка идёт на ворот, старая — на дрова. Тот, кто внизу, благодарит особенно горячо."
+      },
+      {
+        "label": "Под хмельком — спуститься в яму без верёвки",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Спускаешься ты быстро. Поднимают тебя медленно, всей деревней, с песней."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
     ],
     "actions": []
   },
@@ -92,6 +502,124 @@
     "weight": 2,
     "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }],
+    "choices": [
+      {
+        "label": "Спросить, куда делся колокол",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Колокол сняли на переплавку в худой год. Теперь копят на новый, и копят долго. Тебе показывают кружку для сбора у входа.",
+            "loserOutcome": "Тебе отвечают «так надо» и переводят разговор на бельё."
+          }
+        ]
+      },
+      {
+        "label": "Подняться наверх посмотреть",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Сверху видно всю дорогу — и всадника вдали, который едет сюда. Ты успеваешь предупредить.",
+            "loserOutcome": "На последнем пролёте лестница кончается раньше, чем ожидалось. Спускаешься осторожно и с ссадинами."
+          }
+        ]
+      },
+      {
+        "label": "Хранитель рун читает знаки на балке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "На балке вырезан год и имя мастера, что отливал первый колокол. Ты читаешь его вслух — и старухи у колокольни плачут: так звали деда половины деревни."
+      },
+      {
+        "label": "Орден обещал деревне новый колокол — напомнить",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты говоришь, что напишешь на заставу. Староста не верит, но благодарит. Через месяц он поверит."
+      },
+      {
+        "label": "Проводник душ знает, по ком он звонил последний раз",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Тишина под пустым крюком — особая. Ты слышишь в ней последний удар, тот, что не прозвучал. Он остаётся с тобой до вечера."
+      },
+      {
+        "label": "Под хмельком — ударить в пустой крюк",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Крюк отвечает жалким звяком. Женщины у белья смотрят на тебя так, что звяк кажется громким."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ],
     "actions": []
   },
   {
@@ -105,6 +633,145 @@
     "conditions": [
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 4 }
+    ],
+    "choices": [
+      {
+        "label": "Встать на канат",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты тянешь со всеми, и колокол встаёт на крюк. Когда он впервые звякает сам от ветра, кто-то хлопает тебя по плечу: «Твой звон».",
+            "loserOutcome": "Канат рвёт ладони, и ты отпускаешь раньше других. Колокол поднимают без тебя."
+          }
+        ]
+      },
+      {
+        "label": "Подстраховать снизу — следить за блоком",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты замечаешь, что канат пошёл с блока, и кричишь вовремя. Колокол замирает в воздухе, канат возвращают на место.",
+            "loserOutcome": "Ты смотришь на блок так внимательно, что пропускаешь, как тебе на ногу ставят бадью."
+          }
+        ]
+      },
+      {
+        "label": "Наследник титанов тянет за троих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Канат идёт ровно и быстро. Старший перестаёт командовать — незачем. Деревня потом спорит, сколько тебя было."
+      },
+      {
+        "label": "Горец знает, как работают с блоком",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты перекладываешь канат через второй ролик, как поднимают на перевалах. Тянуть становится вдвое легче. Старший слушает тебя."
+      },
+      {
+        "label": "Пустить вторую верёвку — страховку",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ваша верёвка идёт рядом с канатом. Когда канат проскальзывает, колокол висит на ней. Деревня благодарит верёвку и вас."
+      },
+      {
+        "label": "Под хмельком — покомандовать вместо старшего",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Тебя слушают ровно одну команду. Её хватает, чтобы колокол качнулся, и чтобы старший сказал тебе, кто тут командует."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
     ],
     "actions": []
   },
@@ -132,6 +799,139 @@
     "weight": 2,
     "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Спросить, где кузнец",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Кузнец ушёл за наковальней — старую продали за долги. Вернётся с новой, тогда и задымит. Тебе говорят это так, будто ждут уже давно.",
+            "loserOutcome": "Тебе не отвечают. Здесь не любят говорить о пустых кузнях."
+          }
+        ]
+      },
+      {
+        "label": "Снять одну подкову на счастье",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ],
+            "winnerOutcome": "Подкова уходит в мешок незаметно. Счастливая или нет — узнаешь потом.",
+            "loserOutcome": "Тебя видит старуха через дорогу. Подкову ты вешаешь обратно своими руками, под её взглядом."
+          }
+        ]
+      },
+      {
+        "label": "Ремесленник видит: горн можно собрать за день",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты складываешь разобранные камни горна так, как они стояли. Придёт кузнец — и останется только раздуть."
+      },
+      {
+        "label": "Драконорождённый разжигает горн одним дыханием",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты наклоняешься к горну, и угли вспыхивают. Через минуту над пустой кузней снова дым, и вся улица выходит посмотреть."
+      },
+      {
+        "label": "Наёмник знает цену подковам над входом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Три подковы — три коня, которых здесь подковали для войны. Кузню закрыли не за долги. Ты не говоришь этого вслух."
+      },
+      {
+        "label": "Под хмельком — раздуть мехи, которых нет",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты долго качаешь пустоту. Через дорогу собираются зрители."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ],
     "actions": []
   },
   {
@@ -146,6 +946,150 @@
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 4 },
       { "condition": "notInBiome", "biomeId": "floodlands" }
+    ],
+    "choices": [
+      {
+        "label": "Подставить плечо под слегу",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_strong"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Наковальня съезжает по слегам ровно, без рывка. Кузнец, не говоря ни слова, жмёт тебе руку — ладонь у него как та же наковальня.",
+            "loserOutcome": "Слега гуляет, наковальня ухает в землю на вершок мимо колоды. Её всё равно поставят — но тебя на этой работе запомнят."
+          }
+        ]
+      },
+      {
+        "label": "Подложить камни под колёса, пока телега не завалилась",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты замечаешь, как задний край ползёт, раньше всех. Камень под колесо — и телега стоит. Шестеро выдыхают разом.",
+            "loserOutcome": "Камень ложится не туда, телега дёргается, и снимающие ругаются в шесть голосов. На тебя."
+          }
+        ]
+      },
+      {
+        "label": "Наследник титанов снимает её один",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты берёшь наковальню за рог и опускаешь на колоду. Деревня молчит. Потом кто-то начинает хлопать, и хлопают все."
+      },
+      {
+        "label": "Пустить вашу верёвку через ворот колодца",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Верёвка, ворот, четверо на рукояти — и наковальня садится на место мягко, как кошка. Кузнец просит верёвку посмотреть, долго мнёт её в руках и отдаёт с уважением."
+      },
+      {
+        "label": "Каторжник знает, как носят тяжесть вшестером",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты становишься в голову и задаёшь счёт — тот, что знаком по каменоломне. Шестеро идут в ногу. Никто не спрашивает, откуда такая сноровка, и это правильно."
+      },
+      {
+        "label": "Под хмельком — присесть на наковальню, пока несут",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Тебя снимают вместе с наковальней. Потом снимают отдельно. Деревня, которая не лезла помогать, теперь очень довольна, что пришла посмотреть."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
     ],
     "actions": []
   },
@@ -174,6 +1118,135 @@
     "weight": 2,
     "tags": ["solo", "village"],
     "conditions": [{ "condition": "notInBiome", "biomeId": "tavern" }, { "condition": "notInBiome", "biomeId": "desert" }, { "condition": "notInBiome", "biomeId": "floodlands" }],
+    "choices": [
+      {
+        "label": "Помочь окопать край, пока снова не занялось",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты копаешь до темноты, пока полоса не замыкается. Утром поле не горит, и хозяин приходит сказать спасибо лично.",
+            "loserOutcome": "Ты копаешь, пока не начинает гудеть спина. Полосу докапывают без тебя."
+          }
+        ]
+      },
+      {
+        "label": "Спросить, отчего загорелось",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Хозяин понижает голос: загорелось с трёх концов сразу. Кто-то в деревне знает, кто. Ты запоминаешь.",
+            "loserOutcome": "Хозяин смотрит на тебя подозрительно: чужие о пожаре спрашивают только в одном случае."
+          }
+        ]
+      },
+      {
+        "label": "Полукровка феникса — огонь тебя знает",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_phoenix_halfblood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты проводишь ладонью над чёрной землёй, и последнее тепло уходит в тебя. Больше здесь не загорится. Хозяин не понимает, что случилось, но кланяется."
+      },
+      {
+        "label": "Фермер знает: после пала земля родит вдвое",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты говоришь это хозяину, и он поднимает голову. «Отец так же говорил». Остаток дня он уже не сидит на меже."
+      },
+      {
+        "label": "Потомок друидов говорит над пеплом слово",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_druid_descendant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Слово короткое. Через неделю хозяин найдёт в пепле первые зелёные стрелки — раньше, чем бывает."
+      },
+      {
+        "label": "Под хмельком — проверить, тёплая ли ещё земля",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Тёплая. Ты проверяешь это всем собой, и потом долго отряхиваешься."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ],
     "actions": []
   },
   {
@@ -243,7 +1316,7 @@
   {
     "id": "story_fence_dug_together",
     "title": "Копают вдвоём",
-    "description": "Двое роют одну яму с двух сторон, мешая друг другу лопатами. Разговаривают только о глубине.\n\nРядом лежит новый столб — один. Не два.",
+    "description": "Двое роют одну яму с двух сторон, мешая друг другу лопатами. Разговаривают только о глубине.\n\nРядом лежит новый столб — один на двоих. Ещё весной каждый собирался ставить свой, на ладонь от соседского.",
     "type": "event",
     "rarity": "common",
     "weight": 2,
@@ -252,6 +1325,137 @@
       { "condition": "notInBiome", "biomeId": "tavern" },
       { "condition": "minimumStep", "steps": 4 },
       { "condition": "notInBiome", "biomeId": "floodlands" }
+    ],
+    "choices": [
+      {
+        "label": "Спросить, как они договорились",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Тот, что помоложе, смеётся: спорили до драки, потом подрались и помирились. Теперь забор общий, и столб — один на двоих.",
+            "loserOutcome": "Оба отвечают одновременно и разное. Начинают спорить снова. Ты уходишь, пока не поздно."
+          }
+        ]
+      },
+      {
+        "label": "Помочь вкопать столб",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Втроём столб встаёт ровно. Соседи переглядываются и зовут тебя на обмывку забора, которого ещё нет.",
+            "loserOutcome": "Ты держишь столб, а они спорят, ровно ли. Держишь долго."
+          }
+        ]
+      },
+      {
+        "label": "Рыцарь знает цену миру — сказать это вслух",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты говоришь, что бывают споры, которые кончаются куда хуже. Оба замолкают и копают дальше — молча, но уже не мешая друг другу."
+      },
+      {
+        "label": "Купец советует записать уговор",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "outcome": "Ты пишешь им уговор на бересте, оба ставят крест. В благодарность тебе отдают жетон от лавки — один на двоих, конечно."
+      },
+      {
+        "label": "Выкатить бочонок — выпить за мир соседей",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Первая кружка — за столб, вторая — за забор, третья — за то, что спорить больше не о чем. Соседи обнимаются."
+      },
+      {
+        "label": "Под хмельком — спросить, чей всё-таки столб",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Мир длится ровно до твоего вопроса. Ты уходишь, а за спиной снова спорят — теперь ещё и о тебе."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
     ],
     "actions": []
   },

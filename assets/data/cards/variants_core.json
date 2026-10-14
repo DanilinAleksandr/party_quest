@@ -190,12 +190,137 @@
       "risk"
     ],
     "conditions": [],
-    "actions": [
+    "actions": [],
+    "choices": [
       {
-        "action": "modifyStat",
-        "target": "currentPlayer",
-        "stat": "luck",
-        "amount": -1
+        "label": "Обогнать её, пока не поздно",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты успеваешь перебежать дорогу раньше кошки. Кошка оскорблена. Примета не сработала — обогнать её удалось.",
+            "loserOutcome": "Ты бежишь, кошка бежит, ты падаешь посреди дороги. Компания смеётся до следующего поворота. Примета сработала дважды."
+          }
+        ]
+      },
+      {
+        "label": "Трижды плюнуть через плечо",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [],
+            "loserActions": [
+              {
+                "action": "modifyStat",
+                "target": "currentPlayer",
+                "stat": "luck",
+                "amount": -1
+              }
+            ],
+            "winnerOutcome": "Тьфу, тьфу, тьфу — и на душе легче. Кошка смотрит с презрением и уходит.",
+            "loserOutcome": "Ты плюёшь через левое. Кто-то из компании говорит, что надо через правое. Осадок остаётся."
+          }
+        ]
+      },
+      {
+        "label": "Махнуть рукой — приметы для тех, кто в них верит",
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          }
+        ],
+        "outcome": "Ты идёшь дальше. Мелочь. А осадок остался."
+      },
+      {
+        "label": "Наследник ведьм: эта кошка — к добру",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты знаешь, чья это кошка. Ты киваешь ей, она кивает тебе. Для тебя она перешла дорогу правильно."
+      },
+      {
+        "label": "Оберег на шее теплеет — примета не липнет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [],
+        "outcome": "Оберег греет, и осадок не успевает лечь. Кошка уходит ни с чем."
+      },
+      {
+        "label": "Под хмельком — погнаться за кошкой",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "luck",
+            "amount": -1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Кошка уходит через забор. Ты уходишь в забор. Примета сработала с запасом."
+      },
+      {
+        "label": "Удача сейчас на твоей стороне — кошка не страшна",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_lucky_streak"
+          }
+        ],
+        "actions": [],
+        "outcome": "Кошка смотрит на тебя, передумывает и уходит обратно, не перейдя. Даже приметы с тобой сегодня не спорят."
       }
     ]
   },
