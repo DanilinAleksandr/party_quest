@@ -5,12 +5,13 @@ import '../models/models.dart';
 /// table chose otherwise — this is the default for
 /// `GameContext.restInterval`, which is what the catalog actually reads.
 ///
-/// The schedule is derived from the step count rather than stored: every
-/// tenth step the party sits down, so there is nothing to keep in sync and
-/// nothing that can drift out of it. How long the halt then lasts is not
+/// The halt falls due this many steps after the party walked away from the
+/// last one — see `WorldState.restEndedAt`. Fifteen since the fourth
+/// playtest: at ten the table found itself at a fire more often than on the
+/// road. How long the halt then lasts is not
 /// scheduled at all — that is the `in_rest` flag's business, exactly as the
 /// tavern's length is `in_tavern`'s.
-const int kRestInterval = 10;
+const int kRestInterval = 15;
 
 /// The least road between two stops — a halt, a village, a tavern — in
 /// steps walked: a card that would begin one waits until this many have

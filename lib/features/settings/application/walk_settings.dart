@@ -99,8 +99,11 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
   /// one that had saved its own: stored delays and halt spacing from before
   /// it are dropped once, on the first launch that sees it. Version 2 is the
   /// 4–7 s delay after the third playtest — and a halt spacing that test
-  /// builds had left shorter than the game means it to be.
-  static const _version = 2;
+  /// builds had left shorter than the game means it to be. Version 3 is the
+  /// halt every 15 cards instead of 10, after the fourth playtest found too
+  /// many — only the halt's spacing is dropped for it; the walking delays a
+  /// table set stay.
+  static const _version = 3;
 
   /// Set once somebody changes a setting, so a slow first read cannot land
   /// afterwards and quietly undo them.
@@ -111,10 +114,12 @@ class WalkSettingsNotifier extends StateNotifier<WalkSettings> {
       final prefs = await SharedPreferences.getInstance();
       if (_touched || !mounted) return;
       final mode = WalkMode.values.asNameMap()[prefs.getString(_modeKey)];
-      final current = (prefs.getInt(_versionKey) ?? 1) >= _version;
-      if (!current) {
-        await prefs.remove(_minKey);
-        await prefs.remove(_maxKey);
+      final stored = prefs.getInt(_versionKey) ?? 1;
+      if (stored < _version) {
+        if (stored < 2) {
+          await prefs.remove(_minKey);
+          await prefs.remove(_maxKey);
+        }
         await prefs.remove(_restKey);
         await prefs.setInt(_versionKey, _version);
         if (_touched || !mounted) return;
