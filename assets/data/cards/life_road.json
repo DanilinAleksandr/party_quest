@@ -66,6 +66,30 @@
         "outcome": "На карте всё понятно даже гонцу. Он запоминает дорогу, повторяет её вслух и уносится к переправе. Через минуту возвращается — спросить, как вас зовут."
       },
       {
+        "label": "Объяснить словами, по приметам",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "courier_helped",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты называешь всё, что есть у переправы: три ивы, сломанные мостки, лодку кверху дном. Гонец узнаёт, хлопает себя по лбу и разворачивается. «Должен буду!»",
+            "loserOutcome": "Ты описываешь, он кивает — и всё равно едет вперёд. Может, он знает что-то, чего не знаете вы."
+          }
+        ]
+      },
+      {
         "label": "Махнуть наугад — где-то там",
         "actions": [
           {
@@ -1387,27 +1411,39 @@
         "outcome": "Каменщик смотрит на тебя внимательнее: «Скажите. Меня там не слушают — я им каждое лето это говорю». Ты обещаешь."
       },
       {
-        "label": "Ремесленник видит: дело не в камне, а в подмыве",
+        "label": "Шарлатан узнаёт приём: трещину меряют при заказчике, чтобы дороже взять",
         "conditions": [
           {
             "condition": "currentPlayerHasOrigin",
-            "originId": "origin_craftsman"
+            "originId": "origin_charlatan"
           }
         ],
         "actions": [
           {
-            "action": "modifyGlobalModifier",
-            "key": "word_kept",
-            "amount": 1
-          },
-          {
-            "action": "modifyStat",
-            "target": "currentPlayer",
-            "stat": "attentiveness",
-            "amount": 1
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты подмигиваешь ему, он — тебе. Шнур убран, и каменщик честно говорит: «Простоит ещё десять лет. Но старосте я скажу — два». Вас угощают за молчание.",
+            "loserOutcome": "Ты подмигиваешь, а он смотрит непонимающе: трещина настоящая. Тебе становится неловко до самого моста."
           }
-        ],
-        "outcome": "Ты показываешь, куда бьёт вода под опору. Каменщик долго смотрит вниз, потом пожимает тебе руку: «Два лета не видел. Спасибо»."
+        ]
       },
       {
         "label": "Хранитель рун узнаёт знак на опоре",
