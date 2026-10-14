@@ -1,0 +1,1936 @@
+[
+  {
+    "id": "watch_forest_wolves",
+    "title": "Дежурство: глаза за кругом",
+    "description": "Огонь прогорел до углей, и за кругом света загораются глаза — две пары, потом пять. Волки ходят молча, и это хуже, чем если бы выли.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Компания вскакивает с головнями в руках. Волки отходят, но до рассвета никто больше не спит — и утром это видно по всем."
+      },
+      {
+        "label": "Подбросить сучьев и встать с головнёй самому",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Пламя взлетает, ты стоишь с горящей веткой, и глаза гаснут одна пара за другой. Утром у костра рассказывают про ту ночь у углей.",
+            "loserOutcome": "Головня гаснет в руке, волк подходит на шаг. Ты успеваешь крикнуть, и стая уходит от шума — но и все проснулись."
+          }
+        ]
+      },
+      {
+        "label": "Затаиться у углей и не шевелиться",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Волки обходят лагерь кругом и уходят. До утра ты сидишь, не дыша, — и никто так и не узнаёт, как близко они были.",
+            "loserOutcome": "Один волк подходит к мешкам и уносит, что ухватил. Утром недосчитываются — и смотрят на тебя."
+          }
+        ]
+      },
+      {
+        "label": "Бросить им что-нибудь из мешка — пусть подавятся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeCommonItem",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Стая дерётся за брошенное у кромки света и уходит с добычей. Ночь стоит того, что пропало."
+      },
+      {
+        "label": "Волчья кровь — выйти к ним",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_wolf_blood"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Ты выходишь за круг света, и вожак ложится. Стая уходит, не оглядываясь. Утром ты ничего не рассказываешь — незачем."
+      },
+      {
+        "label": "Охотник знает, где у стаи вожак",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты бросаешь головню прямо в того, что стоит чуть дальше остальных. Он взвизгивает, и стая уходит за ним."
+      },
+      {
+        "label": "Под хмельком — завыть им в ответ",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Волки, похоже, впервые слышат такое. Они уходят — от греха подальше.",
+            "loserOutcome": "Волки отвечают. Все просыпаются. Утром все знают, кто начал."
+          }
+        ]
+      },
+      {
+        "label": "Поставить палатку входом к огню — спать за стеной",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [],
+        "outcome": "За парусиной глаз не видно, и спится крепче, чем стоило бы. Утром вокруг палатки — круг волчьих следов."
+      }
+    ]
+  },
+  {
+    "id": "watch_forest_bear",
+    "title": "Дежурство: медведь у мешков",
+    "description": "Треск в кустах — тяжёлый, неторопливый. Потом в отблеске углей появляется спина. Медведь пришёл на запах и уходить не собирается.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 1,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "forest"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Шум поднимается такой, что медведь садится от удивления. Потом уходит — но поспать после этого не выходит ни у кого."
+      },
+      {
+        "label": "Бить в котелок и орать",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_beer_keg"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Медведь слушает, морщится и уходит с видом оскорблённого соседа. Компания так и не просыпается.",
+            "loserOutcome": "Медведь слушает, потом встаёт на задние лапы. Ты замолкаешь. Он забирает мешок и уходит."
+          }
+        ]
+      },
+      {
+        "label": "Не шевелиться — пусть возьмёт своё и уйдёт",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_beer_keg"
+              }
+            ],
+            "winnerOutcome": "Медведь роется в золе, находит корку и уходит. Мешки целы.",
+            "loserOutcome": "Медведь находит ваш бочонок и выкатывает его в кусты. Утром его найдут — пустым и погрызенным."
+          }
+        ]
+      },
+      {
+        "label": "Наследник титанов выходит к медведю",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_titan_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Медведь смотрит на тебя снизу вверх — впервые в жизни. И уходит, ломая кусты."
+      },
+      {
+        "label": "Дитя леса говорит с ним",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты говоришь тихо, как говорят с большими. Медведь обнюхивает воздух и уходит. Ветка за ним даже не треснула."
+      },
+      {
+        "label": "Отдать ему бочонок — пусть пьёт",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "outcome": "Бочонок катится к медведю. Тот выбивает дно лапой и пьёт. Утром он спит в двадцати шагах, а вы уходите на цыпочках."
+      },
+      {
+        "label": "Под хмельком — подойти погладить",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Медведь отмахивается — не со зла, просто между делом. Ты летишь в кусты. Утром про это знают все."
+      }
+    ]
+  },
+  {
+    "id": "watch_mountains_leopard",
+    "title": "Дежурство: тень на скале",
+    "description": "Над лагерем на уступе лежит тень — длинная, с хвостом. Барс смотрит вниз, на ваших вьючных и на тебя, и не торопится.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Компания встаёт стеной с факелами. Барс зевает, потягивается и уходит за гребень. Спать после этого никто не может."
+      },
+      {
+        "label": "Не сводить с него глаз",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Вы смотрите друг на друга до рассвета. Первым отводит взгляд он — и уходит. Победа твоя.",
+            "loserOutcome": "Ты моргаешь — и тени на уступе нет. Утром у вьюков следы когтей и одной сумы недосчитываются."
+          }
+        ]
+      },
+      {
+        "label": "Швырнуть камень вверх, пока он не прыгнул",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_strong"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Камень бьёт в уступ рядом с ним. Барс исчезает так быстро, будто его и не было.",
+            "loserOutcome": "Камень не долетает и скатывается обратно — тебе на ногу. Барс наблюдает с интересом."
+          }
+        ]
+      },
+      {
+        "label": "Горец знает: барс уходит от запаха дыма можжевельника",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты бросаешь в угли ветку можжевельника, и дым ползёт вверх по скале. Барс морщит нос и уходит."
+      },
+      {
+        "label": "Оставить ему что-нибудь у скалы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeCommonItem",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Ты кладёшь подношение на камень. Утром его нет, а барс так и не спустился."
+      },
+      {
+        "label": "Под хмельком — помахать ему",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Барс смотрит на машущего человека так долго, что тебе становится неловко. Потом уходит — видимо, тоже от неловкости."
+      },
+      {
+        "label": "Продрогшему — подсесть ближе к огню и следить оттуда",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "outcome": "У огня тепло, барс наверху, вы оба ждёте утра. К утру тебя перестаёт трясти — а его уже нет."
+      }
+    ]
+  },
+  {
+    "id": "watch_mountains_goats",
+    "title": "Дежурство: стадо в темноте",
+    "description": "Сверху сыплются камешки, потом камни побольше. По склону в темноте идёт стадо горных козлов — прямо через лагерь, и сворачивать они не собираются.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 1,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Все хватают одеяла и вещи, стадо проходит сквозь лагерь, как река. Ничего не растоптано — кроме сна."
+      },
+      {
+        "label": "Отогнать их криком и палкой",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты стоишь на тропе с палкой, и стадо обтекает лагерь стороной. Только вожак проходит мимо, презрительно.",
+            "loserOutcome": "Вожак не считает тебя препятствием. Ты оказываешься на земле, а стадо — в лагере. Утром собираете вещи по склону."
+          }
+        ]
+      },
+      {
+        "label": "Убрать мешки с тропы и пропустить",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Ты угадываешь, где пройдёт стадо, и всё убрано вовремя. Козлы проходят, лагерь цел.",
+            "loserOutcome": "Ты убираешь не те мешки. Утром одного недосчитываются — его унесли на рогах."
+          }
+        ]
+      },
+      {
+        "label": "Горец знает: свистнуть, и вожак свернёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Короткий пастуший свист — и вожак сворачивает, а за ним всё стадо. Лагерь даже не просыпается."
+      },
+      {
+        "label": "Натянуть верёвку поперёк тропы",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [],
+        "outcome": "Верёвка поперёк тропы — и стадо, наткнувшись, уходит в обход. Утром на верёвке клок шерсти."
+      },
+      {
+        "label": "Под хмельком — попробовать подоить одну",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Козы в горах не доятся. Узнаётся это быстро и больно."
+      },
+      {
+        "label": "Похмельному этот топот — по самой голове",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Каждое копыто — в висок. Ты поднимаешь всех просто затем, чтобы страдать не одному."
+      }
+    ]
+  },
+  {
+    "id": "watch_mountains_wyvern",
+    "title": "Дежурство: крылья над лагерем",
+    "description": "Сначала гаснут звёзды — над лагерем проходит тень шире костра. Потом хлопает так, что пламя ложится. На скалу над вами садится виверна, и камни сыплются вниз.\n\nОна смотрит на огонь. Потом — на вас.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 1,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "wyvern_seen"
+      },
+      {
+        "condition": "minimumStep",
+        "steps": 25
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wyvern_seen",
+            "value": true
+          }
+        ],
+        "outcome": "Все вскакивают с криком и головнями. Виверна шипит, бьёт крыльями — и уходит в небо, унося с собой половину костра. Этой ночью не спит никто, и этой ночи никто не забудет."
+      },
+      {
+        "label": "Встать с огнём против неё одному",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_tent"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Ты стоишь между ней и спящими с горящей ветвью, и она отступает перед огнём. Улетая, она роняет на камни чешуйку. Утром тебе не верят — пока не видят чешую.",
+            "loserOutcome": "Удар крылом отбрасывает тебя к костру. Виверна хватает палатку и уносит в темноту. Все живы. Палатки нет."
+          }
+        ]
+      },
+      {
+        "label": "Залить костёр и затаиться",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_beer_keg"
+              },
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "В темноте она теряет вас. Долго кружит над лагерем, потом уходит к перевалу. Вы не дышите до рассвета.",
+            "loserOutcome": "Угли шипят, и она слышит. Спускается, переворачивает лагерь когтями и уносит бочонок. Вы живы, и это главное."
+          }
+        ]
+      },
+      {
+        "label": "Драконорождённый говорит с ней на её языке",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_dragonborn"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wyvern_seen",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wyvern_spared",
+            "value": true
+          }
+        ],
+        "outcome": "С языка срываются шипящие слова на её наречии. Виверна склоняет голову, долго смотрит — и улетает, не тронув ничего. Над лагерем ещё час кружит её запах."
+      },
+      {
+        "label": "Охотник целит ей в глаз",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Камень из пращи — точно под веко. Виверна визжит и уходит в небо, роняя кровь на снег.",
+            "loserOutcome": "Промах. Она замечает, откуда летело, и на миг кажется, что это конец. Потом она просто уходит. Почему — неизвестно."
+          }
+        ]
+      },
+      {
+        "label": "Скатить ей бочонок — пусть берёт и уходит",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wyvern_seen",
+            "value": true
+          }
+        ],
+        "outcome": "Бочонок катится к скале. Виверна хватает его, взлетает и разбивает о камни выше. Пиво льётся вниз дождём. Она улетает."
+      },
+      {
+        "label": "Под хмельком — крикнуть ей «кыш»",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wyvern_seen",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Она уходит. Возможно, совпадение. Но рассказывать будешь не так.",
+            "loserOutcome": "Она не уходит. Она очень внимательно смотрит. Утром в волосах прибавилось седины."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "watch_desert_scorpions",
+    "title": "Дежурство: шорох в сапогах",
+    "description": "Под утро песок начинает шуршать сам по себе. В свете углей видно: из-под камня лезут скорпионы — и разбредаются к сапогам, к одеялам, к спящим.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Все вскакивают и вытряхивают сапоги. Скорпионов находится семь. Спать в эту ночь больше не ложится никто."
+      },
+      {
+        "label": "Вытряхнуть сапоги всех, пока спят",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_scorpion_venom"
+              }
+            ],
+            "winnerOutcome": "Ты проверяешь каждый сапог и каждое одеяло. Утром показываешь горку раздавленных скорпионов у костра. Тебя слушают молча.",
+            "loserOutcome": "Последний сапог остался непроверенным. Утром его хозяин узнаёт об этом сам — и громко."
+          }
+        ]
+      },
+      {
+        "label": "Обвести лагерь чертой из золы",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_scorpion_venom"
+              }
+            ],
+            "winnerOutcome": "Скорпионы останавливаются у черты и уходят назад, под камень. Старый способ работает.",
+            "loserOutcome": "Один перебирается через черту. Кто-то утром долго трёт ногу и не говорит, кто виноват."
+          }
+        ]
+      },
+      {
+        "label": "Кочевник знает: спят на верблюжьей кошме — её они не переходят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_nomad"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты расстилаешь кошму вокруг спящих, и скорпионы обходят её стороной. Утром все целы и не знают, почему."
+      },
+      {
+        "label": "Пустынный странник ловит их голыми руками",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Одного за другим — за хвост, в котелок. К утру в котелке десяток, и кочевники на ярмарке за такое дали бы флягу."
+      },
+      {
+        "label": "Похмельному не до скорпионов",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_scorpion_venom"
+          }
+        ],
+        "outcome": "Ты дремлешь на посту. Скорпион не дремлет. Утро начинается с ноги, которую не чувствуешь."
+      },
+      {
+        "label": "Под хмельком — раздавить их всех каблуком",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_scorpion_venom"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты топчешь, пока не выдыхаешься. Выдыхаешься и они. Победа за тобой.",
+            "loserOutcome": "Ты топчешь, промахиваешься, и последний находит твою щиколотку."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "watch_desert_jackals",
+    "title": "Дежурство: смех в темноте",
+    "description": "Где-то за барханом начинают смеяться. Смех подходит ближе, обходит лагерь и снова отходит. Шакалы проверяют, кто спит.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 1,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Шакалы, увидев проснувшихся, уходят. Смех ещё долго доносится издали — будто над вами."
+      },
+      {
+        "label": "Швырять в них горящие угли",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Один уголь попадает, и смех превращается в визг. Больше они не приходят.",
+            "loserOutcome": "Угли улетают в песок и гаснут. Смех становится громче — теперь он точно над тобой."
+          }
+        ]
+      },
+      {
+        "label": "Притвориться спящим и подпустить ближе",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Самый наглый подходит к мешкам, и ты бьёшь его палкой по носу. Стая уходит, ругаясь по-шакальи.",
+            "loserOutcome": "Ты притворяешься так хорошо, что засыпаешь по-настоящему. Утром не хватает ремня от сумы."
+          }
+        ]
+      },
+      {
+        "label": "Кочевник смеётся им в ответ — так у нас отгоняют",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_nomad"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Ты смеёшься их смехом, только громче. Шакалы замолкают и уходят — с чужим вожаком не спорят."
+      },
+      {
+        "label": "Бросить им что-нибудь из мешка — пусть дерутся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasCommonItem"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeCommonItem",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Брошенное летит в темноту, и смех переходит в грызню. До утра они заняты друг другом."
+      },
+      {
+        "label": "Пустынный странник знает: шакал трусливее зайца",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Ты просто встаёшь во весь рост на гребне бархана. Смех обрывается, и до утра больше не возвращается."
+      },
+      {
+        "label": "Под хмельком — посмеяться вместе с ними",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Вы смеётесь вместе до рассвета. Компания просыпается под этот дуэт и не может уснуть."
+      }
+    ]
+  },
+  {
+    "id": "watch_coast_smugglers",
+    "title": "Дежурство: лодка без огня",
+    "description": "В темноте плещут вёсла — без фонаря, без голосов. К берегу подходит лодка, из неё выходят трое и идут прямо к вашему костру.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 2,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Компания встаёт, и гости решают, что ошиблись берегом. Лодка уходит в темноту так же тихо, как пришла."
+      },
+      {
+        "label": "Окликнуть их и спросить, что надо",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ],
+            "winnerOutcome": "Старший смеётся: искали другой костёр, но у вашего теплее. Посидев, они уходят — и оставляют флягу «за беспокойство».",
+            "loserOutcome": "Старший не отвечает. Двое других обходят костёр. Утром не хватает вещей — и они не спешили уходить."
+          }
+        ]
+      },
+      {
+        "label": "Затаиться и посмотреть, что они делают",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "smugglers_cache_seen",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              }
+            ],
+            "winnerOutcome": "Они закапывают что-то у камня и уходят. Утром ты знаешь, где искать, — и что искать не стоит.",
+            "loserOutcome": "Один из них оборачивается прямо на тебя. Ночь проходит в молчаливом сидении друг против друга."
+          }
+        ]
+      },
+      {
+        "label": "Моряк знает их знаки — показать свой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь пальцами то, что показывают на пристанях. Старший кивает: свои. Гости садятся к огню, и до утра ты слышишь новости всего побережья."
+      },
+      {
+        "label": "Беглец узнаёт эти повадки — и молчит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты встаёшь навстречу и говоришь одно слово. Они переглядываются и уходят. С такими, как ты, им лучше не связываться."
+      },
+      {
+        "label": "Пригласить их выпить — у костра все свои",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Гости пьют с тобой, молча, по одной. Перед рассветом уходят, не попрощавшись. Мешки целы."
+      },
+      {
+        "label": "Пират помнит — капитан знает эти лодки",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "captain_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Ты называешь имя капитана. Гости бледнеют и уходят к лодке почти бегом."
+      }
+    ]
+  },
+  {
+    "id": "watch_coast_crabs",
+    "title": "Дежурство: клешни у мешков",
+    "description": "Песок вокруг лагеря шевелится. Крабы — десятки — подбираются к мешкам и тянут из них всё, что пахнет, к воде.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 1,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Все отбивают мешки у крабов до рассвета. Победа за вами — но к утру никто не помнит, ради чего."
+      },
+      {
+        "label": "Отгонять их палкой одному",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Ты отбиваешь мешки до рассвета. Крабы отступают к воде, а ты засыпаешь сидя, с палкой в руке. Мешки целы.",
+            "loserOutcome": "Крабов больше, чем у тебя рук. Утром один мешок найдут у самой воды — пустым."
+          }
+        ]
+      },
+      {
+        "label": "Подвесить мешки на кол",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Мешки висят, крабы ходят под ними кругами. Утром ты смеёшься, глядя на эту осаду.",
+            "loserOutcome": "Кол падает под весом. Крабы благодарны."
+          }
+        ]
+      },
+      {
+        "label": "Избранник моря просит воду увести своих",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты шепчешь в прибой, и волна приходит выше обычного — смывает крабов назад в море. Мешки сухие."
+      },
+      {
+        "label": "Наловить их к завтраку — раз сами пришли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "К утру у тебя полный котелок. Компания просыпается к запаху, которого не ожидала.",
+            "loserOutcome": "Крабы ловят тебя первыми. За пальцы."
+          }
+        ]
+      },
+      {
+        "label": "Занести мешки в палатку и завязать полог",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Крабы обходят палатку кругом, скребутся в полог и к утру уходят ни с чем."
+      },
+      {
+        "label": "Под хмельком — договориться с крабами",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Крабы выслушивают тебя и уносят мешок. Переговоры прошли неудачно."
+      }
+    ]
+  },
+  {
+    "id": "watch_floodlands_catfish",
+    "title": "Дежурство: усы из воды",
+    "description": "Насыпь узкая, вода у самых ног. Из неё медленно поднимается голова — плоская, усатая, размером с бочонок. Сом смотрит на флягу у огня. Потом на тебя. Потом снова на флягу.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "От крика сом уходит под воду, подняв волну до костра. Мокрые и злые, до утра вы сидите подальше от края."
+      },
+      {
+        "label": "Отогнать его шестом",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Удар шестом по воде — и усатая голова уходит в глубину. Больше она не поднимается. Ты сушишь рукава у огня с видом победителя.",
+            "loserOutcome": "Сом хватает шест и тянет. Ты отпускаешь вовремя. Шест — нет."
+          }
+        ]
+      },
+      {
+        "label": "Убрать флягу подальше от края",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Фляга в мешке, мешок на середине насыпи. Сом долго смотрит, потом уходит. Обиженно.",
+            "loserOutcome": "Ты тянешься за флягой, сом — тоже. Твоя нога оказывается ближе. Вытаскивают тебя всей компанией, мокрого до шеи."
+          }
+        ]
+      },
+      {
+        "label": "Отдать ему флягу — пусть подавится",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "outcome": "Фляга летит в воду, усы хватают её на лету. Сом уходит в глубину довольный. Остаток ночи тихо."
+      },
+      {
+        "label": "Моряк знает: сом боится стука по днищу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты стучишь по перевёрнутой лодке, и сом уходит на дно, как от грома. Местные утром спрашивают, откуда такая сноровка."
+      },
+      {
+        "label": "Избранник моря говорит с ним",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sea_chosen"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты наклоняешься к воде и говоришь. Сом слушает, шевеля усами, и уходит — уступил тебе этот берег."
+      },
+      {
+        "label": "Под хмельком — попытаться поймать его руками",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "allPlayers",
+                "effectId": "effect_sleepless_night"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты его хватаешь. Он тебя тоже. Расходитесь вничью, но рассказ выйдет хороший.",
+            "loserOutcome": "Сом утягивает тебя по пояс. Вытаскивают всей компанией, и до утра не спит никто."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "watch_graveyard_sleepless",
+    "title": "Дежурство: те, кто не спит",
+    "description": "Между камнями кто-то ходит. Шаги лёгкие, неровные, и их больше, чем вас. Когда шаги останавливаются у вашего огня, становится очень тихо.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 3,
+    "tags": [
+      "rest",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "in_rest"
+      },
+      {
+        "condition": "inBiome",
+        "biomeId": "graveyard"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Поднять всех",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "allPlayers",
+            "effectId": "effect_sleepless_night"
+          }
+        ],
+        "outcome": "Вы сидите спина к спине до рассвета, и шаги кружат вокруг, не подходя к огню. С первым лучом стихают. Утром у костра — следы босых ног."
+      },
+      {
+        "label": "Подбросить в огонь — и не смотреть в темноту",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_watch_hero"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              }
+            ],
+            "winnerOutcome": "Огонь горит до рассвета, и шаги не переходят за его край. Утром ты не можешь вспомнить половину ночи — и это к лучшему.",
+            "loserOutcome": "Огонь проседает на миг, и за спиной кто-то дышит. Ты не оборачиваешься. До утра. Утром тебе не по себе — и это надолго."
+          }
+        ]
+      },
+      {
+        "label": "Окликнуть: кто здесь?",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              }
+            ],
+            "winnerOutcome": "Голос отвечает — старый, усталый: «Сторожим». Шаги отходят. Утром на одном из камней лежат свежие цветы.",
+            "loserOutcome": "Ответа нет. Только шаги становятся ближе. Ты замолкаешь — и остаток ночи слышишь своё имя."
+          }
+        ]
+      },
+      {
+        "label": "Проводник душ встаёт и провожает их",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты выходишь за круг огня и идёшь с ними до ограды. Они уходят за неё, один за другим. Утром ты молчишь, и никто не спрашивает."
+      },
+      {
+        "label": "Дитя Бездны — они сами отступают",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_abyss_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Шаги останавливаются, затихают — и уходят назад, к камням. Они тебя знают. Утром ты стараешься об этом не думать."
+      },
+      {
+        "label": "Оберег на шее горит — держать его перед собой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [],
+        "outcome": "Оберег жжёт ладонь до утра, и до утра шаги не подходят. С рассветом он остывает. На нём — новая трещина."
+      },
+      {
+        "label": "Под хмельком — позвать их к огню выпить",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "К огню никто не подходит. Но утром фляга пуста, а пили, кажется, не только вы."
+      }
+    ]
+  }
+]

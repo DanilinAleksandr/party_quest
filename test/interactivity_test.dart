@@ -120,6 +120,69 @@ void main() {
     expect(double.actions.whereType<DrinkAction>(), hasLength(2));
   });
 
+  test('about one night watch in three has something out there', () async {
+    final cards = await const CardRepository().loadCards();
+    final calm = cards.singleWhere((c) => c.id == 'rest_night_watch').weight;
+    for (final biome in [
+      'forest',
+      'mountains',
+      'desert',
+      'coast',
+      'floodlands',
+      'graveyard',
+    ]) {
+      final threats = cards
+          .where((c) => c.id.startsWith('watch_'))
+          .where(
+            (c) => c.conditions.any(
+              (k) => k is InBiomeCondition && k.biomeId == biome,
+            ),
+          )
+          // The wyvern comes once, late; the night's usual odds are the rest.
+          .where((c) => c.id != 'watch_mountains_wyvern')
+          .fold<int>(0, (s, c) => s + c.weight);
+      final share = threats / (threats + calm);
+      expect(share, inInclusiveRange(0.25, 0.35), reason: biome);
+    }
+    final wyvern = cards.singleWhere((c) => c.id == 'watch_mountains_wyvern');
+    expect(
+      wyvern.conditions.whereType<WorldFlagUnsetCondition>().map((k) => k.flag),
+      contains('wyvern_seen'),
+    );
+    expect(wyvern.conditions.whereType<MinimumStepCondition>(), isNotEmpty);
+  });
+
+  test(
+    'fifteen pairs of passages, each side with a sign and a throw',
+    () async {
+      final cards = await const CardRepository().loadCards();
+      final pairs = cards.where((c) => c.id.startsWith('luck_two_passages_'));
+      expect(pairs, hasLength(15));
+      expect(cards.where((c) => c.id == 'luck_mystery_choice'), isEmpty);
+      for (final card in pairs) {
+        final sides = card.choices.where((c) => c.conditions.isEmpty).toList();
+        expect(sides, hasLength(2), reason: card.id);
+        for (final side in sides) {
+          final throwOf = side.actions.whereType<ChanceCheckAction>().single;
+          expect(throwOf.stat, StatType.luck, reason: card.id);
+          expect(throwOf.winnerOutcome, isNotNull, reason: card.id);
+          expect(throwOf.loserOutcome, isNotNull, reason: card.id);
+        }
+        expect(
+          card.choices.where(
+            (c) => c.conditions.any(
+              (k) =>
+                  k is CurrentPlayerHasItemCondition &&
+                  k.itemId == 'item_ward_amulet',
+            ),
+          ),
+          hasLength(1),
+          reason: card.id,
+        );
+      }
+    },
+  );
+
   test('Frol\'s coin reaches the ghost, and the loop closes', () async {
     final cards = await const CardRepository().loadCards();
     final adventures = await const AdventureRepository().loadCatalog();
