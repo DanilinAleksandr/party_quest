@@ -34,6 +34,11 @@ class SceneBanner extends StatelessWidget {
   final IconData? trailingIcon;
   final String? trailingLabel;
 
+  /// A small mark after [trailingLabel] — the season's, beside the weather:
+  /// icon only, named in its tooltip.
+  final IconData? seasonIcon;
+  final String? seasonLabel;
+
   /// A floor, not a fixed height. A short line should still get a scene
   /// worth looking at; a long one — the atmosphere line composes a season
   /// phrase with a weather phrase, so it runs to four lines in the worst
@@ -52,6 +57,8 @@ class SceneBanner extends StatelessWidget {
     required this.subtitle,
     this.trailingIcon,
     this.trailingLabel,
+    this.seasonIcon,
+    this.seasonLabel,
   });
 
   @override
@@ -198,6 +205,18 @@ class SceneBanner extends StatelessWidget {
                                             color: SteelPalette.steel,
                                           ),
                                     ),
+                                    if (seasonIcon != null) ...[
+                                      const SizedBox(width: 8),
+                                      Tooltip(
+                                        message: seasonLabel ?? '',
+                                        child: Icon(
+                                          seasonIcon,
+                                          key: const Key('banner_season'),
+                                          size: 14,
+                                          color: SteelPalette.steel,
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ],

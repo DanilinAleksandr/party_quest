@@ -2,7 +2,7 @@
   {
     "id": "effect_witch_curse",
     "name": "Проклятие ведьмы",
-    "description": "Она заметила пропажу. Пока действует проклятие — −1 к удаче.",
+    "description": "Она заметила пропажу — и удача от тебя отвернулась.",
     "polarity": "negative",
     "duration": 15,
     "autoExpire": true,

@@ -32,6 +32,10 @@ class ResultEntry {
   /// a leader handoff with no single "about" player).
   final String? playerName;
 
+  /// The id of [playerName]'s player — to tell whether it landed on the
+  /// one whose card it was or on somebody else at the table.
+  final String? playerId;
+
   /// The specific thing: an item/effect/origin name, or a formatted stat
   /// delta like "Сила +2".
   final String headline;
@@ -62,6 +66,7 @@ class ResultEntry {
   const ResultEntry({
     required this.kind,
     this.playerName,
+    this.playerId,
     required this.headline,
     this.rarity,
     this.isNegative = false,

@@ -79,6 +79,20 @@ final class GameCard {
         action.value,
   );
 
+  /// Whether this card can put the party at a stop — a halt, a village or
+  /// a tavern — by itself or by one of its choices. Such a card waits until
+  /// [kMinStopGap] steps of road have passed since the last stop: see
+  /// `CardCatalog`.
+  bool get beginsStop =>
+      [...actions, for (final choice in choices) ...choice.actions].any(
+        (action) =>
+            action is SetWorldFlagAction &&
+            action.value &&
+            (action.flag == 'in_rest' ||
+                action.flag == 'in_village' ||
+                action.flag == 'in_tavern'),
+      );
+
   /// Whether drawing this card walks the party out of a village — see
   /// `CardCatalog.eligibleCards`, which leaves only these once a village
   /// has had [kVillageMostCards] cards. Read off the action, like

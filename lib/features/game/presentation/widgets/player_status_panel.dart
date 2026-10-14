@@ -33,19 +33,30 @@ class PlayerStatusPanel extends StatelessWidget {
   /// contexts with nothing to open (tests, the win screen).
   final VoidCallback? onTap;
 
+  /// The whole table, for the effects one player's shares with the rest —
+  /// see `Player.visibleStat`.
+  final List<Player> party;
+
   const PlayerStatusPanel({
     super.key,
     required this.player,
     this.origin,
     this.onTap,
+    this.party = const [],
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // A stat the character has none of shows all the same while the drink
+    // or an effect has it somewhere — «0 (1)» is the news.
     final stats = {
-      for (final stat in StatType.values) stat: player.stats.valueOf(stat),
-    }..removeWhere((_, value) => value == 0);
+      for (final stat in StatType.values)
+        stat: (
+          player.stats.valueOf(stat),
+          player.visibleStat(stat, party: party),
+        ),
+    }..removeWhere((_, v) => v.$1 == 0 && v.$2 == 0);
     final avatarColor = AppColors.playerAvatarColor(player.id);
     final blessings = player.blessings.length;
     final curses = player.curses.length;
@@ -140,7 +151,8 @@ class PlayerStatusPanel extends StatelessWidget {
                           .map(
                             (entry) => StatChip(
                               stat: entry.key,
-                              value: entry.value,
+                              value: entry.value.$1,
+                              effective: entry.value.$2,
                               compact: true,
                             ),
                           )

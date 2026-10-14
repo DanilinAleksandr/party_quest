@@ -318,6 +318,15 @@ class GameController extends StateNotifier<GameState> {
   /// which would never bring back a choice that was hidden before the drink.
   GameCard? _drawnCard;
 
+  /// Who the pending card's duel is against — drawn with the card, see
+  /// [_showCard].
+  String? _duelOpponentId;
+
+  static bool _hasDuel(GameCard card) => [
+    ...card.actions,
+    for (final c in card.choices) ...c.actions,
+  ].any((a) => a is StartDuelAction);
+
   /// One personal action per card: a drink for courage or an item used.
   bool _personalActionTaken = false;
 
@@ -330,18 +339,32 @@ class GameController extends StateNotifier<GameState> {
 
   bool get personalActionTaken => _personalActionTaken;
 
-  /// Whether «Для храбрости» can be offered right now. Not on a card without
-  /// choices — there is nothing for a drink to change there — and not to a
-  /// player who is already wasted.
+  /// Whether «Для храбрости» can be offered right now. Only where a drink
+  /// changes something: a throw ahead, whose odds the drink moves, or a
+  /// choice that opens with a stat or with being drunk. On a card with
+  /// neither — the shaman's — the button promised something and did
+  /// nothing. And not to a player who is already wasted.
   bool get canDrinkForCourage {
     final card = _drawnCard;
     return card != null &&
         state.pendingCard != null &&
         state.activeAdventureId == null &&
         card.hasChoices &&
+        _drinkMatters(card) &&
         !_personalActionTaken &&
         _context.currentPlayer.intoxicationLevel != IntoxicationLevel.wasted;
   }
+
+  static bool _drinkMatters(GameCard card) => card.choices.any(
+    (c) =>
+        c.actions.any((a) => a is ChanceCheckAction || a is StartDuelAction) ||
+        c.conditions.any(
+          (k) =>
+              k is IntoxicationAtLeastCondition ||
+              k is IntoxicationBelowCondition ||
+              k is CurrentPlayerStatAtLeastCondition,
+        ),
+  );
 
   /// The current player's items that can be used by hand from a card, one
   /// of each kind.
@@ -464,9 +487,29 @@ class GameController extends StateNotifier<GameState> {
       OnTurnStarted(player: context.currentPlayer),
       context,
     );
+    // A duel's opponent is drawn with the card, not at the throw, so the
+    // scene can say who is against whom before anybody chooses — «{opponent}
+    // бьёт тебя по рукам». The throw then goes against the one named.
+    _duelOpponentId = null;
+    if (_hasDuel(drawnCard)) {
+      final others = context.players
+          .where((p) => p.id != context.currentPlayer.id)
+          .toList();
+      if (others.isNotEmpty) {
+        _duelOpponentId = others[context.random.nextInt(others.length)].id;
+      }
+    }
+    final opponentName = context.players
+        .where((p) => p.id == _duelOpponentId)
+        .firstOrNull
+        ?.name;
     // Placeholders in the scene — who it is about, what the owner notices
-    // in their bag — filled for the player it turned out to be about.
-    final told = fillCardText(drawnCard.description, context);
+    // in their bag, who stands against them — filled for the player it
+    // turned out to be about.
+    final told = fillCardText(
+      drawnCard.description,
+      context,
+    ).replaceAll('{opponent}', opponentName ?? 'кто-то из спутников');
     if (told != drawnCard.description) {
       drawnCard = drawnCard.withDescription(told);
     }
@@ -573,7 +616,11 @@ class GameController extends StateNotifier<GameState> {
               .where((p) => p.id != _context.currentPlayer.id)
               .toList();
           if (opponents.isEmpty) return null;
-          final opponent = opponents[_context.random.nextInt(opponents.length)];
+          // The one the card already named; a card drawn some other way
+          // (a test, a save from before) draws one now.
+          final opponent =
+              opponents.where((p) => p.id == _duelOpponentId).firstOrNull ??
+              opponents[_context.random.nextInt(opponents.length)];
           return Gamble(
             sides: _sidesOf(a.sides),
             winnerOutcome: a.winnerOutcome,
@@ -916,7 +963,7 @@ class GameController extends StateNotifier<GameState> {
   /// and the halt lifts a hangover outright.
   GameContext _afterCard(GameContext ctx, {required String turnOf}) {
     final resting = ctx.state.worldState.flag('in_rest');
-    final wearsOff = kSoberingPerTurn * (resting ? kRestSoberingFactor : 1);
+    final restFactor = resting ? kRestSoberingFactor : 1;
     final hangovers = <String>[];
 
     // The unseen auras on what the player whose turn it was carries count
@@ -963,6 +1010,7 @@ class GameController extends StateNotifier<GameState> {
       // Hundredths, kept as hundredths: float drift must never turn five
       // turns of sobering into four and a bit. Hundredths rather than
       // tenths, because an old hand's drink is 0.75.
+      final wearsOff = kSoberingByAge[player.ageBracket]! * restFactor;
       final raw = player.intoxication - wearsOff / player.soberDivisor;
       final intoxication = raw <= 0 ? 0.0 : (raw * 100).round() / 100;
       if (player.wasDrunk && intoxication < kDrunkAt) {
@@ -1064,7 +1112,10 @@ class GameController extends StateNotifier<GameState> {
     final worldState = ctx.state.worldState.copyWith(
       turnsInTavern: inTavern ? ctx.state.worldState.turnsInTavern + 1 : 0,
     );
-    return ctx.withState(ctx.state.copyWith(worldState: worldState));
+    return _noteStopEnded(
+      ctx.withState(ctx.state.copyWith(worldState: worldState)),
+      ended: !inTavern && ctx.state.worldState.turnsInTavern > 0,
+    );
   }
 
   /// The same counter for a halt at the fire — see `WorldState.turnsInRest`.
@@ -1077,7 +1128,11 @@ class GameController extends StateNotifier<GameState> {
     final worldState = ctx.state.worldState.copyWith(
       turnsInRest: inRest ? ctx.state.worldState.turnsInRest + 1 : 0,
     );
-    return ctx.withState(ctx.state.copyWith(worldState: worldState));
+    return _noteStopEnded(
+      ctx.withState(ctx.state.copyWith(worldState: worldState)),
+      ended: !inRest && ctx.state.worldState.turnsInRest > 0,
+      rest: true,
+    );
   }
 
   /// The same counter for a village — see `WorldState.turnsInVillage`.
@@ -1086,7 +1141,30 @@ class GameController extends StateNotifier<GameState> {
     final worldState = ctx.state.worldState.copyWith(
       turnsInVillage: inVillage ? ctx.state.worldState.turnsInVillage + 1 : 0,
     );
-    return ctx.withState(ctx.state.copyWith(worldState: worldState));
+    return _noteStopEnded(
+      ctx.withState(ctx.state.copyWith(worldState: worldState)),
+      ended: !inVillage && ctx.state.worldState.turnsInVillage > 0,
+    );
+  }
+
+  /// On the first step after a stop, notes where on the road it was left —
+  /// see `WorldState.stopEndedAt`. The steps have just moved on by one, so
+  /// the stop itself stood at one less.
+  GameContext _noteStopEnded(
+    GameContext ctx, {
+    required bool ended,
+    bool rest = false,
+  }) {
+    if (!ended) return ctx;
+    final at = ctx.state.partySteps - 1;
+    return ctx.withState(
+      ctx.state.copyWith(
+        worldState: ctx.state.worldState.copyWith(
+          stopEndedAt: at,
+          restEndedAt: rest ? at : null,
+        ),
+      ),
+    );
   }
 }
 

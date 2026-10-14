@@ -33,6 +33,7 @@ Future<void> showPlayerProfileSheet({
   required Player player,
   required Origin? origin,
   required List<InventoryItem> partyInventory,
+  List<Player> party = const [],
   required WorldState worldState,
 }) {
   return showModalBottomSheet<void>(
@@ -41,6 +42,7 @@ Future<void> showPlayerProfileSheet({
     isScrollControlled: true,
     builder: (context) => _PlayerProfile(
       player: player,
+      party: party,
       origin: origin,
       partyInventory: partyInventory,
       worldState: worldState,
@@ -50,12 +52,14 @@ Future<void> showPlayerProfileSheet({
 
 class _PlayerProfile extends StatelessWidget {
   final Player player;
+  final List<Player> party;
   final Origin? origin;
   final List<InventoryItem> partyInventory;
   final WorldState worldState;
 
   const _PlayerProfile({
     required this.player,
+    this.party = const [],
     required this.origin,
     required this.partyInventory,
     required this.worldState,
@@ -85,7 +89,7 @@ class _PlayerProfile extends StatelessWidget {
             const SizedBox(height: 24),
             _OriginSection(origin: origin),
             const SizedBox(height: 24),
-            _StatsSection(stats: player.stats),
+            _StatsSection(player: player, party: party),
             if (player.conditionWord != null) ...[
               const SizedBox(height: 24),
               _DrinkSection(player: player),
@@ -536,9 +540,10 @@ class _OriginSection extends StatelessWidget {
 }
 
 class _StatsSection extends StatelessWidget {
-  final PlayerStats stats;
+  final Player player;
+  final List<Player> party;
 
-  const _StatsSection({required this.stats});
+  const _StatsSection({required this.player, required this.party});
 
   @override
   Widget build(BuildContext context) {
@@ -558,10 +563,16 @@ class _StatsSection extends StatelessWidget {
         // dimmed rather than dropped or flagged: it is still a fact about
         // the character, just not one doing any work today.
         for (final stat in StatType.values)
-          _StatRow(stat: stat, value: stats.valueOf(stat), accent: accent),
+          _StatRow(
+            stat: stat,
+            value: player.stats.valueOf(stat),
+            effective: player.visibleStat(stat, party: party),
+            accent: accent,
+          ),
         const SizedBox(height: 10),
         Text(
-          'Проверки характеристик в событиях сравниваются с этими значениями.',
+          'В скобках — сколько сейчас, с хмелем и эффектами: '
+          'проверки читают это число.',
           style: theme.textTheme.labelSmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
@@ -574,18 +585,20 @@ class _StatsSection extends StatelessWidget {
 class _StatRow extends StatelessWidget {
   final StatType stat;
   final int value;
+  final int effective;
   final Color accent;
 
   const _StatRow({
     required this.stat,
     required this.value,
+    required this.effective,
     required this.accent,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final alpha = value == 0 ? 0.45 : 0.9;
+    final alpha = value == 0 && effective == 0 ? 0.45 : 0.9;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9),
       decoration: BoxDecoration(
@@ -611,7 +624,7 @@ class _StatRow extends StatelessWidget {
             ),
           ),
           Text(
-            '$value',
+            StatChip.valueText(value, effective),
             style: theme.textTheme.titleMedium?.copyWith(
               fontSize: 15,
               fontWeight: FontWeight.w600,

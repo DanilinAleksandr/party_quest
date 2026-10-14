@@ -182,7 +182,7 @@ void main() {
         expect(conds.whereType<InBiomeCondition>(), hasLength(1), reason: c.id);
         expect(
           conds.whereType<FlagNotSetWithinStepsCondition>().single.steps,
-          12,
+          16,
           reason: c.id,
         );
         expect(
@@ -274,7 +274,7 @@ void main() {
           if (leftAt != null) {
             expect(
               c.state.partySteps - leftAt,
-              greaterThanOrEqualTo(12),
+              greaterThanOrEqualTo(16),
               reason: why,
             );
           }

@@ -94,6 +94,13 @@ import 'weather.dart';
 /// no more shortens the road than an evening at the bar does.
 ///
 /// [turnsInVillage] is the third of the kind, keyed off `in_village`.
+///
+/// [stopEndedAt] is the `GameState.partySteps` the party stood at when it
+/// last walked out of a stop — a halt, a village or a tavern — and
+/// [restEndedAt] the same for a halt alone. The steps stand still inside a
+/// stop, so this is the step it was had and left on; the road since is
+/// `partySteps − stopEndedAt`, and null until the first stop. See `kMinStopGap` and the halt's schedule in
+/// `CardCatalog`.
 final class WorldState {
   final Map<String, bool> flags;
   final Set<String> completedAdventures;
@@ -111,6 +118,13 @@ final class WorldState {
   final String? previousLoserId;
   final String? leaderId;
   final Map<String, int> flagSetAtStep;
+  final int? stopEndedAt;
+  final int restEndedAt;
+
+  /// The weather before [currentWeather], once it has changed at all — so
+  /// a scene can say the rain has only just stopped. See
+  /// `WeatherWithinTurnsCondition`.
+  final Weather? previousWeather;
 
   const WorldState({
     this.flags = const {},
@@ -129,6 +143,9 @@ final class WorldState {
     this.previousLoserId,
     this.leaderId,
     this.flagSetAtStep = const {},
+    this.stopEndedAt,
+    this.restEndedAt = 0,
+    this.previousWeather,
   });
 
   bool flag(String key) => flags[key] ?? false;
@@ -161,6 +178,9 @@ final class WorldState {
     String? previousLoserId,
     String? leaderId,
     Map<String, int>? flagSetAtStep,
+    int? stopEndedAt,
+    int? restEndedAt,
+    Weather? previousWeather,
   }) {
     return WorldState(
       flags: flags ?? this.flags,
@@ -181,6 +201,9 @@ final class WorldState {
       previousLoserId: previousLoserId ?? this.previousLoserId,
       leaderId: leaderId ?? this.leaderId,
       flagSetAtStep: flagSetAtStep ?? this.flagSetAtStep,
+      stopEndedAt: stopEndedAt ?? this.stopEndedAt,
+      restEndedAt: restEndedAt ?? this.restEndedAt,
+      previousWeather: previousWeather ?? this.previousWeather,
     );
   }
 
@@ -213,6 +236,11 @@ final class WorldState {
     leaderId: json['leaderId'] as String?,
     flagSetAtStep: (json['flagSetAtStep'] as Map<String, dynamic>? ?? const {})
         .map((k, v) => MapEntry(k, v as int)),
+    stopEndedAt: json['stopEndedAt'] as int?,
+    restEndedAt: json['restEndedAt'] as int? ?? 0,
+    previousWeather: json['previousWeather'] == null
+        ? null
+        : Weather.fromJson(json['previousWeather'] as String),
   );
 
   Map<String, dynamic> toJson() => {
@@ -232,5 +260,8 @@ final class WorldState {
     'previousLoserId': previousLoserId,
     'leaderId': leaderId,
     'flagSetAtStep': flagSetAtStep,
+    if (stopEndedAt != null) 'stopEndedAt': stopEndedAt,
+    'restEndedAt': restEndedAt,
+    if (previousWeather != null) 'previousWeather': previousWeather!.toJson(),
   };
 }

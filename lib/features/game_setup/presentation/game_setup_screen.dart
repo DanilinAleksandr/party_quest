@@ -42,7 +42,11 @@ class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
     super.initState();
     LastParty.load().then((names) {
       if (!mounted || _rosterTouched || names.isEmpty) return;
-      setState(() => _playerNames.addAll(names.take(GameConstants.maxPlayers)));
+      setState(
+        () => _playerNames.addAll(
+          names.take(GameConstants.maxPlayers).map(capitalizeName),
+        ),
+      );
     });
   }
 
@@ -58,7 +62,7 @@ class _GameSetupScreenState extends ConsumerState<GameSetupScreen> {
   bool get _canStartGame => _playerNames.length >= GameConstants.minPlayers;
 
   void _addPlayer() {
-    final name = _nameController.text.trim();
+    final name = capitalizeName(_nameController.text.trim());
     if (name.isEmpty || !_canAddPlayer) return;
     setState(() {
       _rosterTouched = true;
@@ -380,6 +384,10 @@ class _NameEntry extends StatelessWidget {
                   // name, so the keyboard is already up when it opens.
                   autofocus: true,
                   enabled: enabled,
+                  // A name, so the keyboard starts it with a capital; and
+                  // one typed in lower case anyway is capitalised as it is
+                  // added — see [capitalizeName].
+                  textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.done,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontSize: 16,
@@ -628,3 +636,8 @@ class _StartButton extends StatelessWidget {
     );
   }
 }
+
+/// [name] with its first letter in capitals — «саня» is «Саня» at the
+/// table. Only the first: «де Бирс» is left as typed after it.
+String capitalizeName(String name) =>
+    name.isEmpty ? name : name[0].toUpperCase() + name.substring(1);

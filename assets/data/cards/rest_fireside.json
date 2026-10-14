@@ -350,7 +350,32 @@
       "rest",
       "group"
     ],
-    "conditions": [],
+    "conditions": [
+      {
+        "condition": "weatherWithinTurns",
+        "weather": "rain",
+        "turns": 10
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "rest_boots_drying_v2",
+    "title": "Сапоги сохнут",
+    "description": "Сапоги сохнут у огня. От них идёт пар и такой запах, что разговор сам собой переходит на другие темы.",
+    "type": "event",
+    "rarity": "common",
+    "weight": 5,
+    "tags": [
+      "rest",
+      "group"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      }
+    ],
     "actions": []
   },
   {

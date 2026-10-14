@@ -174,6 +174,7 @@ List<InfluenceTag> influenceTagsOf(
       case InSeasonCondition _:
       case MinimumTurnsInBiomeCondition _:
       case MinimumTurnsInWeatherCondition _:
+      case WeatherWithinTurnsCondition _:
       case MinimumTurnsInTavernCondition _:
       case MinimumTurnsInRestCondition _:
       case MinimumTurnsInVillageCondition _:

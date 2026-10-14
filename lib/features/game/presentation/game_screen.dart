@@ -335,6 +335,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               await showChanceCheckDialog(
                 context: context,
                 stat: gamble.stat,
+                odds: gamble.odds,
                 style: notifier.coinStyle(),
                 passed: coin.favours,
                 edge: coin == CoinThrow.edge,
@@ -450,10 +451,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           previous?.pendingCard != null &&
           next.pendingCard == null &&
           next.activeAdventureId == null;
+      // An adventure ends in the same update that clears the card it was
+      // opened from, so "the card is done" and "the adventure is done" are
+      // one moment, told once. Telling it twice was the doubled «Оберег»:
+      // the last node's find shown once for the card and again for the
+      // adventure — one amulet, two announcements.
+      final endedAdventure =
+          previous?.activeAdventureId != null && next.activeAdventureId == null;
       if (cardResolvedWithoutAdventure) {
         // Measured from when the card was drawn, not from just before the
         // choice: a drink for courage or a draught taken on the card is part
-        // of what happened on it, and the table should hear about it.
+        // of what happened on it, and the table should hear about it — and
+        // every node of an adventure it opened, not only the last.
         final before = _stateAtDraw ?? previous!;
         final entries = computeResultEntries(
           previous: before,
@@ -461,16 +470,23 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           targets: _diffTargets(
             before,
             next,
-            previous!.pendingCard!.participant,
+            endedAdventure
+                ? const TwoRandomPlayersParticipant()
+                : previous!.pendingCard!.participant,
           ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
-        await _showResults(context, entries, origins);
+        await _showResults(
+          context,
+          entries,
+          origins,
+          actorId: previous!.currentPlayer.id,
+        );
         if (!context.mounted) return;
       }
 
       final adventureJustFinished =
-          previous?.activeAdventureId != null && next.activeAdventureId == null;
+          endedAdventure && !cardResolvedWithoutAdventure;
       if (adventureJustFinished) {
         final entries = computeResultEntries(
           previous: previous!,
@@ -482,7 +498,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           ),
           originCatalog: origins ?? const OriginCatalog({}),
         );
-        await _showResults(context, entries, origins);
+        await _showResults(
+          context,
+          entries,
+          origins,
+          actorId: previous.currentPlayer.id,
+        );
         if (!context.mounted) return;
       }
 
@@ -692,9 +713,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                           return PlayerStatusPanel(
                             player: player,
                             origin: playerOrigin,
+                            party: gameState.players,
                             onTap: () => showPlayerProfileSheet(
                               context: context,
                               player: player,
+                              party: gameState.players,
                               origin: playerOrigin,
                               partyInventory: gameState.partyInventory,
                               worldState: gameState.worldState,
@@ -749,8 +772,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 Future<void> _showResults(
   BuildContext context,
   List<ResultEntry> entries,
-  OriginCatalog? origins,
-) async {
+  OriginCatalog? origins, {
+  String? actorId,
+}) async {
   for (final entry in entries) {
     final originId = entry.originId;
     if (entry.kind == ResultKind.originRevealed &&
@@ -763,7 +787,7 @@ Future<void> _showResults(
         origin: origins.byId(originId),
       );
     } else {
-      await showGameResultCard(context, entry);
+      await showGameResultCard(context, entry, actorId: actorId);
     }
     if (!context.mounted) return;
   }

@@ -21,7 +21,18 @@ const Key gameResultCardKey = Key('game_result_card');
 /// several changes from one event show up as a short sequence of these
 /// cards rather than a single crowded screen — "каждая награда ощущается
 /// как отдельный момент."
-Future<void> showGameResultCard(BuildContext context, ResultEntry entry) {
+///
+/// [actorId] is the player whose card it was. A change that landed on
+/// somebody else names them large under the headline — «Гостеприимный
+/// хозяин → Серёга» — because a small grey name was missed at the table,
+/// and nobody knew who had been given what.
+Future<void> showGameResultCard(
+  BuildContext context,
+  ResultEntry entry, {
+  String? actorId,
+}) {
+  final toOther =
+      entry.playerId != null && actorId != null && entry.playerId != actorId;
   final style = _styleFor(entry.kind, entry.isNegative);
   final accentColor = entry.rarity != null
       ? AppColors.rarityColor(entry.rarity!)
@@ -50,7 +61,7 @@ Future<void> showGameResultCard(BuildContext context, ResultEntry entry) {
             textAlign: TextAlign.center,
             style: theme.textTheme.titleMedium,
           ),
-          if (entry.playerName != null) ...[
+          if (entry.playerName != null && !toOther) ...[
             const SizedBox(height: 4),
             Text(
               entry.playerName!,
@@ -69,6 +80,17 @@ Future<void> showGameResultCard(BuildContext context, ResultEntry entry) {
               fontWeight: FontWeight.bold,
             ),
           ),
+          if (toOther) ...[
+            const SizedBox(height: 6),
+            Text(
+              '→ ${entry.playerName}',
+              key: const Key('result_to_other'),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
           if (entry.description != null) ...[
             const SizedBox(height: 8),
             Text(

@@ -2,7 +2,7 @@
   {
     "id": "effect_fireside_charm",
     "name": "Душа компании",
-    "description": "Сегодня у огня слушают тебя. Пока действует — +1 к обаянию.",
+    "description": "Сегодня у огня слушают тебя.",
     "polarity": "positive",
     "duration": 4,
     "autoExpire": true,
@@ -14,7 +14,7 @@
   {
     "id": "effect_fireside_sharp",
     "name": "Острый глаз",
-    "description": "Ты замечаешь то, мимо чего проходят другие. Пока действует — +1 к внимательности.",
+    "description": "Ты замечаешь то, мимо чего проходят другие.",
     "polarity": "positive",
     "duration": 4,
     "autoExpire": true,
@@ -26,7 +26,7 @@
   {
     "id": "effect_fireside_steady",
     "name": "Второе дыхание",
-    "description": "Усталость отступила. Пока действует — +1 к выносливости.",
+    "description": "Усталость отступила.",
     "polarity": "positive",
     "duration": 4,
     "autoExpire": true,
@@ -38,7 +38,7 @@
   {
     "id": "effect_fireside_strong",
     "name": "Рука разогрета",
-    "description": "После спора у огня рука ещё помнит. Пока действует — +1 к силе.",
+    "description": "После спора у огня рука ещё помнит.",
     "polarity": "positive",
     "duration": 4,
     "autoExpire": true,
@@ -50,7 +50,7 @@
   {
     "id": "effect_borrowed_cloak",
     "name": "Чужой плащ",
-    "description": "Кто-то накинул тебе на плечи свой плащ. Пока он на тебе — +1 к обаянию.",
+    "description": "Кто-то накинул тебе на плечи свой плащ.",
     "polarity": "positive",
     "duration": 3,
     "autoExpire": true,

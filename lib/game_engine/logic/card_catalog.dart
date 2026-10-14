@@ -12,6 +12,12 @@ import '../models/models.dart';
 /// tavern's length is `in_tavern`'s.
 const int kRestInterval = 10;
 
+/// The least road between two stops — a halt, a village, a tavern — in
+/// steps walked: a card that would begin one waits until this many have
+/// passed since the party walked out of the last. Nine halts in 57 steps,
+/// one straight after a village, was a road made of stops.
+const int kMinStopGap = 6;
+
 /// The most village cards a stay in a village holds; after that, only the
 /// ways out are drawn. The ways out are weighted for three to five, but a
 /// weight is a likelihood, and this is a promise.
@@ -180,47 +186,65 @@ final class CardCatalog {
     final inTavern = context.state.worldState.flag('in_tavern');
     final inRest = context.state.worldState.flag('in_rest');
     final inVillage = context.state.worldState.flag('in_village');
+    final inStop = inTavern || inRest || inVillage;
     final villageOver =
         inVillage &&
         context.state.worldState.turnsInVillage > kVillageMostCards;
     final steps = context.state.partySteps;
+    final world = context.state.worldState;
+    // Steps of road since the last stop, and since the last halt: the halt
+    // is due [GameContext.restInterval] steps after the party walked away
+    // from the last fire, not on every tenth step — and waits, like any
+    // stop, until there has been road enough since a village or a tavern.
+    final lastStop = world.stopEndedAt;
+    final stopAllowed = lastStop == null || steps - lastStop > kMinStopGap;
     final restDue =
         !inPrologue &&
         !inTavern &&
         !inRest &&
         !inVillage &&
         steps > 0 &&
-        steps % context.restInterval == 0;
+        stopAllowed &&
+        steps - world.restEndedAt >= context.restInterval;
 
-    List<GameCard> pool({required bool arrivals, bool capped = true}) =>
-        allCards
-            .where((card) {
-              if (!context.mode.allowedRarities.contains(card.rarity)) {
-                return false;
-              }
-              if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
-              if (inTavern && !card.hasTag(CardTag.tavern)) return false;
-              if (inRest != card.hasTag(CardTag.rest)) return false;
-              if (inVillage != card.hasTag(CardTag.village)) return false;
-              // No town to be in yet — see [CardTag.town].
-              if (card.hasTag(CardTag.town)) return false;
-              if (capped && villageOver && !card.endsVillage) return false;
-              if (arrivals != card.beginsRest) return false;
-              final conditionsMet = card.conditions.every(
-                (condition) => condition.isSatisfied(context),
-              );
-              return conditionsMet && extraFilter(card);
-            })
-            .toList(growable: false);
+    List<GameCard> pool({
+      required bool arrivals,
+      bool capped = true,
+      bool gapped = true,
+    }) => allCards
+        .where((card) {
+          if (!context.mode.allowedRarities.contains(card.rarity)) {
+            return false;
+          }
+          if (inPrologue && !card.hasTag(CardTag.prologue)) return false;
+          if (inTavern && !card.hasTag(CardTag.tavern)) return false;
+          if (inRest != card.hasTag(CardTag.rest)) return false;
+          if (inVillage != card.hasTag(CardTag.village)) return false;
+          // No town to be in yet — see [CardTag.town].
+          if (card.hasTag(CardTag.town)) return false;
+          if (capped && villageOver && !card.endsVillage) return false;
+          if (arrivals != card.beginsRest) return false;
+          // No stop straight after a stop.
+          if (gapped && !stopAllowed && !inStop && card.beginsStop) {
+            return false;
+          }
+          final conditionsMet = card.conditions.every(
+            (condition) => condition.isSatisfied(context),
+          );
+          return conditionsMet && extraFilter(card);
+        })
+        .toList(growable: false);
 
     // A village that has had its fill with no way out through the filter
     // (a card set without exits) keeps to its own content rather than
     // drawing from an empty pool.
+    // And a road with nothing on it but ways into stops (a card set made
+    // of nothing else) takes one anyway rather than drawing from nothing.
     List<GameCard> ordinary() {
       final pooled = pool(arrivals: false);
-      return pooled.isEmpty && villageOver
-          ? pool(arrivals: false, capped: false)
-          : pooled;
+      if (pooled.isNotEmpty) return pooled;
+      if (villageOver) return pool(arrivals: false, capped: false);
+      return stopAllowed ? pooled : pool(arrivals: false, gapped: false);
     }
 
     if (!restDue) return ordinary();

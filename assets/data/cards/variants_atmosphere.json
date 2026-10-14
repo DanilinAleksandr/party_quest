@@ -525,6 +525,10 @@
       {
         "condition": "inBiome",
         "biomeId": "mountains"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "sunny"
       }
     ],
     "actions": []

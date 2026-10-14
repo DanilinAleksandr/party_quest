@@ -123,7 +123,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [],
     "actions": []
@@ -136,7 +137,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [],
     "actions": []
@@ -149,7 +151,8 @@
     "rarity": "common",
     "weight": 1,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [],
     "actions": []
@@ -449,7 +452,8 @@
     "rarity": "common",
     "weight": 2,
     "tags": [
-      "group"
+      "group",
+      "village"
     ],
     "conditions": [],
     "actions": []
