@@ -24,7 +24,7 @@
     "description": "Костёр гаснет сам собой. Пора собираться — дорога никуда не делась.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -58,7 +58,7 @@
     "description": "Костёр затоптан, мешки на плечах. Дорога ждёт там же, где её оставили.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -92,7 +92,7 @@
     "description": "Кто-то последним оглядывается на угли. Остальные уже на тропе.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -126,7 +126,7 @@
     "description": "Фляги убраны, одеяла скатаны. Тот, кто вчера громче всех пел, сегодня молча ищет второй сапог.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -160,7 +160,7 @@
     "description": "Угли залиты остатками воды и обиженно шипят. Пора.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -194,7 +194,7 @@
     "description": "Последний глоток из котелка — и котелок в мешок. Кто-то зевает на ходу.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -228,7 +228,7 @@
     "description": "Над кострищем ещё вьётся дымок, а компания уже вытягивается цепочкой по дороге.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"
@@ -262,7 +262,7 @@
     "description": "Спорят, кто понесёт котелок. Несёт тот, кто спорил дольше. Выходите.",
     "type": "event",
     "rarity": "uncommon",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "solo",
       "rest"

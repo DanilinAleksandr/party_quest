@@ -726,7 +726,7 @@
     "description": "Между дюнами два прохода. В левом песок изрыт следами каравана. В правом по песку тянется ровный волнистый след — змеиный.",
     "type": "luck",
     "rarity": "rare",
-    "weight": 3,
+    "weight": 1,
     "tags": [
       "luck",
       "strategy"
@@ -1336,7 +1336,7 @@
     "description": "Под береговым обрывом — две пещеры. Из левой пахнет рыбой. Из правой — дымом.",
     "type": "luck",
     "rarity": "rare",
-    "weight": 3,
+    "weight": 1,
     "tags": [
       "luck",
       "strategy"
@@ -1942,7 +1942,7 @@
     "description": "Под обрывом два грота. В левом вода поёт — прилив заходит внутрь. В правом тихо и сухо.",
     "type": "luck",
     "rarity": "rare",
-    "weight": 3,
+    "weight": 1,
     "tags": [
       "luck",
       "strategy"
@@ -2223,6 +2223,1075 @@
           }
         ],
         "outcome": "Огонёк уходит, как только подходишь ближе. Ещё ближе. Ещё. Возвращаетесь к утру."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_16",
+    "title": "Два колодца",
+    "description": "Два колодца в одном дне пути друг от друга. У левого сруба белеют кости верблюда. На правом — свежая верёвка с ведром.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левый — где кости",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_hiccups"
+              }
+            ],
+            "winnerOutcome": "Кости старые, их выбелило солнцем. А вода — живая и холодная.",
+            "loserOutcome": "Вода горькая. Верблюд знал."
+          }
+        ]
+      },
+      {
+        "label": "Правый — где верёвка",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ],
+            "winnerOutcome": "Верёвку оставили для путников. Вода чистая, ведро на месте.",
+            "loserOutcome": "Верёвка хозяйская. Хозяева видят чужих у своего колодца — и запоминают."
+          }
+        ]
+      },
+      {
+        "label": "Пустынный странник знает: кости у колодца — старые, а вода в нём живая",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_desert_wanderer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты показываешь на выбеленные кости: им лет двадцать. Вода под ними холодная и сладкая."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Кости старые, их выбелило солнцем. А вода — живая и холодная."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Верёвка хозяйская. Хозяева видят чужих у своего колодца — и запоминают."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Кости старые, их выбелило солнцем. А вода — живая и холодная."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_17",
+    "title": "Две тени под скалой",
+    "description": "Под скалой две тени. Левая — от навеса из шкур, оттуда тянет дымом. Правая — от самой скалы, прохладная, и на песке у камней видны царапины.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левая — под навесом",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Под навесом сидят кочевники. Гостей тут не ждали, но наливают — так положено.",
+            "loserOutcome": "Навес пустой, костёр давно остыл. Только шкуры хлопают на ветру."
+          }
+        ]
+      },
+      {
+        "label": "Правая — под скалой",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_scorpion_venom"
+              }
+            ],
+            "winnerOutcome": "В тени прохладно и тихо. Отдыхаете, пока не спадает жара.",
+            "loserOutcome": "Царапины на песке оставил скорпион. Он всё ещё здесь."
+          }
+        ]
+      },
+      {
+        "label": "Шарлатан узнаёт по шкурам, чьи это люди — и как им понравиться",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты заходишь под навес с поклоном, какой здесь в ходу, и с первой фразы становишься почти своим. Тебе наливают первому."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Под навесом сидят кочевники. Гостей тут не ждали, но наливают — так положено."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_scorpion_venom"
+          }
+        ],
+        "outcome": "Царапины на песке оставил скорпион. Он всё ещё здесь."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Под навесом сидят кочевники. Гостей тут не ждали, но наливают — так положено."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_18",
+    "title": "Два русла",
+    "description": "Пересохшая река делится на два русла. Левое затянуто белой солевой коркой. Правое — потрескавшаяся глина и цепочка звериных следов.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "desert"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левое — по соли",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Корка держит, и вы идёте по ней, как по мощёной дороге.",
+            "loserOutcome": "Под коркой — топь. Вязнете по колено, выбираетесь до вечера."
+          }
+        ]
+      },
+      {
+        "label": "Правое — по следам",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Следы ведут к луже под камнем. Зверь знал, где вода.",
+            "loserOutcome": "Следы ведут к логову. Хозяин дома и гостей не ждал."
+          }
+        ]
+      },
+      {
+        "label": "Купец знает: соль возят там, где корка держит телегу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "По корке видно колею солевозов. Ты ведёшь по ней — и корка держит, как дорога."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Корка держит, и вы идёте по ней, как по мощёной дороге."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Следы ведут к логову. Хозяин дома и гостей не ждал."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Корка держит, и вы идёте по ней, как по мощёной дороге."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_19",
+    "title": "Две тропы вдоль обрыва",
+    "description": "Над морем две тропы. Над левой кричат чайки. Правая тихая и вся усыпана ракушками.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левая — где чайки",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Чайки кружат над рыбаками, которые разбирают улов. Вас встречают как своих и наливают.",
+            "loserOutcome": "Чайки кружат над гнёздами. Хозяева гнёзд защищают их со всей серьёзностью."
+          }
+        ]
+      },
+      {
+        "label": "Правая — по ракушкам",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ],
+            "winnerOutcome": "Тропа короткая и ровная, к самой дороге.",
+            "loserOutcome": "Ракушки здесь потому, что сюда доходит прилив. Он и доходит — по колено, потом по пояс."
+          }
+        ]
+      },
+      {
+        "label": "Беглец знает: тропу с ракушками заливает — по таким уходят от погони, а не гуляют",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты сворачиваешь туда, где кричат чайки. Там рыбаки и улов — и никакого прилива."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Чайки кружат над рыбаками, которые разбирают улов. Вас встречают как своих и наливают."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "outcome": "Ракушки здесь потому, что сюда доходит прилив. Он и доходит — по колено, потом по пояс."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Чайки кружат над рыбаками, которые разбирают улов. Вас встречают как своих и наливают."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_20",
+    "title": "Два причала",
+    "description": "Берег, два причала. У левого привязаны лодки и сушатся сети. Правый пустой, только у края качается чужая лодка без вёсел.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "coast"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левый — где сети",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Рыбаки вернулись с моря довольные. Наливают каждому, кто поможет вытащить сети.",
+            "loserOutcome": "Рыбаки вернулись злые и пустые. Чужие у сетей им сейчас не нужны."
+          }
+        ]
+      },
+      {
+        "label": "Правый — где лодка",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ],
+            "winnerOutcome": "В лодке под банкой забыта фляга. Хозяин, похоже, не вернётся.",
+            "loserOutcome": "Хозяин вернётся. Он уже здесь — и лодку он прятал не от вас, но вас запомнит."
+          }
+        ]
+      },
+      {
+        "label": "Пьяница слышит, где сегодня наливают",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты идёшь на звук голосов у сетей. Рыбаки в духе, и первая кружка — тебе."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Рыбаки вернулись с моря довольные. Наливают каждому, кто поможет вытащить сети."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Хозяин вернётся. Он уже здесь — и лодку он прятал не от вас, но вас запомнит."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Рыбаки вернулись с моря довольные. Наливают каждому, кто поможет вытащить сети."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_21",
+    "title": "Две гати",
+    "description": "Через разлив ведут две гати. Левая — из свежих жердей, ещё белых. Правая — старая, поросшая мхом, но широкая.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левая — свежая",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ],
+            "winnerOutcome": "Жерди пружинят, но держат. На том берегу — сухая тропа.",
+            "loserOutcome": "Свежие жерди ещё не легли — и вы ложитесь вместе с ними, в воду."
+          }
+        ]
+      },
+      {
+        "label": "Правая — старая",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Мох скользкий, но гать широкая. Проходите, держась середины.",
+            "loserOutcome": "Одна жердь гнилая. Кто-то узнаёт об этом раньше всех."
+          }
+        ]
+      },
+      {
+        "label": "Бедняк знает: свежую гать кладут поверх той, что сгнила",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pauper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты ведёшь по старой, широкой, — по ней здесь ходят все, кто давно живёт у воды."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Мох скользкий, но гать широкая. Проходите, держась середины."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_shivering"
+          }
+        ],
+        "outcome": "Свежие жерди ещё не легли — и вы ложитесь вместе с ними, в воду."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Мох скользкий, но гать широкая. Проходите, держась середины."
+      }
+    ]
+  },
+  {
+    "id": "luck_two_passages_22",
+    "title": "Два дома на воде",
+    "description": "Из разлива торчат два дома. Над левым из трубы идёт дым. У правого на крыльце привязана лодка, а дверь открыта настежь.",
+    "type": "luck",
+    "rarity": "rare",
+    "weight": 1,
+    "tags": [
+      "luck",
+      "strategy"
+    ],
+    "conditions": [
+      {
+        "condition": "inBiome",
+        "biomeId": "floodlands"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Левый — где дым",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_at_home"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Хозяйка пускает обсохнуть у печи и наливает «от простуды».",
+            "loserOutcome": "Хозяйка встречает с багром: гостей тут не ждут, тем более мокрых."
+          }
+        ]
+      },
+      {
+        "label": "Правый — где открыта дверь",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_stash"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Дом пустой, хозяева у родни. В сенях на полке — чья-то заначка.",
+            "loserOutcome": "Дом не пустой. Хозяин спал — а теперь не спит и держит весло."
+          }
+        ]
+      },
+      {
+        "label": "Каторжник видит по двери: хозяин отошёл ненадолго и вернётся злым",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты не идёшь к открытой двери, а стучишь туда, где дым. Хозяйка пускает к печи и наливает."
+      },
+      {
+        "label": "Довериться оберегу — он тянет в одну сторону",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Оберег тянет, и ты идёшь за ним. Хозяйка пускает обсохнуть у печи и наливает «от простуды»."
+      },
+      {
+        "label": "Под хмельком — туда, где интереснее",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Дом не пустой. Хозяин спал — а теперь не спит и держит весло."
+      },
+      {
+        "label": "Свериться с картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "На карте один проход помечен чьей-то рукой. Хозяйка пускает обсохнуть у печи и наливает «от простуды»."
       }
     ]
   }

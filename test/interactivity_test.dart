@@ -142,6 +142,9 @@ void main() {
           .where((c) => c.id != 'watch_mountains_wyvern')
           .fold<int>(0, (s, c) => s + c.weight);
       final share = threats / (threats + calm);
+      // All the watch together weighs what the one watch did before (5),
+      // in the doubled scale every halt card moved to.
+      expect(threats + calm, 10, reason: biome);
       expect(share, inInclusiveRange(0.25, 0.35), reason: biome);
     }
     final wyvern = cards.singleWhere((c) => c.id == 'watch_mountains_wyvern');
@@ -157,7 +160,7 @@ void main() {
     () async {
       final cards = await const CardRepository().loadCards();
       final pairs = cards.where((c) => c.id.startsWith('luck_two_passages_'));
-      expect(pairs, hasLength(15));
+      expect(pairs, hasLength(22));
       expect(cards.where((c) => c.id == 'luck_mystery_choice'), isEmpty);
       for (final card in pairs) {
         final sides = card.choices.where((c) => c.conditions.isEmpty).toList();

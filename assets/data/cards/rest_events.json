@@ -5,7 +5,7 @@
     "description": "Разговоры стихли сами собой. Кто-то подбрасывает последнюю ветку — просто чтобы не сидеть в темноте.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -58,7 +58,7 @@
     "description": "{opponent} уверенно бьёт по рукам: рассказ есть, но не про себя — про того, кто сейчас проиграет спор.",
     "type": "duel",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "duel",
@@ -123,7 +123,7 @@
     "description": "Ставки на кон — локти на плоский камень. Против тебя — {opponent}. Проигравший разносит остаток фляг по кругу до конца привала, больше ничего не должен.",
     "type": "duel",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "duel",
@@ -180,7 +180,7 @@
     "description": "Ты берёшься рассказать историю получше — но врать красиво сложнее, чем кажется.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "social",
@@ -314,7 +314,7 @@
     "description": "Мешки перебирают заново — что-то лишнее, что-то забытое на дне с самого начала пути.",
     "type": "item",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "item",
@@ -366,7 +366,7 @@
     "description": "Кто-то по привычке поднимает взгляд к небу — просто чтобы привычно понять, каким будет завтра.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -413,7 +413,7 @@
     "description": "Ты и {opponent} уверены, что знаете дорогу лучше остальных, — и никто не готов уступить.",
     "type": "duel",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "duel",
