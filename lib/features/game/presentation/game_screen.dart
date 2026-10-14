@@ -332,19 +332,28 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               if (!context.mounted) return;
 
               coin = notifier.roll(odds: gamble.odds);
-              await showChanceCheckDialog(
-                context: context,
-                stat: gamble.stat,
-                odds: gamble.odds,
-                style: notifier.coinStyle(),
-                passed: coin.favours,
-                edge: coin == CoinThrow.edge,
-                sides: gamble.sides,
-                calledIndex: called,
-                challenger: gamble.challenger,
-                opponent: gamble.opponent,
-              );
-              if (!context.mounted) return;
+              // A lost throw of one's own may be thrown once more with the
+              // holed die — never a duel's, which is two people's coin.
+              var mayReroll = !gamble.isDuel && notifier.canRerollWithDie;
+              while (true) {
+                final reroll = await showChanceCheckDialog(
+                  context: context,
+                  stat: gamble.stat,
+                  odds: gamble.odds,
+                  style: notifier.coinStyle(),
+                  passed: coin!.favours,
+                  edge: coin == CoinThrow.edge,
+                  sides: gamble.sides,
+                  calledIndex: called,
+                  challenger: gamble.challenger,
+                  opponent: gamble.opponent,
+                  canReroll: mayReroll && !coin.favours,
+                );
+                if (!context.mounted) return;
+                if (!reroll) break;
+                coin = notifier.rerollWithDie(odds: gamble.odds);
+                mayReroll = false;
+              }
 
               // A gamble's own words win over the choice's, and are told as
               // part of the scene: the choice was made before anybody knew

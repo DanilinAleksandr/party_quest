@@ -830,6 +830,27 @@
         "outcome": "Сходятся на малом: вы не видели их, они не видели вас. Всадники уходят, не тронув ни одного мешка."
       },
       {
+        "label": "Показать бляху ордена — с орденом они не ссорятся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_order_badge"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Старший всадник видит солнце на бляхе и разворачивает коня. Подделку издали не отличить."
+      },
+      {
         "label": "Сражаться",
         "actions": [
           {

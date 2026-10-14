@@ -1,0 +1,3773 @@
+[
+  {
+    "id": "find_kerchief_stepan",
+    "title": "Платок у брода",
+    "description": "На коряге у брода зацепился платок — мокрый, тяжёлый от ила. На уголке вышито: «Степан».",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "supper_wife_asked"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "supper_wife_asked",
+        "steps": 5
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_stepan"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Проводник душ знает, чей он, ещё не прочитав",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "outcome": "Вода у брода холодная, и в ней кто-то ещё стоит. Ты берёшь платок, и стоящий кивает."
+      },
+      {
+        "label": "Под хмельком — выжать его и повязать на шею",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Платок мокрый и пахнет рекой. Компания смотрит на тебя так, что ты его снимаешь."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_kerchief_ignat",
+    "title": "Платок в старой колее",
+    "description": "В заросшей колее, где когда-то шли обозы, из земли торчит угол платка. Выцветший, но вышивка цела: «Игнат».",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "shoes_father_asked"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "shoes_father_asked",
+        "steps": 5
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_ignat"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Наёмник узнаёт: так метили своих в обозах",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "В обозе каждому вышивали имя — чтобы было кого опознать. Ты берёшь платок осторожно, как берут чужое последнее."
+      },
+      {
+        "label": "Под хмельком — вытереть им лоб",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Земля с платка остаётся на лбу. Компания объясняет тебе это до самого вечера."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_kerchief_gavrila",
+    "title": "Платок на старом кострище",
+    "description": "Кострище военного лагеря давно остыло. На обломке пики повязан платок, вылинявший добела. Вышивка — красной нитью: «Гаврила».",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "old_woman_son_asked"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "old_woman_son_asked",
+        "steps": 5
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_gavrila"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Рыцарь отдаёт честь, прежде чем снять его",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты снимаешь платок с пики по-уставному, как снимают знамя. Что бы здесь ни было, оно было честно."
+      },
+      {
+        "label": "Под хмельком — помахать им, как флагом",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты машешь, пока не понимаешь, чей это платок. Дальше несёшь его молча."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_kerchief_foma",
+    "title": "Платок на коновязи",
+    "description": "У придорожного трактира на коновязи повязан платок — узлом, как метят место за собой те, кто зашёл выпить и надолго. На уголке: «Фома». Из окна доносится песня.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "knife_wife_asked"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "knife_wife_asked",
+        "steps": 5
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_foma"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Пьяница узнаёт этот узел — так вяжут, когда уходят в запой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Узел «на три дня». Ты снимаешь платок: Фоме он ещё не скоро понадобится, а кое-кому — очень."
+      },
+      {
+        "label": "Под хмельком — зайти и выпить с Фомой",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Фома рад гостям и угощает. Платок он отдаёт сам: «Передай моей — живой я. Почти»."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "kerchief_returned_stepan",
+    "title": "Вторая миска",
+    "description": "Тот же дом, то же окно. Две миски на столе, одна пустая, вторая полная. Свеча новая — старую давно сожгли.\n\nТы достаёшь платок. Мокрый от реки, в иле. На уголке — «Степан».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "social",
+      "solo",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_name_kerchief"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "kerchief_stepan"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_stepan_returned"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать платок и рассказать, где он нашёлся",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Она узнаёт вышивку сразу — сама вышивала, к свадьбе. Долго держит платок у лица. Потом встаёт, убирает вторую миску и ставит на окно свечу — уже не чтобы ждать, а чтобы помнить.\n\n«Спасибо. Хуже было не знать». На пороге она отдаёт вам его флягу: «Ему уже не нужна, а вам — дорога»."
+      },
+      {
+        "label": "Отдать платок молча",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она берёт платок, смотрит на ил, на тебя — и понимает всё без слов. Дверь закрывается тихо. В окне видно: вторую миску она так и не убирает."
+      },
+      {
+        "label": "Сказать, что он жив — просто далеко",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_stepan_returned",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_stepan_returned",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Она верит — или очень хочет верить. Кладёт платок рядом с полной миской: «Значит, вернётся за ним». Ты уходишь и не оборачиваешься.",
+            "loserOutcome": "Она смотрит на ил на платке, потом на тебя. «Не надо», — говорит она. Хуже правды бывает только это."
+          }
+        ]
+      },
+      {
+        "label": "Проводник душ передаёт, что он сказал бы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты говоришь ей то, что слышно только тебе: что он торопился домой, что брод в тот день был глубже обычного, что миска — это правильно. Она плачет. Потом впервые за много дней садится и ест."
+      },
+      {
+        "label": "Бард поёт о реке, которая всё возвращает",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Песня тихая, без слов почти. К концу она подпевает — и улыбается, держа платок. Река вернула хоть это."
+      },
+      {
+        "label": "Под хмельком — отдать платок с неловкой шуткой",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "Шутка не получается. Она забирает платок и закрывает дверь. Ты остаёшься на крыльце и трезвеешь быстрее, чем хотелось бы."
+      },
+      {
+        "label": "Вас здесь знают — и потому она слушает до конца",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она знает, кто вы, и потому не закрывает дверь. Выслушивает всё, до последнего слова, и благодарит каждого по имени."
+      },
+      {
+        "label": "Орден ищет пропавших — пообещать, что тело найдут",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_stepan_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты обещаешь: застава пошлёт людей к броду. Она кивает — ей важно, чтобы его нашли и похоронили по-людски."
+      },
+      {
+        "label": "Не отдавать — пусть ещё подождёт",
+        "actions": [],
+        "outcome": "Ты убираешь платок обратно. Свеча в окне горит. Может, так ей легче. Может, и нет."
+      }
+    ]
+  },
+  {
+    "id": "kerchief_returned_ignat",
+    "title": "Пятая пара",
+    "description": "Пятая пара всё так же стоит у порога, отдельно от остальных, и пыли на ней ещё больше. Хозяйка выходит на стук — и видит у тебя в руках платок с вышитым «Игнат».",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "social",
+      "solo",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_name_kerchief"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "kerchief_ignat"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_ignat_returned"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать платок и рассказать про старую колею",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sharp_blade"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Хозяйка садится на порог рядом с пятой парой. Потом — впервые за три зимы — берёт отцовские сапоги и уносит в дом. «Теперь можно».\n\nОна выносит вам его нож, старый и наточенный: «Он бы отдал. Он всегда отдавал»."
+      },
+      {
+        "label": "Положить платок в пятую пару, ничего не говоря",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты кладёшь платок в сапог и уходишь, не дожидаясь, пока она выйдет. Утром она его найдёт. Сама."
+      },
+      {
+        "label": "Сказать, что обоз ушёл дальше, за горы",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_ignat_returned",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_ignat_returned",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Она кивает: за горы — это далеко, но оттуда возвращаются. Пятая пара остаётся у порога. Пыль с неё она теперь стирает каждое утро.",
+            "loserOutcome": "Она смотрит на выцветший платок и тихо говорит: «Из-за гор платки не выцветают так». Уходит в дом."
+          }
+        ]
+      },
+      {
+        "label": "Наёмник рассказывает, как было с тем обозом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты знаешь, что случалось с такими обозами, и рассказываешь честно, но без лишнего. Она слушает до конца. «Значит, не бросил. Значит, не смог». Ей это важно."
+      },
+      {
+        "label": "Моряк знает, что делают со вещами тех, кто не вернулся",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "У вас на побережье такие вещи отдают воде. Здесь — земле. Ты помогаешь ей закопать сапоги под яблоней. Это правильно, говорит она."
+      },
+      {
+        "label": "Под хмельком — примерить пятую пару и вернуть с платком",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "Ты стоишь в его сапогах с его платком. Она смотрит долго. Потом молча указывает на дорогу."
+      },
+      {
+        "label": "Вас здесь знают — она зовёт в дом",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Она зовёт вас в дом, наливает и долго рассказывает, каким был отец. Пятая пара стоит теперь у печи."
+      },
+      {
+        "label": "Орден записывает имена павших в обозах — пообещать вписать",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_ignat_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты обещаешь, что имя впишут в книгу заставы. Она просит написать полностью — Игнат, сын Петра."
+      },
+      {
+        "label": "Не отдавать — пусть лучше ждёт",
+        "actions": [],
+        "outcome": "Ты проходишь мимо. Пятая пара остаётся стоять. Надежда — тоже вещь, её не стоит отнимать на ходу."
+      }
+    ]
+  },
+  {
+    "id": "kerchief_returned_gavrila",
+    "title": "Имя, которого она ждала",
+    "description": "Старуха у ворот называет имена проходящих. Ты подходишь с платком — и она замолкает на полуслове.\n\n«Гаврила», — говорит она. Это не вопрос.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "social",
+      "solo",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_name_kerchief"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "kerchief_gavrila"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_gavrila_returned"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать платок и рассказать про лагерь",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "old_woman_knows_you",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она берёт платок двумя руками и называет имя ещё раз — тихо, для себя. Потом поднимает глаза и впервые называет тебя по имени.\n\n«Теперь знаю тебя». В этой деревне это значит, что вас пустят в любой дом."
+      },
+      {
+        "label": "Отдать платок молча",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она кивает, прячет платок за пазуху и называет следующего прохожего. Голос у неё не меняется. Руки — да."
+      },
+      {
+        "label": "Сказать, что он служит далеко и жив",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_gavrila_returned",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_gavrila_returned",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Она слушает и кивает. Потом говорит: «Хорошо. Буду называть его дальше». И называет — утром, в полдень, вечером.",
+            "loserOutcome": "«Платок с пики так не выцветает, — говорит она. — Не ври старой. Мне врали уже». Отворачивается."
+          }
+        ]
+      },
+      {
+        "label": "Рыцарь называет его полк и отдаёт честь",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "old_woman_knows_you",
+            "value": true
+          }
+        ],
+        "outcome": "Ты встаёшь перед ней, как перед командиром, и говоришь: полк стоял честно. Старуха поднимается с лавки — тяжело, держась за ворота — и кланяется тебе, как кланялись при ней."
+      },
+      {
+        "label": "Проводник душ: он тоже здесь, у ворот",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Рядом с ней, у ворот, стоит тот, чьё имя она называет. Ты говоришь ей, что он рядом. Она не удивляется: «Знаю. Потому и называю»."
+      },
+      {
+        "label": "Под хмельком — назвать его вместе с ней, нараспев",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Она смотрит на тебя долго, потом отбирает платок. «Не пой. Он не любил»."
+      },
+      {
+        "label": "Вас здесь уже знают — она называет и вас",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Она называет его имя, а следом — ваши, по одному, будто пересчитывает своих. Теперь вы в её списке."
+      },
+      {
+        "label": "Орден чтит павших — пообещать, что имя впишут",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_gavrila_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты обещаешь вписать его имя на заставе. Старуха кивает и впервые за день молчит."
+      },
+      {
+        "label": "Не отдавать — пусть называет дальше",
+        "actions": [],
+        "outcome": "Ты проходишь мимо. Она называет тебя «не знаю» — и следом — «Гаврила», как каждый день."
+      }
+    ]
+  },
+  {
+    "id": "kerchief_returned_foma",
+    "title": "Нож на пороге",
+    "description": "Та же женщина на пороге, тот же камень, тот же нож — острый давно. Увидев у тебя в руках платок, она бросает нож.\n\n«Фома! Живой?»",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "social",
+      "solo",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_name_kerchief"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "kerchief_foma"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "kerchief_foma_returned"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сказать правду — где висел платок",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "«Живой», — говорит она, и в этом одном слове всё. Потом поднимает нож — поудобнее — и выносит вам по кружке «за добрую весть». Пьёт с вами залпом.\n\nВечером Фома вернётся. По слухам — очень тихо."
+      },
+      {
+        "label": "Отдать платок и промолчать про трактир",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Она прижимает платок к груди и садится на порог. Нож лежит на земле. Ждать она будет дальше — но уже спокойно."
+      },
+      {
+        "label": "Сочинить, что Фома задержался по делу",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_foma_returned",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_name_kerchief"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "kerchief_foma_returned",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты рассказываешь про ярмарку, про долг, про попутную телегу. Она слушает и прищуривается: «Ну-ну». Но нож откладывает.",
+            "loserOutcome": "Она нюхает платок. Платок пахнет трактиром. «По делу, значит», — говорит она и берёт нож."
+          }
+        ]
+      },
+      {
+        "label": "Шарлатан превращает это в хорошую историю",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "В твоей версии Фома спас трактирщика, задержался ради чести и вот-вот вернётся героем. Она смеётся — впервые за три дня. «Врёшь. Но хорошо врёшь»."
+      },
+      {
+        "label": "Пьяница знает: такие возвращаются сами, к третьему дню",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Ты объясняешь ей про узел «на три дня». Она считает на пальцах и смеётся: «Завтра, значит». Наливает тебе — за знание дела."
+      },
+      {
+        "label": "Под хмельком — рассказать, как Фоме там хорошо",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты рассказываешь с подробностями. Она слушает до конца, берёт нож и уходит в сторону трактира быстрым шагом."
+      },
+      {
+        "label": "Вас здесь знают — и верят на слово",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "«Раз вы говорите — значит, живой». Она наливает и смеётся, и нож так и лежит на земле."
+      },
+      {
+        "label": "Похмельному Фому понять легко — сказать ей это",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_name_kerchief"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "kerchief_foma_returned",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты объясняешь ей, как это бывает, с таким знанием дела, что она смотрит на тебя, потом в сторону трактира — и решает, что вы с Фомой одной породы."
+      },
+      {
+        "label": "Не отдавать — сам вернётся",
+        "actions": [],
+        "outcome": "Ты убираешь платок. Она снова берётся за нож. Ждать ей ещё день — или три."
+      }
+    ]
+  },
+  {
+    "id": "find_sealed_letter",
+    "title": "Письмо в дорожной пыли",
+    "description": "Посреди дороги лежит письмо — сложенное вчетверо, запечатанное сургучом с оттиском солнца. Видно, выпало из сумки на скаку.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "letter_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Беглец узнаёт такие письма — их возят гонцы с розыскными листами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Сургуч с солнцем, бумага плотная — такие возят гонцы, от которых лучше держаться подальше. Ты поднимаешь письмо, не оглядываясь."
+      },
+      {
+        "label": "Под хмельком — помахать им вслед всаднику, которого уже не видно",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Всадника давно нет. Письмо — есть. Ты прячешь его в карман под смех компании."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "letter_open_or_deliver",
+    "title": "Чужое письмо",
+    "description": "Письмо с печатью оттягивает карман. Сургуч целый, из адреса уцелело одно слово — «…в Ольховку».\n\nВскрыть — или отнести?",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "solo"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_sealed_letter"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "letter_found",
+        "steps": 2
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "letter_decided"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вскрыть — аккуратно, чтобы печать уцелела",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_decided",
+                "value": true
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_to_deliver",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_decided",
+                "value": true
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_to_deliver",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Ты поддеваешь сургуч ножом так, что печать цела. Внутри — письмо сына матери: жив, служит при заставе, к зиме обещают отпустить. Ты запечатываешь его обратно. Ничего дурного — только теперь ты знаешь, кого обрадуешь.",
+            "loserOutcome": "Сургуч крошится под ножом. Письмо прочитано — от сына матери, ничего тайного, — но нести вскрытое теперь стыдно."
+          }
+        ]
+      },
+      {
+        "label": "Отнести в Ольховку — не читая",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_decided",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_to_deliver",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты прячешь письмо поглубже. Ольховка — по пути, если верить указателям. Чужое слово донести — тоже слово."
+      },
+      {
+        "label": "Сжечь, не читая — чужие письма к беде",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_decided",
+            "value": true
+          }
+        ],
+        "outcome": "Сургуч шипит в огне. Кто бы ни ждал этого письма, он будет ждать дольше."
+      },
+      {
+        "label": "Хранитель рун читает оттиск печати",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_decided",
+            "value": true
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_to_deliver",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Солнце на сургуче — печать дальней заставы ордена. Такие письма везут родным служивых. Ты уже знаешь, кто его ждёт, хоть письмо и не вскрыто."
+      },
+      {
+        "label": "Беглец помнит гонца — под письмом может быть и розыскной лист",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "courier_seen_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_decided",
+                "value": true
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_to_deliver",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_sealed_letter"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_decided",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Под письмом второй лист — розыскной, с приметами. Не твоими. Ты сжигаешь его, а письмо оставляешь — его ждут.",
+            "loserOutcome": "Ты ищешь второй лист и рвёшь первый. Письма больше нет — только клочья."
+          }
+        ]
+      },
+      {
+        "label": "Отдать на заставу — печать орденская",
+        "conditions": [
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_decided",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Застава доставит быстрее. Тебя благодарят как своего — так и есть."
+      },
+      {
+        "label": "Под хмельком — прочесть вслух всей компании",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_decided",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты читаешь с выражением, ломаешь печать и роняешь письмо в костёр на самом трогательном месте. Компания молчит."
+      }
+    ]
+  },
+  {
+    "id": "letter_delivered",
+    "title": "Письмо в Ольховку",
+    "description": "Ты спрашиваешь Ольховку — это здесь. Письмо ждут в третьем доме от колодца. Женщина у калитки видит сургуч с солнцем и роняет ведро.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 8,
+    "tags": [
+      "social",
+      "solo",
+      "village"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_sealed_letter"
+      },
+      {
+        "condition": "worldFlagSet",
+        "flag": "letter_to_deliver"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "letter_delivered"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Отдать письмо в руки",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_delivered",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Она читает, шевеля губами, и на третьей строке начинает смеяться и плакать сразу. «Жив! К зиме!» Через минуту вокруг вся улица, вам наливают, и каждый хочет пожать руку тем, кто принёс."
+      },
+      {
+        "label": "Отдать и попросить что-нибудь за доставку",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_sealed_letter"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_delivered",
+                "value": true
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "takeItem",
+                "target": "currentPlayer",
+                "itemId": "item_sealed_letter"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "letter_delivered",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Она не торгуется — выносит флягу, припасённую к его возвращению: «Ещё нальём».",
+            "loserOutcome": "Она отдаёт последнее, что есть, — и ты видишь, что последнее. Уходить с этим тяжело."
+          }
+        ]
+      },
+      {
+        "label": "Прочесть ей вслух — она не умеет",
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_delivered",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты читаешь медленно, каждое слово по два раза. На словах «к зиме отпустят» она садится прямо на землю и смеётся."
+      },
+      {
+        "label": "Бард превращает письмо в песню для всей улицы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_delivered",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Через час это письмо поёт вся Ольховка. Вам наливают за каждый куплет."
+      },
+      {
+        "label": "Вас здесь уже знают — и ждали с вестями",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_delivered",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "«Те самые! — кричит кто-то. — Говорил же, что принесут!» Письмо читают всей деревней, вас сажают во главу стола."
+      },
+      {
+        "label": "Под хмельком — вручить с речью",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "letter_delivered",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Речь длинная. Она вырывает письмо на середине и уходит читать сама."
+      },
+      {
+        "label": "Пройти мимо — потом занесу",
+        "actions": [],
+        "outcome": "Письмо подождёт ещё день. Женщина у калитки провожает вас взглядом — она видела сургуч."
+      }
+    ]
+  },
+  {
+    "id": "find_map_half_left",
+    "title": "Обрывок карты в дупле",
+    "description": "В дупле старого дерева, завёрнутый в бересту, лежит обрывок карты. Реки, лес, край гор — и половина креста у самого разрыва.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "coast"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "floodlands"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "map_left_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_left"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_left"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_left"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Следопыт узнаёт эти реки",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_left"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Реки на обрывке — здешние, знакомые по дороге. Значит, вторая половина — дальше на юг, где пески и берег."
+      },
+      {
+        "label": "Свериться с вашей картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_left"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_left_found",
+            "value": true
+          }
+        ],
+        "outcome": "На вашей карте те же реки, но креста нет. Обрывок старше и знает больше."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_map_half_right",
+    "title": "Обрывок карты в бутылке",
+    "description": "Между камней застряла бутылка, а в ней — свёрнутый обрывок карты. Пески, берег — и вторая половина креста у разрыва.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "forest"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "graveyard"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "map_right_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_right"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_right"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_right"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Моряк узнаёт, как сворачивают карты на кораблях",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_sailor"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_right"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Свёрнуто по-корабельному. Кто-то хотел, чтобы это нашли. Вторая половина, судя по краю, — на севере, где лес."
+      },
+      {
+        "label": "Свериться с вашей картой",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_map_half_right"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_right_found",
+            "value": true
+          }
+        ],
+        "outcome": "Берег на обрывке совпадает с вашим. Крест — нет. На вашей его просто нет."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "map_treasure",
+    "title": "Крестик на карте",
+    "description": "Две половины карты сходятся по разрыву, и крест становится целым. Он здесь — у трёх камней, что стоят треугольником у дороги.",
+    "type": "event",
+    "rarity": "epic",
+    "weight": 8,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_map_half_left"
+      },
+      {
+        "condition": "anyPlayerHasItem",
+        "itemId": "item_map_half_right"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "map_treasure_found"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Копать там, где крест",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "map_treasure_found",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "map_treasure_found",
+                "value": true
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "На втором локте лопата стучит о дерево. Сундучок маленький и тяжёлый: оберег, фляга и монета, которую кто-то очень берёг.",
+            "loserOutcome": "Яма пустая. На дне — только записка: «Опоздали». Кто-то нашёл это раньше вас."
+          }
+        ]
+      },
+      {
+        "label": "Сначала обойти камни кругом",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_bravery_flask"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "map_treasure_found",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "У одного камня земля проседает — ловушка, а рядом, под дёрном, настоящий тайник. Внутри оберег и фляга.",
+            "loserOutcome": "Ты обходишь камни и наступаешь в ту самую ловушку, которую все искали."
+          }
+        ]
+      },
+      {
+        "label": "Следопыт читает: крест — не у камней, а в тени от среднего в полдень",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_treasure_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты ждёшь полудня, отмеряешь тень и копаешь там. Сундучок на месте — со всем, что в нём было."
+      },
+      {
+        "label": "Горец знает, как ставят метки из трёх камней",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mountaineer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "map_treasure_found",
+            "value": true
+          }
+        ],
+        "outcome": "Три камня — значит, клад под тем, что легче. Ты сдвигаешь его — тайник прямо под ним."
+      },
+      {
+        "label": "Спуститься в старый колодец у камней на верёвке",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_ward_amulet"
+              },
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_lucky_coin"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "map_treasure_found",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_shivering"
+              }
+            ],
+            "winnerOutcome": "На дне сухо, а в нише — сундучок, обёрнутый промасленной кожей.",
+            "loserOutcome": "На дне вода по пояс и ничего больше."
+          }
+        ]
+      },
+      {
+        "label": "Под хмельком — копать везде сразу",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "К вечеру вокруг камней двадцать ям. В них ничего. Карта где-то под отвалом."
+      },
+      {
+        "label": "Отложить — место никуда не денется",
+        "actions": [],
+        "outcome": "Вы запоминаете три камня и идёте дальше. Крест на карте никуда не денется — если никто не успеет раньше."
+      }
+    ]
+  },
+  {
+    "id": "find_lantern",
+    "title": "Фонарь на суку",
+    "description": "На суку у тропы висит фонарь — кто-то повесил и забыл. Стекло закопчено с одной стороны, масла ещё на пару ночей.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "desert"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "lantern_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lantern"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lantern"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lantern"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Алхимик по запаху знает, что за масло",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_alchemist"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lantern"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Масло хорошее, с травами — горит ровно и не коптит. Кто-то знал толк."
+      },
+      {
+        "label": "Под хмельком — зажечь его прямо сейчас, днём",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lantern"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "lantern_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Фонарь горит, солнце светит. Компания спрашивает, что ты ищешь. Ты не знаешь."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_salt",
+    "title": "Соль в тряпице",
+    "description": "У обочины лежит тряпица, завязанная узелком. Внутри — горсть крупной соли. Так носят те, кто боится дурного глаза.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "mountains"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "salt_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Наследник ведьм знает, от чего такую соль носят",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Соль заговорённая, по-старому. Против тех, кто ходит по ночам. Пригодится."
+      },
+      {
+        "label": "Похмельному — лизнуть щепоть, как от похмелья советуют",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "salt_found",
+            "value": true
+          },
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Солёно до слёз — и голова проясняется. Остальное ты завязываешь обратно."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_holed_die",
+    "title": "Кость с дыркой",
+    "description": "В пыли у дороги блестит игральная кость. В ней просверлена дырка — видно, носили на шнурке. На счастье или на что-то ещё.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "holed_die_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_holed_die"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_holed_die"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_holed_die"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Пьяница знает: такие кости приносят удачу один раз",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_drunkard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_holed_die"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "У вас говорили: дырявая кость спасает один раз, потом трескается. Ты вешаешь её на шею."
+      },
+      {
+        "label": "Шарлатан проверяет, не залита ли она свинцом",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_holed_die"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "holed_die_found",
+            "value": true
+          }
+        ],
+        "outcome": "Чистая. Честная кость — редкость. Таких не выбрасывают просто так."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  },
+  {
+    "id": "find_order_badge",
+    "title": "Бляха в золе",
+    "description": "В остывшем кострище разбитого лагеря блестит медь. Бляха с солнцем — такие носят люди ордена. Чья — уже не спросишь.",
+    "type": "item",
+    "rarity": "uncommon",
+    "weight": 4,
+    "tags": [
+      "item",
+      "find"
+    ],
+    "conditions": [
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "order_badge_found"
+      }
+    ],
+    "actions": [],
+    "choices": [
+      {
+        "label": "Рассмотреть поближе",
+        "conditions": [],
+        "actions": [],
+        "inspect": true
+      },
+      {
+        "label": "Взять",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "none"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          }
+        ]
+      },
+      {
+        "label": "Взять — раз греет",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "blessing"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          }
+        ],
+        "outcome": "Вещь тёплая в ладони — будто ей рады."
+      },
+      {
+        "label": "Взять — пусть холодит",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          }
+        ],
+        "outcome": "Холод от неё идёт по руке до локтя. Ты всё равно берёшь."
+      },
+      {
+        "label": "Оставить: себе дороже",
+        "conditions": [
+          {
+            "condition": "auraNoticed",
+            "noticed": "curse"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          }
+        ],
+        "outcome": "Ты оставляешь её там, где лежала. Холод уходит не сразу."
+      },
+      {
+        "label": "Рыцарь узнаёт: бляха не орденская — подделка",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Солнце отлито криво, лучей девять, а не двенадцать. Издали сойдёт. Вблизи — нет."
+      },
+      {
+        "label": "Шарлатан прикидывает, где такая откроет двери",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "order_badge_found",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты полируешь её рукавом. К заставе с ней лучше не подходить — а вот к вышибале в самый раз."
+      },
+      {
+        "label": "Оставить",
+        "actions": [],
+        "outcome": "Пусть лежит. Может, за ней ещё вернутся."
+      }
+    ]
+  }
+]

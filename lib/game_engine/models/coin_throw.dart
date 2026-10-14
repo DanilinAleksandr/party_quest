@@ -22,6 +22,10 @@ enum CoinThrow {
 /// instead.
 const List<String> kCoinSides = ['Король', 'Шут'];
 
+/// The holed die: a find that, once in a match, lets its holder throw a
+/// lost throw of their own again — and cracks doing it.
+const String kHoledDieId = 'item_holed_die';
+
 /// How often a watched coin stands on its edge.
 const double kCoinEdgeChance = 1 / 75;
 

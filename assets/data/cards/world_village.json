@@ -488,6 +488,23 @@
         "outcome": "Кружку достают багром всей улицей. Вода хорошая — кружка тоже. Ты — не очень."
       },
       {
+        "label": "Посветить фонарём в колодец",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_lantern"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          }
+        ],
+        "outcome": "Свет уходит вниз по срубу. На уступе под водой что-то блестит — кто-то бросил на счастье. Ковш с верёвкой достаёт."
+      },
+      {
         "label": "Пройти мимо",
         "actions": []
       }
@@ -634,6 +651,28 @@
           }
         ],
         "outcome": "Слова ты помнишь через одно. Из ближнего дома выходит вдова — и стоит, пока ты не замолчишь."
+      },
+      {
+        "label": "Бросить щепоть соли на свежую землю — чтоб спал спокойно",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_salt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Так делают по старинке. Вдова, увидев это издали, кивает тебе — по-своему."
       },
       {
         "label": "Пройти мимо",

@@ -34,5 +34,77 @@
     "usageType": "manual",
     "isConsumable": true,
     "useActions": []
+  },
+  {
+    "id": "item_name_kerchief",
+    "name": "Платок с вышитым именем",
+    "description": "Чужой платок, вышитый к празднику. На уголке — имя. Кто-то этого человека ждёт.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_sealed_letter",
+    "name": "Письмо с печатью",
+    "description": "Сложено вчетверо, запечатано сургучом с оттиском солнца. Из адреса уцелело одно слово: «…в Ольховку».",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_map_half_left",
+    "name": "Левая половина карты",
+    "description": "Обрывок старой карты: реки, лес, край гор — и половина креста у самого разрыва.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_map_half_right",
+    "name": "Правая половина карты",
+    "description": "Обрывок старой карты: пески, берег — и вторая половина креста у разрыва.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_lantern",
+    "name": "Фонарь",
+    "description": "Жестяной фонарь со стеклом, закопчённым с одной стороны. Масла в нём ещё на пару ночей.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
+  },
+  {
+    "id": "item_salt",
+    "name": "Соль в тряпице",
+    "description": "Горсть крупной соли, завязанная в тряпицу. От дурного глаза, от нечисти и от сырости — смотря кого спросить.",
+    "rarity": "common",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_holed_die",
+    "name": "Кость с дыркой",
+    "description": "Игральная кость с просверленной дыркой. Один раз за партию можно перебросить свою проигранную монету — и кость треснет.",
+    "rarity": "rare",
+    "usageType": "manual",
+    "isConsumable": true,
+    "useActions": []
+  },
+  {
+    "id": "item_order_badge",
+    "name": "Бляха ордена",
+    "description": "Медная бляха с солнцем, какую носят люди ордена. Чужая. Издали за настоящую сойдёт — вблизи свои отличат.",
+    "rarity": "uncommon",
+    "usageType": "manual",
+    "isConsumable": false,
+    "useActions": []
   }
 ]

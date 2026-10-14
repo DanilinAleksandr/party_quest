@@ -406,6 +406,23 @@
         ]
       },
       {
+        "label": "Показать кость с дыркой — спорить уже незачем",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_holed_die"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "{opponent} смотрит на кость и машет рукой: «С такой — без меня». Спор отменяется."
+      },
+      {
         "label": "Отказаться от пари",
         "actions": []
       }
