@@ -1,0 +1,708 @@
+[
+  {
+    "id": "echo_courier_returns",
+    "title": "Гонец возвращается",
+    "description": "Навстречу скачет знакомый всадник — тот самый гонец. На этот раз в правильную сторону, с пустой сумкой и довольным лицом.\n\n«Успел! — кричит он ещё издали. — А я ведь обещал, что должен буду».",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "courier_helped"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "courier_helped",
+        "steps": 6
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "courier_repaid"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Принять, что он везёт",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он суёт в руку монету с переправы — там такие дают на счастье тем, кто вовремя. Уносится дальше, не дожидаясь благодарности."
+      },
+      {
+        "label": "Спросить, что слышно на дороге",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он рассказывает, где чинят мост, где стоит застава и где лучше не ночевать. Это стоит больше монеты."
+      },
+      {
+        "label": "Следопыт спрашивает, что дальше по дороге за переправой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Гонец описывает дорогу до самого города — где брод, где развилка, где спят собаки. Ты запоминаешь всё с первого раза."
+      },
+      {
+        "label": "Отметить на карте его почтовые станции",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он тычет пальцем в карту пять раз, называя станции по именам смотрителей. «Скажете, что от меня, — напоят»."
+      },
+      {
+        "label": "Пьяному не терпится прокатиться на его коне",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "courier_repaid",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "courier_repaid",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Конь терпит тебя ровно один круг. Гонец хохочет и сажает тебя обратно на землю — бережно.",
+            "loserOutcome": "Конь не терпит тебя вообще. Гонец помогает подняться и уносится, давясь смехом."
+          }
+        ]
+      },
+      {
+        "label": "Он уже слышал о вас на станциях",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "«Так это вы! — говорит он. — О вас на трёх станциях рассказывают». И отдаёт монету, и рассказывает, что именно."
+      },
+      {
+        "label": "Сказать, что он ничего не должен",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он смеётся, салютует и обещает рассказывать о вас на каждой почтовой станции. Слово гонца разносится быстро."
+      }
+    ]
+  },
+  {
+    "id": "echo_wanderer_remembers",
+    "title": "Странник с посохом",
+    "description": "На обочине — знакомая шляпа и посох. Странник на этот раз не спит: сидит и смотрит прямо на тебя.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "solo",
+      "social"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "wanderer_watched"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "wanderer_watched",
+        "steps": 8
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "wanderer_repaid"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "wanderer_robbed"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Подсесть к нему",
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_ward_amulet"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "«Мой сон сторожили. Теперь я посторожу твою дорогу», — говорит он и вешает тебе на шею тёплый оберег. Потом встаёт и уходит, не оглядываясь."
+      },
+      {
+        "label": "Проводник душ видит: он и сам кого-то сторожит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Вы молча смотрите на одно и то же место у обочины. Потом он встаёт, кивает тебе как своему и уходит — дальше сторожить."
+      },
+      {
+        "label": "Тебе не по себе — и он это видит",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasEffect",
+            "effectId": "effect_haunted"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он кладёт тебе руку на плечо, и то, что ходило за тобой последние дни, отстаёт. «Теперь квиты», — говорит он."
+      },
+      {
+        "label": "Позвать его под полог переждать непогоду",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Под палаткой тесно, но ему не привыкать. Он рассказывает, откуда идёт, — и это оказывается очень далеко."
+      },
+      {
+        "label": "Кивнуть и пройти мимо",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он кивает в ответ. Над дорогой проходит облако, и ты почему-то знаешь, что эта встреча не последняя."
+      }
+    ]
+  },
+  {
+    "id": "echo_wanderer_robbed",
+    "title": "Положи, что взято",
+    "description": "Посреди дороги стоит человек в шляпе, с посохом. Ты его узнаёшь — и он тебя тоже. Это тот самый, в чей мешок заглядывали.",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 6,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "wanderer_robbed"
+      },
+      {
+        "condition": "minimumStepsSinceFlag",
+        "flag": "wanderer_robbed",
+        "steps": 8
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "wanderer_repaid"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Вернуть камень",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_odd_stone"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_odd_stone"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Он берёт камень, взвешивает на ладони и уходит. На прощание говорит: «Хорошо, что вернул. Он бы тебя доел»."
+      },
+      {
+        "label": "Шарлатан заговаривает ему зубы",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_charlatan"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_repaid",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_repaid",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Ты говоришь так долго и так складно, что он забывает, зачем стоял на дороге. Уходит, почёсывая затылок.",
+            "loserOutcome": "Он слушает с интересом и в конце говорит: «Красиво. А камень всё равно положи»."
+          }
+        ]
+      },
+      {
+        "label": "Оберег на шее теплеет — он отступает",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_ward_amulet"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Странник смотрит на оберег, потом тебе в глаза, и отходит в сторону. «Тебя есть кому беречь. Повезло»."
+      },
+      {
+        "label": "Он слышал о вас хорошее — и готов забыть",
+        "conditions": [
+          {
+            "condition": "globalModifierAtLeast",
+            "key": "word_kept",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "«Про вас говорят, что вы держите слово. Ну и держите». Он машет рукой и уходит."
+      },
+      {
+        "label": "Сделать вид, что не узнал",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_repaid",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_repaid",
+                "value": true
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "winnerOutcome": "Он смотрит долго, потом пожимает плечами и отходит в сторону. Пропускает. Пока.",
+            "loserOutcome": "Он ударяет посохом о землю, и у тебя темнеет в глазах. Когда проясняется, его уже нет — а на плече горит чужая метка."
+          }
+        ]
+      },
+      {
+        "label": "Извиниться",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_repaid",
+            "value": true
+          }
+        ],
+        "outcome": "Он слушает, кивает и говорит: «Камень оставь. Пусть напоминает». Уходит, не оглядываясь."
+      }
+    ]
+  },
+  {
+    "id": "echo_wedding_feast",
+    "title": "Свадьба гуляет",
+    "description": "За околицей гремит музыка, столы вынесены на улицу. На крыльце стоит знакомый жених — тот, что опаздывал. Он узнаёт вас и машет обеими руками.\n\n«Гости! Те самые! Наливайте им!»",
+    "type": "event",
+    "rarity": "uncommon",
+    "weight": 8,
+    "tags": [
+      "group",
+      "village",
+      "drink"
+    ],
+    "conditions": [
+      {
+        "condition": "worldFlagSet",
+        "flag": "wedding_invited"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "wedding_attended"
+      }
+    ],
+    "choices": [
+      {
+        "label": "Сесть за стол и выпить за молодых",
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Вас сажают рядом с роднёй и наливают, как родне. Жених в третий раз рассказывает, как вы его спасли, и каждый раз — лучше."
+      },
+      {
+        "label": "Сплясать с невестой",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wedding_attended",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wedding_attended",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Ты пляшешь так, что гости встают с мест. Невеста смеётся, жених хлопает громче всех, и тебе дарят ленту с её рукава.",
+            "loserOutcome": "Ты наступаешь невесте на подол на втором круге. Жених смеётся громче всех. Тебе наливают — утешительную."
+          }
+        ]
+      },
+      {
+        "label": "Бард берётся играть до утра",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Ты играешь, пока не садится голос, и ещё немного после. Тебя провожают всей свадьбой до околицы."
+      },
+      {
+        "label": "Ты уже пьян — и тост выходит длинным",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Тост начинается с молодых, проходит через твоё детство и заканчивается песней. Аплодируют все — из жалости или нет, неясно."
+      },
+      {
+        "label": "Выкатить ваш бочонок к их столу",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Бочонок встречают как гостя. Жених клянётся, что назовёт сына в вашу честь, — и забывает, в чью именно."
+      },
+      {
+        "label": "Купец дарит молодым жетон на свою лавку",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Подарок от купца на свадьбе — к богатству. Тесть жмёт тебе руку дольше всех."
+      },
+      {
+        "label": "Поздравить и идти дальше — дорога ждёт",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_attended",
+            "value": true
+          }
+        ],
+        "outcome": "Жених обнимает каждого по очереди и наливает «на дорожку». Свадьба гремит вам вслед ещё долго."
+      }
+    ]
+  }
+]

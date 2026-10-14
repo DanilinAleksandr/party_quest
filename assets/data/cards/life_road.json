@@ -19,7 +19,144 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Показать по компасу, где переправа",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_compass"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_helped",
+            "value": true
+          }
+        ],
+        "outcome": "Стрелка не спорит. Гонец смотрит на неё, на тебя, хлопает себя по лбу — и разворачивается окончательно. Уже на скаку кричит: «Должен буду!»"
+      },
+      {
+        "label": "Ткнуть в карту — вот переправа, вот ты",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_map"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_helped",
+            "value": true
+          }
+        ],
+        "outcome": "На карте всё понятно даже гонцу. Он запоминает дорогу, повторяет её вслух и уносится к переправе. Через минуту возвращается — спросить, как вас зовут."
+      },
+      {
+        "label": "Махнуть наугад — где-то там",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "luck",
+            "winnerActions": [
+              {
+                "action": "setWorldFlag",
+                "flag": "courier_helped",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Ты машешь — и попадаешь. Гонец скачет туда, куда показано, и переправа оказывается именно там. Ты делаешь вид, что так и было задумано.",
+            "loserOutcome": "Ты машешь уверенно. Гонец скачет туда, куда показано. Переправы там нет — зато есть болото, и об этом ты узнаешь от него же, на обратном пути."
+          }
+        ]
+      },
+      {
+        "label": "Следопыт помнит: переправа за час назад, у трёх ив",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_pathfinder"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_helped",
+            "value": true
+          }
+        ],
+        "outcome": "Ты описываешь три ивы и брод под ними так, что гонец видит их сам. Он благодарит и разворачивается — на этот раз туда, куда надо."
+      },
+      {
+        "label": "Беглец узнаёт гонцов этой масти — от таких лучше держаться в стороне",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты говоришь «не знаем» и смотришь, как он уезжает. На сумке у него печать, знакомая по чужим розыскным листам."
+      },
+      {
+        "label": "Пьяному кажется смешным послать его в другую сторону",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Гонец скачет, куда сказано. Возвращается он через час — и запоминает тебя в лицо."
+      },
+      {
+        "label": "Пожать плечами — сам разберётся",
+        "actions": [],
+        "outcome": "Он разбирается сам и едет всё-таки вперёд. Может, он знает что-то, чего не знаете вы."
+      }
+    ]
   },
   {
     "id": "road_postman_heavy_bag",
@@ -91,7 +228,149 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Предложить донести до следующего камня",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Сто шагов с чужим коробом даются тяжело, но даются. Носильщик забирает его, кивает и говорит, что расскажет о вас на каждом постоялом дворе отсюда до моря.",
+            "loserOutcome": "Короб тяжелее, чем выглядит, а спина у тебя одна. На пятидесятом шаге носильщик забирает своё обратно, не говоря ни слова."
+          }
+        ]
+      },
+      {
+        "label": "Считать вместе с ним вслух",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Вы досчитываете до ста вместе, и почему-то становится легче, хотя короб несёт он. Странное ощущение остаётся с тобой до вечера."
+      },
+      {
+        "label": "Поставить его короб на вашу телегу до развилки",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "porter_helped",
+            "value": true
+          }
+        ],
+        "outcome": "Он идёт рядом с телегой налегке и рассказывает, кому что несёт. На развилке снимает короб и долго благодарит — запомнит."
+      },
+      {
+        "label": "Каторжник узнаёт этот счёт — так считают в забое",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_convict"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "porter_helped",
+            "value": true
+          }
+        ],
+        "outcome": "Ты подхватываешь его счёт с середины. Он смотрит на тебя, кивает: свои. Дальше вы идёте рядом до развилки и молчите об одном и том же."
+      },
+      {
+        "label": "Сильному не жалко — взять короб и не считать",
+        "conditions": [
+          {
+            "condition": "currentPlayerStatAtLeast",
+            "stat": "strength",
+            "value": 3
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "porter_helped",
+            "value": true
+          }
+        ],
+        "outcome": "Ты несёшь его короб до самой развилки и даже не запыхиваешься. Носильщик идёт рядом и впервые за день не считает шаги."
+      },
+      {
+        "label": "Пьяному кажется хорошей идеей поспорить, кто больше пронесёт",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты берёшь короб, делаешь двадцать шагов и садишься прямо на дорогу. Носильщик забирает своё и уходит, считая вслух — теперь уже твои шаги."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "road_shepherd_counts_wrong",
@@ -460,7 +739,135 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Сойти на обочину и снять шапку",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Процессия проходит мимо. Последний из идущих кивает тебе, не поднимая глаз. На этой дороге такое запоминают."
+      },
+      {
+        "label": "Пойти следом до поворота — проводить",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты идёшь с ними до поворота, и никто не спрашивает, кто ты. На повороте вдова молча сжимает тебе руку — «за то, что проводили».",
+            "loserOutcome": "Идти молча оказывается тяжелее, чем казалось. На полдороге ты отстаёшь, и процессия уходит без тебя."
+          }
+        ]
+      },
+      {
+        "label": "Прочесть отходную — слова помнятся сами",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Процессия останавливается. Ты читаешь, и в конце кто-то впервые за дорогу плачет вслух. Тебя благодарят, не спрашивая имени."
+      },
+      {
+        "label": "Пустить по кругу флягу за упокой",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "drink",
+            "target": "allPlayers"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Фляга обходит всех, и родные пьют вместе с вами. Её возвращают пустой — но с поклоном."
+      },
+      {
+        "label": "Рыцарь склоняет голову по уставу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты встаёшь, как учили стоять перед гробом. Старший из процессии отвечает тем же жестом — он когда-то служил."
+      },
+      {
+        "label": "Пьяному не стоится смирно — и это видят",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты пошатываешься на обочине и роняешь шапку прямо им под ноги. Никто не смеётся. От этого хуже."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "road_broken_wheel_left",
@@ -735,7 +1142,125 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Переждать, пока пройдут",
+        "actions": [],
+        "outcome": "Гуси идут ровно столько, сколько им надо. Последний оборачивается и смотрит на тебя. Ты отводишь глаза первым."
+      },
+      {
+        "label": "Попробовать пройти сквозь стадо",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты проходишь сквозь гусей с таким видом, что они расступаются. Женщина впервые на вас смотрит — с уважением.",
+            "loserOutcome": "Гуси не расступаются. Гусак щиплет тебя за ногу, и все тридцать гогочут вслед."
+          }
+        ]
+      },
+      {
+        "label": "Помочь женщине загнать их прутиком",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Ты заходишь сбоку, как надо, и гуси сворачивают с дороги. Женщина кивает: «Деревенский, значит».",
+            "loserOutcome": "Ты заходишь не с той стороны, и гуси рассыпаются по полю. Женщина смотрит на тебя так, что ты собираешь их до темноты."
+          }
+        ]
+      },
+      {
+        "label": "Фермер свистит по-гусиному — стадо сворачивает само",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_farmer"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Свист, другой — и гуси уходят в поле. Женщина роняет прутик: «Ты чей будешь?»"
+      },
+      {
+        "label": "Дитя леса просто ждёт — птицы его знают",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_forest_child"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Гуси обходят тебя, как дерево, а один остаётся и тычется клювом в ладонь. Женщина качает головой и улыбается."
+      },
+      {
+        "label": "Пьяному не терпится — перешагнуть через гусака",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Гусак не согласен. Схватка длится недолго, проигрывает не гусак."
+      }
+    ]
   },
   {
     "id": "road_beekeeper_swarm",
@@ -818,7 +1343,136 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Спросить, опасно ли идти по мосту",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_out_of_place"
+              }
+            ],
+            "winnerOutcome": "Каменщик показывает, куда ступать и где не стоять долго. Вы переходите там, где он сказал, — и мост под вами молчит.",
+            "loserOutcome": "«Опасно — не опасно... Идите, раз пришли», — бурчит он. Мост под вами скрипит так, что все переходят бегом."
+          }
+        ]
+      },
+      {
+        "label": "Пообещать сказать в деревне, что мост ползёт",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "mason_bridge_warned",
+            "value": true
+          }
+        ],
+        "outcome": "Каменщик смотрит на тебя внимательнее: «Скажите. Меня там не слушают — я им каждое лето это говорю». Ты обещаешь."
+      },
+      {
+        "label": "Ремесленник видит: дело не в камне, а в подмыве",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "attentiveness",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь, куда бьёт вода под опору. Каменщик долго смотрит вниз, потом пожимает тебе руку: «Два лета не видел. Спасибо»."
+      },
+      {
+        "label": "Хранитель рун узнаёт знак на опоре",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_rune_keeper"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Под мхом на опоре — старая метка строителей. Ты читаешь её вслух: «стоять, пока стоит река». Каменщик крестится и перестаёт хмуриться."
+      },
+      {
+        "label": "Перекинуть верёвку и пройти по ней, не по мосту",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [],
+        "outcome": "Вы перебираетесь по верёвке вдоль перил. Каменщик смотрит на это с одобрением человека, который давно ждал, что кто-то наконец так сделает."
+      },
+      {
+        "label": "Пьяному мост кажется надёжным — проверить прыжком",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Мост выдерживает. Каменщик — нет: он садится на камень и долго держится за сердце.",
+            "loserOutcome": "Мост выдерживает, твоё колено — нет. Каменщик даже не поднимает головы: «Ну вот. В два пальца»."
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "road_late_wedding",
@@ -836,7 +1490,143 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Крикнуть поздравление вдогонку",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wedding_invited",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Жених оборачивается и кричит в ответ: «На свадьбу! Догоняйте!» — и бросает с телеги ленту. Её ловит кто-то из ваших.",
+            "loserOutcome": "Твой крик тонет в лязге вёдер. Жених машет всем подряд — и тебе, наверное, тоже."
+          }
+        ]
+      },
+      {
+        "label": "Указать им короткую дорогу",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wedding_invited",
+                "value": true
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Ты машешь налево, к броду. Телеги разворачиваются, и через минуту из-за холма слышно: «Успеваем!»",
+            "loserOutcome": "Ты машешь налево, они сворачивают направо. Они знали лучше — или нет. Свадьба узнает."
+          }
+        ]
+      },
+      {
+        "label": "Бард запевает свадебную на бегу",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_bard"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_invited",
+            "value": true
+          }
+        ],
+        "outcome": "Ты подхватываешь, на второй строке поёт уже вся телега. Последнее, что слышно, — «и вы приходите!»"
+      },
+      {
+        "label": "Подбросить им бочонок на ходу — на свадьбу без пива нельзя",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_beer_keg"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wedding_invited",
+            "value": true
+          }
+        ],
+        "outcome": "Жених ловит бочонок обеими руками, чуть не вылетев с телеги. «Вы теперь гости!» — кричит он уже издалека."
+      },
+      {
+        "label": "Пьяному кажется, что он тоже жених",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "tipsy"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          }
+        ],
+        "outcome": "Ты запрыгиваешь на третью телегу и успеваешь выпить за молодых, прежде чем тебя ссаживают у первого же поворота."
+      },
+      {
+        "label": "Купец видит: им сейчас всё равно, сколько платить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "outcome": "Ты успеваешь продать им на бегу три ленты, которые на них же и висят. Жених платит жетоном — «потом обменяю»."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "road_dog_follows",
@@ -959,6 +1749,114 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Проводить его до дома",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты идёшь рядом, пока он не упирается лбом в собственную калитку. На прощание он суёт тебе колотушку — «подержи», — засыпает и забирает её уже во сне."
+      },
+      {
+        "label": "Спросить, что было ночью",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Он рассказывает, путаясь и зевая: ночью у околицы ходил кто-то с фонарём и считал дворы. Этого стоит держаться в памяти.",
+            "loserOutcome": "Он смотрит на тебя мутно, говорит «всё спокойно» и засыпает стоя."
+          }
+        ]
+      },
+      {
+        "label": "Угостить из фляги — сон слаще будет",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_bravery_flask"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Он делает глоток, крякает и улыбается так широко, как, наверное, не улыбался всю смену. Фляга остаётся у него."
+      },
+      {
+        "label": "Рыцарь узнаёт в нём старого караульного",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_knight"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты называешь пароль, который меняли каждую ночь лет двадцать назад. Он вытягивается, отдаёт честь и смеётся, просыпаясь."
+      },
+      {
+        "label": "Ночью сторож был нужен вам — спросить, кто ходил у лагеря",
+        "conditions": [
+          {
+            "condition": "inWeather",
+            "weather": "night"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "«Кто-то с фонарём, — говорит он. — Обошёл вас кругом и ушёл к реке». Он засыпает на полуслове, но главное ты уже знаешь."
+      },
+      {
+        "label": "Похмельному с ним по пути — спать",
+        "conditions": [
+          {
+            "condition": "currentPlayerHungover"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_hangover"
+          }
+        ],
+        "outcome": "Вы идёте рядом и зеваете по очереди. На развилке он сворачивает к себе, ты — на обочину, и полчаса сна в траве делают своё."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   }
 ]

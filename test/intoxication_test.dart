@@ -557,7 +557,9 @@ void main() {
             if (choice.conditions.any((x) => x is IntoxicationAtLeastCondition))
               choice.label,
       ];
-      expect(forTheDrunk, hasLength(9));
+      // A floor, not a count: the interactivity pass gives the drunk their
+      // own (usually regrettable) way into a scene on many road cards.
+      expect(forTheDrunk.length, greaterThanOrEqualTo(9));
 
       final forTheHungover = [
         for (final card in cards)
@@ -567,7 +569,7 @@ void main() {
             ))
               choice.label,
       ];
-      expect(forTheHungover, ['Попросить всех говорить потише']);
+      expect(forTheHungover, contains('Попросить всех говорить потише'));
     },
   );
 

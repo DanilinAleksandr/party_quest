@@ -267,7 +267,132 @@
         "biomeId": "desert"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Оставить что-нибудь на пороге рядом с ягодами",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_at_home"
+          }
+        ],
+        "outcome": "Ты кладёшь своё рядом с чужими ягодами. Ничего не происходит — только дорога дальше кажется короче, а люди на ней приветливее."
+      },
+      {
+        "label": "Зайти внутрь и постоять в тишине",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_haunted"
+              }
+            ],
+            "winnerOutcome": "Пахнет смолой, и в тишине слышно, как оседает новое дерево. Выходишь отдохнувшим, будто спал.",
+            "loserOutcome": "Тишина такая, что слышно собственную голову. Через минуту выходишь — и долго не можешь отделаться от чувства, что за тобой смотрели."
+          }
+        ]
+      },
+      {
+        "label": "Ремесленник подтянет кровлю — холстина вот-вот сползёт",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "chapel_mended",
+            "value": true
+          }
+        ],
+        "outcome": "Полчаса — и холстина натянута, придавлена жердями. Кто-то из прихожан потом будет гадать, кто это сделал."
+      },
+      {
+        "label": "Натянуть над кровлей вашу верёвку, пока ветер не сорвал холст",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "chapel_mended",
+            "value": true
+          }
+        ],
+        "outcome": "Верёвка ложится крест-накрест. Ветер дёргает холстину и отступает."
+      },
+      {
+        "label": "Наследник ведьм чувствует: здесь служат не тем, кому строили",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_witch_heir"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "На косяке, под стружкой, — знак, который ты знаешь по бабкиным книгам. Ты стираешь его рукавом и уходишь. Ягоды на пороге к утру будут свежими."
+      },
+      {
+        "label": "Пьяному кажется хорошей мыслью вздремнуть внутри",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_kicked_out"
+          }
+        ],
+        "outcome": "Тебя будят прихожане и очень вежливо выводят. Вежливость эта хуже крика."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "world_road_first_snow",

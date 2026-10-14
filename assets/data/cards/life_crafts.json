@@ -34,7 +34,127 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Спросить, что он слышит",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Он даёт тебе приложить ухо. Сначала ничего — потом слышишь, как бьётся, и как бьётся неправильно. «Вот. Теперь ты тоже знаешь», — говорит коновал.",
+            "loserOutcome": "Ты слушаешь долго и слышишь только лошадь, которой это надоело. Она переступает тебе на ногу."
+          }
+        ]
+      },
+      {
+        "label": "Помочь отвести лошадь до деревни",
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Вы идёте медленно, как велел коновал. Хозяин всю дорогу рассказывает, какая это была лошадь в молодости. В деревне он кланяется вам в пояс."
+      },
+      {
+        "label": "Верблюд у вас тоже кашляет — показать его",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_stray_camel"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Коновал слушает верблюда с тем же лицом, что и лошадь, и говорит: «Доедете. Но он вас переживёт». Денег за осмотр не берёт — любопытно было."
+      },
+      {
+        "label": "Охотник знает, как слушают зверя",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_hunter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты слушаешь вместе с ним и называешь то же, что и он. Коновал смотрит с уважением и рассказывает пару вещей, о которых в книгах не пишут."
+      },
+      {
+        "label": "Кочевник скажет про лошадь больше любого коновала",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_nomad"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты смотришь ей в глаза и в зубы и говоришь хозяину, что дело не в сердце, а в воде. Коновал хмурится — и соглашается."
+      },
+      {
+        "label": "Пьяному кажется, что громкий совет — лучший",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Коновал не опускает пальца. Он просто ждёт, пока ты закончишь, и все ждут вместе с ним. Это очень долгая минута."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "crafts_sawyers_pit",
@@ -238,6 +358,129 @@
         "biomeId": "floodlands"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Отдать нож в очередь",
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sharp_blade"
+          }
+        ],
+        "outcome": "Твой нож проходит после ничьей косы. Возвращается он таким, что ты боишься убирать его в ножны."
+      },
+      {
+        "label": "Покрутить колесо, пока он точит",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "endurance",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sharp_blade"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_laughingstock"
+              }
+            ],
+            "winnerOutcome": "Ты крутишь ровно, как надо, и он успевает всё — и твой нож в придачу, бесплатно.",
+            "loserOutcome": "Колесо дёргается, искра летит точильщику в бороду. Он молча показывает тебе на очередь — в самый конец."
+          }
+        ]
+      },
+      {
+        "label": "Разыскать хозяина косы",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "По следам косы на дороге ты находишь покос и человека, который полдня ищет её в траве. Он кланяется так, будто ему вернули корову.",
+            "loserOutcome": "Покосов вокруг пять, и на каждом говорят, что коса не их. Возвращаешься ни с чем — коса стоит там же."
+          }
+        ]
+      },
+      {
+        "label": "Наёмник отдаёт клинок — тот видел слишком много",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_mercenary"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sharp_blade"
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "outcome": "Точильщик долго смотрит на зазубрины и не спрашивает ни о чём. Возвращает клинок, как новый, и денег не берёт — «за честную работу»."
+      },
+      {
+        "label": "Отмычки тоже затупились — дать подточить",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_thieves_tools"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sharp_blade"
+          }
+        ],
+        "outcome": "Точильщик берёт отмычки двумя пальцами, точит молча и отдаёт, не поднимая глаз. Есть вещи, о которых точильщики не спрашивают."
+      },
+      {
+        "label": "Под хмельком подставить под точило палец — проверить остроту",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_sore_back"
+          }
+        ],
+        "outcome": "Остро. Точильщик перевязывает палец твоим же рукавом и ворчит про пьяных, которые всё проверяют на себе."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   }
 ]

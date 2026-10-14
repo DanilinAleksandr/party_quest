@@ -15,7 +15,141 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Помочь поднять телегу на камни",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_kept",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_steady"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Телега встаёт на камни, кузнец ставит новую ось. Хозяин, наконец заговорив, предлагает подвезти вас до развилки.",
+            "loserOutcome": "Телега поднимается и падает обратно, на этот раз — тебе на ногу. Кузнец сочувственно цокает и зовёт хозяина: «Вдвоём давай»."
+          }
+        ]
+      },
+      {
+        "label": "Спросить хозяина, что случилось",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "charisma",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_fireside_sharp"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Хозяин молчит, потом рассказывает: ось сломалась, потому что кто-то ночью подпилил. Он говорит, кто, — и ты запоминаешь имя.",
+            "loserOutcome": "Хозяин смотрит на тебя и молчит. Он всё уже сказал — кузнецу."
+          }
+        ]
+      },
+      {
+        "label": "Ремесленник видит: обломок ещё сгодится, если стянуть",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "modifyStat",
+            "target": "currentPlayer",
+            "stat": "strength",
+            "amount": 1
+          }
+        ],
+        "outcome": "Ты показываешь, как стянуть ось железной полосой до города. Кузнец кивает, хозяин впервые улыбается, телега едет."
+      },
+      {
+        "label": "Стянуть ось вашей верёвкой — доедет до кузни",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Верёвка держит. Телега, скрипя, трогается, и хозяин долго машет вам с облучка."
+      },
+      {
+        "label": "Предложить вашу телегу на время",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_cart"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Хозяин перекладывает груз на вашу телегу, вы идёте вместе до кузни. В кузне вам наливают за счёт обоих."
+      },
+      {
+        "label": "Пьяному кажется, что ось можно просто приставить",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Ты прикладываешь обломки друг к другу и держишь, пока не устают руки. Кузнец ждёт, хозяин ждёт. Потом кузнец отбирает обломки."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "state_smith_cold_forge",
@@ -178,7 +312,146 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Посидеть рядом, пока он спит, — на дороге всякое бывает",
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_watched",
+            "value": true
+          }
+        ],
+        "outcome": "Ты сидишь у обочины, пока он не просыпается. Он смотрит на тебя из-под шляпы, всё понимает без слов и кладёт на дорогу что-то перед уходом."
+      },
+      {
+        "label": "Заглянуть в развязанный мешок",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_robbed",
+                "value": true
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              },
+              {
+                "action": "setWorldFlag",
+                "flag": "wanderer_robbed",
+                "value": true
+              }
+            ],
+            "winnerOutcome": "Внутри хлеб, бечёвка и кожаный мешочек с камнем. Камень оказывается у тебя — странник не шевелится.",
+            "loserOutcome": "Под шляпой открывается один глаз. Странник смотрит на твою руку в своём мешке и очень спокойно говорит: «Положи»."
+          }
+        ]
+      },
+      {
+        "label": "Накрыть его вашей палаткой — тучи идут",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_tent"
+          },
+          {
+            "condition": "inWeather",
+            "weather": "rain"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_watched",
+            "value": true
+          }
+        ],
+        "outcome": "Ты растягиваешь полог над спящим. Он так и не просыпается, но спит, улыбаясь."
+      },
+      {
+        "label": "Проводник душ видит, что он спит не своим сном",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_soul_guide"
+          }
+        ],
+        "actions": [
+          {
+            "action": "removeEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_haunted"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_watched",
+            "value": true
+          }
+        ],
+        "outcome": "Ты кладёшь ладонь ему на лоб, и он вздыхает глубже — то, что держало его во сне, отпускает. Тебе самому становится спокойнее."
+      },
+      {
+        "label": "Беглец знает эту привычку — спят у дороги те, за кем идут",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "wanderer_watched",
+            "value": true
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_sharp"
+          }
+        ],
+        "outcome": "Ты оглядываешь дорогу в обе стороны и видишь то, что видел бы он: всадника на холме, слишком долго стоящего на месте. Ты будишь странника тихо. Он уходит в поле без слов."
+      },
+      {
+        "label": "Пьяному кажется смешным надвинуть ему шляпу на нос",
+        "conditions": [
+          {
+            "condition": "intoxicationAtLeast",
+            "level": "drunk"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_laughingstock"
+          }
+        ],
+        "outcome": "Шляпа надвинута. Странник, не просыпаясь, надвигает её обратно — и тебя ногой в лодыжку. Компания смеётся до следующего поворота."
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "state_musician_tuning",
@@ -292,7 +565,154 @@
         "biomeId": "tavern"
       }
     ],
-    "actions": []
+    "actions": [],
+    "choices": [
+      {
+        "label": "Подержать короб, пока он вбивает клин",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "strength",
+            "winnerActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_good_word"
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_sore_back"
+              }
+            ],
+            "winnerOutcome": "Короб стоит ровно, клин входит с первого раза. Коробейник в благодарность обещает рассказывать о вас на каждом торгу — и, судя по лицу, сдержит.",
+            "loserOutcome": "Короб выскальзывает, товар — в пыль. Собираете вместе, коробейник ругается так изобретательно, что хочется записать."
+          }
+        ]
+      },
+      {
+        "label": "Посмотреть, что разложено на плаще",
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "attentiveness",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              }
+            ],
+            "loserActions": [],
+            "winnerOutcome": "Среди пуговиц и гребней лежит что-то с выбитым знаком. Коробейник не знает, что это, и отдаёт за так.",
+            "loserOutcome": "Пуговицы, гребни, нитки. Коробейник следит за твоими руками внимательнее, чем за колесом."
+          }
+        ]
+      },
+      {
+        "label": "Ремесленник подберёт клин с одного взгляда",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_craftsman"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Ты выбираешь из кучи щепок тот, что сядет, и он садится. Коробейник обещает рассказывать о вас на каждом торгу."
+      },
+      {
+        "label": "Перекинуть верёвку — колесо подтянется само",
+        "conditions": [
+          {
+            "condition": "partyHasItem",
+            "itemId": "item_rope"
+          }
+        ],
+        "actions": [
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Верёвка, рычаг, одно усилие — и колесо на месте. Коробейник смотрит на верёвку с нежностью."
+      },
+      {
+        "label": "Купец видит: товар не по цене. Сторговаться",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_merchant"
+          }
+        ],
+        "actions": [
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_merchant_token"
+          }
+        ],
+        "outcome": "Пока он чинит, вы торгуетесь. Сходитесь на том, что ты ничего не покупаешь, а он отдаёт свой жетон: «Покажешь — сделаю скидку. Купцу купец»."
+      },
+      {
+        "label": "Пока он не смотрит, взять с плаща",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasOrigin",
+            "originId": "origin_fugitive"
+          }
+        ],
+        "actions": [
+          {
+            "action": "chanceCheck",
+            "stat": "cunning",
+            "winnerActions": [
+              {
+                "action": "giveItem",
+                "target": "currentPlayer",
+                "itemId": "item_odd_stone"
+              },
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              }
+            ],
+            "loserActions": [
+              {
+                "action": "modifyGlobalModifier",
+                "key": "word_broken",
+                "amount": 1
+              },
+              {
+                "action": "applyEffect",
+                "target": "currentPlayer",
+                "effectId": "effect_marked"
+              }
+            ],
+            "winnerOutcome": "Гребень оказывается у тебя в рукаве. Коробейник ничего не заметил — или сделал вид.",
+            "loserOutcome": "Рука коробейника оказывается на твоём запястье раньше, чем гребень в рукаве. Он молча забирает своё и смотрит так, что лучше бы ударил."
+          }
+        ]
+      },
+      {
+        "label": "Пройти мимо",
+        "actions": []
+      }
+    ]
   },
   {
     "id": "state_smith_keeps_hammering",
