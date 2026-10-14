@@ -500,7 +500,9 @@ void main() {
         ),
       );
       expect(ways.map((c) => c.description).toSet(), hasLength(8));
-      expect(ways.fold<int>(0, (s, c) => s + c.weight), 40);
+      // Every halt card doubled when the night watch was split into calm and
+      // trouble (#69), so 80 is the old 40.
+      expect(ways.fold<int>(0, (s, c) => s + c.weight), 80);
     });
   });
 

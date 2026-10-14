@@ -290,7 +290,7 @@ void main() {
       expect(departures, isNotEmpty);
       // The first eight, and the eighteen that keep the halt from repeating
       // itself in a long match.
-      expect(inside.length - departures.length, 27);
+      expect(inside.length - departures.length, 38);
     });
 
     test('always has something to draw at the fire', () async {

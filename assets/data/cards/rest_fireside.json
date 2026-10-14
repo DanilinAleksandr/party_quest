@@ -5,7 +5,7 @@
     "description": "Фляга почти пуста. Глотка хватит на одного, и все это знают.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "drink",
@@ -75,7 +75,7 @@
     "description": "Вода кончилась, ручей где-то в темноте. Желающих нет.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -142,7 +142,7 @@
     "description": "Кто-то затягивает песню, которую знают все. Кроме второго куплета.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "social",
@@ -205,7 +205,7 @@
     "description": "Из темноты выходит человек и просит погреться. Руки держит на виду.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "risk",
@@ -283,7 +283,7 @@
     "description": "Небо такое чистое, что кто-то начинает показывать созвездия. Половину выдумывает на ходу.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -345,7 +345,7 @@
     "description": "Сапоги сохнут у огня. От них идёт пар и такой запах, что разговор сам собой переходит на другие темы.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "group"
@@ -365,7 +365,7 @@
     "description": "Сапоги сохнут у огня. От них идёт пар и такой запах, что разговор сам собой переходит на другие темы.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "group"
@@ -384,7 +384,7 @@
     "description": "Лучших мест у огня — два. Претендентов больше.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "social",
@@ -447,7 +447,7 @@
     "description": "Кто-то вспоминает таверну — с нежностью, которой там не было.",
     "type": "event",
     "rarity": "common",
-    "weight": 8,
+    "weight": 16,
     "tags": [
       "rest",
       "drink",
@@ -506,7 +506,7 @@
     "description": "В сумке обнаруживается пирог, которого никто не покупал.",
     "type": "event",
     "rarity": "common",
-    "weight": 8,
+    "weight": 16,
     "tags": [
       "rest",
       "party"
@@ -565,7 +565,7 @@
     "description": "Ты держишь камень в руке — он тёплый, хотя у огня не лежал.",
     "type": "event",
     "rarity": "common",
-    "weight": 8,
+    "weight": 16,
     "tags": [
       "rest",
       "solo"
@@ -621,7 +621,7 @@
     "description": "Тень от деревянной фигурки на земле длиннее, чем должна быть. И, кажется, повёрнута не туда.",
     "type": "event",
     "rarity": "common",
-    "weight": 8,
+    "weight": 16,
     "tags": [
       "rest",
       "solo"
@@ -677,7 +677,7 @@
     "description": "На обороте записки при огне проступают буквы, которых днём не было. Прочесть не получается.",
     "type": "event",
     "rarity": "common",
-    "weight": 8,
+    "weight": 16,
     "tags": [
       "rest",
       "solo"
@@ -733,7 +733,7 @@
     "description": "За кругом света — две жёлтые точки. Не мигают.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -797,7 +797,7 @@
     "description": "Кто-то крикнул в ущелье. Эхо вернуло другое слово.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "party"
@@ -844,7 +844,7 @@
     "description": "Костёр из плавника горит зелёным и синим. Соль в дереве, говорят рыбаки.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -896,7 +896,7 @@
     "description": "Днём жгло, а ночью зуб на зуб не попадает. Дров на всю ночь не хватит.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "drink",
@@ -960,7 +960,7 @@
     "description": "Привал на сухой насыпи. Вокруг — вода до горизонта, и всю ночь в ней что-то плещется.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "solo"
@@ -1032,7 +1032,7 @@
     "description": "На огонь приходит кладбищенский сторож. Скучно ему здесь уже лет сорок.",
     "type": "event",
     "rarity": "common",
-    "weight": 5,
+    "weight": 10,
     "tags": [
       "rest",
       "social",

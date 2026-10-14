@@ -46,5 +46,42 @@
     "statShifts": {
       "strength": 1
     }
+  },
+  {
+    "id": "effect_sleepless_night",
+    "name": "Бессонная ночь",
+    "description": "Ночью подняли всех — и всё, что было дальше, видно по глазам.",
+    "polarity": "negative",
+    "duration": 4,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "endurance": -1
+    }
+  },
+  {
+    "id": "effect_scorpion_venom",
+    "name": "Яд скорпиона",
+    "description": "Нога распухла и горит, а в голове плывёт.",
+    "polarity": "negative",
+    "duration": 6,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "endurance": -1,
+      "attentiveness": -1
+    }
+  },
+  {
+    "id": "effect_watch_hero",
+    "name": "Ночь отстояна",
+    "description": "О том, что было на дежурстве, у костра будут рассказывать.",
+    "polarity": "positive",
+    "duration": 6,
+    "autoExpire": true,
+    "reactions": {},
+    "statShifts": {
+      "charisma": 1
+    }
   }
 ]
