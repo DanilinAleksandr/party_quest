@@ -65,6 +65,18 @@ const double kSoloCap = 6.9;
 const double kSoberingPerTurn = 0.15;
 const int kRestSoberingFactor = 2;
 
+/// [kSoberingPerTurn] by age. Older drinks more before it shows and is
+/// slower to shake it off: with one rate for everyone an old hand's
+/// three-quarter drink wore off first, and the eldest at the table was the
+/// first one sober — the wrong way round. Now every age holds one drink at
+/// «навеселе» for about the same six turns, and from two drinks up the
+/// eldest stays in it longest.
+const Map<AgeBracket, double> kSoberingByAge = {
+  AgeBracket.young: 0.2,
+  AgeBracket.mature: kSoberingPerTurn,
+  AgeBracket.elder: 0.1,
+};
+
 /// The hangover is an ordinary effect with a duration, so it expires and
 /// shows the way every other effect does; what it does to the stats is
 /// read from here, like the levels' shifts.
@@ -239,6 +251,12 @@ extension IntoxicationOf on Player {
       (effectStatShifts[stat] ?? 0) +
       (partyShiftsFrom(party)[stat] ?? 0) +
       (auraShifts[stat] ?? 0);
+
+  /// [effectiveStat] as the table may see it: everything but an unseen
+  /// aura, which a number on the profile would give away. The drink, the
+  /// effects on and the others' shared ones all show.
+  int visibleStat(StatType stat, {Iterable<Player> party = const []}) =>
+      effectiveStat(stat, party: party) - (auraShifts[stat] ?? 0);
 
   /// The one word for the roster card: asleep, then drunk, then hungover.
   String? get conditionWord {

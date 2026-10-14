@@ -106,6 +106,10 @@
       {
         "condition": "inBiome",
         "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "sunny"
       }
     ],
     "choices": [

@@ -93,7 +93,8 @@
         "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_pathfinder" }],
         "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
       },
-      { "label": "Идти вдоль воды и искать сухое самим", "actions": [] }
+      { "label": "Идти вдоль воды и искать сухое самим", "actions": [],
+        "outcome": "Сухое находится только к вечеру, и ноги промокают до колен. Зато никому ничего не должны." }
     ]
   },
   {
@@ -131,7 +132,8 @@
       {
         "label": "Подсказать заходить наискось, против сноса",
         "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_sea_chosen" }],
-        "actions": []
+        "actions": [],
+        "outcome": "Женщина разворачивает лодку, корова послушно идёт наискось — и через четверть часа выходит на бугор, отряхиваясь с оскорблённым видом."
       },
       { "label": "Посторониться и не мешать", "actions": [] }
     ]
@@ -219,7 +221,8 @@
       {
         "label": "Сказать, что вода вернёт всё на место сама",
         "conditions": [{ "condition": "worldFlagSet", "flag": "circle_ally" }],
-        "actions": []
+        "actions": [],
+        "outcome": "Оба смотрят на тебя, потом друг на друга — и отпускают кол. Плетень медленно уплывает дальше, уже ничей."
       },
       { "label": "Отгрести подальше", "actions": [] }
     ]
@@ -258,7 +261,8 @@
         "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_fugitive" }],
         "actions": []
       },
-      { "label": "Поверить на слово", "actions": [] }
+      { "label": "Поверить на слово", "actions": [],
+        "outcome": "Больше снизу не стучат. Перевозчик налегает на шест, и лодка уходит с того места." }
     ]
   },
   {
@@ -296,7 +300,8 @@
       },
       {
         "label": "Идти в обход по глубокому",
-        "actions": []
+        "actions": [],
+        "outcome": "Обход съедает полдня, а женщина уже давно на том берегу. Она машет вам оттуда, не оборачиваясь."
       }
     ]
   },
@@ -454,7 +459,8 @@
         "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_sailor" }],
         "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "charisma", "amount": 1 }]
       },
-      { "label": "Идти по карте и убедиться, что она врёт", "actions": [] }
+      { "label": "Идти по карте и убедиться, что она врёт", "actions": [],
+        "outcome": "Карта приводит к мосту, которого нет, а потом ещё к одному. Обратно возвращаетесь по руке местного." }
     ]
   },
   {
@@ -560,7 +566,8 @@
         "conditions": [{ "condition": "worldFlagSet", "flag": "paladin_ally" }],
         "actions": []
       },
-      { "label": "Идти пешком по мосткам", "actions": [] }
+      { "label": "Идти пешком по мосткам", "actions": [],
+        "outcome": "Мостки скрипят и пружинят, но держат. Добираетесь позже, зато с чистой совестью и мокрыми сапогами." }
     ]
   },
   {

@@ -594,7 +594,8 @@
             "flag": "warlord_ally"
           }
         ],
-        "actions": []
+        "actions": [],
+        "outcome": "Караванщик читает знак, бледнеет и сам срывает доску со столба."
       },
       {
         "label": "Идти дальше, надвинув капюшон",
@@ -1617,6 +1618,10 @@
       {
         "condition": "inBiome",
         "biomeId": "desert"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "sunny"
       }
     ],
     "actions": [

@@ -36,6 +36,7 @@ const _gates = {
   'notInWeather',
   'inSeason',
   'minimumTurnsInWeather',
+  'weatherWithinTurns',
 };
 
 GameContext _context({int seed = 1}) => GameContext(

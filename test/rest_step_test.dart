@@ -50,6 +50,7 @@ GameContext _at({
   bool inRest = false,
   int turnsInRest = 0,
   int restInterval = kRestInterval,
+  int? restEndedAt,
 }) => GameContext(
   state: GameState(
     players: const [
@@ -63,6 +64,12 @@ GameContext _at({
     worldState: WorldState(
       flags: {if (inTavern) 'in_tavern': true, if (inRest) 'in_rest': true},
       turnsInRest: turnsInRest,
+      // The halt is due [restInterval] steps after the last one was left.
+      // Unless a test says otherwise, the party has kept to the schedule:
+      // it last sat down at the latest multiple of the interval before now.
+      restEndedAt:
+          restEndedAt ??
+          (steps > 0 ? (steps - 1) ~/ restInterval * restInterval : 0),
     ),
   ),
   random: RandomProvider(seed: 1),
@@ -283,7 +290,7 @@ void main() {
       expect(departures, isNotEmpty);
       // The first eight, and the eighteen that keep the halt from repeating
       // itself in a long match.
-      expect(inside.length - departures.length, 26);
+      expect(inside.length - departures.length, 27);
     });
 
     test('always has something to draw at the fire', () async {

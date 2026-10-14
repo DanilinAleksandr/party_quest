@@ -592,9 +592,12 @@ final class ActionExecutor {
   }
 
   GameContext _setWeather(SetWeatherAction action, GameContext context) {
+    final now = context.state.worldState.currentWeather;
+    if (now == action.weather) return context;
     final worldState = context.state.worldState.copyWith(
       currentWeather: action.weather,
       turnsInCurrentWeather: 0,
+      previousWeather: now,
     );
     return context.withState(context.state.copyWith(worldState: worldState));
   }

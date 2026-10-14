@@ -11,7 +11,7 @@
   {
     "id": "effect_witchs_protection",
     "name": "Покровительство Ведьмы",
-    "description": "Пока действует эффект, следующее проклятие проходит мимо тебя — Великая Ведьма всё ещё присматривает за тобой.",
+    "description": "Великая Ведьма всё ещё присматривает за тобой.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,
@@ -30,7 +30,7 @@
   {
     "id": "effect_captains_favor",
     "name": "Милость капитана",
-    "description": "Пока действует эффект, следующая беда проходит мимо тебя — где-то в море капитан всё ещё держит слово.",
+    "description": "Где-то в море капитан всё ещё держит слово.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,
@@ -40,7 +40,7 @@
   {
     "id": "effect_warlords_protection",
     "name": "Покровительство вождя",
-    "description": "Пока действует эффект, следующая беда проходит мимо тебя — военачальник считает тебя своим человеком.",
+    "description": "Военачальник считает тебя своим человеком.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,

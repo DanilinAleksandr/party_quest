@@ -33,7 +33,7 @@
       {
         "condition": "flagNotSetWithinSteps",
         "flag": "left_village",
-        "steps": 12
+        "steps": 16
       }
     ],
     "actions": [
@@ -78,7 +78,7 @@
       {
         "condition": "flagNotSetWithinSteps",
         "flag": "left_village",
-        "steps": 12
+        "steps": 16
       }
     ],
     "actions": [
@@ -123,7 +123,7 @@
       {
         "condition": "flagNotSetWithinSteps",
         "flag": "left_village",
-        "steps": 12
+        "steps": 16
       }
     ],
     "actions": [
@@ -168,7 +168,7 @@
       {
         "condition": "flagNotSetWithinSteps",
         "flag": "left_village",
-        "steps": 12
+        "steps": 16
       }
     ],
     "actions": [
@@ -213,7 +213,7 @@
       {
         "condition": "flagNotSetWithinSteps",
         "flag": "left_village",
-        "steps": 12
+        "steps": 16
       }
     ],
     "actions": [

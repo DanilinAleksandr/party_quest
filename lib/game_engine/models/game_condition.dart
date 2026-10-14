@@ -119,6 +119,10 @@ sealed class GameCondition {
       'minimumTurnsInWeather' => MinimumTurnsInWeatherCondition(
         turns: json['turns'] as int,
       ),
+      'weatherWithinTurns' => WeatherWithinTurnsCondition(
+        weather: Weather.fromJson(json['weather'] as String),
+        turns: json['turns'] as int,
+      ),
       'inSeason' => InSeasonCondition(
         season: Season.fromJson(json['season'] as String),
       ),
@@ -777,6 +781,34 @@ final class MinimumTurnsInWeatherCondition extends GameCondition {
   @override
   Map<String, dynamic> toJson() => {
     'condition': 'minimumTurnsInWeather',
+    'turns': turns,
+  };
+}
+
+/// Whether [weather] is on now, or was until fewer than [turns] steps ago —
+/// wet boots after the rain, a road still steaming from it. Pair it with
+/// [NotInWeatherCondition] for «the rain has only just stopped».
+final class WeatherWithinTurnsCondition extends GameCondition {
+  final Weather weather;
+  final int turns;
+
+  const WeatherWithinTurnsCondition({
+    required this.weather,
+    required this.turns,
+  });
+
+  @override
+  bool isSatisfied(GameContext context) {
+    final world = context.state.worldState;
+    return world.currentWeather == weather ||
+        (world.previousWeather == weather &&
+            world.turnsInCurrentWeather < turns);
+  }
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'condition': 'weatherWithinTurns',
+    'weather': weather.toJson(),
     'turns': turns,
   };
 }

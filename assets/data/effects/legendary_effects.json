@@ -2,7 +2,7 @@
   {
     "id": "effect_altar_might",
     "name": "Дар алтаря: Сила",
-    "description": "Древняя сила течёт по венам. Пока действует эффект — +2 к силе.",
+    "description": "Древняя сила течёт по венам.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,
@@ -12,7 +12,7 @@
   {
     "id": "effect_altar_fortune",
     "name": "Дар алтаря: Удача",
-    "description": "Древняя сила течёт по венам. Пока действует эффект — +2 к удаче.",
+    "description": "Древняя сила течёт по венам — и везёт.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,
@@ -22,7 +22,7 @@
   {
     "id": "effect_altar_charm",
     "name": "Дар алтаря: Обаяние",
-    "description": "Древняя сила течёт по венам. Пока действует эффект — +2 к харизме.",
+    "description": "Древняя сила течёт по венам — и слушают тебя.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,

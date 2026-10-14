@@ -19,33 +19,6 @@
     ]
   },
   {
-    "id": "event_confession",
-    "title": "Признание",
-    "description": "Расскажи компании одну вещь о себе, которую здесь никто не знает.",
-    "type": "event",
-    "rarity": "common",
-    "weight": 3,
-    "tags": [
-      "social"
-    ],
-    "conditions": [],
-    "actions": []
-  },
-  {
-    "id": "event_impersonation",
-    "title": "Пародия",
-    "description": "Изобрази игрока слева от себя так, чтобы остальные угадали, кого ты пародируешь.",
-    "type": "event",
-    "rarity": "common",
-    "weight": 3,
-    "tags": [
-      "social",
-      "party"
-    ],
-    "conditions": [],
-    "actions": []
-  },
-  {
     "id": "trap_cold_shower",
     "title": "Холодный душ",
     "description": "Неудача! Ты немного теряешь хватку — очко удачи утекло сквозь пальцы.",

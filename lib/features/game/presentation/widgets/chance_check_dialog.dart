@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/steel_palette.dart';
@@ -61,6 +62,7 @@ Future<void> showChanceCheckDialog({
   String? challenger,
   String? opponent,
   StatType? stat,
+  double? odds,
 }) {
   return showAppDialog<void>(
     context: context,
@@ -77,6 +79,7 @@ Future<void> showChanceCheckDialog({
       challenger: challenger,
       opponent: opponent,
       stat: stat,
+      odds: odds,
     ),
     actions: const [],
   );
@@ -293,6 +296,7 @@ class _RollBody extends StatefulWidget {
   final String? challenger;
   final String? opponent;
   final StatType? stat;
+  final double? odds;
 
   const _RollBody({
     required this.passed,
@@ -304,6 +308,7 @@ class _RollBody extends StatefulWidget {
     this.challenger,
     this.opponent,
     this.stat,
+    this.odds,
   });
 
   @override
@@ -354,6 +359,14 @@ class _RollBodyState extends State<_RollBody>
     return widget.passed ? called == 1 : called == 0;
   }
 
+  /// The side the player called, or null when nothing was called.
+  String? get _bet {
+    final sides = widget.sides;
+    final called = widget.calledIndex;
+    if (sides == null || called == null || sides.length != 2) return null;
+    return sides[called];
+  }
+
   String? get _call {
     final sides = widget.sides;
     final called = widget.calledIndex;
@@ -388,6 +401,21 @@ class _RollBodyState extends State<_RollBody>
               challenger: widget.challenger,
               opponent: widget.opponent,
             ),
+            // The side called, large, for the whole throw — so nobody has
+            // to ask afterwards whether it was the King they called.
+            if (_bet != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  'Твоя ставка: $_bet',
+                  key: const Key('throw_bet'),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: SteelPalette.textHigh,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             CoinTossStage(
               pose: pose,
               peak: _motion.peak,
@@ -397,6 +425,11 @@ class _RollBodyState extends State<_RollBody>
               face: _restingFace,
               settled: settled,
             ),
+            // A debug build says the odds the throw was made at, small,
+            // so a playtest can tell a drink made it in. Never in a
+            // release: the table should feel strength helps, not count it.
+            if (kDebugMode && widget.odds != null)
+              _DebugOdds(odds: widget.odds!),
             const SizedBox(height: 4),
             // The verdict is built only once it is true, rather than faded
             // in from a hidden widget: a "Платишь" sitting at zero opacity
@@ -444,6 +477,22 @@ class _RollBodyState extends State<_RollBody>
       },
     );
   }
+}
+
+class _DebugOdds extends StatelessWidget {
+  final double odds;
+
+  const _DebugOdds({required this.odds});
+
+  @override
+  Widget build(BuildContext context) => Text(
+    'debug · шанс ${(odds * 100).round()}%',
+    key: const Key('debug_odds'),
+    textAlign: TextAlign.center,
+    style: Theme.of(
+      context,
+    ).textTheme.labelSmall?.copyWith(color: SteelPalette.steelDim),
+  );
 }
 
 /// What the throw measures, over the coin: the stat and its mark, or

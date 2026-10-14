@@ -32,12 +32,23 @@ class StatChip extends StatelessWidget {
   static const double cellHeight = 28;
   static const double cellMinWidth = 50;
 
+  /// What the stat stands at now — the drink and the effects on it — when
+  /// that differs from [value], the character's own: shown as `0 (1)`.
+  final int? effective;
+
   const StatChip({
     super.key,
     required this.stat,
     required this.value,
     this.compact = false,
+    this.effective,
   });
+
+  /// `0`, or `0 (1)` when the stat stands somewhere else right now.
+  static String valueText(int value, int? effective) =>
+      effective == null || effective == value
+      ? '$value'
+      : '$value ($effective)';
 
   static IconData iconFor(StatType stat) => switch (stat) {
     StatType.strength => Icons.fitness_center,
@@ -87,7 +98,9 @@ class StatChip extends StatelessWidget {
             Icon(iconFor(stat), size: 15, color: SteelPalette.steel),
             const SizedBox(width: 6),
             Text(
-              compact ? '$value' : '${labelFor(stat)} $value',
+              compact
+                  ? valueText(value, effective)
+                  : '${labelFor(stat)} ${valueText(value, effective)}',
               style: Theme.of(
                 context,
               ).textTheme.labelMedium?.copyWith(color: SteelPalette.textLow),

@@ -17,6 +17,15 @@
       {
         "condition": "notInBiome",
         "biomeId": "desert"
+      },
+      {
+        "condition": "notInWeather",
+        "weather": "rain"
+      },
+      {
+        "condition": "weatherWithinTurns",
+        "weather": "rain",
+        "turns": 6
       }
     ],
     "actions": []
@@ -91,7 +100,8 @@
       },
       {
         "label": "Перейти вброд ниже по течению",
-        "actions": []
+        "actions": [],
+        "outcome": "Вода по колено и холодная, но брод надёжный. На том берегу рабочие машут вам — сочувственно."
       }
     ]
   },
@@ -157,6 +167,11 @@
       {
         "condition": "notInBiome",
         "biomeId": "desert"
+      },
+      {
+        "condition": "weatherWithinTurns",
+        "weather": "rain",
+        "turns": 8
       }
     ],
     "actions": []
@@ -179,6 +194,11 @@
       {
         "condition": "notInBiome",
         "biomeId": "desert"
+      },
+      {
+        "condition": "weatherWithinTurns",
+        "weather": "rain",
+        "turns": 4
       }
     ],
     "actions": []

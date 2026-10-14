@@ -558,6 +558,7 @@ final class ContentValidator {
       case InWeatherCondition _:
       case NotInWeatherCondition _:
       case MinimumTurnsInWeatherCondition _:
+      case WeatherWithinTurnsCondition _:
       case InSeasonCondition _:
       case NotInSeasonCondition _:
         break;

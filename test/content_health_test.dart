@@ -65,6 +65,7 @@ void main() {
     InSeasonCondition _ ||
     NotInSeasonCondition _ ||
     MinimumTurnsInWeatherCondition _ => 'ambient',
+    WeatherWithinTurnsCondition _ => 'ambient',
     InBiomeCondition _ ||
     NotInBiomeCondition _ ||
     MinimumTurnsInBiomeCondition _ ||
@@ -156,5 +157,55 @@ void main() {
         reason: '$system disappeared from the content',
       );
     }
+  });
+
+  // Whether a choice tells the table anything in words: its own outcome, or
+  // a throw's words for how it went.
+  bool hasWords(CardChoice choice) =>
+      (choice.outcome?.isNotEmpty ?? false) ||
+      choice.actions.any(
+        (a) => switch (a) {
+          ChanceCheckAction c => c.winnerOutcome != null,
+          StartDuelAction d => d.winnerOutcome != null,
+          _ => false,
+        },
+      );
+
+  test('no choice is a button that does nothing and says nothing', () async {
+    // The fourth playtest pressed «Спросить о драконе» and got nothing back.
+    // A choice with no actions has to say what happened — unless it is a
+    // way out, whose label already is the whole outcome («Уйти»,
+    // «Оставить»), or a look closer, which tells what it saw on its own.
+    final leaving = RegExp(
+      r'^(Оставить|Пройти мимо|Пройти дальше|Не |Уйти|Отказаться|Промолчать|'
+      r'Смолчать|Тихо уйти|Тихо отступить|Отмахнуться|Пропустить|Обойти|'
+      r'Посторониться|Отгрести|Идти дальше|Пойти дальше|Постоять молча и пойти|'
+      r'Пожать плечами|Проводить взглядом|Просто )',
+    );
+    final cards = await const CardRepository().loadCards();
+    final mute = [
+      for (final card in cards)
+        for (final choice in card.choices)
+          if (!choice.inspect &&
+              choice.actions.isEmpty &&
+              !hasWords(choice) &&
+              !leaving.hasMatch(choice.label))
+            '${card.id}: «${choice.label}»',
+    ];
+    expect(mute, isEmpty, reason: 'these choices do nothing in silence');
+  });
+
+  test('every choice on a legendary card says what came of it', () async {
+    // The first legendary of a match is a moment the table remembers; a
+    // ledger of «+1» is not enough for it, whatever the choice does.
+    final cards = await const CardRepository().loadCards();
+    final mute = [
+      for (final card in cards)
+        if (card.rarity == Rarity.legendary)
+          for (final choice in card.choices)
+            if (!choice.inspect && !hasWords(choice))
+              '${card.id}: «${choice.label}»',
+    ];
+    expect(mute, isEmpty);
   });
 }

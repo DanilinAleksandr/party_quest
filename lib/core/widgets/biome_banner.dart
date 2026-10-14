@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../game_engine/models/models.dart';
 import '../theme/biome_flavor.dart';
+import '../theme/season_flavor.dart';
 import '../theme/weather_flavor.dart';
 import 'line_icons.dart';
 import 'scene_banner.dart';
@@ -22,13 +23,11 @@ import 'scene_banner.dart';
 /// the main fact and weather just describes its current state, not a
 /// chapter of its own.
 ///
-/// [season] is optional too and feeds only into the subtitle line (composed
-/// together with [weather] by [biomeAtmosphere]) — deliberately no separate
-/// icon/chip for it in the compact row: the season was already announced
-/// once, as its own scene, when the party left the prologue (see
-/// `SeasonRevealDialog`), so repeating it here as a badge would be a
-/// redundant "setting" rather than atmosphere. The subtitle line is where it
-/// keeps showing up, quietly, for the rest of the match.
+/// [season] feeds the subtitle line (composed together with [weather] by
+/// [biomeAtmosphere]) and shows as a small mark beside the weather. It was
+/// once left out of the row as said already — the season is announced as
+/// its own scene when the party leaves the prologue — but a table that
+/// missed that moment had nowhere to see it again.
 class BiomeBanner extends StatelessWidget {
   final Biome biome;
   final Weather? weather;
@@ -50,6 +49,10 @@ class BiomeBanner extends StatelessWidget {
       subtitle: atmosphere.isEmpty ? biome.description : atmosphere,
       trailingIcon: weather == null ? null : weatherIcon(weather!),
       trailingLabel: weather == null ? null : weatherLabel(weather!),
+      seasonIcon: season == null || weather == null
+          ? null
+          : seasonIcon(season!),
+      seasonLabel: season == null ? null : seasonLabel(season!),
     );
   }
 }

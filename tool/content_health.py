@@ -87,6 +87,7 @@ CONDITION_SYSTEM = {
     'inSeason': 'ambient',
     'notInSeason': 'ambient',
     'minimumTurnsInWeather': 'ambient',
+    'weatherWithinTurns': 'ambient',
     # --- known, and deliberately not modifiers ---
     'inBiome': None,
     'notInBiome': None,

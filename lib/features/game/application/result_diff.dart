@@ -1,4 +1,5 @@
 import '../../../core/constants/ally_flags.dart';
+import '../../../core/theme/effect_terms.dart';
 import '../../../game_engine/logic/logic.dart';
 import '../../../game_engine/models/models.dart';
 import 'result_entry.dart';
@@ -31,6 +32,7 @@ List<ResultEntry> computeResultEntries({
         ResultEntry(
           kind: ResultKind.originRevealed,
           playerName: after.name,
+          playerId: after.id,
           headline: origin.name,
           rarity: origin.rarity,
           originId: origin.id,
@@ -46,6 +48,7 @@ List<ResultEntry> computeResultEntries({
           ResultEntry(
             kind: ResultKind.itemGained,
             playerName: after.name,
+            playerId: after.id,
             headline: item.name,
             rarity: item.rarity,
           ),
@@ -58,6 +61,7 @@ List<ResultEntry> computeResultEntries({
           ResultEntry(
             kind: ResultKind.itemLost,
             playerName: after.name,
+            playerId: after.id,
             headline: item.name,
             rarity: item.rarity,
           ),
@@ -73,8 +77,15 @@ List<ResultEntry> computeResultEntries({
           ResultEntry(
             kind: ResultKind.effectGained,
             playerName: after.name,
+            playerId: after.id,
             headline: effect.name,
             isNegative: effect.polarity == EffectPolarity.negative,
+            // What it is, and what it is worth for how long — the name
+            // alone left the table asking what «Острый глаз» does.
+            description: [
+              effect.description,
+              effectTerms(effect),
+            ].where((s) => s.isNotEmpty).join('\n'),
           ),
         );
       }
@@ -85,6 +96,7 @@ List<ResultEntry> computeResultEntries({
           ResultEntry(
             kind: ResultKind.effectLost,
             playerName: after.name,
+            playerId: after.id,
             headline: effect.name,
           ),
         );
@@ -98,6 +110,7 @@ List<ResultEntry> computeResultEntries({
         ResultEntry(
           kind: ResultKind.statChanged,
           playerName: after.name,
+          playerId: after.id,
           headline: '${_statLabel(stat)} ${delta > 0 ? '+$delta' : '$delta'}',
           isNegative: delta < 0,
         ),
@@ -142,6 +155,7 @@ List<ResultEntry> computeResultEntries({
       ResultEntry(
         kind: ResultKind.intoxicationChanged,
         playerName: after.name,
+        playerId: after.id,
         headline: phrase,
         isNegative:
             after.isPassedOut ||
@@ -190,7 +204,13 @@ String? _intoxicationPhrase(Player before, Player after) {
   if (before.isPassedOut && !after.isPassedOut) return 'Снова на ногах';
   final from = before.intoxicationLevel;
   final to = after.intoxicationLevel;
-  if (from == to) return null;
+  // A drink on top of a drink keeps the level and changes nothing a table
+  // reads, so «Допить самому» seemed to do nothing at all. It says so.
+  if (from == to) {
+    final word = to.word;
+    if (word == null || after.intoxication <= before.intoxication) return null;
+    return 'Ещё глоток — по-прежнему $word';
+  }
   if (to == IntoxicationLevel.sober) return 'Хмель выветрился';
   return to.index > from.index ? 'Уже ${to.word}' : 'Теперь только ${to.word}';
 }

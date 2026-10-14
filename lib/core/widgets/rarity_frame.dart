@@ -42,6 +42,9 @@ class RarityFrame extends StatefulWidget {
 }
 
 class _RarityFrameState extends State<RarityFrame> {
+  static const double _pulseLow = 0.7;
+  static const Duration _pulse = Duration(milliseconds: 2400);
+
   bool _glowUp = true;
 
   @override
@@ -51,13 +54,17 @@ class _RarityFrameState extends State<RarityFrame> {
 
     if (!glow.pulse) return _frame(color, glow, glow.shadowAlpha);
 
+    // A slow breath, not a blink. On a card the glow rims the whole dialog,
+    // and the medallion's swing — down to under half and back in 1.4 s —
+    // read across that much gold as flashing. Here it never drops below
+    // [_pulseLow] of its peak and takes [_pulse] each way.
     return TweenAnimationBuilder<double>(
       tween: Tween(
-        begin: _glowUp ? glow.shadowAlpha * 0.45 : glow.shadowAlpha,
-        end: _glowUp ? glow.shadowAlpha : glow.shadowAlpha * 0.45,
+        begin: _glowUp ? glow.shadowAlpha * _pulseLow : glow.shadowAlpha,
+        end: _glowUp ? glow.shadowAlpha : glow.shadowAlpha * _pulseLow,
       ),
-      duration: const Duration(milliseconds: 1400),
-      curve: Curves.easeInOut,
+      duration: _pulse,
+      curve: Curves.easeInOutSine,
       onEnd: () => setState(() => _glowUp = !_glowUp),
       builder: (context, shadowAlpha, child) =>
           _frame(color, glow, shadowAlpha),

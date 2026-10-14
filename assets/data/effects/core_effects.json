@@ -11,7 +11,7 @@
   {
     "id": "effect_silence",
     "name": "Обет молчания",
-    "description": "Общайся только жестами. Пока действует эффект — −1 к харизме: за болтливость.",
+    "description": "Общайся только жестами: за болтливость.",
     "polarity": "negative",
     "duration": 3,
     "autoExpire": true,
@@ -21,7 +21,7 @@
   {
     "id": "effect_lucky_streak",
     "name": "Полоса удачи",
-    "description": "Удача сама тебя находит. Пока действует эффект — +1 к удаче.",
+    "description": "Удача сама тебя находит.",
     "polarity": "positive",
     "duration": 15,
     "autoExpire": true,
@@ -49,7 +49,7 @@
   {
     "id": "effect_mystery",
     "name": "Оберег",
-    "description": "Гасит следующее проклятие, которое должно было на тебя подействовать.",
+    "description": "Тёплый оберег под рубахой.",
     "polarity": "positive",
     "duration": -1,
     "autoExpire": false,
@@ -59,7 +59,7 @@
   {
     "id": "effect_party_king",
     "name": "Ваше Величество",
-    "description": "Ближайшие 3 хода все за столом обращаются к тебе только «Ваше Величество». Пока действует — +1 к харизме.",
+    "description": "Все за столом обращаются к тебе только «Ваше Величество».",
     "polarity": "positive",
     "duration": 3,
     "autoExpire": true,

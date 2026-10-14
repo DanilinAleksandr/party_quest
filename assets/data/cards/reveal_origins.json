@@ -314,6 +314,10 @@
       {
         "condition": "inBiome",
         "biomeId": "coast"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
       }
     ],
     "participant": {
@@ -584,6 +588,10 @@
     "conditions": [
       {
         "condition": "anyPlayerMissingOrigin"
+      },
+      {
+        "condition": "inWeather",
+        "weather": "night"
       }
     ],
     "participant": {
