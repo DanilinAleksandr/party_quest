@@ -26,14 +26,6 @@
         "label": "Заплатить вдвое — две кружки ему за заначку",
         "actions": [
           {
-            "action": "drink",
-            "target": "currentPlayer"
-          },
-          {
-            "action": "drink",
-            "target": "currentPlayer"
-          },
-          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_stash"
@@ -48,10 +40,6 @@
             "action": "chanceCheck",
             "stat": "charisma",
             "winnerActions": [
-              {
-                "action": "drink",
-                "target": "currentPlayer"
-              },
               {
                 "action": "giveItem",
                 "target": "currentPlayer",
