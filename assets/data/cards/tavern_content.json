@@ -263,6 +263,42 @@
         ]
       },
       {
+        "label": "Подсесть к человеку ордена и показать свою бляху",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_order_badge"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_ally",
+            "value": false
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Он узнаёт подделку сразу. Молча забирает бляху, встаёт и уходит. Завтра на заставе будут знать, с кем орден водил дружбу."
+      },
+      {
         "label": "Не рисковать последним",
         "actions": []
       }
@@ -603,6 +639,23 @@
         ]
       },
       {
+        "label": "Предложить сыграть твоей костью, а не его",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_holed_die"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Шулер берёт кость с дыркой, вертит её и возвращает: «Не играю с костями, у которых есть хозяин». И уходит, не сыграв."
+      },
+      {
         "label": "Отказаться — руки у него подозрительно ловкие",
         "actions": []
       }
@@ -814,6 +867,63 @@
             "amount": 1
           }
         ]
+      },
+      {
+        "label": "Сунуть ему под нос бляху ордена",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_order_badge"
+          },
+          {
+            "condition": "worldFlagUnset",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_good_word"
+          }
+        ],
+        "outcome": "Вышибала смотрит на солнце на бляхе и убирает руку. С орденом в этом трактире не ссорятся."
+      },
+      {
+        "label": "Показать бляху — у стойки как раз человек ордена",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_order_badge"
+          },
+          {
+            "condition": "worldFlagSet",
+            "flag": "paladin_ally"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_order_badge"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "paladin_ally",
+            "value": false
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_broken",
+            "amount": 1
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_marked"
+          }
+        ],
+        "outcome": "Человек ордена у стойки берёт бляху, считает лучи и кладёт на стол: «Девять. Наши — двенадцать». Вышибала ждёт, пока он договорит. Союз с орденом этим вечером кончается."
       },
       {
         "label": "Закатить сцену",

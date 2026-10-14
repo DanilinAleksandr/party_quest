@@ -51,7 +51,10 @@ import 'coin_toss.dart';
 /// [challenger] and [opponent] name the two players of a duel, and are
 /// absent for a solo risk. See [_Verdict] for why a duel cannot be reported
 /// in the second person, and why it names the one who pays.
-Future<void> showChanceCheckDialog({
+///
+/// [canReroll]: the current player carries the holed die, and a lost throw
+/// may be thrown again with it. Completes with true when they chose to.
+Future<bool> showChanceCheckDialog({
   required BuildContext context,
   required bool passed,
   bool edge = false,
@@ -63,8 +66,9 @@ Future<void> showChanceCheckDialog({
   String? opponent,
   StatType? stat,
   double? odds,
-}) {
-  return showAppDialog<void>(
+  bool canReroll = false,
+}) async {
+  final reroll = await showAppDialog<bool>(
     context: context,
     icon: Icons.toll_outlined,
     title: 'Бросок',
@@ -80,9 +84,11 @@ Future<void> showChanceCheckDialog({
       opponent: opponent,
       stat: stat,
       odds: odds,
+      canReroll: canReroll,
     ),
     actions: const [],
   );
+  return reroll ?? false;
 }
 
 /// A gamble that is an arm-wrestling bout, shown as one instead of a coin.
@@ -297,6 +303,7 @@ class _RollBody extends StatefulWidget {
   final String? opponent;
   final StatType? stat;
   final double? odds;
+  final bool canReroll;
 
   const _RollBody({
     required this.passed,
@@ -309,6 +316,7 @@ class _RollBody extends StatefulWidget {
     this.opponent,
     this.stat,
     this.odds,
+    this.canReroll = false,
   });
 
   @override
@@ -461,13 +469,27 @@ class _RollBodyState extends State<_RollBody>
                     : null,
               ),
             const SizedBox(height: 18),
+            // The holed die: a lost throw of one's own, once a match, thrown
+            // again. Offered only once the coin has settled against you.
+            if (settled && widget.canReroll && !widget.passed) ...[
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  key: const Key('reroll_with_die'),
+                  onPressed: () => Navigator.of(context).pop(true),
+                  icon: const Icon(Icons.casino_outlined, size: 18),
+                  label: const Text('Перебросить костью'),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
             // Reserved rather than inserted, so the dialog does not jump a
             // button's height at the exact moment the eye is on the coin.
             SizedBox(
               width: double.infinity,
               child: settled
                   ? FilledButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => Navigator.of(context).pop(false),
                       child: const Text('Дальше'),
                     )
                   : const SizedBox(height: 52),

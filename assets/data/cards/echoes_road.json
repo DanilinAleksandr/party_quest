@@ -176,6 +176,38 @@
         "outcome": "«Так это вы! — говорит он. — О вас на трёх станциях рассказывают». И отдаёт монету, и рассказывает, что именно."
       },
       {
+        "label": "Отдать ему письмо с печатью — его же сумка",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_sealed_letter"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_sealed_letter"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_lucky_coin"
+          },
+          {
+            "action": "setWorldFlag",
+            "flag": "courier_repaid",
+            "value": true
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "outcome": "Гонец бледнеет, потом краснеет: «Выпало! Я ж за него головой отвечаю!» Монета с переправы — меньшее, что он может отдать."
+      },
+      {
         "label": "Сказать, что он ничего не должен",
         "actions": [
           {

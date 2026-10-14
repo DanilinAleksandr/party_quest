@@ -183,6 +183,23 @@
         ]
       },
       {
+        "label": "Поднять фонарь — пусть видят, что не спим",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_lantern"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Фонарь светит дальше костра. Глаза за кругом щурятся, гаснут — и стая уходит, не дождавшись темноты."
+      },
+      {
         "label": "Поставить палатку входом к огню — спать за стеной",
         "conditions": [
           {
@@ -1073,6 +1090,28 @@
         "outcome": "Ты дремлешь на посту. Скорпион не дремлет. Утро начинается с ноги, которую не чувствуешь."
       },
       {
+        "label": "Насыпать соли вокруг одеял",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_salt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Скорпионы останавливаются у соли и уходят обратно под камень. Старый способ, говорят, тоже работает."
+      },
+      {
         "label": "Под хмельком — раздавить их всех каблуком",
         "conditions": [
           {
@@ -1909,6 +1948,45 @@
         ],
         "actions": [],
         "outcome": "Оберег жжёт ладонь до утра, и до утра шаги не подходят. С рассветом он остывает. На нём — новая трещина."
+      },
+      {
+        "label": "Поставить фонарь на камень между вами и ними",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_lantern"
+          }
+        ],
+        "actions": [
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_fireside_steady"
+          }
+        ],
+        "outcome": "Шаги останавливаются у границы света и до утра её не переходят. Фонарь горит ровно, хотя ветер есть."
+      },
+      {
+        "label": "Обвести огонь кругом соли",
+        "conditions": [
+          {
+            "condition": "currentPlayerHasItem",
+            "itemId": "item_salt"
+          }
+        ],
+        "actions": [
+          {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_salt"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_watch_hero"
+          }
+        ],
+        "outcome": "Соль ложится белой чертой. Шаги доходят до неё — и обходят кругом, до рассвета."
       },
       {
         "label": "Под хмельком — позвать их к огню выпить",

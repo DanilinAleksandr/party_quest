@@ -93,6 +93,7 @@
         "conditions": [{ "condition": "currentPlayerHasOrigin", "originId": "origin_pathfinder" }],
         "actions": [{ "action": "modifyStat", "target": "currentPlayer", "stat": "attentiveness", "amount": 1 }]
       },
+      {"label": "Показать перевозчику обрывок карты", "conditions": [{"condition": "anyPlayerHasItem", "itemId": "item_map_half_right"}], "actions": [{"action": "modifyGlobalModifier", "key": "word_kept", "amount": 1}], "outcome": "Перевозчик узнаёт берег на обрывке и перевозит даром: «Тут дед мой клад искал. Не нашёл. Может, вам повезёт»."},
       { "label": "Идти вдоль воды и искать сухое самим", "actions": [],
         "outcome": "Сухое находится только к вечеру, и ноги промокают до колен. Зато никому ничего не должны." }
     ]

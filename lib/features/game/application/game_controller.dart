@@ -698,6 +698,21 @@ class GameController extends StateNotifier<GameState> {
     return won ? CoinThrow.win : CoinThrow.lose;
   }
 
+  /// Whether the current player carries the holed die — one lost throw of
+  /// their own may be thrown again with it, and then it cracks.
+  bool get canRerollWithDie =>
+      _context.currentPlayer.inventory.any((i) => i.id == kHoledDieId);
+
+  /// Throws a lost throw again with the holed die, which cracks for it: the
+  /// die leaves the current player's bag, and the coin is thrown anew at the
+  /// same [odds]. Only a watched throw has a die to answer it.
+  CoinThrow rerollWithDie({double odds = 0.5}) {
+    _setContext(
+      _executor.execute(const TakeItemAction(itemId: kHoledDieId), _context),
+    );
+    return roll(odds: odds);
+  }
+
   /// Debug only: hands [playerId] a found stone carrying a [kind] curse,
   /// heavy or not — the game screen offers it under `kDebugMode`.
   void debugGiveCursedItem(
