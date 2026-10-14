@@ -649,6 +649,11 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
             "action": "drink",
             "target": "allPlayers"
           },
@@ -666,7 +671,7 @@
         "outcome": "Бочонок встречают как гостя. Жених клянётся, что назовёт сына в вашу честь, — и забывает, в чью именно."
       },
       {
-        "label": "Купец дарит молодым жетон на свою лавку",
+        "label": "Купец благословляет молодых на торговое счастье",
         "conditions": [
           {
             "condition": "currentPlayerHasOrigin",
@@ -674,6 +679,10 @@
           }
         ],
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "applyEffect",
             "target": "currentPlayer",
@@ -685,7 +694,7 @@
             "value": true
           }
         ],
-        "outcome": "Подарок от купца на свадьбе — к богатству. Тесть жмёт тебе руку дольше всех."
+        "outcome": "Благословение купца на свадьбе — к богатству. Тесть жмёт тебе руку дольше всех и наливает — пьёшь с ним до дна."
       },
       {
         "label": "Поздравить и идти дальше — дорога ждёт",

@@ -8,6 +8,28 @@
         "text": "На отшибе дороги стоит трактир с покосившейся вывеской. Дверь скрипит на ржавых петлях — внутри темно, но на стойке будто до сих пор стоят кружки.",
         "choices": [
           {
+            "label": "Отдать долг Фрола",
+            "conditions": [
+              {
+                "condition": "currentPlayerHasItem",
+                "itemId": "item_frol_coin"
+              }
+            ],
+            "onSuccess": {
+              "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_frol_coin"
+                }
+              ],
+              "to": {
+                "destination": "goToNode",
+                "nodeId": "ghost_paid"
+              }
+            }
+          },
+          {
             "label": "Войти",
             "onSuccess": {
               "actions": [],
@@ -374,6 +396,47 @@
                   "effectId": "effect_whisper"
                 }
               ],
+              "to": {
+                "destination": "endAdventure"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ghost_paid",
+        "text": "Ты кладёшь монету на стойку. Пыль поднимается сама — и за стойкой стоит трактирщик, уже не прозрачный, а будто выцветший. Он берёт монету, долго вертит её в пальцах и смеётся: «Фрол. Тридцать лет. А ведь отдал». Он наливает тебе из бочки, которой нет, — последнюю, за счёт заведения. Когда ты допиваешь, за стойкой никого. Только кружка, ещё тёплая.",
+        "onEnterActions": [
+          {
+            "action": "setWorldFlag",
+            "flag": "ghost_at_rest",
+            "value": true
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "applyEffect",
+            "target": "currentPlayer",
+            "effectId": "effect_lucky_echo"
+          },
+          {
+            "action": "giveItem",
+            "target": "currentPlayer",
+            "itemId": "item_bravery_flask"
+          },
+          {
+            "action": "modifyGlobalModifier",
+            "key": "word_kept",
+            "amount": 1
+          }
+        ],
+        "choices": [
+          {
+            "label": "Выпить за обоих — и за Фрола, и за трактирщика",
+            "onSuccess": {
+              "actions": [],
               "to": {
                 "destination": "endAdventure"
               }

@@ -121,6 +121,11 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
             "action": "modifyGlobalModifier",
             "key": "word_kept",
             "amount": 1
@@ -770,12 +775,21 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_rope"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "modifyGlobalModifier",
             "key": "word_kept",
             "amount": 1
           }
         ],
-        "outcome": "Верёвка держит ветку лучше шестов. Хозяин просит оставить её — и платит за неё сидром."
+        "outcome": "Верёвка держит ветку лучше шестов. Хозяин просит оставить её — и за неё наливает сидра. Пьёте вместе."
       },
       {
         "label": "Под хмельком — потрясти дерево",

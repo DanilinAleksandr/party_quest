@@ -23,15 +23,23 @@
     ],
     "choices": [
       {
-        "label": "Заплатить вдвое — две кружки ему за заначку",
+        "label": "Заплатить вдвое — выпить с лавочником две",
         "actions": [
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
           {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_stash"
           }
         ],
-        "outcome": "Он наливает себе две и пьёт за твоё здоровье. Заначка твоя. Дороже, чем стоит, — но твоя."
+        "outcome": "Вы пьёте одну за сделку, вторую — за то, что ты пьян. Заначка твоя. Дороже, чем стоит, — но твоя."
       },
       {
         "label": "Поспорить — да кто тут пьян?",
@@ -40,6 +48,10 @@
             "action": "chanceCheck",
             "stat": "charisma",
             "winnerActions": [
+              {
+                "action": "drink",
+                "target": "currentPlayer"
+              },
               {
                 "action": "giveItem",
                 "target": "currentPlayer",
@@ -53,7 +65,7 @@
                 "effectId": "effect_laughingstock"
               }
             ],
-            "winnerOutcome": "Ты держишься так прямо, что он сбивается и называет обычную цену. Заначка твоя за одну кружку.",
+            "winnerOutcome": "Ты держишься так прямо, что он сбивается и называет обычную цену: одну кружку, вместе. Заначка твоя.",
             "loserOutcome": "Ты держишься прямо, пока не роняешь кошель. Цена становится втрое."
           }
         ]
@@ -99,12 +111,16 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_stash"
           }
         ],
-        "outcome": "Ты называешь цифру, которую он платил оптовику. Лавочник бледнеет и отдаёт по обычной — лишь бы не слышать продолжения."
+        "outcome": "Ты называешь цифру, которую он платил оптовику. Лавочник бледнеет и отдаёт по обычной — за одну кружку вместе, лишь бы не слышать продолжения."
       },
       {
         "label": "Вас здесь знают — и наливают по-честному",
@@ -138,12 +154,16 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "giveItem",
             "target": "currentPlayer",
             "itemId": "item_stash"
           }
         ],
-        "outcome": "Лавочник видит жетон и вздыхает: со своими не торгуются. Заначка твоя по обычной цене."
+        "outcome": "Лавочник видит жетон и вздыхает: со своими не торгуются. Заначка по обычной цене — одна кружка на двоих."
       },
       {
         "label": "Пройти мимо",
@@ -780,7 +800,7 @@
               {
                 "action": "giveItem",
                 "target": "currentPlayer",
-                "itemId": "item_lucky_coin"
+                "itemId": "item_frol_coin"
               },
               {
                 "action": "setWorldFlag",
@@ -815,7 +835,7 @@
               {
                 "action": "giveItem",
                 "target": "currentPlayer",
-                "itemId": "item_lucky_coin"
+                "itemId": "item_frol_coin"
               },
               {
                 "action": "setWorldFlag",
@@ -835,7 +855,7 @@
                 "effectId": "effect_sore_back"
               }
             ],
-            "winnerOutcome": "Фрол смотрит на тебя единственным глазом и отдаёт кошель без спора. «Давно пора было».",
+            "winnerOutcome": "Фрол смотрит на тебя единственным глазом и отдаёт монету без спора. «Неси, раз взялся. Давно пора было».",
             "loserOutcome": "Фрол встаёт, и оказывается, что повязка на глазу — от драки, которую он выиграл. Ты уходишь без долга."
           }
         ]
@@ -908,10 +928,10 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_lucky_coin"
+            "itemId": "item_frol_coin"
           }
         ],
-        "outcome": "Ты называешь цену бочонка тех лет, с точностью до гроша. Фрол смеётся и отдаёт ровно столько."
+        "outcome": "Ты называешь цену бочонка тех лет, с точностью до гроша. Фрол смеётся и отдаёт монету: «Ровно столько. Неси»."
       },
       {
         "label": "Отдать ему вашу флягу — пусть сам отнесёт",
@@ -953,7 +973,7 @@
           {
             "action": "giveItem",
             "target": "currentPlayer",
-            "itemId": "item_lucky_coin"
+            "itemId": "item_frol_coin"
           },
           {
             "action": "setWorldFlag",
@@ -1338,6 +1358,38 @@
           }
         ],
         "outcome": "Ты просишь не рассказывать дома об этой встрече. Он смотрит на тебя и понимает. «Не видел», — говорит он и уходит."
+      }
+    ]
+  },
+  {
+    "id": "abandoned_tavern_lit",
+    "title": "Свет в трактире на отшибе",
+    "description": "У дороги снова стоит трактир с покосившейся вывеской. В окне — свет, которого там быть не может. Монета Фрола в кармане вдруг становится тяжелее.",
+    "type": "event",
+    "rarity": "rare",
+    "weight": 14,
+    "tags": [
+      "solo",
+      "risk"
+    ],
+    "conditions": [
+      {
+        "condition": "currentPlayerHasItem",
+        "itemId": "item_frol_coin"
+      },
+      {
+        "condition": "worldFlagUnset",
+        "flag": "ghost_at_rest"
+      },
+      {
+        "condition": "notInBiome",
+        "biomeId": "tavern"
+      }
+    ],
+    "actions": [
+      {
+        "action": "startAdventure",
+        "adventureId": "abandoned_tavern"
       }
     ]
   }

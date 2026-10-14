@@ -133,16 +133,21 @@
             }
           },
           {
-            "label": "Купить оберег — цена: налить ему из вашего бочонка",
+            "label": "Купить оберег — цена: ваш бочонок пива",
             "conditions": [
               {
                 "condition": "partyHasItem",
                 "itemId": "item_beer_keg"
               }
             ],
-            "outcome": "Торговец пьёт из бочонка с видом знатока, вытирает усы и отдаёт оберег. Бочонок он потом ещё долго вспоминает.",
+            "outcome": "Торговец принимает бочонок с видом знатока и ставит его в телегу. Оберег — тебе на шею.",
             "onSuccess": {
               "actions": [
+                {
+                  "action": "takeItem",
+                  "target": "currentPlayer",
+                  "itemId": "item_beer_keg"
+                },
                 {
                   "action": "giveItem",
                   "target": "currentPlayer",

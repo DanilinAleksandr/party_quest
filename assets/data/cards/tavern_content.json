@@ -777,7 +777,7 @@
         "outcome": "Вышибала отступает на шаг и почти кланяется. Звание здесь значит больше, чем кулаки."
       },
       {
-        "label": "Угостить его — благо бочонок с собой",
+        "label": "Угостить его из вашего бочонка — и выпить с ним",
         "conditions": [
           {
             "condition": "partyHasItem",
@@ -786,11 +786,16 @@
         ],
         "actions": [
           {
+            "action": "drink",
+            "target": "currentPlayer"
+          },
+          {
             "action": "applyEffect",
             "target": "currentPlayer",
             "effectId": "effect_generous_host"
           }
-        ]
+        ],
+        "outcome": "Вышибала пьёт с тобой, и тяжёлая рука как-то сама перебирается с плеча на спину — по-дружески."
       },
       {
         "label": "Заговорить зубы",

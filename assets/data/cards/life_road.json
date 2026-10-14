@@ -1736,6 +1736,11 @@
         ],
         "actions": [
           {
+            "action": "takeItem",
+            "target": "currentPlayer",
+            "itemId": "item_beer_keg"
+          },
+          {
             "action": "modifyGlobalModifier",
             "key": "word_kept",
             "amount": 1

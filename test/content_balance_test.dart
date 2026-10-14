@@ -3,9 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drinking_quest/game_engine/data/card_repository.dart';
 import 'package:drinking_quest/game_engine/models/models.dart';
 
-/// Guards the design doc's target content mix (60–70% quick / 20–30% choice
-/// / 10–15% full adventures / 1–3% legendary, all by draw-weight share) so
-/// future content additions don't quietly drift the game's pacing — e.g.
+/// Guards the design doc's content mix (`ALKO_QUEST_DESIGN_RULES.md`, «Состав
+/// пула»: 40–75% quick / 15–50% choice / from 7% adventures / legendary
+/// rare, all by draw-weight share). The choice ceiling was 35% and the quick
+/// floor 55% until the fourth playtest, where the players asked for more to
+/// do on a card — «телефон что-то прочитал, и ничего». The guard keeps
+/// future content additions from quietly drifting the game's pacing — e.g.
 /// dumping in twenty more quick filler cards without weighing choices and
 /// adventures up to match would make most turns predictable again, which is
 /// exactly what the design doc says to avoid.
@@ -96,12 +99,12 @@ void main() {
 
       expect(
         quickPct,
-        inInclusiveRange(55, 75),
+        inInclusiveRange(40, 75),
         reason: 'quick-event share drifted out of range',
       );
       expect(
         choicePct,
-        inInclusiveRange(15, 35),
+        inInclusiveRange(15, 50),
         reason: 'choice-card share drifted out of range',
       );
       expect(
